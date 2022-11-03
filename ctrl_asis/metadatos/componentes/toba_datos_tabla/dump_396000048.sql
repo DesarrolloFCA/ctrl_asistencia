@@ -549,3 +549,20 @@ INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, colum
 	'parte'  --tabla
 );
 --- FIN Grupo de desarrollo 26960396
+
+--- INICIO Grupo de desarrollo 35736730
+INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, columna, tipo, pk, secuencia, largo, no_nulo, no_nulo_db, externa, tabla) VALUES (
+	'ctrl_asis', --objeto_proyecto
+	'396000048', --objeto
+	'35736730000277', --col_id
+	'id_parte_sanidad', --columna
+	'E', --tipo
+	'0', --pk
+	'', --secuencia
+	NULL, --largo
+	NULL, --no_nulo
+	'0', --no_nulo_db
+	NULL, --externa
+	'parte'  --tabla
+);
+--- FIN Grupo de desarrollo 35736730

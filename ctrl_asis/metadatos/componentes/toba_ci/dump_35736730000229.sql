@@ -1,31 +1,31 @@
 ------------------------------------------------------------
---[26960396000035]--  Antigüedades - CI 
+--[35736730000229]--  Inasistencia - CI 
 ------------------------------------------------------------
 
 ------------------------------------------------------------
 -- apex_objeto
 ------------------------------------------------------------
 
---- INICIO Grupo de desarrollo 26960396
+--- INICIO Grupo de desarrollo 35736730
 INSERT INTO apex_objeto (proyecto, objeto, anterior, identificador, reflexivo, clase_proyecto, clase, punto_montaje, subclase, subclase_archivo, objeto_categoria_proyecto, objeto_categoria, nombre, titulo, colapsable, descripcion, fuente_datos_proyecto, fuente_datos, solicitud_registrar, solicitud_obj_obs_tipo, solicitud_obj_observacion, parametro_a, parametro_b, parametro_c, parametro_d, parametro_e, parametro_f, usuario, creacion, posicion_botonera) VALUES (
 	'ctrl_asis', --proyecto
-	'26960396000035', --objeto
+	'35736730000229', --objeto
 	NULL, --anterior
 	NULL, --identificador
 	NULL, --reflexivo
 	'toba', --clase_proyecto
 	'toba_ci', --clase
 	'4000021', --punto_montaje
-	'ci_antiguedades', --subclase
-	'ci/ci_antiguedades.php', --subclase_archivo
+	'ci_inasistencia', --subclase
+	'inasistencia/ci_inasistencia.php', --subclase_archivo
 	NULL, --objeto_categoria_proyecto
 	NULL, --objeto_categoria
-	'Antigüedades - CI', --nombre
+	'Inasistencia - CI', --nombre
 	NULL, --titulo
-	'0', --colapsable
+	NULL, --colapsable
 	NULL, --descripcion
-	NULL, --fuente_datos_proyecto
-	NULL, --fuente_datos
+	'ctrl_asis', --fuente_datos_proyecto
+	'ctrl_asis', --fuente_datos
 	NULL, --solicitud_registrar
 	NULL, --solicitud_obj_obs_tipo
 	NULL, --solicitud_obj_observacion
@@ -36,20 +36,20 @@ INSERT INTO apex_objeto (proyecto, objeto, anterior, identificador, reflexivo, c
 	NULL, --parametro_e
 	NULL, --parametro_f
 	NULL, --usuario
-	'2017-02-14 10:20:16', --creacion
-	'ambos'  --posicion_botonera
+	'2022-11-01 08:56:12', --creacion
+	NULL  --posicion_botonera
 );
---- FIN Grupo de desarrollo 26960396
+--- FIN Grupo de desarrollo 35736730
 
 ------------------------------------------------------------
 -- apex_objeto_eventos
 ------------------------------------------------------------
 
---- INICIO Grupo de desarrollo 26960396
+--- INICIO Grupo de desarrollo 35736730
 INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, etiqueta, maneja_datos, sobre_fila, confirmacion, estilo, imagen_recurso_origen, imagen, en_botonera, ayuda, orden, ci_predep, implicito, defecto, display_datos_cargados, grupo, accion, accion_imphtml_debug, accion_vinculo_carpeta, accion_vinculo_item, accion_vinculo_objeto, accion_vinculo_popup, accion_vinculo_popup_param, accion_vinculo_target, accion_vinculo_celda, accion_vinculo_servicio, es_seleccion_multiple, es_autovinculo) VALUES (
 	'ctrl_asis', --proyecto
-	'26960396000040', --evento_id
-	'26960396000035', --objeto
+	'35736730000241', --evento_id
+	'35736730000229', --objeto
 	'agregar', --identificador
 	'Agregar', --etiqueta
 	'1', --maneja_datos
@@ -60,10 +60,10 @@ INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, eti
 	'nucleo/agregar.gif', --imagen
 	'1', --en_botonera
 	NULL, --ayuda
-	'1', --orden
+	'0', --orden
 	NULL, --ci_predep
-	'0', --implicito
-	'0', --defecto
+	NULL, --implicito
+	NULL, --defecto
 	NULL, --display_datos_cargados
 	NULL, --grupo
 	NULL, --accion
@@ -81,11 +81,11 @@ INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, eti
 );
 INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, etiqueta, maneja_datos, sobre_fila, confirmacion, estilo, imagen_recurso_origen, imagen, en_botonera, ayuda, orden, ci_predep, implicito, defecto, display_datos_cargados, grupo, accion, accion_imphtml_debug, accion_vinculo_carpeta, accion_vinculo_item, accion_vinculo_objeto, accion_vinculo_popup, accion_vinculo_popup_param, accion_vinculo_target, accion_vinculo_celda, accion_vinculo_servicio, es_seleccion_multiple, es_autovinculo) VALUES (
 	'ctrl_asis', --proyecto
-	'26960396000041', --evento_id
-	'26960396000035', --objeto
+	'35736730000242', --evento_id
+	'35736730000229', --objeto
 	'volver', --identificador
 	'Volver', --etiqueta
-	'0', --maneja_datos
+	'1', --maneja_datos
 	'0', --sobre_fila
 	NULL, --confirmacion
 	'ei-boton-izq', --estilo
@@ -93,10 +93,10 @@ INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, eti
 	'deshacer.png', --imagen
 	'1', --en_botonera
 	NULL, --ayuda
-	'2', --orden
+	'1', --orden
 	NULL, --ci_predep
-	'0', --implicito
-	'0', --defecto
+	NULL, --implicito
+	NULL, --defecto
 	NULL, --display_datos_cargados
 	NULL, --grupo
 	NULL, --accion
@@ -114,8 +114,8 @@ INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, eti
 );
 INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, etiqueta, maneja_datos, sobre_fila, confirmacion, estilo, imagen_recurso_origen, imagen, en_botonera, ayuda, orden, ci_predep, implicito, defecto, display_datos_cargados, grupo, accion, accion_imphtml_debug, accion_vinculo_carpeta, accion_vinculo_item, accion_vinculo_objeto, accion_vinculo_popup, accion_vinculo_popup_param, accion_vinculo_target, accion_vinculo_celda, accion_vinculo_servicio, es_seleccion_multiple, es_autovinculo) VALUES (
 	'ctrl_asis', --proyecto
-	'26960396000042', --evento_id
-	'26960396000035', --objeto
+	'35736730000243', --evento_id
+	'35736730000229', --objeto
 	'eliminar', --identificador
 	'Eliminar', --etiqueta
 	'1', --maneja_datos
@@ -126,10 +126,10 @@ INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, eti
 	'borrar.png', --imagen
 	'1', --en_botonera
 	NULL, --ayuda
-	'3', --orden
+	'2', --orden
 	NULL, --ci_predep
-	'0', --implicito
-	'0', --defecto
+	NULL, --implicito
+	NULL, --defecto
 	NULL, --display_datos_cargados
 	NULL, --grupo
 	NULL, --accion
@@ -147,8 +147,8 @@ INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, eti
 );
 INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, etiqueta, maneja_datos, sobre_fila, confirmacion, estilo, imagen_recurso_origen, imagen, en_botonera, ayuda, orden, ci_predep, implicito, defecto, display_datos_cargados, grupo, accion, accion_imphtml_debug, accion_vinculo_carpeta, accion_vinculo_item, accion_vinculo_objeto, accion_vinculo_popup, accion_vinculo_popup_param, accion_vinculo_target, accion_vinculo_celda, accion_vinculo_servicio, es_seleccion_multiple, es_autovinculo) VALUES (
 	'ctrl_asis', --proyecto
-	'26960396000043', --evento_id
-	'26960396000035', --objeto
+	'35736730000244', --evento_id
+	'35736730000229', --objeto
 	'guardar', --identificador
 	'Guardar', --etiqueta
 	'1', --maneja_datos
@@ -159,9 +159,9 @@ INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, eti
 	'guardar.gif', --imagen
 	'1', --en_botonera
 	NULL, --ayuda
-	'4', --orden
+	'3', --orden
 	NULL, --ci_predep
-	'0', --implicito
+	NULL, --implicito
 	'1', --defecto
 	NULL, --display_datos_cargados
 	NULL, --grupo
@@ -178,22 +178,22 @@ INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, eti
 	'0', --es_seleccion_multiple
 	'0'  --es_autovinculo
 );
---- FIN Grupo de desarrollo 26960396
+--- FIN Grupo de desarrollo 35736730
 
 ------------------------------------------------------------
 -- apex_objeto_mt_me
 ------------------------------------------------------------
 INSERT INTO apex_objeto_mt_me (objeto_mt_me_proyecto, objeto_mt_me, ev_procesar_etiq, ev_cancelar_etiq, ancho, alto, posicion_botonera, tipo_navegacion, botonera_barra_item, con_toc, incremental, debug_eventos, activacion_procesar, activacion_cancelar, ev_procesar, ev_cancelar, objetos, post_procesar, metodo_despachador, metodo_opciones) VALUES (
 	'ctrl_asis', --objeto_mt_me_proyecto
-	'26960396000035', --objeto_mt_me
+	'35736730000229', --objeto_mt_me
 	NULL, --ev_procesar_etiq
 	NULL, --ev_cancelar_etiq
-	NULL, --ancho
+	'500px', --ancho
 	'300px', --alto
 	NULL, --posicion_botonera
 	NULL, --tipo_navegacion
-	'1', --botonera_barra_item
-	'0', --con_toc
+	NULL, --botonera_barra_item
+	NULL, --con_toc
 	NULL, --incremental
 	NULL, --debug_eventos
 	NULL, --activacion_procesar
@@ -210,12 +210,12 @@ INSERT INTO apex_objeto_mt_me (objeto_mt_me_proyecto, objeto_mt_me, ev_procesar_
 -- apex_objeto_dependencias
 ------------------------------------------------------------
 
---- INICIO Grupo de desarrollo 26960396
+--- INICIO Grupo de desarrollo 35736730
 INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
 	'ctrl_asis', --proyecto
-	'26960396000028', --dep_id
-	'26960396000035', --objeto_consumidor
-	'26960396000032', --objeto_proveedor
+	'35736730000194', --dep_id
+	'35736730000229', --objeto_consumidor
+	'35736730000226', --objeto_proveedor
 	'cuadro', --identificador
 	NULL, --parametros_a
 	NULL, --parametros_b
@@ -225,9 +225,9 @@ INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objet
 );
 INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
 	'ctrl_asis', --proyecto
-	'26960396000027', --dep_id
-	'26960396000035', --objeto_consumidor
-	'26960396000031', --objeto_proveedor
+	'35736730000193', --dep_id
+	'35736730000229', --objeto_consumidor
+	'35736730000225', --objeto_proveedor
 	'datos', --identificador
 	NULL, --parametros_a
 	NULL, --parametros_b
@@ -235,14 +235,11 @@ INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objet
 	NULL, --inicializar
 	NULL  --orden
 );
---- FIN Grupo de desarrollo 26960396
-
---- INICIO Grupo de desarrollo 35736730
 INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
 	'ctrl_asis', --proyecto
-	'35736730000191', --dep_id
-	'26960396000035', --objeto_consumidor
-	'35736730000224', --objeto_proveedor
+	'35736730000199', --dep_id
+	'35736730000229', --objeto_consumidor
+	'35736730000232', --objeto_proveedor
 	'datos2', --identificador
 	NULL, --parametros_a
 	NULL, --parametros_b
@@ -250,14 +247,11 @@ INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objet
 	NULL, --inicializar
 	NULL  --orden
 );
---- FIN Grupo de desarrollo 35736730
-
---- INICIO Grupo de desarrollo 26960396
 INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
 	'ctrl_asis', --proyecto
-	'26960396000030', --dep_id
-	'26960396000035', --objeto_consumidor
-	'26960396000034', --objeto_proveedor
+	'35736730000196', --dep_id
+	'35736730000229', --objeto_consumidor
+	'35736730000228', --objeto_proveedor
 	'filtro', --identificador
 	NULL, --parametros_a
 	NULL, --parametros_b
@@ -267,9 +261,9 @@ INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objet
 );
 INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
 	'ctrl_asis', --proyecto
-	'26960396000029', --dep_id
-	'26960396000035', --objeto_consumidor
-	'26960396000033', --objeto_proveedor
+	'35736730000195', --dep_id
+	'35736730000229', --objeto_consumidor
+	'35736730000227', --objeto_proveedor
 	'formulario', --identificador
 	NULL, --parametros_a
 	NULL, --parametros_b
@@ -277,17 +271,29 @@ INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objet
 	NULL, --inicializar
 	NULL  --orden
 );
---- FIN Grupo de desarrollo 26960396
+INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
+	'ctrl_asis', --proyecto
+	'35736730000197', --dep_id
+	'35736730000229', --objeto_consumidor
+	'35736730000230', --objeto_proveedor
+	'mapuche', --identificador
+	NULL, --parametros_a
+	NULL, --parametros_b
+	NULL, --parametros_c
+	NULL, --inicializar
+	NULL  --orden
+);
+--- FIN Grupo de desarrollo 35736730
 
 ------------------------------------------------------------
 -- apex_objeto_ci_pantalla
 ------------------------------------------------------------
 
---- INICIO Grupo de desarrollo 26960396
+--- INICIO Grupo de desarrollo 35736730
 INSERT INTO apex_objeto_ci_pantalla (objeto_ci_proyecto, objeto_ci, pantalla, identificador, orden, etiqueta, descripcion, tip, imagen_recurso_origen, imagen, objetos, eventos, subclase, subclase_archivo, template, template_impresion, punto_montaje) VALUES (
 	'ctrl_asis', --objeto_ci_proyecto
-	'26960396000035', --objeto_ci
-	'26960396000010', --pantalla
+	'35736730000229', --objeto_ci
+	'35736730000075', --pantalla
 	'pant_seleccion', --identificador
 	'0', --orden
 	'Selección', --etiqueta
@@ -305,8 +311,8 @@ INSERT INTO apex_objeto_ci_pantalla (objeto_ci_proyecto, objeto_ci, pantalla, id
 );
 INSERT INTO apex_objeto_ci_pantalla (objeto_ci_proyecto, objeto_ci, pantalla, identificador, orden, etiqueta, descripcion, tip, imagen_recurso_origen, imagen, objetos, eventos, subclase, subclase_archivo, template, template_impresion, punto_montaje) VALUES (
 	'ctrl_asis', --objeto_ci_proyecto
-	'26960396000035', --objeto_ci
-	'26960396000011', --pantalla
+	'35736730000229', --objeto_ci
+	'35736730000076', --pantalla
 	'pant_edicion', --identificador
 	'1', --orden
 	'Edición', --etiqueta
@@ -322,57 +328,57 @@ INSERT INTO apex_objeto_ci_pantalla (objeto_ci_proyecto, objeto_ci, pantalla, id
 	NULL, --template_impresion
 	NULL  --punto_montaje
 );
---- FIN Grupo de desarrollo 26960396
+--- FIN Grupo de desarrollo 35736730
 
 ------------------------------------------------------------
 -- apex_objetos_pantalla
 ------------------------------------------------------------
 INSERT INTO apex_objetos_pantalla (proyecto, pantalla, objeto_ci, orden, dep_id) VALUES (
 	'ctrl_asis', --proyecto
-	'26960396000010', --pantalla
-	'26960396000035', --objeto_ci
+	'35736730000075', --pantalla
+	'35736730000229', --objeto_ci
 	'1', --orden
-	'26960396000028'  --dep_id
+	'35736730000194'  --dep_id
 );
 INSERT INTO apex_objetos_pantalla (proyecto, pantalla, objeto_ci, orden, dep_id) VALUES (
 	'ctrl_asis', --proyecto
-	'26960396000010', --pantalla
-	'26960396000035', --objeto_ci
+	'35736730000075', --pantalla
+	'35736730000229', --objeto_ci
 	'0', --orden
-	'26960396000030'  --dep_id
+	'35736730000196'  --dep_id
 );
 INSERT INTO apex_objetos_pantalla (proyecto, pantalla, objeto_ci, orden, dep_id) VALUES (
 	'ctrl_asis', --proyecto
-	'26960396000011', --pantalla
-	'26960396000035', --objeto_ci
+	'35736730000076', --pantalla
+	'35736730000229', --objeto_ci
 	'0', --orden
-	'26960396000029'  --dep_id
+	'35736730000195'  --dep_id
 );
 
 ------------------------------------------------------------
 -- apex_eventos_pantalla
 ------------------------------------------------------------
 INSERT INTO apex_eventos_pantalla (pantalla, objeto_ci, evento_id, proyecto) VALUES (
-	'26960396000010', --pantalla
-	'26960396000035', --objeto_ci
-	'26960396000040', --evento_id
+	'35736730000075', --pantalla
+	'35736730000229', --objeto_ci
+	'35736730000241', --evento_id
 	'ctrl_asis'  --proyecto
 );
 INSERT INTO apex_eventos_pantalla (pantalla, objeto_ci, evento_id, proyecto) VALUES (
-	'26960396000011', --pantalla
-	'26960396000035', --objeto_ci
-	'26960396000041', --evento_id
+	'35736730000076', --pantalla
+	'35736730000229', --objeto_ci
+	'35736730000242', --evento_id
 	'ctrl_asis'  --proyecto
 );
 INSERT INTO apex_eventos_pantalla (pantalla, objeto_ci, evento_id, proyecto) VALUES (
-	'26960396000011', --pantalla
-	'26960396000035', --objeto_ci
-	'26960396000042', --evento_id
+	'35736730000076', --pantalla
+	'35736730000229', --objeto_ci
+	'35736730000243', --evento_id
 	'ctrl_asis'  --proyecto
 );
 INSERT INTO apex_eventos_pantalla (pantalla, objeto_ci, evento_id, proyecto) VALUES (
-	'26960396000011', --pantalla
-	'26960396000035', --objeto_ci
-	'26960396000043', --evento_id
+	'35736730000076', --pantalla
+	'35736730000229', --objeto_ci
+	'35736730000244', --evento_id
 	'ctrl_asis'  --proyecto
 );

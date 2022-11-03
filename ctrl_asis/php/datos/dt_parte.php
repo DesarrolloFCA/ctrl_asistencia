@@ -486,6 +486,7 @@ class dt_parte extends toba_datos_tabla
 			LEFT OUTER JOIN motivo as t_m ON (t_p.id_motivo = t_m.id_motivo)
 			where cast(fecha_inicio_licencia as date) + cast( dias || ' days' as interval) >= cast(Current_timestamp as date)
 			And t_p.id_motivo <> 56
+			and estado ='A'
 			ORDER BY fecha_inicio_licencia";
 		if (count($where)>0) {
 			$sql = sql_concatenar_where($sql, $where);

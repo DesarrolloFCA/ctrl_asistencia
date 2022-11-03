@@ -171,7 +171,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'agrupamiento', --identificador
 	'ef_combo', --elemento_formulario
 	'agrupamiento', --columnas
-	'1', --obligatorio
+	'0', --obligatorio
 	'0', --oculto_relaja_obligatorio
 	'3', --orden
 	'Agrupamiento', --etiqueta
@@ -331,7 +331,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'legajo', --identificador
 	'ef_combo_editable', --elemento_formulario
 	'legajo', --columnas
-	'1', --obligatorio
+	'0', --obligatorio
 	'0', --oculto_relaja_obligatorio
 	'1', --orden
 	'Legajo', --etiqueta

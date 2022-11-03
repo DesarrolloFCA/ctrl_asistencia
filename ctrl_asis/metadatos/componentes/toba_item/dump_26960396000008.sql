@@ -1,5 +1,5 @@
 ------------------------------------------------------------
---[26960396000008]--  Antigüedades 
+--[26960396000008]--  Antigüedades para vacaciones 
 ------------------------------------------------------------
 
 ------------------------------------------------------------
@@ -23,7 +23,7 @@ INSERT INTO apex_item (item_id, proyecto, item, padre_id, padre_proyecto, padre,
 	NULL, --actividad_buffer
 	NULL, --actividad_patron_proyecto
 	NULL, --actividad_patron
-	'Antigüedades', --nombre
+	'Antigüedades para vacaciones', --nombre
 	NULL, --descripcion
 	'4000021', --punto_montaje
 	NULL, --actividad_accion

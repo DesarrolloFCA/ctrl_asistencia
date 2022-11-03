@@ -47,7 +47,7 @@ INSERT INTO apex_item (item_id, proyecto, item, padre_id, padre_proyecto, padre,
 	'0', --publico
 	NULL, --redirecciona
 	NULL, --usuario
-	'0', --exportable
+	'1', --exportable
 	'2015-07-29 10:24:40', --creacion
 	'0'  --retrasar_headers
 );
