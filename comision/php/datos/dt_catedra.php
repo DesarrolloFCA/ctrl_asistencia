@@ -5,7 +5,7 @@ class dt_catedra extends comision_datos_tabla
 	function get_catedra_agentes ($legajo)
 	{
 		//ei_arbol ($legajo);
-	/*	$sql="DELETE from reloj.temp_agentes_catedra";
+		$sql="DELETE from reloj.temp_agentes_catedra";
 		toba::db('comision')->ejecutar($sql);
 		$sql = "INSERT INTO reloj.temp_agentes_catedra SELECT a.id_catedra, nombre_catedra   from reloj.catedras a
 				left join reloj.catedras_agentes b on a.id_catedra =b.id_catedra
