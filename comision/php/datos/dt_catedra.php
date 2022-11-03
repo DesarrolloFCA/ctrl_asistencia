@@ -1,14 +1,22 @@
 <?php
 class dt_catedra extends comision_datos_tabla
 {
+	
 	function get_catedra_agentes ($legajo)
 	{
 		//ei_arbol ($legajo);
-		$sql = "Select legajo, nombre_catedra  from reloj.catedras a
+	/*	$sql="DELETE from reloj.temp_agentes_catedra";
+		toba::db('comision')->ejecutar($sql);
+		$sql = "INSERT INTO reloj.temp_agentes_catedra SELECT a.id_catedra, nombre_catedra   from reloj.catedras a
 				left join reloj.catedras_agentes b on a.id_catedra =b.id_catedra
-				where legajo = '$legajo'
-				Order by nombre_catedra";
-		return toba::db('comision')->consultar($sql); 
+				where legajo = '$legajo'";
+		
+		toba::db('comision')->ejecutar($sql);
+		$sql= "SELECT id_catedra, nombre_catedra from reloj.temp_agentes_catedra";
+		return  toba::db('comision')->consutar($sql);
+		
+
+		
 		/*if(!empty($res['nombre_catedra'])){
 					return $res['nombre_catedra'];
 				}*/
