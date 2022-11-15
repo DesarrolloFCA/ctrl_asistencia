@@ -1202,6 +1202,13 @@ class vistas_mapuche extends toba_datos_relacion
 
             return toba::db('mapuche')->consultar($sql); 
         }
+         static function get_legajos_jefes_fca ($legajo){
+        $sql = "SELECT  legajo  as superior , apellido||', '||nombre as descripcion 
+                    FROM uncu.legajo 
+                    WHERE legajo = $legajo
+                    ORDER BY apellido, legajo ASC";
+        return toba::db('mapuche')->consultar($sql); 
+      }  
 }
 
 ?>

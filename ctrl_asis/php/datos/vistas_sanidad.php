@@ -6,6 +6,8 @@ class vistas_sanidad extends toba_datos_relacion
 	
 	function get_listado($filtro=array(), $limit = '', $offset = '')
 	{
+		$limit= 'Limit 100';
+
 		$where = array();
 		$where[] = "t_p.cod_depcia = 04";
 		if (isset($filtro['id_parte'])) {
@@ -103,6 +105,7 @@ class vistas_sanidad extends toba_datos_relacion
 
 			$where[] = "t_p.id_motivo IN (1,2,3,4,5,6,11)";
 		}
+		
 
 		//---- orden -----------
 		if (isset($filtro['ordenar_por'])) {
@@ -116,7 +119,7 @@ class vistas_sanidad extends toba_datos_relacion
 			$asc_desc = "DESC";
 		}
 
-		$sql = "SELECT 
+		$sql1 = "SELECT 
 			t_p.id_parte,
 			t_p.legajo,
 			t_p.edad,
@@ -157,10 +160,10 @@ class vistas_sanidad extends toba_datos_relacion
 		$ordenar_por $asc_desc 
 		$limit $offset";
 		if (count($where)>0) {
-			$sql = sql_concatenar_where($sql, $where);
+			$sql1 = sql_concatenar_where($sql1, $where);
 		}
-
-		$datos = toba::db('sanidad')->consultar($sql);
+		
+		$datos = toba::db('sanidad')->consultar($sql1);
 		
 		if (count($datos) > 0) {
 
@@ -207,6 +210,7 @@ class vistas_sanidad extends toba_datos_relacion
 
 				}    
 				
+
 				return $datos_nuevos;
 			}
 

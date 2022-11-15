@@ -83,14 +83,16 @@ class ci_comisiones extends ctrl_asis_ci
 			$listado['aut_nom']=substr($aut[0]['descripcion'],8);
 			//ei_arbol($filtro);
 			//ei_arbol($leg_sup);
-			if ($filtro['legajo_sup'] == $leg_sup){
+			//if ($filtro['legajo_sup'] == $leg_sup){
 			//$form->set_solo_lectura('autoriza_aut',true);
+			
 			$form->desactivar_efs('autoriza_aut');
-			}
-			if ($filtro['legajo_aut'] == $leg_sup){
+			
+			//}
+			//if ($filtro['legajo_aut'] == $leg_sup){
 			//$form->set_solo_lectura('autoriza_aut',true);
 			$form->desactivar_efs('autoriza_sup');
-			}
+			//}
 			$form->set_datos($listado);
 			//$form->set_datos($this->dep('datos')->tabla('comision')->get());
 		} else {

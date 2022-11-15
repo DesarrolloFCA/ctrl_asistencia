@@ -44,13 +44,15 @@ class ci_parte_sanidad extends toba_ci
 
 		if (isset($this->s__datos_filtro)) {
 			$total_registros =  $this->dep('sanidad')->get_total_registros($this->s__datos_filtro);
+
 			$this->s__datos = $this->dep('sanidad')->get_listado($this->s__datos_filtro, $limit, $offset);
 		} else {
 			$total_registros =  $this->dep('sanidad')->get_total_registros();
 			$this->s__datos = $this->dep('sanidad')->get_listado(array(),$limit, $offset);
 		}
 
-		$cuadro->set_total_registros($total_registros);    
+		$cuadro->set_total_registros($total_registros); 
+		//ei_arbol($this->s__datos);   
 		$cuadro->set_datos($this->s__datos);
 	}
 

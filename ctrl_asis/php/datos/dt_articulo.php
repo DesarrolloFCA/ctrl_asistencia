@@ -37,9 +37,11 @@ class dt_articulo extends toba_datos_tabla
 
 	function get_descripciones()
 	{
-		$sql = "SELECT id_articulo, descripcion, dias_disponibles FROM articulo ORDER BY descripcion";
+		$sql = "SELECT id_articulo, descripcion FROM articulo ORDER BY descripcion";
 		return toba::db('ctrl_asis')->consultar($sql);
 	}
+
+
 
 	function get_articulo($id_articulo)
 	{

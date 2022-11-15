@@ -6,30 +6,44 @@ class comision extends toba_ci
 	//---- formulario -------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------
 
+	function conf__formulario(toba_ei_formulario $form)
+	{
+		//$form->
+		if ($this->dep('datos')->esta_cargada()) {
+			$form->set_solo_lectura('id_decreto');
+			$form->set_solo_lectura('id_motivo');
+			$form->set_solo_lectura('id_articulo');
+			$form->set_datos($this->dep('datos')->tabla('parte')->get());
+		} else {
+			$this->pantalla()->eliminar_evento('eliminar');
+		}
+	}
+
 	function evt__formulario__alta($datos)
 	{
-		
+		//ei_arbol($datos);
 		if ($datos['fecha'] <= $datos['fecha_fin'])
 		{
 			$fecha=$datos['fecha'];    
 			$fecha_fin=date('d/m/Y',strtotime($datos['fecha_fin']));
 			$legajo=$datos['legajo'];
 			$superior=$datos['legajo_sup'];
-			$autoridad=$datos['legajo_aut'];
+			$autoridad=$datos['leg_aut'];
 			$lugar=$datos['lugar'];
 			$catedra=$datos['catedra'];
 			$horario=$datos['horario'];
-			$obs=$datos['observaciones'];
+			$obs=$datos['observaciones'].' ';
 			$motivo= $datos['motivo'];
 			$fuera = $datos['fuera'];
 			
+		
 			if ($fuera == 1) 
 			{
 				
 				$f = 'true';
 			}else
 			{
-				$f = 'NULL';
+				$f = 'false';
 			}
 			
 			$horario_fin=$datos['horario_fin'];
@@ -40,16 +54,16 @@ class comision extends toba_ci
 				$datos['agente']=$correo_agente[0]['descripcion'];
 			//ei_arbol ($correo_agente);
 			}
-			if (!empty ($datos['legajo_sup'])){
+			if (!empty ($datos['superior'])){
 				$correo_sup = $this->dep('mapuche')->get_legajos_email($datos['legajo_sup']);
 				$datos['superior']=$correo_sup[0]['descripcion'];
 			}
-			if (!empty ($datos['legajo_aut'])){
-				$correo_aut = $this->dep('mapuche')->get_legajos_email($datos['legajo_aut']);
+			if (!empty ($datos['legajo_autoridad'])){
+				$correo_aut = $this->dep('mapuche')->get_legajos_email($datos['leg_aut']);
 			$datos['autoridad']=$correo_aut[0]['descripcion'];
 			}
 			$this->s__datos = $datos;
-			if (!empty ($datos['legajo'])){
+			/*if (!empty ($datos['legajo'])){
 			$this->enviar_correos($correo_agente[0]['email']);
 		
 			}
@@ -58,11 +72,11 @@ class comision extends toba_ci
 			}
 			if (!empty ($datos['legajo_aut'])){
 			$this->enviar_correos_sup($correo_aut[0]['email']);
-			}
+			}*/
 		
-			$sql = "INSERT INTO reloj.comision(
-				legajo, catedra, lugar, motivo, fecha, horario, observaciones, legajo_sup, legajo_aut,  fecha_fin, horario_fin, fuera)
-			VALUES ($legajo, '$catedra', '$lugar', '$motivo','$fecha', '$horario', '$obs', $superior, $autoridad,'$fecha_fin','$horario_fin',$f);";
+			$sql = "INSERT INTO reloj.comision
+				(legajo, catedra, lugar, motivo, fecha, horario, observaciones, legajo_sup, legajo_aut,  fecha_fin, horario_fin, fuera) VALUES
+				 ($legajo, $catedra, '$lugar', '$motivo','$fecha', '$horario', '$obs', $superior, $autoridad,'$fecha_fin','$horario_fin',$f);";
 		
 			toba::db('comision')->ejecutar($sql); 
 		
@@ -140,96 +154,7 @@ if(!$mail->Send()) {
 } else {
 	echo "Enviado!";
 }
-		/*$mail = new phpmailer();
-		$mail->Mailer = "smtp";
-		$mail->Host = "smtp.gmail.com";
-		$mail->SMTPAuth = false;
-		$mail->Username = "mmolina@fca.uncu.edu.ar";
-		$mail->Password = "Francisco_04";
-		$mail->From = "Personal";
-		$mail->FromName = "mmolina@fca.uncu.edu.ar";
-		$mail->Timeout = 30;
-		$mail->IsHTML(true);
-		$mail->security = "tls";
-		$mail->port = 587;
-			$mail->AddAddress($correo['email']);
-			$body = '<style type="text/css">
-					.tg  {border-collapse:collapse;border-spacing:0;border-color:#9ABAD9;}
-					.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-top-width:1px;border-bottom-width:1px;border-color:#9ABAD9;color:#444;background-color:#EBF5FF;}
-					.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-top-width:1px;border-bottom-width:1px;border-color:#9ABAD9;color:#fff;background-color:#409cff;}
-					.tg .tg-1wig{font-weight:bold;text-align:left;vertical-align:top}
-					.tg .tg-by3v{font-weight:bold;font-size:14px;text-align:center}
-					.tg .tg-md4w{background-color:#D2E4FC;text-align:left}
-					.tg .tg-5ua9{font-weight:bold;text-align:left}
-					.tg .tg-j92e{background-color:#D2E4FC;font-size:15px;text-align:left;vertical-align:top}
-					</style>
-					<table class="tg">
-						<tr>
-						<th class="tg-5ua9">' . $correo['descripcion'].' </th> 
-						</tr>
-						
-					</table>';
-		//$mail->PluginDir = "";
-//Asignamos asunto y cuerpo del mensaje
-		$mail->Subject = "Comisión de Servicio - FCA";
-		$mail->Body = $body;
-//Definimos AtBody por si el destinatario del correo no admite email con formato html
-		$mail->AltBody = $body;
-//se envia el mensaje, si no ha habido problemas
-//la variable $exito tendra el valor true
-		$exito = $mail->Send();
-		$intentos = 1;
-		while ((!$exito) && ($intentos < 3)) {
-			sleep(1);
-			toba::notificacion()->agregar("El servidor de correo informó un error<br>" . $mail->ErrorInfo);
-			$exito = $mail->Send();
-			$intentos = $intentos + 1;
-		}
-		if (!$exito) {
-			toba::notificacion()->agregar("El servidor de correo informó un error<br>" . $mail->ErrorInfo);
-		} else {
-
-//toba::notificacion()->agregar("Correo enviado correctamente","info");
-		}    
-			//---------------------------------------------------------------------
-
-				//Completamos parametros que se envian con la funcion de envio de mensajes por email -----------------    
-			/*    $email_destino =  'mmolina@fca.uncu.edu.ar';  //$datos['email'];                         
-				$parametros['correo_destino']           = $email_destino; 
-				#$parametros['reply_email']              = $vendedor['email_contacto']; 
-				#$parametros['reply_nombre']             = $vendedor['razon_vendedor']; 
-
-				
-				$parametros['asunto']                   = $datos['nombre_completo'].' - Comisión de Servicio'; 
-				$parametros['contenido_mensaje']        = '<div>
-										<p></p> 
-										<p>DETALLE ASISTENCIA:</p>
-										<p></p> 
-							</div>';
-
-				$parametros['encabezado_mensaje']      = 'Asistencia desde el '.$fecha_desde.', hasta el '.$fecha_hasta;
-				/*$parametros['encabezado_mensaje_txt']  = strip_tags($parametros['encabezado_mensaje']);                                                                
-				$parametros['contenido_mensaje_txt']   = strip_tags($parametros['contenido_mensaje']);
-
-				#$parametros['adjunto1']                = $path.$nombre_fichero;
-				#$parametros['correo_copia']           = $vendedor['email_contacto'];
-				$parametros['correo_copia_oculta']     = $vendedor['email_contacto'];*/
-
-				/*try {
-					//$this->enviar_mail($parametros);
-					toba::notificacion()->agregar("El mensaje se ha enviado correctamente al correo ".$email_destino.".", "info");
-
-				} catch (Exception $e) {
-
-					$error = 'Excepción capturada: '.$e->getMessage();
-					toba::notificacion()->agregar($error, "error");
-
-					$error = "Problemas enviando correo electrónico.<br/>".$mail->ErrorInfo;
-					toba::notificacion()->agregar($error, "error");
-				}*/
-
-				//---------------------------------------------------------------------------------------------------
-			
+	
 
 		
 		
@@ -385,9 +310,7 @@ if(!$mail->Send()) {
 
 	}
 
-	function conf__formulario(comision_ei_formulario $form)
-	{
-	}
+	
 
 }
 ?>

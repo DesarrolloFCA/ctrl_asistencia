@@ -469,7 +469,7 @@ class vistas_mapuche extends toba_datos_relacion
                 ORDER BY apellido, nombre";
 
         $result = toba::db('mapuche')->consultar($sql); 
-		ei_arbol($result);
+		//ei_arbol($result);
         if (! empty($result)) {
             return $result[0]['descripcion'];
         }
@@ -1164,10 +1164,11 @@ class vistas_mapuche extends toba_datos_relacion
                     --ORDER BY apellido, legajo ASC
                     ";
         $ayn= toba::db('mapuche')->consultar($sql);
-        ei_arbol($ayn);
+        //ei_arbol($ayn);
         return $ayn[0]['ayn']; 
     
-    }   
+    } 
+    
 
 }
 
