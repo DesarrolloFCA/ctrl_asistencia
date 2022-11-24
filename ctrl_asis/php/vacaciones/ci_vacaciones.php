@@ -197,7 +197,7 @@ $mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
 //Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)
 $mail->AddAddress($correo, $datos['agente_ayn']);
 //Definimos el tema del email
-$mail->Subject = 'Esto es un correo de prueba';
+$mail->Subject = 'Solicitud de vacaciones';
 //Para enviar un correo formateado en HTML lo cargamos con la siguiente función. Si no, puedes meterle directamente una cadena de texto.
 //$mail->MsgHTML(file_get_contents('correomaquetado.html'), dirname(ruta_al_archivo));
 //Y por si nos bloquean el contenido HTML (algunos correos lo hacen por seguridad) una versión alternativa en texto plano (también será válida para lectores de pantalla)

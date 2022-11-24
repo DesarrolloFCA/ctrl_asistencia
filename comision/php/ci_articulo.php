@@ -107,10 +107,7 @@ class ci_articulo extends comision_ci
 		$diferencia = date_diff($fecha_inicio , $hoy);
 		$y =date("Y",$fechaentera1);
 		$m =date("m",$fechaentera1);
-<<<<<<< HEAD
 
-		
-=======
 	$agrupamiento = $agente [0]['escalafon'];
 	$agrego = 0;	
 	$sql = "SELECT sum(dias) dias_restantes FROM reloj.vacaciones_restantes
@@ -119,7 +116,7 @@ class ci_articulo extends comision_ci
         $vac_pen = toba::db('comision')->consultar($sql);
         $insertadas = count($vac_pen);
       //  ei_arbol($insertadas);
->>>>>>> desarrollo
+
 		for ($i=0; $i < $cant; $i++) {
 			
 			if ($agente [$i]['escalafon'] == 'NODO'){
@@ -154,10 +151,9 @@ class ci_articulo extends comision_ci
 								
 							//	ei_arbol($agente);	
 								toba::notificacion()->agregar('Ud ha excedido la cantidad mensual de razones particulares este mes cuenta con '.$temp[0]['dias_restantes'] .' días', "info");
-<<<<<<< HEAD
-=======
+
 									$bandera_nodo = false;
->>>>>>> desarrollo
+
 								} else{
 									$agente [$i]['articulo'] = 40;
 									$bandera= true;
@@ -171,11 +167,8 @@ class ci_articulo extends comision_ci
 							 
 				} elseif ($id_motivo == 35) {
 							
-<<<<<<< HEAD
-									$agente[$i]['articulo'] = null;
-=======
+
 							$agente[$i]['articulo'] = null;
->>>>>>> desarrollo
 							$agente [$i]['id_decreto'] = 4;
 							//ei_arbol ($agente);
 							if ($antiguedad > 20){
@@ -263,10 +256,8 @@ class ci_articulo extends comision_ci
 
 					if ($dias >$dias_totales ) {
 									toba::notificacion()->agregar('Los días de vacaciones tienen que ser menores o iguales a '.$dias_totales .' días.', "info");
-<<<<<<< HEAD
-=======
+
 									$bandera_nodo=false;
->>>>>>> desarrollo
 							
 								} else {
 							$agente[$i]['articulo'] = 55;
@@ -315,10 +306,9 @@ class ci_articulo extends comision_ci
 							$agente[$i]['articulo'] = 56;
 							$agente [$i]['id_decreto'] = 2;
 							$bandera= true;
-<<<<<<< HEAD
-							/*if ($antiguedad > 20){
-								$dias_totales = 40 + $dias_restantes;
-=======
+
+							
+
 							if ($antiguedad > 15){
 								$dias_totales = 45 + $dias_restantes;
 								if ($dias < 30) { 
@@ -340,7 +330,7 @@ class ci_articulo extends comision_ci
 									}
 								}	
 							}	
->>>>>>> desarrollo
+
 								
 							}else {
 								$dias_totales = 30 +$dia_restantes;
@@ -366,7 +356,7 @@ class ci_articulo extends comision_ci
 
 								if ($dias >$dias_totales ) {
 									toba::notificacion()->agregar('Los días de vacaciones tienen que ser menores o iguales a '.$dias_totales .' días', "info");
-								}*/
+								}
 							 
 							} 
 
@@ -389,10 +379,7 @@ $dias_to= $dias. ' days';
 	$hasta = date_add($fecha , date_interval_create_from_date_string($dias_to));
 	
 	$hasta =$hasta ->format("Y-m-d"); 
-<<<<<<< HEAD
-=======
-	//ei_arbol($datos);
->>>>>>> desarrollo
+
 		for ($i=0; $i < $cant; $i++){
 			$fecha_alta =date("Y-m-d H:i:s");
 			$datos ['fecha_alta']=$fecha_alta;
@@ -413,15 +400,7 @@ $dias_to= $dias. ' days';
 			$superior= $datos['superior'];
 			$autoridad=$datos['autoridad'];
 		}
-<<<<<<< HEAD
 
-		
-	
-
- $sql= "INSERT INTO reloj.inasistencias(
-	 legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto, id_articulo)	VALUES (
-	 $usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, 'observaciones', $superior, false, $autoridad, false, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto, $articulo);";
-=======
 
 		
 	
@@ -434,7 +413,7 @@ $dias_to= $dias. ' days';
  			$sql= "INSERT INTO reloj.inasistencias(
 	 		legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto, id_articulo)	VALUES (
 	 		$usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto, $articulo);";
->>>>>>> desarrollo
+
 
 
 /*
@@ -445,57 +424,18 @@ $dias_to= $dias. ' days';
 	VALUES ($legajo, $edad, '$fecha_alta', $usuario_alta, '$estado', '$fecha_inicio', $dias, '$cod_depcia', '$domicilio', '$localidad', '$agrupamiento', '$fecha_nacimiento', 
 		'$apellido', '$nombre',	'$estado_civil', '$observaciones', $id_decreto, $id_motivo,$articulo,'$tipo_sexo');";*/
 	
-<<<<<<< HEAD
-	toba::db('comision')->ejecutar($sql);
 
-		//$this->dep('datos')->tabla('parte')->set($datos);
-	
-	if (isset ($catedra) and $catedra <> 0 ){
-=======
 		toba::db('comision')->ejecutar($sql);
 
 		//$this->dep('datos')->tabla('parte')->set($datos);
 	
 		if (isset ($catedra) and $catedra <> 0 ){
->>>>>>> desarrollo
+
 		$sql = "SELECT nombre_catedra from reloj.catedras
 		WHERE id_catedra = $catedra;";
 		$cat= toba::db('comision')->consultar($sql);
 		$datos['catedra'] = $cat[0]['nombre_catedra'];
-<<<<<<< HEAD
-	}		
-		
-	if (isset($legajo)){
-		$correo_agente = $this->dep('mapuche')->get_legajos_email($datos['legajo']);
-				$datos['agente_ayn']=$correo_agente[0]['descripcion'];
-		
-	}
 
-	if(isset($datos['superior'])and $datos['superior']<>0) {
-		$correo_sup = $this->dep('mapuche')->get_legajos_email($datos['superior']);
-				$datos['superior_ayn']=$correo_sup[0]['descripcion'];
-			}
-
-		if(isset($datos['autoridad'])) {
-		$correo_aut = $this->dep('mapuche')->get_legajos_email($datos['autoridad']);
-			$datos['autoridad_ayn']=$correo_aut[0]['descripcion'];
-		
-	}
-	$this->s__datos = $datos;
-	
-	if (isset($legajo)){
-		$sql= "SELECT email from reloj.agentes_mail
-		where legajo=$legajo";
-		$correo = toba::db('comision')->consultar($sql);
-		
-		$this->enviar_correos($correo[0]['email']);
-	}
-
-	if(isset($datos['superior'])and $datos['superior']<>0) {
-		
-		$superior =$datos['superior'];
-		
-=======
 		}		
 		
 		if (isset($legajo)){
@@ -525,34 +465,24 @@ $dias_to= $dias. ' days';
 
 		if(isset($datos['superior'])and $datos['superior']<>0) {
 		$superior =$datos['superior'];
->>>>>>> desarrollo
+
 		$sql= "SELECT email from reloj.agentes_mail
 		where legajo=$superior";
 		$correo = toba::db('comision')->consultar($sql);
 		$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
 
-<<<<<<< HEAD
-	}
 
-		if(isset($datos['autoridad'])) {
-		$superior= $datos['autoridad'];
-		ei_arbol ($superior);
-=======
 		}
 
 		/*if(isset($datos['autoridad'])) {
 		$superior= $datos['autoridad'];
 		//ei_arbol ($superior);
->>>>>>> desarrollo
+
 		$sql= "SELECT email from reloj.agentes_mail
 		where legajo=$superior";
 		$correo = toba::db('comision')->consultar($sql);
 		$this->enviar_correos_sup($correo[0]['email'],$datos['autoridad_ayn']);
-<<<<<<< HEAD
 
-	}
-
-=======
 		}*/
 		}
 		} else {
@@ -560,7 +490,7 @@ $dias_to= $dias. ' days';
 
 		}
 		}
->>>>>>> desarrollo
+
 	}	
 			
 	}	
@@ -586,27 +516,17 @@ function enviar_correos($correo)
 	{
 		require_once('3ros/phpmailer/class.phpmailer.php');
 
-<<<<<<< HEAD
-				$datos =$this->s__datos;    
-=======
+
 				$datos =$this->s__datos;  
 
->>>>>>> desarrollo
+
 	$fecha=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] ) );
 
 	$hasta=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] . "+ " .$datos['dias']. " days") );
 
-<<<<<<< HEAD
 
-//$catedra = $this->			
+ 
 
- //ei_arbol ($datos);              
-=======
-//ei_arbol($correo);  
-//$catedra = $this->			
-
-// ei_arbol ($datos);              
->>>>>>> desarrollo
 $mail = new phpmailer();
 $mail->IsSMTP();
 
@@ -630,30 +550,19 @@ $mail->Password   = "djxgidwlytoydsow";
 //Definimos el remitente (dirección y, opcionalmente, nombre)
 $mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formulario Personal');
 //Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
-<<<<<<< HEAD
-$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
-//Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)
-$mail->AddAddress('molina.martin@gmail.com', 'El Destinatario');
-//Definimos el tema del email
-$mail->Subject = 'Esto es un correo de prueba';
-=======
+
 //$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
 //Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)
 $mail->AddAddress($correo, 'El Destinatario');
 //Definimos el tema del email
 $mail->Subject = 'Formulario de Vacaciones';
->>>>>>> desarrollo
+
 //Para enviar un correo formateado en HTML lo cargamos con la siguiente función. Si no, puedes meterle directamente una cadena de texto.
 //$mail->MsgHTML(file_get_contents('correomaquetado.html'), dirname(ruta_al_archivo));
 //Y por si nos bloquean el contenido HTML (algunos correos lo hacen por seguridad) una versión alternativa en texto plano (también será válida para lectores de pantalla)
 $mail->IsHTML(true); //el mail contiene html*/
 
-<<<<<<< HEAD
-	
-//	 ei_arbol($fecha,$hasta);
-=======
-	
-//	 ei_arbol($fecha,$hasta);
+
 	if ($datos['id_motivo'] == 30) {
 		//$motivo = 'Razones Particulares con gose de haberes';
 		$body = '<table>
@@ -735,19 +644,16 @@ $mail->Subject = 'Formulario de Vacaciones del Agente ' .$datos['agente_ayn'];
 $mail->IsHTML(true); //el mail contiene html
 	
 	
->>>>>>> desarrollo
+
 	if ($datos['id_motivo'] == 30) {
 		//$motivo = 'Razones Particulares con gose de haberes';
 		$body = '<table>
 						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
-<<<<<<< HEAD
-						Solicita Justificacion de Inasistencia por Razones Particulares a partir del dia '.$fecha.' hasta '.$hasta. '.
-						 Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
-=======
+
 						Ha solicitado la Justificacion de Inasistencia por Razones Particulares a partir del dia '.$fecha.' hasta '.$hasta. '.<br/>
 						 Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. ' <br/>
 						 Por favor haga <a href="http://172.22.8.49/ctrl_asis/1.0">click aqui </a> para su autorizacion
->>>>>>> desarrollo
+
 											
 			</table>';
 
@@ -756,104 +662,16 @@ $mail->IsHTML(true); //el mail contiene html
 		 
 		//$motivo = 'Vacaciones'.$datos['anio'];
 		$body = '<table>
-<<<<<<< HEAD
-						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita Vacaciones correspondiente al año '.$datos['anio'].' a partir del dia '.$fecha.' hasta '.$hasta. '. <br/>
-						 Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
-=======
+
 						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
 						Solicita Vacaciones correspondiente al  '.$datos['anio'].' a partir del dia '.$fecha.' hasta '.$hasta. '.<br/>
 						Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. ' <br/>
 						En caso de no estar de acuerdo con la autorizacion comuniquese por correo con la autoridad correspondiente.
->>>>>>> desarrollo
+
 											
 			</table>';
 	}
 	
-<<<<<<< HEAD
-
-	; //date("d/m/y",$fecha)
-$mail->Body = $body;
-//Enviamos el correo
-if(!$mail->Send()) {
-	echo "Error: " . $mail->ErrorInfo;
-} else {
-	toba::notificacion()->agregar('Su formulario ha sido completado y enviado a su correo. Ya puede cerrar la ventana.' , "info");
-	echo "Enviado!";
-}
-	
-
-		
-	}
-	function enviar_correos_sup($correo,$destino)
-	{
-		require_once('3ros/phpmailer/class.phpmailer.php');
-
-				$datos =$this-> s__datos;   
-				$fecha=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] ) );
-
-	$hasta=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] . "+ " .$datos['dias']. " days") );
- 
-			
-               
-		$mail = new phpmailer();
-		$mail->IsSMTP();
-//Esto es para activar el modo depuración. En entorno de pruebas lo mejor es 2, en producción siempre 0
-// 0 = off (producción)
-// 1 = client messages
-// 2 = client and server messages
-$mail->SMTPDebug  = 0;
-//Ahora definimos gmail como servidor que aloja nuestro SMTP
-$mail->Host       = 'smtp.gmail.com';
-//El puerto será el 587 ya que usamos encriptación TLS
-$mail->Port       = 587;
-//Definmos la seguridad como TLS
-$mail->SMTPSecure = 'tls';
-//Tenemos que usar gmail autenticados, así que esto a TRUE
-$mail->SMTPAuth   = true;
-//Definimos la cuenta que vamos a usar. Dirección completa de la misma
-$mail->Username   = "formularios_personal@fca.uncu.edu.ar";
-//Introducimos nuestra contraseña de gmail
-$mail->Password   = "djxgidwlytoydsow";
-//Definimos el remitente (dirección y, opcionalmente, nombre)
-$mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formularios Personal');
-//Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
-//$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
-//Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)
-$mail->AddAddress('ebermejillo@fca.uncu.edu.ar', $destino);
-//Definimos el tema del email
-$mail->Subject = 'Esto es un correo de prueba';
-//Para enviar un correo formateado en HTML lo cargamos con la siguiente función. Si no, puedes meterle directamente una cadena de texto.
-//$mail->MsgHTML(file_get_contents('correomaquetado.html'), dirname(ruta_al_archivo));
-//Y por si nos bloquean el contenido HTML (algunos correos lo hacen por seguridad) una versión alternativa en texto plano (también será válida para lectores de pantalla)
-$mail->IsHTML(true); //el mail contiene html
-	
-	
-	if ($datos['id_motivo'] == 30) {
-		//$motivo = 'Razones Particulares con gose de haberes';
-		$body = '<table>
-						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
-						Ha solicitado la Justificacion de Inasistencia por Razones Particulares a partir del dia '.$fecha.' hasta '.$hasta. '.<br/>
-						 Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. ' <br/>
-						 Por favor haga <a href="http://172.22.8.49/ctrl_asis/1.0">click aqui </a> para su autorizacion
-											
-			</table>';
-
-	} else
-	{
-		 
-		//$motivo = 'Vacaciones'.$datos['anio'];
-		$body = '<table>
-						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita Vacaciones correspondiente al anio '.$datos['anio'].' a partir del dia '.$fecha.' hasta '.$hasta. '.<br/>
-						Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. ' <br/>
-						Por favor haga <a href="http://172.22.8.49/ctrl_asis/1.0">click aqui </a> para su autorizacion
-											
-			</table>';
-	}
-	
-=======
->>>>>>> desarrollo
 	
 
 $mail->Body = $body;

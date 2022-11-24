@@ -49,31 +49,19 @@ INSERT INTO apex_objeto_db_registros (objeto_proyecto, objeto, max_registros, mi
 	'35736730000236', --objeto
 	NULL, --max_registros
 	NULL, --min_registros
-<<<<<<< HEAD
-	NULL, --punto_montaje
-=======
 	'4000021', --punto_montaje
->>>>>>> desarrollo
 	'1', --ap
 	NULL, --ap_clase
 	NULL, --ap_archivo
 	'inasistencias', --tabla
 	NULL, --tabla_ext
 	NULL, --alias
-<<<<<<< HEAD
-	NULL, --modificar_claves
-=======
 	'0', --modificar_claves
->>>>>>> desarrollo
 	'ctrl_asis', --fuente_datos_proyecto
 	'ctrl_asis', --fuente_datos
 	'1', --permite_actualizacion_automatica
 	NULL, --esquema
-<<<<<<< HEAD
-	NULL  --esquema_ext
-=======
 	'reloj'  --esquema_ext
->>>>>>> desarrollo
 );
 
 ------------------------------------------------------------

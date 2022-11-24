@@ -190,36 +190,12 @@ INSERT INTO apex_objeto_ei_filtro_col (objeto_ei_filtro_col, objeto_ei_filtro, o
 	'35736730000011', --objeto_ei_filtro_col
 	'35736730000238', --objeto_ei_filtro
 	'ctrl_asis', --objeto_ei_filtro_proyecto
-<<<<<<< HEAD
-	'numero', --tipo
-=======
 	'opciones', --tipo
->>>>>>> desarrollo
 	'legajo_aut', --nombre
 	'legajo_aut', --expresion
 	'Legajo Autoridad', --etiqueta
 	NULL, --descripcion
 	'0', --obligatorio
-<<<<<<< HEAD
-	'0', --inicial
-	'2', --orden
-	NULL, --estado_defecto
-	'0', --opciones_es_multiple
-	NULL, --opciones_ef
-	NULL, --carga_metodo
-	NULL, --carga_clase
-	NULL, --carga_include
-	NULL, --carga_dt
-	NULL, --carga_consulta_php
-	NULL, --carga_sql
-	NULL, --carga_fuente
-	NULL, --carga_lista
-	NULL, --carga_col_clave
-	NULL, --carga_col_desc
-	'0', --carga_permite_no_seteado
-	NULL, --carga_no_seteado
-	NULL, --carga_no_seteado_ocultar
-=======
 	'1', --inicial
 	'2', --orden
 	NULL, --estado_defecto
@@ -238,7 +214,6 @@ INSERT INTO apex_objeto_ei_filtro_col (objeto_ei_filtro_col, objeto_ei_filtro, o
 	'0', --carga_permite_no_seteado
 	NULL, --carga_no_seteado
 	'0', --carga_no_seteado_ocultar
->>>>>>> desarrollo
 	NULL, --carga_maestros
 	NULL, --edit_tamano
 	NULL, --edit_maximo
@@ -255,9 +230,6 @@ INSERT INTO apex_objeto_ei_filtro_col (objeto_ei_filtro_col, objeto_ei_filtro, o
 	NULL, --popup_carga_desc_clase
 	NULL, --popup_carga_desc_include
 	NULL, --popup_puede_borrar_estado
-<<<<<<< HEAD
-	NULL, --punto_montaje
-=======
 	'4000021', --punto_montaje
 	NULL, --check_valor_si
 	NULL, --check_valor_no
@@ -317,7 +289,6 @@ INSERT INTO apex_objeto_ei_filtro_col (objeto_ei_filtro_col, objeto_ei_filtro, o
 	NULL, --popup_carga_desc_include
 	NULL, --popup_puede_borrar_estado
 	'4000021', --punto_montaje
->>>>>>> desarrollo
 	NULL, --check_valor_si
 	NULL, --check_valor_no
 	NULL, --check_desc_si
