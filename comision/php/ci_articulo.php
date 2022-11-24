@@ -10,12 +10,10 @@ class ci_articulo extends comision_ci
 	function evt__formulario__alta($datos)
 	{
 		
-<<<<<<< HEAD
-=======
+
 		
 
 		$bandera_nodo = true;	
->>>>>>> desarrollo
 		$legajo =$datos['legajo'];
 		$id_catedra = $datos['catedra'];
 		$anio=$datos['anio'];
