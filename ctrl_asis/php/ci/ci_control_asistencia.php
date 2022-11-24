@@ -135,14 +135,13 @@ class ci_control_asistencia extends ctrl_asis_ci
 			$filtro['basedatos'] = $this->s__datos_filtro['basedatos'];
 			}
 			
-			//ei_arbol(round((memory_get_usage()/(1024*1024)),2));
+			
 			$this->s__datos = $this->dep('access')->get_lista_resumen($agentes,$filtro);
 			//ei_arbol(round((memory_get_usage()/(1024*1024)),2));
 			unset($agentes);
 
 			$f = $this->s__datos;
-			ei_arbol($this ->s__datos_filtro);
-			if ($this->s__datos_filtro ['marcas']== 1) {
+				if ($this->s__datos_filtro ['marcas']== 1) {
 				$this->s__datos = array_filter($this->s__datos, function ($f) {
 				return $f['presentes'] > 0 ;});	
 			} else if ($this->s__datos_filtro ['marcas']== 0){
@@ -153,7 +152,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 			
 			
 			$e = $this->s__datos;
-			//ei_arbol(round((memory_get_usage()/(1024*1024)),2));
+			
 		
 			
 			if (isset($this->s__datos_filtro['catedra'])){
