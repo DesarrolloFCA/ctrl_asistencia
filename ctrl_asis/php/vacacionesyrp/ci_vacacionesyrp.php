@@ -74,26 +74,41 @@ class ci_vacacionesyrp extends ctrl_asis_ci
 		$datos= $this->dep('datos')->get_filas();
 
 		$filtro = $this->s__datos_filtro;
-		
+
 		if (isset($filtro['legajo_sup']['valor'])){
 			$legajo_superior = $filtro['legajo_sup']['valor'];
 			$componente->desactivar_efs('auto_aut');
 		
 		$sql = "SELECT * from reloj.inasistencias
 		where leg_sup = $legajo_superior
-		And auto_sup = false
+
+		--And auto_sup = false
 		And estado ='A' ";
+
 		$datos = toba::db('ctrl_asis')->consultar($sql);
-		}
+			}
+
 		if (isset($filtro['legajo_aut']['valor'])){
 			$legajo_superior = $filtro['legajo_aut']['valor'];
 			$componente->set_solo_lectura('auto_sup',true);
 			
-		
-		$sql = "SELECT * from reloj.inasistencias
-		where leg_aut = $legajo_superior
-		and auto_aut = false
-		And estado ='A'";
+
+			if(isset($filtro['id_catedra']['valor'])){
+			$id_catedra=$filtro['id_catedra']['valor'];
+				$sql = "SELECT * from reloj.inasistencias
+				where leg_aut = $legajo_superior
+				--and auto_aut = false
+				And estado ='A'
+				AND id_catedra=$id_catedra";
+			}else{
+			$id_catedra=$filtro['id_catedra']['valor'];
+				$sql = "SELECT * from reloj.inasistencias
+				where leg_aut = $legajo_superior
+				--and auto_aut = false
+				And estado ='A'";
+			}
+		//ei_arbol($sql);	
+
 		$datos = toba::db('ctrl_asis')->consultar($sql);
 		//ei_arbol($sql);
 		}

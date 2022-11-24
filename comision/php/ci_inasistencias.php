@@ -130,26 +130,20 @@ class ci_inasistencias extends ctrl_asis_ci
 	function conf__formulario(toba_ei_formulario_ml $componente)
 	{
 		
-
-		/*$sql = "SELECT * from reloj.inasistencias
+		$sql = "SELECT * from reloj.inasistencias
 		where  estado ='A' 
 		order by id_inasistencia";
 		$datos= toba::db('ctrl_asis')->consultar($sql);
-		$cant= count($datos);*/
-		$datos = $this->dep('datos')->get_filas();
-	
-		
-		/*for($i=0;$i<$cant;$i++){
-
+		//$datos = $this->dep('datos')->get_filas();
+		$cant= count($datos);
+		for($i=0;$i<$cant;$i++){
 			$agente= $this->dep('mapuche')->get_legajos_jefes_fca ($datos[$i]['legajo']);
-		//ei_arbol($agente);
+		
 		$datos[$i]['ayn']= $agente[0]['descripcion'];  
 		//$datos[$i]['aprobado']= $componente->
-		}*/
-		
-		$this->s__formula= $datos;
+		}
 		//ei_arbol($datos);
-
+		$this->s__formula= $datos;
 		$componente->set_datos($datos);
 	}
 
@@ -191,11 +185,9 @@ $mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formulario Personal');
 //Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
 $mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
 //Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)
-
-$mail->AddAddress($correo, $datos['agente_ayn']);
+$mail->AddAddress('molina.martin@gmail.com', 'El Destinatario');
 //Definimos el tema del email
-$mail->Subject = 'Autorización';
-
+$mail->Subject = 'Esto es un correo de prueba';
 //Para enviar un correo formateado en HTML lo cargamos con la siguiente función. Si no, puedes meterle directamente una cadena de texto.
 //$mail->MsgHTML(file_get_contents('correomaquetado.html'), dirname(ruta_al_archivo));
 //Y por si nos bloquean el contenido HTML (algunos correos lo hacen por seguridad) una versión alternativa en texto plano (también será válida para lectores de pantalla)
@@ -276,5 +268,4 @@ $mail->Body = $body;
 	}
 
 }
-
 ?>
