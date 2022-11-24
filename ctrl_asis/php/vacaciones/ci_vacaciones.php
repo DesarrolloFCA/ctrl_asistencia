@@ -1,14 +1,15 @@
 <?php
-class ci_inasistencias extends ctrl_asis_ci
+class ci_vacaciones extends ctrl_asis_ci
 {
 	protected $s__formula;
 	protected $s__datos_correo;
 	protected $s__datos_filtro;
-
 	function ini__operacion()
 	{
-		
-		$this->dep('datos')->cargar();
+		$sql = "SELECT * from reloj.inasistencias
+		where  estado ='A' 
+		order by id_inasistencia";
+		//$this->dep('datos')->cargar();
 	}
 
 	function evt__guardar()
@@ -23,15 +24,13 @@ class ci_inasistencias extends ctrl_asis_ci
 
 	function evt__formulario__modificacion($datos)
 	{
-		
-
-
 		$formula=$this->s__formula;
 		//ei_arbol($formula);
 		//ei_arbol($datos);
 		$usuario_cierre   =  toba::usuario()->get_id();
 		$fecha_cierre =date("Y-m-d H:i:s");
 		$cant=count($datos);
+		
 		for($i=0;$i<$cant;$i++){
 		
 		if ($datos[$i]['apex_ei_analisis_fila'] == 'M' ){
@@ -49,12 +48,14 @@ class ci_inasistencias extends ctrl_asis_ci
 				$nombre= $ayn[0]['nombre'];	
 				$fecha_inicio = $datos[$i]['fecha_inicio'];
 				$fecha_fin =$datos[$i]['fecha_fin'];
-				
+				$auto_aut = $datos[$i]['auto_aut'];
+				$datos_correo['observaciones'] =$datos[$i]['observaciones'];
 				$datos_correo['anio']= $formula[$i]['anio'];
 				$datos_correo ['apellido'] =$apellido;
 				$datos_correo['nombre']= $nombre;
 				$datos_correo['fecha_inicio']=$fecha_inicio;
 				$datos_correo['fecha_fin']=$fecha_fin;
+				$datos_correo['auto_aut'] = $auto_aut;
 				$this->s__datos_correo=$datos_correo;
 				$sql= "SELECT email from reloj.agentes_mail
 				where legajo=$legajo";
@@ -62,7 +63,8 @@ class ci_inasistencias extends ctrl_asis_ci
 				
 				if($datos[$i]['estado'] =='C' ){
 					
-					if($datos[$i]['aprobado'] == 1) {
+					if($datos[$i]['aprobado'] == 1 ) {
+						if ($auto_aut == 1) {
 					$filtro['legajo']= $legajo;
 					$edad = $this->dep('mapuche')->get_edad($legajo, null);
 					$direccion = $this->dep('mapuche')->get_datos_agente($filtro);
@@ -104,8 +106,10 @@ class ci_inasistencias extends ctrl_asis_ci
 				$sql="DELETE from reloj.inasistencias
 					  WHERE id_inasistencia =$id_inasistencia";
 				toba::db('ctrl_asis')->ejecutar($sql);		
-
-				}else if ($datos[$i]['aprobado'] == 0){
+				} else {
+					toba::notificacion()->agregar('Avise a la autoridad que falta su aprobacion, si no estan aprobadas las vacaciones coloque cerrado y no marque aprobado', "info");
+				}
+				}else if ($datos[$i]['aprobado'] == 0 ){
 					
 				$this->enviar_correos($correo[0]['email'],$datos[$i]['aprobado'] );
 					$sql = "UPDATE reloj.inasistencias
@@ -121,38 +125,38 @@ class ci_inasistencias extends ctrl_asis_ci
 			}
 		  }	
 		}
-		
-		
-
 		//$this->dep('datos')->procesar_filas($datos);
 	}
 
 	function conf__formulario(toba_ei_formulario_ml $componente)
 	{
 		
-
-		/*$sql = "SELECT * from reloj.inasistencias
+		$filtro = $this->s__datos_filtro;
+		if (isset($filtro['id_catedra']['valor'])){
+			$id_catedra = $filtro['id_catedra']['valor'];
+			$sql = "SELECT * from reloj.inasistencias
+		where  estado ='A'
+		and id_catedra =$id_catedra 
+		order by id_inasistencia";
+		} else {
+		$sql = "SELECT * from reloj.inasistencias
 		where  estado ='A' 
 		order by id_inasistencia";
+		}
 		$datos= toba::db('ctrl_asis')->consultar($sql);
-		$cant= count($datos);*/
-		$datos = $this->dep('datos')->get_filas();
-	
-		
-		/*for($i=0;$i<$cant;$i++){
+		$cant= count($datos);
+		for($i=0;$i<$cant;$i++){
 
 			$agente= $this->dep('mapuche')->get_legajos_jefes_fca ($datos[$i]['legajo']);
 		//ei_arbol($agente);
 		$datos[$i]['ayn']= $agente[0]['descripcion'];  
 		//$datos[$i]['aprobado']= $componente->
-		}*/
-		
+		}
 		$this->s__formula= $datos;
-		//ei_arbol($datos);
-
+		//$componente->set_datos($this->dep('datos')->get_filas());
 		$componente->set_datos($datos);
 	}
-
+	
 	function enviar_correos($correo,$aprobado)
 	{
 		require_once('3ros/phpmailer/class.phpmailer.php');
@@ -165,7 +169,7 @@ class ci_inasistencias extends ctrl_asis_ci
 
 //$catedra = $this->			
 
- //ei_arbol ($datos);              
+// ei_arbol ($datos);              
 $mail = new phpmailer();
 $mail->IsSMTP();
 
@@ -191,11 +195,9 @@ $mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formulario Personal');
 //Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
 $mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
 //Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)
-
 $mail->AddAddress($correo, $datos['agente_ayn']);
 //Definimos el tema del email
-$mail->Subject = 'Autorización';
-
+$mail->Subject = 'Esto es un correo de prueba';
 //Para enviar un correo formateado en HTML lo cargamos con la siguiente función. Si no, puedes meterle directamente una cadena de texto.
 //$mail->MsgHTML(file_get_contents('correomaquetado.html'), dirname(ruta_al_archivo));
 //Y por si nos bloquean el contenido HTML (algunos correos lo hacen por seguridad) una versión alternativa en texto plano (también será válida para lectores de pantalla)
@@ -220,7 +222,7 @@ $mail->IsHTML(true); //el mail contiene html*/
 		//$motivo = 'Vacaciones'.$datos['anio'];
 			$body = '<table>
 						Sr/a <b>'.$datos['nombre'].' '.$datos['apellido'].'</b>:
-						Su solicitud de vacaciones correspondiente al anio '.$datos['anio']. ' ha sido otorgada la cual sera efectiva entre '.$fecha.' y '. $hasta.' .<br/>
+						Su solicitud de vacaciones correspondiente a '.$datos['anio']. ' ha sido otorgada la cual sera efectiva entre '.$fecha.' y '. $hasta.' .<br/>
 						Esperamos que disfrute sus vacaciones											
 			</table>';
 		}
@@ -241,21 +243,22 @@ $mail->IsHTML(true); //el mail contiene html*/
 		//$motivo = 'Vacaciones'.$datos['anio'];
 			$body = '<table>
 						Sr/a <b>'.$datos['nombre'].' '.$datos['apellido'].'</b>:
-						Su solicitud de vacaciones correspondiente al anio'.$datos['anio']. 'ha sido rechazada de acuerdo a las siguientes observaciones '.$datos['observaciones'].'.
+						Su solicitud de vacaciones correspondiente a  '.$datos['anio']. 'ha sido rechazada de acuerdo a las siguientes observaciones '.$datos['observaciones'].'.
 			</table>';
 		}
 
 	}
 
 	; //date("d/m/y",$fecha)
-$mail->Body = $body;
-//Enviamos el correo
+	$mail->Body = $body;
+	//Enviamos el correo
 	if(!$mail->Send()) {
 	echo "Error: " . $mail->ErrorInfo;
 	} else {
 		echo "Enviado!";
 	}
 }
+
 
 	//-----------------------------------------------------------------------------------
 	//---- filtro -----------------------------------------------------------------------
@@ -276,5 +279,4 @@ $mail->Body = $body;
 	}
 
 }
-
 ?>

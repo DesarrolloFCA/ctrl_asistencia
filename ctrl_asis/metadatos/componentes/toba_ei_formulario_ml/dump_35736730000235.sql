@@ -56,6 +56,7 @@ INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, eti
 	'0', --sobre_fila
 	NULL, --confirmacion
 	NULL, --estilo
+<<<<<<< HEAD
 	NULL, --imagen_recurso_origen
 	NULL, --imagen
 	'0', --en_botonera
@@ -64,6 +65,16 @@ INSERT INTO apex_objeto_eventos (proyecto, evento_id, objeto, identificador, eti
 	NULL, --ci_predep
 	'1', --implicito
 	NULL, --defecto
+=======
+	'apex', --imagen_recurso_origen
+	NULL, --imagen
+	'0', --en_botonera
+	NULL, --ayuda
+	'1', --orden
+	NULL, --ci_predep
+	'1', --implicito
+	'0', --defecto
+>>>>>>> desarrollo
 	NULL, --display_datos_cargados
 	NULL, --grupo
 	NULL, --accion
@@ -105,7 +116,11 @@ INSERT INTO apex_objeto_ut_formulario (objeto_ut_formulario_proyecto, objeto_ut_
 	NULL, --ancho_etiqueta
 	NULL, --expandir_descripcion
 	NULL, --campo_bl
+<<<<<<< HEAD
 	'0', --scroll
+=======
+	'1', --scroll
+>>>>>>> desarrollo
 	NULL, --filas
 	'0', --filas_agregar
 	'1', --filas_agregar_online
@@ -118,7 +133,11 @@ INSERT INTO apex_objeto_ut_formulario (objeto_ut_formulario_proyecto, objeto_ut_
 	'', --columna_orden
 	'0', --filas_numerar
 	NULL, --ev_seleccion
+<<<<<<< HEAD
 	NULL, --alto
+=======
+	'200px', --alto
+>>>>>>> desarrollo
 	'EVENTOS', --analisis_cambios
 	NULL, --no_imprimir_efs_sin_estado
 	NULL, --resaltar_efs_con_estado

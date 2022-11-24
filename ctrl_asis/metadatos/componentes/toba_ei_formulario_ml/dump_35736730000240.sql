@@ -216,7 +216,11 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'35736730000240', --objeto_ei_formulario
 	'ctrl_asis', --objeto_ei_formulario_proyecto
 	'id_catedra', --identificador
+<<<<<<< HEAD
 	'ef_combo', --elemento_formulario
+=======
+	'ef_fijo', --elemento_formulario
+>>>>>>> desarrollo
 	'id_catedra', --columnas
 	'0', --obligatorio
 	'0', --oculto_relaja_obligatorio
