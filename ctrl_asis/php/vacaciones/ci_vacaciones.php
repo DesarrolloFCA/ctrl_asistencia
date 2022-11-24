@@ -80,7 +80,7 @@ class ci_vacaciones extends ctrl_asis_ci
 					//$january = new DateTime($datos[$i]['fecha_fin']);
 					//$february = new DateTime($datos[$i]['fecha_fin']);
 					$fecha_inicio = date_create(date("Y-m-d",$fechaentera1)); 
-					$hoy=date_create(date("Y-m-d",$fecha_fin));
+					$hoy=date_create(date("Y-m-d",strtotime($fecha_fin)));
 					//$dia = $february->diff($january);
 					$dia = date_diff($fecha_inicio , $hoy);
 					$dias = $dia->format('%a');

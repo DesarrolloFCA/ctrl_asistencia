@@ -82,7 +82,7 @@ class ci_inasistencias extends ctrl_asis_ci
 					//$dia = $february->diff($january);
 					$dia = date_diff($fecha_inicio , $hoy);
 					$dias = $dia->format('%a');
-					//ei_arbol($dias);
+					ei_arbol($dias);
 					$fecha_ini=$datos[$i]['fecha_inicio'];
 					
 					
@@ -96,23 +96,23 @@ class ci_inasistencias extends ctrl_asis_ci
 	  					apellido, nombre, estado_civil, observaciones, id_decreto, id_motivo, id_articulo, tipo_sexo,usuario_cierre,fecha_cierre)
 						VALUES ($legajo, $edad, '$fecha_alta', $usuario_alta, '$estado', '$fecha_ini', $dias, '04', '$domicilio', '$localidad', '$agrupamiento', 
 							'$fecha_nacimiento',				'$apellido', '$nombre',	'$estado_civil', '$observaciones', $id_decreto, $id_motivo,$id_articulo,'$tipo_sexo','$usuario_cierre','$fecha_cierre');";
-				toba::db('ctrl_asis')->ejecutar($sql);
+			//	toba::db('ctrl_asis')->ejecutar($sql);
 				
 				
 		
-				$this->enviar_correos($correo[0]['email'],$datos[$i]['aprobado'] );
+			//	$this->enviar_correos($correo[0]['email'],$datos[$i]['aprobado'] );
 				$sql="DELETE from reloj.inasistencias
 					  WHERE id_inasistencia =$id_inasistencia";
-				toba::db('ctrl_asis')->ejecutar($sql);		
+			//	toba::db('ctrl_asis')->ejecutar($sql);		
 
 				}else if ($datos[$i]['aprobado'] == 0){
 					
-				$this->enviar_correos($correo[0]['email'],$datos[$i]['aprobado'] );
+				//$this->enviar_correos($correo[0]['email'],$datos[$i]['aprobado'] );
 					$sql = "UPDATE reloj.inasistencias
 					SET estado='C', observaciones = '$observaciones' 
 					WHERE id_inasistencia = $id_inasistencia";
 
-					toba::db('ctrl_asis')->ejecutar($sql);					
+				//	toba::db('ctrl_asis')->ejecutar($sql);					
 
 				
 		

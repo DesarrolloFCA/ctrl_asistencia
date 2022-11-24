@@ -95,6 +95,7 @@ class ci_parte extends toba_ci
 		if (isset($this->s__datos_filtro)) {
 			$this->s__datos = $this->dep('datos')->tabla('parte')->get_listado($this->s__datos_filtro);
 			$cuadro->set_datos($this->s__datos);
+			
 		#} else {
 		#    $this->s__datos = $this->dep('datos')->tabla('parte')->get_listado();
 		}
@@ -165,6 +166,7 @@ class ci_parte extends toba_ci
 		if (isset($this->s__datos_filtro)) {
 			$this->s__datos = $this->dep('datos')->tabla('parte')->get_listado($this->s__datos_filtro);
 			$cuadro->set_datos($this->s__datos);
+
 		#} else {
 		#    $this->s__datos = $this->dep('datos')->tabla('parte')->get_listado();
 		}
