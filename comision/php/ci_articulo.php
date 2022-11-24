@@ -230,6 +230,7 @@ class ci_articulo extends comision_ci
 									$bandera_nodo = false;
 									break;
 									} else {
+										$dias_restantes = 0;
 										if ($agrego == 0 and $insertadas > 0){
 										$dias_restantes = $dias_totales - $dias;
 										if ($dias_restantes > 0){
@@ -247,11 +248,14 @@ class ci_articulo extends comision_ci
 								}elseif ($antiguedad > 5 && $antiguedad <=10)
 								{
 									$dias_totales = 25 + $dias_restantes;
+									$dias_restantes = 0;
 								}elseif ($antiguedad > 0 && $antiguedad <=5)
 								{
 								$dias_totales = 20 + $dias_restantes;
+								$dias_restantes = 0;
 								}else{
 								$dias_totales = $prop_vaca;
+								$dias_restantes = 0;
 								}
 
 					if ($dias >$dias_totales ) {
@@ -402,7 +406,7 @@ $dias_to= $dias. ' days';
 		}
 
 
-		
+	
 	
 	if($datos['fecha_inicio_licencia']< '2022-12-26'){
 			toba::notificacion()->agregar('Ingrese una fecha mayor o igual al 26/12/2022', "info");
