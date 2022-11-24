@@ -111,4 +111,18 @@ INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, colum
 	NULL, --externa
 	'catedras'  --tabla
 );
+INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, columna, tipo, pk, secuencia, largo, no_nulo, no_nulo_db, externa, tabla) VALUES (
+	'ctrl_asis', --objeto_proyecto
+	'35736730000202', --objeto
+	'35736730000284', --col_id
+	'id_catedra', --columna
+	'E', --tipo
+	'1', --pk
+	'"catedras_Id_catedra_seq"', --secuencia
+	NULL, --largo
+	NULL, --no_nulo
+	'1', --no_nulo_db
+	NULL, --externa
+	'catedras'  --tabla
+);
 --- FIN Grupo de desarrollo 35736730

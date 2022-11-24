@@ -21,14 +21,14 @@ INSERT INTO apex_proyecto (proyecto, descripcion, descripcion_corta, estilo, con
 	NULL, --orden
 	NULL, --palabra_vinculo_std
 	'2.7.13', --version_toba
-	'1', --requiere_validacion
-	NULL, --usuario_anonimo
-	NULL, --usuario_anonimo_desc
-	NULL, --usuario_anonimo_grupos_acc
+	'0', --requiere_validacion
+	'Usuario', --usuario_anonimo
+	'Usuario', --usuario_anonimo_desc
+	'personal', --usuario_anonimo_grupos_acc
 	NULL, --validacion_intentos
 	'5', --validacion_intentos_min
-	'1', --validacion_bloquear_usuario
-	NULL, --validacion_debug
+	'2', --validacion_bloquear_usuario
+	'0', --validacion_debug
 	'30', --sesion_tiempo_no_interac_min
 	NULL, --sesion_tiempo_maximo_min
 	'35736730000002', --pm_sesion
@@ -40,12 +40,12 @@ INSERT INTO apex_proyecto (proyecto, descripcion, descripcion_corta, estilo, con
 	'35736730000002', --pm_usuario
 	NULL, --usuario_subclase
 	NULL, --usuario_subclase_archivo
-	NULL, --encriptar_qs
-	'1', --registrar_solicitud
+	'0', --encriptar_qs
+	'0', --registrar_solicitud
 	NULL, --registrar_cronometro
 	'2', --item_inicio_sesion
 	'35736730000045', --item_pre_sesion
-	NULL, --item_pre_sesion_popup
+	'0', --item_pre_sesion_popup
 	NULL, --item_set_sesion
 	'1', --log_archivo
 	'6', --log_archivo_nivel
@@ -56,7 +56,7 @@ INSERT INTO apex_proyecto (proyecto, descripcion, descripcion_corta, estilo, con
 	NULL, --version_detalle
 	NULL, --version_link
 	NULL, --tiempo_espera_ms
-	NULL, --navegacion_ajax
+	'0', --navegacion_ajax
 	NULL, --codigo_ga_tracker
 	TRUE, --extension_toba
 	FALSE  --extension_proyecto

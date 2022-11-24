@@ -61,6 +61,6 @@ INSERT INTO apex_item_objeto (item_id, proyecto, item, objeto, orden, inicializa
 	'ctrl_asis', --proyecto
 	'35736730000048', --item
 	'35736730000190', --objeto
-	'0', --orden
+	'1', --orden
 	NULL  --inicializar
 );
