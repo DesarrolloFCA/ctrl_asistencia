@@ -171,6 +171,14 @@ class ci_articulo extends comision_ci
 							$agente[$i]['articulo'] = null;
 							$agente [$i]['id_decreto'] = 4;
 							//ei_arbol ($agente);
+							$sql= "SELECT count(*) tiene from reloj.vacaciones_restantes
+									WHERE legajo = $legajo AND anio= $anio;";
+							$resto = toba::db('comision')->consultar($sql);
+							if ($resto[0]['tiene'] > 0) {
+								$hay_cargadas = 1;
+							} else {
+								$hay_cargadas = 0;
+							}
 							if ($antiguedad > 20){
 								$dias_totales = 40 + $dias_restantes;
 							//	 ei_arbol ($dias);
@@ -179,9 +187,11 @@ class ci_articulo extends comision_ci
 									break;
 								} else {
 
-									if ($agrego == 0 and $insertadas > 0){
+									if ($agrego == 0 and $insertadas > 0 and $hay_cargadas == 0){
 									$dias_restantes = $dias_totales - $dias;
 									//ei_arbol ($dias_restantes);
+									
+
 
 									$sql ="INSERT INTO reloj.vacaciones_restantes(
 										legajo, cod_depcia, agrupamiento, anio, dias)
@@ -206,7 +216,7 @@ class ci_articulo extends comision_ci
 									break;
 
 								}else {
-									if ($agrego == 0 and $insertadas > 0){
+									if ($agrego == 0 and $insertadas > 0 and $hay_cargadas == 0){
 									$dias_restantes = $dias_totales - $dias;
 									if ($dias_restantes > 0){
 									$sql ="INSERT INTO reloj.vacaciones_restantes(
@@ -231,7 +241,7 @@ class ci_articulo extends comision_ci
 									break;
 									} else {
 										$dias_restantes = 0;
-										if ($agrego == 0 and $insertadas > 0){
+										if ($agrego == 0 and $insertadas > 0 and $hay_cargadas == 0){
 										$dias_restantes = $dias_totales - $dias;
 										if ($dias_restantes > 0){
 											$sql ="INSERT INTO reloj.vacaciones_restantes(
@@ -319,7 +329,7 @@ class ci_articulo extends comision_ci
 									toba::notificacion()->agregar('Los días de vacaciones no pueden ser menores de 30 dias', "info");
 									break;
 									}else {
-									if ($agrego == 0 and $insertadas > 0){
+									if ($agrego == 0 and $insertadas > 0 and $hay_cargadas == 0){
 									$dias_restantes = $dias_totales - $dias;
 										if ($dias_restantes > 0){
 										$sql ="INSERT INTO reloj.vacaciones_restantes(
@@ -342,7 +352,7 @@ class ci_articulo extends comision_ci
 									toba::notificacion()->agregar('Los días de vacaciones no pueden ser menores de 30 dias', "info");
 									break;
 								}else {
-									if ($agrego == 0 and $insertadas > 0){
+									if ($agrego == 0 and $insertadas > 0 and $hay_cargadas == 0){
 									$agrego=1;
 											}
 									$dias_restantes = $dias_totales - $dias;
