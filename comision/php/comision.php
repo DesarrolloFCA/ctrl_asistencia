@@ -14,21 +14,21 @@ class comision extends toba_ci
 			$form->set_solo_lectura('id_motivo');
 			$form->set_solo_lectura('id_articulo');
 			$form->set_datos($this->dep('datos')->tabla('parte')->get());
-		} else {
+		}/* else {
 			$this->pantalla()->eliminar_evento('eliminar');
-		}
+		}*/
 	}
 
 	function evt__formulario__alta($datos)
 	{
-		//ei_arbol($datos);
+		
 		if ($datos['fecha'] <= $datos['fecha_fin'])
 		{
 			$fecha=$datos['fecha'];    
 			$fecha_fin=date('d/m/Y',strtotime($datos['fecha_fin']));
 			$legajo=$datos['legajo'];
-			$superior=$datos['legajo_sup'];
-			$autoridad=$datos['leg_aut'];
+			$superior=$datos['superior'];
+			$autoridad=$datos['autoridad'];
 			$lugar=$datos['lugar'];
 			$catedra=$datos['catedra'];
 			$horario=$datos['horario'];
@@ -55,28 +55,33 @@ class comision extends toba_ci
 			//ei_arbol ($correo_agente);
 			}
 			if (!empty ($datos['superior'])){
-				$correo_sup = $this->dep('mapuche')->get_legajos_email($datos['legajo_sup']);
+				$correo_sup = $this->dep('mapuche')->get_legajos_email($datos['superior']);
 				$datos['superior']=$correo_sup[0]['descripcion'];
 			}
-			if (!empty ($datos['legajo_autoridad'])){
-				$correo_aut = $this->dep('mapuche')->get_legajos_email($datos['leg_aut']);
+		/*	if (!empty ($datos['legajo_autoridad'])){
+				$correo_aut = $this->dep('mapuche')->get_legajos_email($datos['autoridad']);
 			$datos['autoridad']=$correo_aut[0]['descripcion'];
-			}
-			$this->s__datos = $datos;
-			/*if (!empty ($datos['legajo'])){
-			$this->enviar_correos($correo_agente[0]['email']);
-		
-			}
-			if (!empty ($datos['legajo_sup'])){
-				$this->enviar_correos_sup($correo_sup[0]['email']);
-			}
-			if (!empty ($datos['legajo_aut'])){
-			$this->enviar_correos_sup($correo_aut[0]['email']);
 			}*/
+			$this->s__datos = $datos;
+			
+			if (isset($legajo)){
+				$sql= "SELECT email from reloj.agentes_mail
+				where legajo=$legajo";
+				$correo = toba::db('comision')->consultar($sql);
+				$this->enviar_correos($correo[0]['email']);
+			}
+			//ei_arbol ($correo);
+			if(isset($datos['superior'])and $datos['superior']<>0) {
+				//$superior =$datos['superior'];
+				$sql= "SELECT email from reloj.agentes_mail
+				where legajo=$superior";
+				$correo = toba::db('comision')->consultar($sql);
+				$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
+			}
 		
 			$sql = "INSERT INTO reloj.comision
-				(legajo, catedra, lugar, motivo, fecha, horario, observaciones, legajo_sup, legajo_aut,  fecha_fin, horario_fin, fuera) VALUES
-				 ($legajo, $catedra, '$lugar', '$motivo','$fecha', '$horario', '$obs', $superior, $autoridad,'$fecha_fin','$horario_fin',$f);";
+				(legajo, catedra, lugar, motivo, fecha, horario, observaciones, legajo_sup, legajo_aut,  fecha_fin, horario_fin, fuera,autoriza_sup) VALUES
+				 ($legajo, $catedra, '$lugar', '$motivo','$fecha', '$horario', '$obs', $superior, $autoridad,'$fecha_fin','$horario_fin',$f,true);";
 		
 			toba::db('comision')->ejecutar($sql); 
 		
@@ -124,9 +129,9 @@ $mail->SMTPSecure = 'tls';
 //Tenemos que usar gmail autenticados, así que esto a TRUE
 $mail->SMTPAuth   = true;
 //Definimos la cuenta que vamos a usar. Dirección completa de la misma
-$mail->Username   = "mmolina@fca.uncu.edu.ar";
+$mail->Username   = "formularios_personal@fca.uncu.edu.ar";
 //Introducimos nuestra contraseña de gmail
-$mail->Password   = "cebkeqtiuonnpipw";
+$mail->Password   = "djxgidwlytoydsow";
 //Definimos el remitente (dirección y, opcionalmente, nombre)
 $mail->SetFrom('mmolina@fca.uncu.edu.ar', 'Martin Molina');
 //Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
@@ -183,9 +188,9 @@ $mail->SMTPSecure = 'tls';
 //Tenemos que usar gmail autenticados, así que esto a TRUE
 $mail->SMTPAuth   = true;
 //Definimos la cuenta que vamos a usar. Dirección completa de la misma
-$mail->Username   = "mmolina@fca.uncu.edu.ar";
+$mail->Username   = "formularios_personal@fca.uncu.edu.ar";
 //Introducimos nuestra contraseña de gmail
-$mail->Password   = "cebkeqtiuonnpipw";
+$mail->Password   = "djxgidwlytoydsow";
 //Definimos el remitente (dirección y, opcionalmente, nombre)
 $mail->SetFrom('mmolina@fca.uncu.edu.ar', 'Martin Molina');
 //Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)

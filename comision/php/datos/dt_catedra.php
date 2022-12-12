@@ -123,7 +123,7 @@ class dt_catedra extends comision_datos_tabla
 
 	function get_catedra_jefe ($legajo, $id_catedra)
 	{
-		//ei_arbol($legajo,$id_catedra);
+		
 
 		$sql = "SELECT jefe from reloj.catedras_agentes b 
 		 		WHERE legajo = $legajo

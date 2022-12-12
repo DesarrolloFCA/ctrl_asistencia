@@ -1113,7 +1113,8 @@ class vistas_mapuche extends toba_datos_relacion
             return toba::db('mapuche')->consultar($sql); 
         }
 	static function get_legajos_email ($legajo){
-		$sql = "SELECT  legajo||' - '||apellido||', '||nombre as descripcion , email
+	//	ei_arbol($legajo);
+        $sql = "SELECT  legajo||' - '||apellido||', '||nombre as descripcion , email
                     FROM uncu.legajo 
                     WHERE legajo = $legajo
                     ORDER BY apellido, legajo ASC";

@@ -21,6 +21,7 @@ class dt_comision extends ctrl_asis_datos_tabla
 		
 		return toba::db('ctrl_asis')->consultar($sql);
 	}
+	
 
 
 }

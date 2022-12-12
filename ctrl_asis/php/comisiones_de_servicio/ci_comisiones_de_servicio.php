@@ -1,0 +1,30 @@
+<?php
+class ci_comisiones_de_servicio extends ctrl_asis_ci
+{
+	function ini__operacion()
+	{
+		$this->dep('datos')->cargar();
+		ei_arbol($this->dep('datos')->get_filas());
+	}
+
+	function evt__guardar()
+	{
+		$this->dep('datos')->sincronizar();
+		$this->dep('datos')->resetear();
+		$this->dep('datos')->cargar();
+	}
+
+	function evt__formulario__modificacion($datos)
+	{
+		$this->dep('datos')->procesar_filas($datos);
+	}
+
+	function conf__formulario(toba_ei_formulario_ml $componente)
+	{
+		
+		$componente->set_datos($this->dep('datos')->get_filas());
+	}
+
+}
+
+?>
