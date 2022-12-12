@@ -14,8 +14,8 @@ INSERT INTO apex_item (item_id, proyecto, item, padre_id, padre_proyecto, padre,
 	NULL, --padre_id
 	'ctrl_asis', --padre_proyecto
 	'35736730000056', --padre
-	NULL, --carpeta
-	NULL, --nivel_acceso
+	'0', --carpeta
+	'0', --nivel_acceso
 	'web', --solicitud_tipo
 	'ctrl_asis', --pagina_tipo_proyecto
 	'tp_referencia', --pagina_tipo
@@ -27,9 +27,9 @@ INSERT INTO apex_item (item_id, proyecto, item, padre_id, padre_proyecto, padre,
 	NULL, --descripcion
 	'4000021', --punto_montaje
 	NULL, --actividad_accion
-	'1', --menu
+	'0', --menu
 	'0', --orden
-	NULL, --solicitud_registrar
+	'0', --solicitud_registrar
 	NULL, --solicitud_obs_tipo_proyecto
 	NULL, --solicitud_obs_tipo
 	NULL, --solicitud_observacion
@@ -38,16 +38,16 @@ INSERT INTO apex_item (item_id, proyecto, item, padre_id, padre_proyecto, padre,
 	NULL, --zona_proyecto
 	NULL, --zona
 	NULL, --zona_orden
-	NULL, --zona_listar
-	NULL, --imagen_recurso_origen
+	'0', --zona_listar
+	'apex', --imagen_recurso_origen
 	NULL, --imagen
 	NULL, --parametro_a
 	NULL, --parametro_b
 	NULL, --parametro_c
-	NULL, --publico
+	'0', --publico
 	NULL, --redirecciona
 	NULL, --usuario
-	NULL, --exportable
+	'0', --exportable
 	'2022-12-07 09:41:35', --creacion
 	'0'  --retrasar_headers
 );
