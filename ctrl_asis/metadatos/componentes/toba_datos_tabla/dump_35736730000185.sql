@@ -279,4 +279,18 @@ INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, colum
 	'0', --externa
 	'comision'  --tabla
 );
+INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, columna, tipo, pk, secuencia, largo, no_nulo, no_nulo_db, externa, tabla) VALUES (
+	'ctrl_asis', --objeto_proyecto
+	'35736730000185', --objeto
+	'35736730000308', --col_id
+	'pasada', --columna
+	'L', --tipo
+	'0', --pk
+	'', --secuencia
+	NULL, --largo
+	NULL, --no_nulo
+	'0', --no_nulo_db
+	NULL, --externa
+	'comision'  --tabla
+);
 --- FIN Grupo de desarrollo 35736730
