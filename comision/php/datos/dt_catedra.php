@@ -151,7 +151,7 @@ class dt_catedra extends comision_datos_tabla
 		 			$sql = "SELECT b.legajo_dir  FROM reloj.catedras_agentes a
 							inner join reloj.catedras c on c.id_catedra = a.id_catedra
 							inner join reloj.departamento_director b on b.id_departamento = c.id_departamento
-							where a.legajo = $legajo";
+							where a.legajo = $legajo and c.id_catedra = $id_catedra";
 					$temp = toba::db('comision')->consultar($sql);	
 					//ei_arbol($temp)	;
 					if (count($temp)> 0) {

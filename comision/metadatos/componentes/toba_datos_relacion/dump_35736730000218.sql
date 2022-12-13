@@ -16,8 +16,8 @@ INSERT INTO apex_objeto (proyecto, objeto, anterior, identificador, reflexivo, c
 	'toba', --clase_proyecto
 	'toba_datos_relacion', --clase
 	'35736730000002', --punto_montaje
-	'dt_catedra', --subclase
-	'datos/dt_catedra.php', --subclase_archivo
+	NULL, --subclase
+	NULL, --subclase_archivo
 	NULL, --objeto_categoria_proyecto
 	NULL, --objeto_categoria
 	'Comision de Servicio - mapuche', --nombre

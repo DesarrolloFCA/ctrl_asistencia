@@ -54,15 +54,15 @@ class ci_articulo extends comision_ci
                   	ON t_l.legajo = t_d.legajo
                  	 WHERE t_l.legajo = $legajo
                  	 AND cod_depcia = '04'
-                 	 AND escalafon = 'NODO' ";
+                 	 AND escalafon in ('NODO','AUTO') ";
 			}
 
-		
+		//ei_arbol($sql);
 		}
 		
        		$agente = toba::db('mapuche')->consultar($sql);          
 		$cant = count($agente);
-		//ei_arbol($agente);
+		
 		$sql = "SELECT MIN(fec_ingreso) fecha from uncu.legajo
 				where legajo = $legajo";
 		$fec_ingreso = toba::db('mapuche')->consultar($sql);
@@ -167,7 +167,7 @@ class ci_articulo extends comision_ci
 							 
 				} elseif ($id_motivo == 35) {
 							
-
+					//ei_arbol($agente);
 							$agente[$i]['articulo'] = null;
 							$agente [$i]['id_decreto'] = 4;
 							//ei_arbol ($agente);
@@ -422,6 +422,7 @@ $dias_to= $dias. ' days';
 			toba::notificacion()->agregar('Ingrese una fecha mayor o igual al 26/12/2022', "info");
 	}else
 		{
+			//ei_arbol($ya_tomo,$bandera_nodo);
 			if ($ya_tomo == 0){
  			if($bandera_nodo ){
  			$sql= "INSERT INTO reloj.inasistencias(
