@@ -222,7 +222,7 @@ $mail->IsHTML(true); //el mail contiene html*/
 		//$motivo = 'Vacaciones'.$datos['anio'];
 			$body = '<table>
 						Sr/a <b>'.$datos['nombre'].' '.$datos['apellido'].'</b>:
-						Su solicitud de vacaciones correspondiente a '.$datos['anio']. ' ha sido otorgada la cual sera efectiva entre '.$fecha.' y '. $hasta.' .<br/>
+						Su solicitud de vacaciones correspondiente a '.$datos['anio']. ' ha sido otorgada la cual sera efectiva entre '.$fecha.' y debe reintegrarse el dia'. $hasta.' .<br/>
 						Esperamos que disfrute sus vacaciones											
 			</table>';
 		}

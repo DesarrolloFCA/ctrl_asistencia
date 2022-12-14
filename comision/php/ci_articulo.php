@@ -539,7 +539,9 @@ function enviar_correos($correo)
 
 	$hasta=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] . "+ " .$datos['dias']. " days") );
 
-
+if ($datos['dias_restantes'] < = 0){
+	$datos['dias_restantes'] = 0;
+}
  
 
 $mail = new phpmailer();
@@ -593,7 +595,7 @@ $mail->IsHTML(true); //el mail contiene html*/
 		//$motivo = 'Vacaciones'.$datos['anio'];
 		$body = '<table>
 						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita Vacaciones correspondiente al  '.$datos['anio'].' a partir del dia '.$fecha.' hasta '.$hasta. '. <br/>
+						Solicita Vacaciones correspondiente al  '.$datos['anio'].' a partir del dia '.$fecha.' y debe reintegrarse el dia '.$hasta. '. <br/>
 						Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. 'Ud. cuenta con '.$datos['dias_restantes'].' dias de vacaciones 
 						pendientes.
 											
@@ -665,7 +667,7 @@ $mail->IsHTML(true); //el mail contiene html
 		$body = '<table>
 						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
 
-						Ha solicitado la Justificacion de Inasistencia por Razones Particulares a partir del dia '.$fecha.' hasta '.$hasta. '.<br/>
+						Ha solicitado la Justificacion de Inasistencia por Razones Particulares a partir del dia '.$fecha.' y debe reintegrarse el dia '.$hasta. '.<br/>
 						 Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. ' <br/>
 						 Por favor haga <a href="http://172.22.8.49/ctrl_asis/1.0">click aqui </a> para su autorizacion
 
@@ -679,7 +681,7 @@ $mail->IsHTML(true); //el mail contiene html
 		$body = '<table>
 
 						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita Vacaciones correspondiente al  '.$datos['anio'].' a partir del dia '.$fecha.' hasta '.$hasta. '.<br/>
+						Solicita Vacaciones correspondiente al  '.$datos['anio'].' a partir del dia '.$fecha.' y debe reintegrarse el dia '.$hasta. '.<br/>
 						Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. ' <br/>
 						En caso de no estar de acuerdo con la autorizacion comuniquese por correo con la autoridad correspondiente.
 
