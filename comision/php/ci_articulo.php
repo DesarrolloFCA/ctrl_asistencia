@@ -71,7 +71,9 @@ class ci_articulo extends comision_ci
                 $fecha = $d."-".$m."-".$y;
                 $dias = explode('-', $fecha, 3);
                 $dias = mktime(0,0,0,$dias[1],$dias[0],$dias[2]);
-                $antiguedad = (int)((time()-$dias)/31556926 );
+                $antiguedad = ((time()-$dias)/31556926 );
+                //(int)((time()-$dias)/31556926 );
+                //ei_arbol($antiguedad);
                 if ($antiguedad == 0){
                 	$prop_vaca= (int)((time()-$dias)/1729147);
                 }
@@ -84,9 +86,10 @@ class ci_articulo extends comision_ci
                 $fecha = $d."-".$m."-".$y;
                 $dias = explode('-', $fecha, 3);
                 $dias = mktime(0,0,0,$dias[1],$dias[0],$dias[2]);
-                $antiguedad = (int)((time()-$dias)/31556926 );
+                $antiguedad = ((time()-$dias)/31556926 );
+               // (int)((time()-$dias)/31556926 );
             }
-         //   ei_arbol($antiguedad);
+         // ei_arbol($antiguedad);
 
         $dias= $datos['dias'];
         $anio= $datos['anio'];
@@ -259,7 +262,7 @@ class ci_articulo extends comision_ci
 								{
 									$dias_totales = 25 + $dias_restantes;
 									$dias_restantes = 0;
-								}elseif ($antiguedad > 0 && $antiguedad <=5)
+								}elseif ($antiguedad > 0.5 && $antiguedad <=5)
 								{
 								$dias_totales = 20 + $dias_restantes;
 								$dias_restantes = 0;
@@ -539,7 +542,7 @@ function enviar_correos($correo)
 
 	$hasta=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] . "+ " .$datos['dias']. " days") );
 
-if ($datos['dias_restantes'] < = 0){
+if ($datos['dias_restantes'] <= 0){
 	$datos['dias_restantes'] = 0;
 }
  
@@ -595,7 +598,7 @@ $mail->IsHTML(true); //el mail contiene html*/
 		//$motivo = 'Vacaciones'.$datos['anio'];
 		$body = '<table>
 						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita Vacaciones correspondiente al  '.$datos['anio'].' a partir del dia '.$fecha.' y debe reintegrarse el dia '.$hasta. '. <br/>
+						Solicita Vacaciones correspondiente al  '.$datos['anio'].' a partir del dia '.$fecha.'hasta '.$hasta. '. <br/>
 						Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. 'Ud. cuenta con '.$datos['dias_restantes'].' dias de vacaciones 
 						pendientes.
 											
@@ -667,7 +670,7 @@ $mail->IsHTML(true); //el mail contiene html
 		$body = '<table>
 						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
 
-						Ha solicitado la Justificacion de Inasistencia por Razones Particulares a partir del dia '.$fecha.' y debe reintegrarse el dia '.$hasta. '.<br/>
+						Ha solicitado la Justificacion de Inasistencia por Razones Particulares a partir del dia '.$fecha.' hasta '.$hasta. '.<br/>
 						 Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. ' <br/>
 						 Por favor haga <a href="http://172.22.8.49/ctrl_asis/1.0">click aqui </a> para su autorizacion
 
@@ -681,7 +684,7 @@ $mail->IsHTML(true); //el mail contiene html
 		$body = '<table>
 
 						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita Vacaciones correspondiente al  '.$datos['anio'].' a partir del dia '.$fecha.' y debe reintegrarse el dia '.$hasta. '.<br/>
+						Solicita Vacaciones correspondiente al  '.$datos['anio'].' a partir del dia '.$fecha.' hasta '.$hasta. '.<br/>
 						Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. ' <br/>
 						En caso de no estar de acuerdo con la autorizacion comuniquese por correo con la autoridad correspondiente.
 
