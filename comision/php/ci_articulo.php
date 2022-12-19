@@ -31,7 +31,7 @@ class ci_articulo extends comision_ci
 			$sql = "SELECT nombre_catedra, id_departamento FROM reloj.catedras
 				WHERE id_catedra = $id_catedra";
 			$depto = toba::db('comision')->consultar($sql); 
-			if ($depto[0]['id_departamento']<10){
+			if ($depto[0]['id_departamento']<10 or ($depto[0]['id_departamento'] == 12)){
 			$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fec_ingreso, t_l.estado_civil, 
                        t_l.caracter, t_l.categoria, t_l.agrupamiento, t_l.escalafon, 
                        t_l.fec_nacim as fecha_nacimiento, t_l.cuil,
@@ -62,9 +62,8 @@ class ci_articulo extends comision_ci
 		
        		$agente = toba::db('mapuche')->consultar($sql);          
 		$cant = count($agente);
-		
 		$sql = "SELECT MIN(fec_ingreso) fecha from uncu.legajo
-				where legajo = $legajo";
+		where legajo = $legajo";
 		$fec_ingreso = toba::db('mapuche')->consultar($sql);
 		$res = 	$fec_ingreso[0]['fecha'];
 		list($y,$m,$d)=explode("-",$res); //2011-03-31
@@ -320,6 +319,7 @@ class ci_articulo extends comision_ci
 							}
 
 				} elseif ($id_motivo == 35) {
+							
 							$agente[$i]['articulo'] = 56;
 							$agente [$i]['id_decreto'] = 2;
 							$bandera= true;
@@ -474,7 +474,7 @@ $dias_to= $dias. ' days';
 		}
 		$this->s__datos = $datos;
 	
-		if (isset($legajo)){
+		/*if (isset($legajo)){
 		$sql= "SELECT email from reloj.agentes_mail
 		where legajo=$legajo";
 		$correo = toba::db('comision')->consultar($sql);
@@ -490,7 +490,7 @@ $dias_to= $dias. ' days';
 		$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
 
 
-		}
+		}*/
 
 		/*if(isset($datos['autoridad'])) {
 		$superior= $datos['autoridad'];
