@@ -474,7 +474,7 @@ $dias_to= $dias. ' days';
 		}
 		$this->s__datos = $datos;
 	
-		/*if (isset($legajo)){
+		if (isset($legajo)){
 		$sql= "SELECT email from reloj.agentes_mail
 		where legajo=$legajo";
 		$correo = toba::db('comision')->consultar($sql);
@@ -490,7 +490,7 @@ $dias_to= $dias. ' days';
 		$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
 
 
-		}*/
+		}
 
 		/*if(isset($datos['autoridad'])) {
 		$superior= $datos['autoridad'];
