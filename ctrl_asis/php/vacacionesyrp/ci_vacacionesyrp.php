@@ -32,9 +32,9 @@ class ci_vacacionesyrp extends ctrl_asis_ci
 	{
 		//ei_arbol($datos);
 
-		$this->dep('datos')->sincronizar();
-		$this->dep('datos')->resetear();
-		$this->dep('datos')->cargar();
+		//$this->dep('datos')->sincronizar();
+		//$this->dep('datos')->resetear();
+		//$this->dep('datos')->cargar();
 	}
 
 	function evt__formulario__modificacion($datos)
@@ -55,9 +55,9 @@ class ci_vacacionesyrp extends ctrl_asis_ci
 		//ei_arbol($datos[$i]['apex_ei_analisis_fila']);
 			if ($datos[$i]['apex_ei_analisis_fila'] == 'M' ){
 			$sql = "UPDATE reloj.inasistencias
-					Set auto_sup = $a_sup, auto_aut = $a_aut, observaciones = '$observaciones'
+					Set auto_sup = $a_sup, auto_aut = $a_aut, observaciones = '$obs'
 					where id_inasistencia = $id";
-			//ei_arbol($sql);
+		//	ei_arbol($sql);
 			toba::db('ctrl_asis')->ejecutar ($sql);	
 
 			} 
