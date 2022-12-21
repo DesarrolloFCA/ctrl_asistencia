@@ -32,9 +32,9 @@ class ci_vacacionesyrp extends ctrl_asis_ci
 	{
 		//ei_arbol($datos);
 
-		//$this->dep('datos')->sincronizar();
-		//$this->dep('datos')->resetear();
-		//$this->dep('datos')->cargar();
+		$this->dep('datos')->sincronizar();
+		$this->dep('datos')->resetear();
+		$this->dep('datos')->cargar();
 	}
 
 	function evt__formulario__modificacion($datos)
