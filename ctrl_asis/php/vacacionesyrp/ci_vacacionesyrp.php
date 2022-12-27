@@ -40,7 +40,7 @@ class ci_vacacionesyrp extends ctrl_asis_ci
 	function evt__formulario__modificacion($datos)
 	{
 		
-		ei_arbol($datos);
+		//ei_arbol($datos);
 		//$datos = $this->s__datos;
 
 		//ei_arbol($datos);
@@ -153,7 +153,7 @@ class ci_vacacionesyrp extends ctrl_asis_ci
 
 
 		}
-		ei_arbol($datos);
+		//ei_arbol($datos);
 		$this->s__datos =$datos;
 
 		$componente ->set_datos($datos);
