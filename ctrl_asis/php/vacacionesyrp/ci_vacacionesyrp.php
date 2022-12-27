@@ -40,7 +40,7 @@ class ci_vacacionesyrp extends ctrl_asis_ci
 	function evt__formulario__modificacion($datos)
 	{
 		
-		//ei_arbol($datos);
+		ei_arbol($datos);
 		//$datos = $this->s__datos;
 
 		//ei_arbol($datos);
@@ -71,11 +71,15 @@ class ci_vacacionesyrp extends ctrl_asis_ci
 	function conf__formulario(toba_ei_formulario_ml $componente)
 	{
 		
-		$datos= $this->dep('datos')->get_filas();
+		//$datos= $this->dep('datos')->get_filas();
 
+		$sql = "Select * from reloj.inasistencias
+            where estado = 'A'";
+        $datos = toba::db('ctrl_asis')->consultar($sql);
+        
 		$filtro = $this->s__datos_filtro;
 
-		if (isset($filtro['legajo_sup']['valor'])){
+	/*	if (isset($filtro['legajo_sup']['valor'])){
 			$legajo_superior = $filtro['legajo_sup']['valor'];
 			$componente->desactivar_efs('auto_aut');
 		
@@ -86,7 +90,7 @@ class ci_vacacionesyrp extends ctrl_asis_ci
 		And estado ='A' ";
 
 		$datos = toba::db('ctrl_asis')->consultar($sql);
-			}
+			}*/
 
 		if (isset($filtro['legajo_aut']['valor'])){
 			$legajo_superior = $filtro['legajo_aut']['valor'];
@@ -107,8 +111,7 @@ class ci_vacacionesyrp extends ctrl_asis_ci
 				--and auto_aut = false
 				And estado ='A'";
 			}
-		//ei_arbol($sql);	
-
+		
 		$datos = toba::db('ctrl_asis')->consultar($sql);
 		//ei_arbol($sql);
 		}
@@ -148,7 +151,7 @@ class ci_vacacionesyrp extends ctrl_asis_ci
 
 
 		}
-		//ei_arbol($datos);
+		ei_arbol($datos);
 		$this->s__datos =$datos;
 
 		$componente ->set_datos($datos);
