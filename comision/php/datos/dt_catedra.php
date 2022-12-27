@@ -177,7 +177,7 @@ class dt_catedra extends comision_datos_tabla
 						WHERE jefe = true
 						AND d.legajo = $legajo;";
 						$temp= toba::db('comision')->consultar($sql);
-				
+				//ei_arbol($temp)	;
 							$leg = $temp[0]['legajo_dir'];
 						if($leg <> $legajo and $leg<> null) {
 							$sql = "SELECT   legajo , apellido||', '||nombre as legajo_jefe
@@ -201,7 +201,7 @@ class dt_catedra extends comision_datos_tabla
 			$sql ="SELECT legajo legajo_dir from reloj.catedras_agentes b 
 			where id_catedra  = $id_catedra and jefe = true;";
 			$temp = toba::db('comision')->consultar($sql);
-			//ei_arbol($id_catedra);
+			//ei_arbol($temp);
 			$leg = $temp[0]['legajo_dir'];
 
 				if ($leg <> null or $leg<>'' ){
