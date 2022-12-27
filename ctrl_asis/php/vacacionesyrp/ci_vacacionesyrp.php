@@ -74,14 +74,15 @@ class ci_vacacionesyrp extends ctrl_asis_ci
 		//$datos= $this->dep('datos')->get_filas();
 
 		$sql = "Select * from reloj.inasistencias
-            where estado = 'A'";
-        $datos = toba::db('ctrl_asis')->consultar($sql);
-        
 
+			where estado = 'A'
+			order by fecha_inicio, fecha_fin, legajo";
+		$datos = toba::db('ctrl_asis')->consultar($sql);
+		
 		$filtro = $this->s__datos_filtro;
 		
 
-	/*	if (isset($filtro['legajo_sup']['valor'])){
+	/*    if (isset($filtro['legajo_sup']['valor'])){
 			$legajo_superior = $filtro['legajo_sup']['valor'];
 			$componente->desactivar_efs('auto_aut');
 		
