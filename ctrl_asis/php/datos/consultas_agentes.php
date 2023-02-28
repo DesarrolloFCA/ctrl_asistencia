@@ -17,11 +17,11 @@ class consultas_agentes {
         {
             $where[] = "uncu.legajo.dni ilike '%" . $filtro['dni'] . "%'";
         }
-        if (isset($filtro['cod_depcia']))
+        /*if (isset($filtro['cod_depcia']))
         {
-            $where[] = "uncu.legajo.cod_depcia = '" . $filtro['cod_depcia'] . "'";
-        }
-        //$where[] = "uncu.legajo.cod_depcia = '01'";
+           // $where[] = "uncu.legajo.cod_depcia = '" . $filtro['cod_depcia'] . "'";
+        }*/
+        $where[] = "uncu.legajo.cod_depcia = '04'";
 
         $sql = "SELECT
                 uncu.legajo.legajo,
@@ -43,7 +43,7 @@ class consultas_agentes {
                 INNER JOIN uncu.dependencia ON uncu.legajo.cod_depcia = uncu.dependencia.cod_depcia
                     ORDER BY uncu.legajo.apellido,uncu.legajo.nombre";
         $sql = "SELECT
-uncu.legajo.legajo,
+            uncu.legajo.legajo,
 uncu.legajo.apellido,
 uncu.legajo.nombre,
 uncu.legajo.apellido || ',' || uncu.legajo.nombre AS nombres,
@@ -398,12 +398,12 @@ uncu.legajo.nombre ASC
                     reloj.agentes.area_id,
                     reloj.agentes.cuil,
                     reloj.agentes.ut,
-                    reloj.conf_areas.area,
-                    reloj.conf_dependencia.dependencia
+                   -- reloj.conf_areas.area,
+                   -- reloj.conf_dependencia.dependencia
                     FROM
                     reloj.agentes
-                    INNER JOIN reloj.conf_areas ON reloj.agentes.area_id = reloj.conf_areas.area_id
-                    INNER JOIN reloj.conf_dependencia ON reloj.agentes.dependencia_id = reloj.conf_dependencia.dependencia_id
+                   -- INNER JOIN reloj.conf_areas ON reloj.agentes.area_id = reloj.conf_areas.area_id
+                   -- INNER JOIN reloj.conf_dependencia ON reloj.agentes.dependencia_id = reloj.conf_dependencia.dependencia_id
                 WHERE reloj.agentes.ut ilike '" . $ut . "'";
 
         $resp = consultar_fuente($sql);

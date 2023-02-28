@@ -14,9 +14,9 @@ class comision extends toba_ci
 			$form->set_solo_lectura('id_motivo');
 			$form->set_solo_lectura('id_articulo');
 			$form->set_datos($this->dep('datos')->tabla('parte')->get());
-		} else {
-			$this->pantalla()->eliminar_evento('eliminar');
-		}
+		} // else {
+		//	$this->pantalla()->eliminar_evento('eliminar');
+		//}
 	}
 
 	function evt__formulario__alta($datos)
@@ -27,14 +27,15 @@ class comision extends toba_ci
 			$fecha=$datos['fecha'];    
 			$fecha_fin=date('d/m/Y',strtotime($datos['fecha_fin']));
 			$legajo=$datos['legajo'];
-			$superior=$datos['legajo_sup'];
-			$autoridad=$datos['leg_aut'];
+			$superior=$datos['superior'];
+			$autoridad=$datos['autoridad'];
 			$lugar=$datos['lugar'];
 			$catedra=$datos['catedra'];
 			$horario=$datos['horario'];
 			$obs=$datos['observaciones'].' ';
 			$motivo= $datos['motivo'];
 			$fuera = $datos['fuera'];
+
 			
 		
 			if ($fuera == 1) 
@@ -48,18 +49,18 @@ class comision extends toba_ci
 			
 			$horario_fin=$datos['horario_fin'];
 			
-		
+			//ei_arbol ($datos);
 			if (!empty ($datos['legajo'])){
 				$correo_agente = $this->dep('mapuche')->get_legajos_email($datos['legajo']);
 				$datos['agente']=$correo_agente[0]['descripcion'];
-			//ei_arbol ($correo_agente);
+		//	ei_arbol ($correo_agente);
 			}
 			if (!empty ($datos['superior'])){
-				$correo_sup = $this->dep('mapuche')->get_legajos_email($datos['legajo_sup']);
+				$correo_sup = $this->dep('mapuche')->get_legajos_email($datos['superior']);
 				$datos['superior']=$correo_sup[0]['descripcion'];
 			}
 			if (!empty ($datos['legajo_autoridad'])){
-				$correo_aut = $this->dep('mapuche')->get_legajos_email($datos['leg_aut']);
+				$correo_aut = $this->dep('mapuche')->get_legajos_email($datos['autoridad']);
 			$datos['autoridad']=$correo_aut[0]['descripcion'];
 			}
 			$this->s__datos = $datos;

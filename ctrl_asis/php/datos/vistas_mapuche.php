@@ -1184,7 +1184,7 @@ class vistas_mapuche extends toba_datos_relacion
         return $cargos_todos == "1" ? "uncu.legajo_cargos" : "uncu.legajo";
     }
 	static function get_legajos_email ($legajo){
-		
+	//	ei_arbol($legajo);
 		$sql = "SELECT  legajo||' - '||apellido||', '||nombre as descripcion , email
                     FROM uncu.legajo 
                     WHERE legajo = '$legajo'

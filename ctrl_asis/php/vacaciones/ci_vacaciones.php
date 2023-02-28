@@ -134,15 +134,34 @@ class ci_vacaciones extends ctrl_asis_ci
 		$filtro = $this->s__datos_filtro;
 		if (isset($filtro['id_catedra']['valor'])){
 			$id_catedra = $filtro['id_catedra']['valor'];
-			$sql = "SELECT * from reloj.inasistencias
-		where  estado ='A'
-		and id_catedra =$id_catedra 
-		order by id_inasistencia";
+			 if(isset($filtro['id_motivo']['valor'])){
+			 	$id_motivo = $filtro['id_motivo']['valor'];
+			 	$sql = "SELECT * from reloj.inasistencias
+				where  estado ='A'
+				and id_catedra =$id_catedra 
+				and id_motivo = $id_motivo
+				order by id_inasistencia";
+			 } else {
+			
+				$sql = "SELECT * from reloj.inasistencias
+				where  estado ='A'
+				and id_catedra =$id_catedra 
+				order by id_inasistencia";
+			}
 		} else {
-		$sql = "SELECT * from reloj.inasistencias
-		where  estado ='A' 
-		order by id_inasistencia";
-		}
+			
+			if(isset($filtro['id_motivo']['valor'])){
+			 	$id_motivo = $filtro['id_motivo']['valor'];
+			 	$sql = "SELECT * from reloj.inasistencias
+				where  estado ='A'
+				and id_motivo = $id_motivo
+				order by id_inasistencia";
+			} else {
+				$sql = "SELECT * from reloj.inasistencias
+				where  estado ='A' 
+				order by id_inasistencia";
+			}
+		}	
 		$datos= toba::db('ctrl_asis')->consultar($sql);
 		$cant= count($datos);
 		for($i=0;$i<$cant;$i++){

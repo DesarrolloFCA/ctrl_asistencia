@@ -17,7 +17,7 @@ class cn_resumen_asistencia_agentes extends ctrl_asis_cn
                 $i=0;
                 foreach($resp as $r)
                 {
-                    $r['agente_id'] = consultas_agentes::recuperar_id_x_legajo($r['legajo']);
+                  //  $r['agente_id'] = consultas_agentes::recuperar_id_x_legajo($r['legajo']);
                     $r['promedio'] = consultas_agentes::horas_promedio_por_periodo($r, $f);
                     $r['inasistencias'] = consultas_agentes::cant_ausentes_por_periodo($r, $f);
                     $r['inasistencias_p'] = consultas_agentes::cant_ausentes_por_periodo($r, datos_fijos::primer_ultimo(($f)));
