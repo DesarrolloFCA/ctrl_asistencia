@@ -751,7 +751,7 @@ if ($datos['dias_restantes'] <= 0){
 	$datos['dias_restantes'] = 0;
 }
  
-/*
+
 $mail = new phpmailer();
 $mail->IsSMTP();
 
@@ -780,16 +780,17 @@ $mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formulario Personal');
 //Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)
 $mail->AddAddress($correo, 'El Destinatario');
 //Definimos el tema del email
-$mail->Subject = 'Formulario de Vacaciones';
+
 
 //Para enviar un correo formateado en HTML lo cargamos con la siguiente función. Si no, puedes meterle directamente una cadena de texto.
 //$mail->MsgHTML(file_get_contents('correomaquetado.html'), dirname(ruta_al_archivo));
 //Y por si nos bloquean el contenido HTML (algunos correos lo hacen por seguridad) una versión alternativa en texto plano (también será válida para lectores de pantalla)
-$mail->IsHTML(true); //el mail contiene html*/
+$mail->IsHTML(true); //el mail contiene html
 
 
-/*	if ($datos['id_motivo'] == 30) {
+	if ($datos['id_motivo'] == 30) {
 		//$motivo = 'Razones Particulares con gose de haberes';
+		$mail->Subject = 'Formulario de Solicitud Razones Particulares';
 		$body = '<table>
 						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
 						Solicita Justificacion de Inasistencia por Razones Particulares a partir del dia '.$fecha.' hasta '.$hasta. '.
@@ -797,18 +798,43 @@ $mail->IsHTML(true); //el mail contiene html*/
 											
 			</table>';
 
-	} else
+	} else if ($datos['id_motivo'] == 35)
 	{
-		 
+		 $mail->Subject = 'Formulario de Licencia Anual';
 		//$motivo = 'Vacaciones'.$datos['anio'];
 		$body = '<table>
 						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita Vacaciones correspondiente al  '.$datos['anio'].' a partir del dia '.$fecha.'hasta '.$hasta. '. <br/>
-						Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. 'Ud. cuenta con '.$datos['dias_restantes'].' dias de vacaciones 
-						pendientes.
+						Solicita la licencia anual correspondiente al  '.$datos['anio'].' a partir del dia '.$fecha.'hasta '.$hasta. '. <br/>
+						Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
 											
 			</table>';
+	} else if ($datos['id_motivo'] == 55)
+	{
+		$mail->Subject = 'Formulario de Adelanto de Licencia Anual';
+		$body = '<table>
+
+				El/la agente <b>'.$datos['agente_ayn'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
+				Solicita adelanto de licencia anual correspondiente al' .$datos['anio']. ' a partir del dia'.$fecha. ' hasta '.$hasta. '<br/>
+				Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. 'Estos días de adelanto que ud ha solicitado,
+				serán restados del total de vacaciones correspondientes al año en curso
+			<table/>';
+
+
+	} else if ($datos ['id_motivo'] == 57)
+	{
+		$mail->Subject = 'Formulario de Dias Pendientes de la Licencia Anual';
+		$body = '<table>
+
+				El/la agente <b>'.$datos['agente_ayn'].'</b> perteneciente a <b>'.$datos['catedra'].'<b> <br/>
+				Solicita los dias pendientes de la licencia anual correspondiente al' .$datos['anio']. ' a partir del dia'.$fecha. ' hasta '.$hasta. '<br/>
+				Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones'].  '<br/>
+				Ud. cuenta con '.$datos['dias_restantes'].' dias de vacaciones pendientes.
+			<table/>';
+
+
 	}
+
+
 	
 
 	; //date("d/m/y",$fecha)

@@ -111,7 +111,7 @@ class ci_comision_de_servicio extends ctrl_asis_ci
 	//ei_arbol($datos);
 	
 		//$id = ($this->s__id_comision);
-		$cant = count($datos); // Ver para terminar
+		$cant = count($datos); 
 		for($i=0;$i<$cant;$i++){
 			$id= $datos[$i]['id_comision'];
 			$a_sup=$datos[$i]['autoriza_sup'];
@@ -233,6 +233,20 @@ class ci_comision_de_servicio extends ctrl_asis_ci
     return $diferencia->format("%y");
 	}
 
-}
+	//-----------------------------------------------------------------------------------
+	//---- JAVASCRIPT -------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------
 
+	function extender_objeto_js()
+	{
+		echo "
+		//---- Eventos ---------------------------------------------
+		
+		{$this->objeto_js}.evt__guardar = function()
+		{
+		}
+		";
+	}
+
+}
 ?>

@@ -45,7 +45,7 @@ class ci_vacaciones extends ctrl_asis_ci
 				$legajo=$datos[$i]['legajo'];
 				$ayn= $this->dep('mapuche')->get_legajos_autoridad($legajo);
 				$apellido=$ayn[0]['apellido'];
-				$nombre= $ayn[0]['nombre'];	
+				$nombre= $ayn[0]['nombre'];    
 				$fecha_inicio = $datos[$i]['fecha_inicio'];
 				$fecha_fin =$datos[$i]['fecha_fin'];
 				$auto_aut = $datos[$i]['auto_aut'];
@@ -94,18 +94,18 @@ class ci_vacaciones extends ctrl_asis_ci
 					$id_articulo=$formula[$i]['id_articulo'];
 					$sexo=$this->dep('mapuche')->get_tipo_sexo($legajo, null);
 					$sql = "INSERT INTO reloj.parte(
-						 legajo, edad, fecha_alta, usuario_alta, estado, fecha_inicio_licencia, dias, cod_depcia, domicilio, localidad, agrupamiento, fecha_nacimiento,
-	  					apellido, nombre, estado_civil, observaciones, id_decreto, id_motivo, id_articulo, tipo_sexo,usuario_cierre,fecha_cierre)
+							legajo, edad, fecha_alta, usuario_alta, estado, fecha_inicio_licencia, dias, cod_depcia, domicilio, localidad, agrupamiento, fecha_nacimiento,
+							apellido, nombre, estado_civil, observaciones, id_decreto, id_motivo, id_articulo, tipo_sexo,usuario_cierre,fecha_cierre)
 						VALUES ($legajo, $edad, '$fecha_alta', $usuario_alta, '$estado', '$fecha_ini', $dias, '04', '$domicilio', '$localidad', '$agrupamiento', 
-						'$fecha_nacimiento','$apellido', '$nombre',	'$estado_civil', '$observaciones', $id_decreto, $id_motivo,$id_articulo,'$tipo_sexo','$usuario_cierre','$fecha_cierre');";
+						'$fecha_nacimiento','$apellido', '$nombre',    '$estado_civil', '$observaciones', $id_decreto, $id_motivo,$id_articulo,'$tipo_sexo','$usuario_cierre','$fecha_cierre');";
 				toba::db('ctrl_asis')->ejecutar($sql);
 				
 				
 		
 				$this->enviar_correos($correo[0]['email'],$datos[$i]['aprobado'] );
 				$sql="DELETE from reloj.inasistencias
-					  WHERE id_inasistencia =$id_inasistencia";
-				toba::db('ctrl_asis')->ejecutar($sql);		
+						WHERE id_inasistencia =$id_inasistencia";
+				toba::db('ctrl_asis')->ejecutar($sql);        
 				} else {
 					toba::notificacion()->agregar('Avise a la autoridad que falta su aprobacion, si no estan aprobadas las vacaciones coloque cerrado y no marque aprobado', "info");
 				}
@@ -116,14 +116,14 @@ class ci_vacaciones extends ctrl_asis_ci
 					SET estado='C', observaciones = '$observaciones' 
 					WHERE id_inasistencia = $id_inasistencia";
 
-					toba::db('ctrl_asis')->ejecutar($sql);					
+					toba::db('ctrl_asis')->ejecutar($sql);                    
 
 				
 		
 				}
 
 			}
-		  }	
+			}    
 		}
 		//$this->dep('datos')->procesar_filas($datos);
 	}
@@ -134,14 +134,14 @@ class ci_vacaciones extends ctrl_asis_ci
 		$filtro = $this->s__datos_filtro;
 		if (isset($filtro['id_catedra']['valor'])){
 			$id_catedra = $filtro['id_catedra']['valor'];
-			 if(isset($filtro['id_motivo']['valor'])){
-			 	$id_motivo = $filtro['id_motivo']['valor'];
-			 	$sql = "SELECT * from reloj.inasistencias
+				if(isset($filtro['id_motivo']['valor'])){
+					$id_motivo = $filtro['id_motivo']['valor'];
+					$sql = "SELECT * from reloj.inasistencias
 				where  estado ='A'
 				and id_catedra =$id_catedra 
 				and id_motivo = $id_motivo
 				order by id_inasistencia";
-			 } else {
+				} else {
 			
 				$sql = "SELECT * from reloj.inasistencias
 				where  estado ='A'
@@ -151,8 +151,8 @@ class ci_vacaciones extends ctrl_asis_ci
 		} else {
 			
 			if(isset($filtro['id_motivo']['valor'])){
-			 	$id_motivo = $filtro['id_motivo']['valor'];
-			 	$sql = "SELECT * from reloj.inasistencias
+					$id_motivo = $filtro['id_motivo']['valor'];
+					$sql = "SELECT * from reloj.inasistencias
 				where  estado ='A'
 				and id_motivo = $id_motivo
 				order by id_inasistencia";
@@ -161,7 +161,7 @@ class ci_vacaciones extends ctrl_asis_ci
 				where  estado ='A' 
 				order by id_inasistencia";
 			}
-		}	
+		}    
 		$datos= toba::db('ctrl_asis')->consultar($sql);
 		$cant= count($datos);
 		for($i=0;$i<$cant;$i++){
@@ -185,8 +185,8 @@ class ci_vacaciones extends ctrl_asis_ci
 
 	$hasta=date('d/m/Y',strtotime($datos['fecha_fin'] ) );
 
-
-//$catedra = $this->			
+$datos ['agente_ayn'] = $datos['apellido']. ', '.$datos['nombre'];
+//$catedra = $this->            
 
 // ei_arbol ($datos);              
 $mail = new phpmailer();
@@ -223,43 +223,47 @@ $mail->Subject = 'Solicitud de vacaciones';
 $mail->IsHTML(true); //el mail contiene html*/
 
 	
-//	 ei_arbol($fecha,$hasta);
+//     ei_arbol($fecha,$hasta);
 
 	if ($aprobado == 1) {
 		if ($datos['id_motivo'] == 30) {
+		$mail->Subject = 'Solicitud de Razones Particulares';	
 		//$motivo = 'Razones Particulares con gose de haberes';
 			$body = '<table>
 						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
 						Solicita Justificacion de Inasistencia por Razones Particulares a partir del dia '.$fecha.' hasta '.$hasta. '.
-						 Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
+							Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
 											
 				</table>';
 
 		} else
 		{
-		 
+			
 		//$motivo = 'Vacaciones'.$datos['anio'];
+			$mail->Subject = 'Solicitud de vacaciones';
 			$body = '<table>
 						Sr/a <b>'.$datos['nombre'].' '.$datos['apellido'].'</b>:
 						Su solicitud de vacaciones correspondiente a '.$datos['anio']. ' ha sido otorgada la cual sera efectiva entre '.$fecha.' y debe reintegrarse el dia'. $hasta.' .<br/>
-						Esperamos que disfrute sus vacaciones											
+						Esperamos que disfrute sus vacaciones                                            
 			</table>';
 		}
 	}else if ($aprobado == 0) {
 		
 		if ($datos['id_motivo'] == 30) {
 		//$motivo = 'Razones Particulares con gose de haberes';
+			$mail->Subject = 'Solicitud de Razones Particulares';	
 			$body = '<table>
 						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
 						Solicita Justificacion de Inasistencia por Razones Particulares a partir del dia '.$fecha.' hasta '.$hasta. '.
-						 Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
+							Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
 											
 				</table>';
 
 		} else
 		{
-		 
+			
 		//$motivo = 'Vacaciones'.$datos['anio'];
+			$mail->Subject = 'Solicitud de vacaciones';
 			$body = '<table>
 						Sr/a <b>'.$datos['nombre'].' '.$datos['apellido'].'</b>:
 						Su solicitud de vacaciones correspondiente a  '.$datos['anio']. 'ha sido rechazada de acuerdo a las siguientes observaciones '.$datos['observaciones'].'.
