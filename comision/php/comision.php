@@ -64,14 +64,14 @@ class comision extends toba_ci
 			$datos['autoridad']=$correo_aut[0]['descripcion'];
 			}
 			$this->s__datos = $datos;
-			/*if (!empty ($datos['legajo'])){
+			if (!empty ($datos['legajo'])){
 			$this->enviar_correos($correo_agente[0]['email']);
 		
 			}
 			if (!empty ($datos['legajo_sup'])){
 				$this->enviar_correos_sup($correo_sup[0]['email']);
 			}
-			if (!empty ($datos['legajo_aut'])){
+			/*if (!empty ($datos['legajo_aut'])){
 			$this->enviar_correos_sup($correo_aut[0]['email']);
 			}*/
 		
@@ -124,28 +124,32 @@ $mail->Port       = 587;
 $mail->SMTPSecure = 'tls';
 //Tenemos que usar gmail autenticados, así que esto a TRUE
 $mail->SMTPAuth   = true;
+
 //Definimos la cuenta que vamos a usar. Dirección completa de la misma
-$mail->Username   = "mmolina@fca.uncu.edu.ar";
+$mail->Username   = "formularios_personal@fca.uncu.edu.ar";
 //Introducimos nuestra contraseña de gmail
-$mail->Password   = "cebkeqtiuonnpipw";
+$mail->Password   = "djxgidwlytoydsow";
 //Definimos el remitente (dirección y, opcionalmente, nombre)
-$mail->SetFrom('mmolina@fca.uncu.edu.ar', 'Martin Molina');
+$mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formulario Personal');
 //Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
-$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
+
+//$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
 //Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)
-$mail->AddAddress('molina.martin@gmail.com', 'El Destinatario');
+$mail -> AddAddress('ebermejillo@fca.uncu.edu.ar', 'Tester');
+//$mail->AddAddress($correo, 'El Destinatario'); //Descomentar linea cuando pase a produccion
 //Definimos el tema del email
-$mail->Subject = 'Esto es un correo de prueba';
+$mail->Subject = 'Formulario Comision de Servicio';
 //Para enviar un correo formateado en HTML lo cargamos con la siguiente función. Si no, puedes meterle directamente una cadena de texto.
 //$mail->MsgHTML(file_get_contents('correomaquetado.html'), dirname(ruta_al_archivo));
 //Y por si nos bloquean el contenido HTML (algunos correos lo hacen por seguridad) una versión alternativa en texto plano (también será válida para lectores de pantalla)
 $mail->IsHTML(true); //el mail contiene html
 	$fecha=date('d/m/Y',strtotime($datos['fecha']) );
+	$fecha_fin =date('d/m/Y',strtotime($datos['fecha_fin']));
 	
 	$body = '<table>
 						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita comision de servicio con motivo de '.$datos['motivo'].' a realizarse el dia '.$fecha.' 
-						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
+						Solicita Comision de Servicio con motivo de '.$datos['motivo'].' a realizarse el dia '.$fecha.' hasta ' .$fecha_fin. '
+						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].'hasta la hora '.$datos['horario_fin'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
 											
 			</table>'; //date("d/m/y",$fecha)
 $mail->Body = $body;
@@ -184,17 +188,19 @@ $mail->SMTPSecure = 'tls';
 //Tenemos que usar gmail autenticados, así que esto a TRUE
 $mail->SMTPAuth   = true;
 //Definimos la cuenta que vamos a usar. Dirección completa de la misma
-$mail->Username   = "mmolina@fca.uncu.edu.ar";
+$mail->Username   = "formularios_personal@fca.uncu.edu.ar";
 //Introducimos nuestra contraseña de gmail
-$mail->Password   = "cebkeqtiuonnpipw";
+$mail->Password   = "djxgidwlytoydsow";
 //Definimos el remitente (dirección y, opcionalmente, nombre)
-$mail->SetFrom('mmolina@fca.uncu.edu.ar', 'Martin Molina');
+$mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formulario Personal');
 //Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
-$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
+
+//$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
 //Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)
-$mail->AddAddress('ebermejillo@fca.uncu.edu.ar', 'El Destinatario');
+$mail -> AddAddress('ebermejillo@fca.uncu.edu.ar', 'Tester');
+//$mail->AddAddress($correo, 'El Destinatario'); //Descomentar linea cuando pase a produccion
 //Definimos el tema del email
-$mail->Subject = 'Esto es un correo de prueba';
+$mail->Subject = 'Formulario Comision de Servicio- Agente';
 //Para enviar un correo formateado en HTML lo cargamos con la siguiente función. Si no, puedes meterle directamente una cadena de texto.
 //$mail->MsgHTML(file_get_contents('correomaquetado.html'), dirname(ruta_al_archivo));
 //Y por si nos bloquean el contenido HTML (algunos correos lo hacen por seguridad) una versión alternativa en texto plano (también será válida para lectores de pantalla)
@@ -203,8 +209,8 @@ $mail->IsHTML(true); //el mail contiene html
 	
 	$body = '<table>
 						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita comision de servicio con motivo de '.$datos['motivo'].' a realizarse el dia '.$fecha.' 
-						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '</br>
+						Solicita Comision de Servicio con motivo de '.$datos['motivo'].' a realizarse el dia '.$fecha.' hasta ' .$fecha_fin. '
+						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].'hasta la hora '.$datos['horario_fin'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '</br>
 						Por favor haga <a href="http://172.22.8.49/ctrl_asis/1.0">click aqui
 											
 			</table>'; //date("d/m/y",$fecha)
