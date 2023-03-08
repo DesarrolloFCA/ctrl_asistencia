@@ -172,7 +172,7 @@ class ci_articulo extends comision_ci
 				
 				
 				if ($id_motivo == 30) { //Razones Particulares
-							
+						if (date("Y") == $anio){	
 							if($dias<=2){
 							$agente [$i]['articulo'] = null;
 							$agente [$i]['id_decreto'] = 4;
@@ -181,9 +181,15 @@ class ci_articulo extends comision_ci
 							WHERE legajo = $legajo	AND id_motivo = 30	AND  DATE_PART('month', fecha_inicio_licencia) = $m
 							and DATE_PART('year', fecha_inicio_licencia) = $anio";
 							$temp = toba::db('comision')->consultar($sql);
+							$sql = "SELECT - COUNT(*) + 2 pendientes_aproba
+								FROM reloj.inasistencias
+								Where legajo = $legajo AND id_motivo=30 AND extract (month from fecha_inicio)=$m And extract(year from fecha_inicio) = $anio";
+
+							$pendiente = toba::db('comision')->consultar($sql);
+
 							
-							//ei_arbol($temp);
-							
+							$temp[0]['dias_restantes'] = $temp[0]['dias_restantes']	+ $pendiente[0]['pendientes_aproba'];	
+							//ei_arbol($temp);						
 								if(!is_null($temp)&&($temp[0]['dias_restantes'] >= 0 && $temp[0]['dias_restantes']<=2 )){
 									$sql="SELECT -SUM(dias) +6 dias_restantes 
 									FROM reloj.parte
@@ -219,7 +225,13 @@ class ci_articulo extends comision_ci
 								toba::notificacion()->agregar('Ud ha excedido la cantidad de dias recuerde que las razones particulares son entre 1 y 2 dias' , "info");
 								$bandera_nodo = false;	
 							}
-					//ei_arbol($agente);			
+					//ei_arbol($agente);
+					} else {
+						toba::notificacion()->agregar('Introduzca el corriente año. Gracias ', "info");
+
+									$bandera_nodo = false;
+
+					}			
 							 
 				} elseif ($id_motivo == 35) {
 							
@@ -418,6 +430,8 @@ class ci_articulo extends comision_ci
 			} else {
 				
 				if ($id_motivo == 30) {
+							
+						if (date("Y") == $anio){
 							if ($dias <= 2){
 							$agente [$i]['articulo'] = null;
 							$agente [$i]['id_decreto'] = 8;
@@ -427,6 +441,14 @@ class ci_articulo extends comision_ci
 							AND id_motivo = 30
 							AND  DATE_PART('month', fecha_inicio_licencia) = $m";
 							$temp = toba::db('comision')->consultar($sql);
+							$sql = "SELECT - COUNT(*) + 2 pendientes_aproba
+								FROM reloj.inasistencias
+								Where legajo = $legajo AND id_motivo=30 AND extract (month from fecha_inicio)=$m And extract(year from fecha_inicio) = $anio";
+
+							$pendiente = toba::db('comision')->consultar($sql);
+
+							
+							$temp[0]['dias_restantes'] = $temp[0]['dias_restantes']	+ $pendiente[0]['pendientes_aproba'];	
 								if(!is_null($temp)&&($temp[0]['dias_restantes'] >= 0 && $temp[0]['dias_restantes']<=2 )){
 									$sql="SELECT -SUM(dias) +6 dias_restantes 
 									FROM reloj.parte
@@ -453,6 +475,12 @@ class ci_articulo extends comision_ci
 							} else {
 								toba::notificacion()->agregar('Ud ha excedido la cantidad de dias recuerde que las razones particulares son entre 1 y 2 dias' , "info");								
 							}
+						} else {
+						toba::notificacion()->agregar('Introduzca el corriente año. Gracias ', "info");
+
+									$bandera_nodo = false;
+
+						}		
 
 				} elseif ($id_motivo == 35) {
 							
