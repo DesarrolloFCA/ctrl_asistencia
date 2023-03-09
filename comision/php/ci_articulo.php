@@ -176,21 +176,36 @@ class ci_articulo extends comision_ci
 							if($dias<=2){
 							$agente [$i]['articulo'] = null;
 							$agente [$i]['id_decreto'] = 4;
-							$sql = "SELECT -SUM(dias) + 2 dias_restantes 
+							
+
+							$sql = "SELECT -SUM(dias) dias_restantes 
 									FROM reloj.parte
 							WHERE legajo = $legajo	AND id_motivo = 30	AND  DATE_PART('month', fecha_inicio_licencia) = $m
 							and DATE_PART('year', fecha_inicio_licencia) = $anio";
-							$temp = toba::db('comision')->consultar($sql);
-							$sql = "SELECT - COUNT(*) + 2 pendientes_aproba
+							$parte = toba::db('comision')->consultar($sql);
+							$sql = "SELECT fecha_inicio, fecha_fin
 								FROM reloj.inasistencias
 								Where legajo = $legajo AND id_motivo=30 AND extract (month from fecha_inicio)=$m And extract(year from fecha_inicio) = $anio";
 
 							$pendiente = toba::db('comision')->consultar($sql);
+							 $lim = count($pendiente);
+							 $dias_tomados = 0;
+							 for ($i=0; $i<=$lim; $i++){
+							 	$fecha_inicio = $pendiente[$i]['fecha_inicio'];
+       								$fechaentera1 =strtotime($fecha_inicio);
+								$fecha_inicio = date_create(date("Y-m-d",$fechaentera1)); 
+								$fecha_fin = $pendiente[$i]['fecha_fin'];
+       								$fechaentera1 =strtotime($fecha_fin);
+								$fecha_fin = date_create(date("Y-m-d",$fechaentera1)); 
+								$diferencia = date_diff($fecha_inicio , $fecha_fin);
+								$dias_tomados = $dias_tomados + $diferencia;
+
+							 }
 
 							
-							$temp[0]['dias_restantes'] = $temp[0]['dias_restantes']	+ $pendiente[0]['pendientes_aproba'];	
+							$temp[0]['dias_restantes'] = $parte[0]['dias_restantes']+ $dias_tomados + $dias;	
 							//ei_arbol($temp);						
-								if(!is_null($temp)&&($temp[0]['dias_restantes'] >= 0 && $temp[0]['dias_restantes']<=2 )){
+								if(!is_null($temp)&&($temp[0]['dias_restantes'] > 0 && $temp[0]['dias_restantes']<=2 )){
 									$sql="SELECT -SUM(dias) +6 dias_restantes 
 									FROM reloj.parte
 									WHERE legajo = $legajo
@@ -210,10 +225,17 @@ class ci_articulo extends comision_ci
 										toba::notificacion()->agregar('Ud ha excedido la cantidad anual de razones particulares este año cuenta con '.$temp[0]['dias_restantes'] .' días', "info");
 										$bandera= false;
 										}	
-								} else if($temp[0]['dias_restantes']<=0  )
+								} else if($temp[0]['dias_restantes']<=0 || $temp[0]['dias_restantes']> 2 )
 								{
 								
 								//ei_arbol($agente);	
+									$temp[0]['dias_restantes'] = $parte[0]['dias_restantes'] + $dias_tomados -2;
+									if ($temp[0]['dias_restantes'] >= 0 ) {
+										$temp[0]['dias_restantes'] = 0;
+									} else {
+										$temp[0]['dias_restantes'] =abs($temp[0]['dias_restantes']);
+									}
+
 								toba::notificacion()->agregar('Ud ha excedido la cantidad mensual de razones particulares este mes cuenta con '.$temp[0]['dias_restantes'] .' días', "info");
 
 									$bandera_nodo = false;
@@ -440,15 +462,28 @@ class ci_articulo extends comision_ci
 							WHERE legajo = $legajo
 							AND id_motivo = 30
 							AND  DATE_PART('month', fecha_inicio_licencia) = $m";
-							$temp = toba::db('comision')->consultar($sql);
-							$sql = "SELECT - COUNT(*) + 2 pendientes_aproba
+							$parte = toba::db('comision')->consultar($sql);
+							$sql = "SELECT fecha_inicio, fecha_fin
 								FROM reloj.inasistencias
 								Where legajo = $legajo AND id_motivo=30 AND extract (month from fecha_inicio)=$m And extract(year from fecha_inicio) = $anio";
 
 							$pendiente = toba::db('comision')->consultar($sql);
+							 $lim = count($pendiente);
+							 $dias_tomados = 0;
+							 for ($i=0; $i<=$lim; $i++){
+							 	$fecha_inicio = $pendiente[$i]['fecha_inicio'];
+       								$fechaentera1 =strtotime($fecha_inicio);
+								$fecha_inicio = date_create(date("Y-m-d",$fechaentera1)); 
+								$fecha_fin = $pendiente[$i]['fecha_fin'];
+       								$fechaentera1 =strtotime($fecha_fin);
+								$fecha_fin = date_create(date("Y-m-d",$fechaentera1)); 
+								$diferencia = date_diff($fecha_inicio , $fecha_fin);
+								$dias_tomados = $dias_tomados + $diferencia;
+
+							 }
 
 							
-							$temp[0]['dias_restantes'] = $temp[0]['dias_restantes']	+ $pendiente[0]['pendientes_aproba'];	
+							$temp[0]['dias_restantes'] = $parte[0]['dias_restantes']+ $dias_tomados + $dias;
 								if(!is_null($temp)&&($temp[0]['dias_restantes'] >= 0 && $temp[0]['dias_restantes']<=2 )){
 									$sql="SELECT -SUM(dias) +6 dias_restantes 
 									FROM reloj.parte
@@ -466,7 +501,16 @@ class ci_articulo extends comision_ci
 									if(!is_null($temp[0]['dias_restantes'])&&!($temp[0]['dias_restantes']> 0 &&$temp[0]['dias_restantes'] < 6) ){
 									toba::notificacion()->agregar('Ud ha excedido la cantidad anual de razones particulares este año cuenta con '.$temp[0]['dias_restantes'] .' días', "info");
 									} 
-								} else if(!is_null($temp)){
+								} else if($temp[0]['dias_restantes']<=0 || $temp[0]['dias_restantes']> 2 )
+								{
+								
+								//ei_arbol($agente);	
+									$temp[0]['dias_restantes'] = $parte[0]['dias_restantes'] + $dias_tomados -2;
+									if ($temp[0]['dias_restantes'] >= 0 ) {
+										$temp[0]['dias_restantes'] = 0;
+									} else {
+										$temp[0]['dias_restantes'] =abs($temp[0]['dias_restantes']);
+									}
 									
 								toba::notificacion()->agregar('Ud ha excedido la cantidad mensual de razones particulares este mes cuenta con '.$temp[0]['dias_restantes'] .' días', "info");
 								}
