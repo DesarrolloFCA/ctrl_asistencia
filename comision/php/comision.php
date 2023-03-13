@@ -31,6 +31,10 @@ class comision extends toba_ci
 			$autoridad=$datos['autoridad'];
 			$lugar=$datos['lugar'];
 			$catedra=$datos['catedra'];
+			$sql= "SELECT nombre_catedra FROM reloj.catedras 
+				Where id_catedra =$catedra";
+			$a = toba::db('comision')->consultar($sql);
+			$datos['catedra']= $a[0]['nombre_catedra'];
 			$horario=$datos['horario'];
 			$obs=$datos['observaciones'].' ';
 			$motivo= $datos['motivo'];
@@ -148,8 +152,8 @@ $mail->IsHTML(true); //el mail contiene html
 	
 	$body = '<table>
 						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita Comision de Servicio con motivo de '.$datos['motivo'].' a realizarse el dia '.$fecha.' hasta ' .$fecha_fin. '
-						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].'hasta la hora '.$datos['horario_fin'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
+						Solicita Comision de Servicio con motivo de '.$datos['motivo'].' a realizarse el dia '.$fecha.' hasta el dia ' .$fecha_fin. '
+						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].' hasta la hora '.$datos['horario_fin'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
 											
 			</table>'; //date("d/m/y",$fecha)
 $mail->Body = $body;
@@ -209,8 +213,8 @@ $mail->IsHTML(true); //el mail contiene html
 	
 	$body = '<table>
 						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita Comision de Servicio con motivo de '.$datos['motivo'].' a realizarse el dia '.$fecha.' hasta ' .$fecha_fin. '
-						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].'hasta la hora '.$datos['horario_fin'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '</br>
+						Solicita Comision de Servicio con motivo de '.$datos['motivo'].' a realizarse el dia '.$fecha.' hasta el dia' .$fecha_fin. '
+						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].' hasta la hora '.$datos['horario_fin'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '</br>
 						Por favor haga <a href="http://172.22.8.49/ctrl_asis/1.0">click aqui
 											
 			</table>'; //date("d/m/y",$fecha)
