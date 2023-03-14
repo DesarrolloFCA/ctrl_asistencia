@@ -258,7 +258,7 @@ class ci_articulo extends comision_ci
 				} elseif ($id_motivo == 35) {
 							
 					//ei_arbol($agente);
-							$agente[$i]['articulo'] = null;
+							$agente[$i]['articulo'] = 0;
 							$agente [$i]['id_decreto'] = 4;
 							//ei_arbol ($agente);
 							/*$sql= "SELECT count(*) tiene from reloj.vacaciones_restantes
@@ -455,7 +455,7 @@ class ci_articulo extends comision_ci
 							
 						if (date("Y") == $anio){
 							if ($dias <= 2){
-							$agente [$i]['articulo'] = null;
+							$agente [$i]['articulo'] = 0;
 							$agente [$i]['id_decreto'] = 8;
 							$sql = "SELECT -SUM(dias) +2 dias_restantes 
 									FROM reloj.parte
@@ -672,6 +672,7 @@ class ci_articulo extends comision_ci
 		//$fecha=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] ) );
 		
 			$fecha_inicio =$fecha ->format("Y-m-d");
+			$dias = $dias - 1;
 			$dias_to= $dias. ' days';
 			$hasta = date_add($fecha , date_interval_create_from_date_string($dias_to));
 			$hasta =$hasta ->format("Y-m-d"); 
@@ -707,9 +708,16 @@ class ci_articulo extends comision_ci
 			//ei_arbol($ya_tomo,$bandera_nodo);
 				if ($ya_tomo == 0){
  					if($bandera_nodo ){
+ 						if ($id_motivo != 30){
  						$sql= "INSERT INTO reloj.inasistencias(
 	 					legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto, id_articulo)	VALUES (
 	 					$usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto, $articulo);";
+	 					} else 
+	 					{
+	 						$sql= "INSERT INTO reloj.inasistencias(
+	 					legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto)	VALUES (
+	 					$usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto);";
+	 					}
 
 
 

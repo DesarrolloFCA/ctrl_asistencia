@@ -9,6 +9,9 @@ class dt_catedras extends ctrl_asis_datos_tabla
 
 
 
+
+
+
 	function get_catedra ($catedra)
 	{
 		$sql = "SELECT  nombre_catedra,id_departamento FROM catedras where id_catedra = $catedra";

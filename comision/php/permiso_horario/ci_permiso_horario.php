@@ -11,8 +11,8 @@ class ci_permiso_horario extends comision_ci
 		ei_arbol ($datos);
 		//$this->dep('datos')->nueva_fila($datos);
 
-		$anio= date('y');
-		$legajo = $datos('legajo');
+		$anio= date('Y');
+		$legajo = $datos['legajo'];
 		$sql = "SELECT count(*) cantidad 
 				FROM reloj.permisos_horarios
 				WHERE legajo = $legajo
@@ -24,7 +24,7 @@ class ci_permiso_horario extends comision_ci
 		$this->dep('datos')->tabla('permiso_horarios')->nueva_fila($datos);
 		$this->dep('datos')->sincronizar();
 		$this->dep('datos')->resetear();
-		$catedra=$datos['catedra'];
+		$catedra=$datos['id_catedra'];
 			$sql= "SELECT nombre_catedra FROM reloj.catedras 
 				Where id_catedra =$catedra";
 			$a = toba::db('comision')->consultar($sql);
@@ -44,6 +44,8 @@ class ci_permiso_horario extends comision_ci
 			$this->enviar_correos($correo_agente[0]['email']);
 		
 			}
+		toba::notificacion()->agregar('Su pedido de Permiso Horario sera tramitado a la brevedad', 'info');
+
 		} else 
 		{
 			toba::notificacion()->agregar('Ud. ha excedido la cantidad de permisos excepcionales que se otorgan por a&ntilde;o', 'info');

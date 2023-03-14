@@ -12,5 +12,8 @@ class dt_agentes_mail extends ctrl_asis_datos_tabla
 		return toba::db('ctrl_asis')->consultar($sql);
 	}
 
+
+
+
 }
 ?>

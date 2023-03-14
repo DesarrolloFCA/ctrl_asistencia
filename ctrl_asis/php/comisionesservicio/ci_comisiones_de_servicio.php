@@ -34,14 +34,24 @@ class ci_comisiones_de_servicio extends ctrl_asis_ci
 	function evt__formulario__modificacion($datos)
 	{
 		//$this->dep('datos')->procesar_filas($datos);
-		$cant = count($datos); 
+		$cant = count($datos);
+		$fecha_cierre =date("Y-m-d H:i:s");
+		ei_arbol($datos); 
+		$entro = 1;
 		for($i=0;$i<$cant;$i++){
 			if ($datos[$i]['apex_ei_analisis_fila'] == 'M' ){
 			/*$sql = "UPDATE reloj.comision
 					Set autoriza_sup = $a_sup, autoriza_aut = $a_aut, observaciones = '$obs'
 					where id_comision = $id";
 			toba::db('ctrl_asis')->ejecutar ($sql);    */
+			
 				$id= $datos[$i]['id_comision'];
+				$legajo = $datos[$i]['legajo'];
+				if ($datos[$i]['pasada']){
+					$estado = 'C';
+				} else {
+					$estado = 'A';
+				}
 				$a_sup=$datos[$i]['autoriza_sup'];
 				$a_aut=$datos[$i]['autoriza_aut'];
 				$obs = $datos[$i]['observaciones'];
@@ -65,12 +75,15 @@ class ci_comisiones_de_servicio extends ctrl_asis_ci
 				$datos_correo ['horario_fin'] = $hora_fin;
 				$datos_correo ['lugar'] = $lugar;
 				$datos_correo ['motivo'] = $motivo;
+				
 				$this->s__datos_correo=$datos_correo;
 				$sql= "SELECT email from reloj.agentes_mail
 				where legajo=$legajo";
 				$correo = toba::db('ctrl_asis')->consultar($sql);
-				if ($autoriza_aut or $autoriza_sup){
-					if ($datos[$i]['pasada']) {
+
+				if ($datos[$i]['pasada'] and ($datos[$i]['autoriza_sup'] or $datos[$i]['autoriza_aut'])) {
+					 ei_arbol ($entro);
+					 $entro = $entro++;
 						$edad = $this->dep('mapuche')->get_edad($legajo, null);
 						$direccion = $this->dep('mapuche')->get_datos_agente($filtro);
 						$domicilio = $direccion [0]['calle'] ||' '|| $direccion[0]['numero'];
@@ -82,42 +95,55 @@ class ci_comisiones_de_servicio extends ctrl_asis_ci
 						$fechaentera1 =strtotime($fecha_inicio);
 					//$january = new DateTime($datos[$i]['fecha_fin']);
 					//$february = new DateTime($datos[$i]['fecha_fin']);
-						$fecha_inicio = date_create(date("Y-m-d",$fechaentera1)); 
+						$fecha_inicio1 = date_create(date("Y-m-d",$fechaentera1)); 
 						$hoy=date_create(date("Y-m-d",strtotime($fecha_fin)));
 					//$dia = $february->diff($january);
-						$dia = date_diff($fecha_inicio , $hoy);
-						$dias = $dia->format('%a');
+						$dia = date_diff($fecha_inicio1 , $hoy);
+						$dias = $dia->format('%a') +1 ;
 					//ei_arbol($dias);
-						$fecha_ini=$fecha_inicio;
+						$fecha_ini=$datos[$i]['fecha'];
+					//	ei_arbol($fecha_ini);
 						$estado_civil = $direccion[0]['estado_civil'];
 						$id_decreto = 5;
 						$id_articulo = 104;
 						$id_motivo = 56;
 						$sexo=$this->dep('mapuche')->get_tipo_sexo($legajo, null);
+						
 						$sql = "INSERT INTO reloj.parte(
 							legajo, edad, fecha_alta, usuario_alta, estado, fecha_inicio_licencia, dias, cod_depcia, domicilio, localidad, agrupamiento, fecha_nacimiento,
 							apellido, nombre, estado_civil, observaciones, id_decreto, id_motivo, id_articulo, tipo_sexo,usuario_cierre,fecha_cierre)
-							VALUES ($legajo, $edad, '$fecha_alta', $usuario_alta, '$estado', '$fecha_ini', $dias, '04', '$domicilio', '$localidad', '$agrupamiento', 
-							'$fecha_nacimiento','$apellido', '$nombre',    '$estado_civil', '$observaciones', $id_decreto, $id_motivo,$id_articulo,'$tipo_sexo','$usuario_cierre','$fecha_cierre');";
-						toba::db('ctrl_asis')->ejecutar($sql);
-						$this->enviar_correos($correo[0]['email'],true);
-					}	
-				} else {
-					if ($datos[$i]['pasada']) {
-						$sql= "UPDATE reloj.comision
-								SET observaciones = $obs, pasada = true 
+							VALUES ($legajo, $edad, '$fecha_alta', '$usuario_alta', '$estado', '$fecha_ini', $dias, '04', '$domicilio', '$localidad', '$agrupamiento', '$fecha_nacimiento',
+							'$apellido', '$nombre',    '$estado_civil', 
+							'$observaciones',
+							 $id_decreto,
+							  $id_motivo,
+							  $id_articulo,'$tipo_sexo','$usuario_cierre','$fecha_cierre');";
+					//	toba::db('ctrl_asis')->ejecutar($sql);
+							$sql1= "UPDATE reloj.comision
+								SET observaciones = '$obs', pasada = true 
 								WHERE id_comision = $id";
+							toba::db('ctrl_asis')->ejecutar($sql1);	
+
+					//	$this->enviar_correos($correo[0]['email'],true);
+						} 	
+						else {
+									$sql= "UPDATE reloj.comision
+								SET observaciones = '$obs', pasada = true 
+								WHERE id_comision = $id";
+								toba::db('ctrl_asis')->ejecutar($sql);	
 					$this->enviar_correos($correo[0]['email'],false );			
 					
-					} 
+						} 
+					}	
+				 
 				
 				}
 
 
-			} 
+			 
 			
 			
-		}
+		
 	}
 		
 
@@ -186,24 +212,24 @@ $mail->IsHTML(true); //el mail contiene html*/
 
 	
 //     ei_arbol($fecha,$hasta);
-$datos
+//
 
 	if ($aprobado) {
 		
 		
 			$body = '<table>
-						Al agente  <b>'.$datos['agente_ayn'].'</b> se aprueba la Solicitud de Comision de Servicio''</b>.<br/>
-						con motivo de' . $datos['motivo'].' en '. $datos['lugar']' iniciando el dia ' .$datos['fecha_inicio']. ' en el horario '. $datos['hora_inicio']. ' y finalizando el dia' .$datos['fecha_fin']. ' en el horario '.$datos['hora_fin']. ' <br/>' 
-						'Saluda atte Direccion de Personal.
+						Al agente  <b>'.$datos['agente_ayn'].'</b> se aprueba la Solicitud de Comision de Servicio </b> <br/>
+						con motivo de' . $datos['motivo'].' en '. $datos['lugar']. ' iniciando el dia ' .$datos['fecha_inicio']. ' en el horario '. $datos['hora_inicio']. ' y finalizando el dia' .$datos['fecha_fin']. ' en el horario '.$datos['hora_fin']. ' <br/> 
+						Saluda atte Direccion de Personal.
 											
 				</table>';
 
 		} else
 		{
 			$body = '<table>
-						Al agente  <b>'.$datos['agente_ayn'].'</b> le ha sido rechazada  la Solicitud de Comision de Servicio''</b>.<br/>
-						con motivo de' . $datos['motivo'].' en '. $datos['lugar']' iniciando el dia ' .$datos['fecha_inicio']. ' en el horario '. $datos['hora_inicio']. ' y finalizando el dia' .$datos['fecha_fin']. ' en el horario '.$datos['hora_fin']. ' <br/>' 
-						'Saluda atte Direccion de Personal.
+						Al agente  <b>'.$datos['agente_ayn'].'</b> le ha sido rechazada  la Solicitud de Comision de Servicio </b>.<br/>
+						con motivo de' . $datos['motivo'].' en '. $datos['lugar']. ' iniciando el dia ' .$datos['fecha_inicio']. ' en el horario '. $datos['hora_inicio']. ' y finalizando el dia' .$datos['fecha_fin']. ' en el horario '.$datos['hora_fin']. ' <br/> 
+						Saluda atte Direccion de Personal.
 											
 				</table>';
 		}
