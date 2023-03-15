@@ -37,7 +37,7 @@ class ci_comisiones_de_servicio extends ctrl_asis_ci
 		$cant = count($datos);
 		$fecha_cierre =date("Y-m-d H:i:s");
 		ei_arbol($datos); 
-		$entro = 1;
+		
 		for($i=0;$i<$cant;$i++){
 			if ($datos[$i]['apex_ei_analisis_fila'] == 'M' ){
 			/*$sql = "UPDATE reloj.comision
@@ -47,11 +47,13 @@ class ci_comisiones_de_servicio extends ctrl_asis_ci
 			
 				$id= $datos[$i]['id_comision'];
 				$legajo = $datos[$i]['legajo'];
-				if ($datos[$i]['pasada']){
+				ei_arbol ($datos[$i]['pasada']);
+				if ($datos[$i]['pasada']  == 1){
 					$estado = 'C';
 				} else {
 					$estado = 'A';
 				}
+				//ei_arbol ($estado, $i);
 				$a_sup=$datos[$i]['autoriza_sup'];
 				$a_aut=$datos[$i]['autoriza_aut'];
 				$obs = $datos[$i]['observaciones'];
@@ -80,10 +82,22 @@ class ci_comisiones_de_servicio extends ctrl_asis_ci
 				$sql= "SELECT email from reloj.agentes_mail
 				where legajo=$legajo";
 				$correo = toba::db('ctrl_asis')->consultar($sql);
+			//	ei_arbol($datos[$i]['pasada'] );
+				
+				
+				ei_arbol($estado);
 
-				if ($datos[$i]['pasada'] and ($datos[$i]['autoriza_sup'] or $datos[$i]['autoriza_aut'])) {
-					 ei_arbol ($entro);
-					 $entro = $entro++;
+				if ($estado=='C'&& (($autoriza_sup == 1 )|| ($autoriza_aut == 1))) {	 
+						if ($autoriza_aut == 1){
+							$autoridad_aut= true;
+						} else {
+							$autoridad_aut= false;
+						}
+						if ($autoriza_sup == 1) {
+							$superior_aut =true;
+						} else {
+							$superior_aut =false;
+						}
 						$edad = $this->dep('mapuche')->get_edad($legajo, null);
 						$direccion = $this->dep('mapuche')->get_datos_agente($filtro);
 						$domicilio = $direccion [0]['calle'] ||' '|| $direccion[0]['numero'];
@@ -118,22 +132,23 @@ class ci_comisiones_de_servicio extends ctrl_asis_ci
 							 $id_decreto,
 							  $id_motivo,
 							  $id_articulo,'$tipo_sexo','$usuario_cierre','$fecha_cierre');";
-					//	toba::db('ctrl_asis')->ejecutar($sql);
-							$sql1= "UPDATE reloj.comision
-								SET observaciones = '$obs', pasada = true 
-								WHERE id_comision = $id";
-							toba::db('ctrl_asis')->ejecutar($sql1);	
+						toba::db('ctrl_asis')->ejecutar($sql);
+						
 
-					//	$this->enviar_correos($correo[0]['email'],true);
+						$this->enviar_correos($correo[0]['email'],true);
 						} 	
-						else {
+						else  if ($estado =='C'&& (($autoriza_sup == 0 )&& ($autoriza_aut == 0 ))) {
+						
+						$this->enviar_correos($correo[0]['email'],false );			
+					
+						} 
+					if ($estado == 'C') {
+									
 									$sql= "UPDATE reloj.comision
 								SET observaciones = '$obs', pasada = true 
 								WHERE id_comision = $id";
-								toba::db('ctrl_asis')->ejecutar($sql);	
-					$this->enviar_correos($correo[0]['email'],false );			
-					
-						} 
+							//	toba::db('ctrl_asis')->ejecutar($sql);	
+							}	
 					}	
 				 
 				
