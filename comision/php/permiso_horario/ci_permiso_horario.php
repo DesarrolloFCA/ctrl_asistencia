@@ -8,17 +8,38 @@ class ci_permiso_horario extends comision_ci
 
 	function evt__formulario__alta($datos)
 	{
-		ei_arbol ($datos);
+		//ei_arbol ($datos);
 		//$this->dep('datos')->nueva_fila($datos);
 
 		$anio= date('Y');
 		$legajo = $datos['legajo'];
+		$escalafon = $this -> dep('mapuche')->get_legajo_escalafon($legajo);
+
+		$j = count($escalafon);
+		 for ($i=0; $i<=$j; $i++){
+		 	if ($escalafon [$i]['escalafon'] == 'NODO'){
+		 		$sql = "SELECT legajo , a.id_catedra 
+						FROM reloj.catedras a
+						INNER JOIN reloj.catedras_agentes c ON a.id_catedra = c.id_catedra
+						WHERE legajo = $legajo 
+						AND (id_departamento in (4,6) OR id_departamento >= 10) ";
+				$cat_leg = toba::db('comision')->consultar($sql);
+				$catedra_nodo= $cat_leg [0]['id_catedra'];
+		 	}
+		 }
+		
+		
+		if ($datos['id_catedra '] == $catedra_nodo  and isset($catedra_nodo)){
+
+
+		
 		$sql = "SELECT count(*) cantidad 
 				FROM reloj.permisos_horarios
 				WHERE legajo = $legajo
 				and extract(year FROM fecha) = $anio ;";
 		$a = toba::db('comision')->consultar($sql);
 		$cantidad = $a [0]['cantidad'];
+		
 		if ($cantidad <= 5 ) {
 
 		$this->dep('datos')->tabla('permiso_horarios')->nueva_fila($datos);
@@ -53,6 +74,9 @@ class ci_permiso_horario extends comision_ci
 			/*if (!empty ($datos['leg_sup'])){
 				$this->enviar_correos_sup($correo_sup[0]['email']);
 			}*/
+		} else {
+			toba::notificacion()->agregar('Solamente esta licencia es aplicable a Personal de Apoyo Acad&eacute;mico', 'info');
+		}	
 
 	}
 
@@ -104,7 +128,7 @@ $mail->IsHTML(true); //el mail contiene html
 	$fecha_fin =date('d/m/Y',strtotime($datos['fecha_fin']));
 	
 	$body = '<table>
-						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['n_catedra'].'</b>.<br/>
+						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a la catedra/oficina/ direcci&oacute;n <b>'.$datos['n_catedra'].'</b>.<br/>
 						Solicita permiso horario con motivo de '.$datos['razon'].' a realizarse el dia '.$fecha.' a partir de la hora ' .$datos['horario'].' hasta la hora '.$datos['horario_fin'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
 											
 			</table>'; //date("d/m/y",$fecha)

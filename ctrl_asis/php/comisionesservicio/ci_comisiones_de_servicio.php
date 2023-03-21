@@ -36,7 +36,7 @@ class ci_comisiones_de_servicio extends ctrl_asis_ci
 		//$this->dep('datos')->procesar_filas($datos);
 		$cant = count($datos);
 		$fecha_cierre =date("Y-m-d H:i:s");
-		ei_arbol($datos); 
+		//ei_arbol($datos); 
 		
 		for($i=0;$i<$cant;$i++){
 			if ($datos[$i]['apex_ei_analisis_fila'] == 'M' ){
@@ -85,7 +85,7 @@ class ci_comisiones_de_servicio extends ctrl_asis_ci
 			//	ei_arbol($datos[$i]['pasada'] );
 				
 				
-				ei_arbol($estado);
+			//	ei_arbol($estado);
 
 				if ($estado=='C'&& (($autoriza_sup == 1 )|| ($autoriza_aut == 1))) {	 
 						if ($autoriza_aut == 1){
@@ -118,26 +118,27 @@ class ci_comisiones_de_servicio extends ctrl_asis_ci
 						$fecha_ini=$datos[$i]['fecha'];
 					//	ei_arbol($fecha_ini);
 						$estado_civil = $direccion[0]['estado_civil'];
-						$id_decreto = 5;
-						$id_articulo = 104;
-						$id_motivo = 56;
+						if ($agrupamiento == 'DOCE') {
+							$id_motivo = 56;
+							$id_decreto = 2 ;
+							$id_articulo = 104;
+						} else {
+							$id_decreto = 5;
+							$id_articulo = 104;
+							$id_motivo = 56;
+						}
 						$sexo=$this->dep('mapuche')->get_tipo_sexo($legajo, null);
 						
 						$sql = "INSERT INTO reloj.parte(
 							legajo, edad, fecha_alta, usuario_alta, estado, fecha_inicio_licencia, dias, cod_depcia, domicilio, localidad, agrupamiento, fecha_nacimiento,
 							apellido, nombre, estado_civil, observaciones, id_decreto, id_motivo, id_articulo, tipo_sexo,usuario_cierre,fecha_cierre)
 							VALUES ($legajo, $edad, '$fecha_alta', '$usuario_alta', '$estado', '$fecha_ini', $dias, '04', '$domicilio', '$localidad', '$agrupamiento', '$fecha_nacimiento',
-							'$apellido', '$nombre',    '$estado_civil', 
-							'$observaciones',
-							 $id_decreto,
-							  $id_motivo,
-							  $id_articulo,'$tipo_sexo','$usuario_cierre','$fecha_cierre');";
+							'$apellido', '$nombre',    '$estado_civil', '$observaciones', $id_decreto,  $id_motivo,	  $id_articulo,'$tipo_sexo','$usuario_cierre','$fecha_cierre');";
 						toba::db('ctrl_asis')->ejecutar($sql);
 						
 
 						$this->enviar_correos($correo[0]['email'],true);
-						} 	
-						else  if ($estado =='C'&& (($autoriza_sup == 0 )&& ($autoriza_aut == 0 ))) {
+						} else  if ($estado =='C'&& (($autoriza_sup == 0 )&& ($autoriza_aut == 0 ))) {
 						
 						$this->enviar_correos($correo[0]['email'],false );			
 					
@@ -147,7 +148,7 @@ class ci_comisiones_de_servicio extends ctrl_asis_ci
 									$sql= "UPDATE reloj.comision
 								SET observaciones = '$obs', pasada = true 
 								WHERE id_comision = $id";
-							//	toba::db('ctrl_asis')->ejecutar($sql);	
+								toba::db('ctrl_asis')->ejecutar($sql);	
 							}	
 					}	
 				 
