@@ -24,16 +24,35 @@ class ci_permiso_horario extends ctrl_asis_ci
 			if ($datos[$i]['apex_ei_analisis_fila'] == 'M' ){
 			$id = $datos[$i]['id_permiso'];
 			$a_sup=$datos[$i]['aut_sup'];
+			/*if ($a_sup == 1 ) {
+				$au_sup= true;
+			} else{
+				$au_sup= false;
+			}*/
+
 			$a_aut=$datos[$i]['auto_aut'];
+			/*if ($a_aut == 1) {
+				$au_aut = true;
+			} else{
+				$au_aut = false;
+			}*/
+			//$pro = $datos[$i]['procesado'];
+			/*if ($pro == 1 ) {
+				$p = true;
+			} else {
+				$p =false;
+			}*/
+
+
 			$obs = $datos[$i]['observaciones'];
 			
-			$sql = "UPDATE reloj.permisos_horarios
-					Set aut_sup = $a_sup, auto_aut = $a_aut, observaciones = '$obs'
+			/*$sql = "UPDATE reloj.permisos_horarios
+					Set aut_sup = $a_sup, auto_aut = $a_aut, observaciones = '$obs' , procesado = $p
 					where id_permiso = $id";
 			//ei_arbol($sql);		
-			toba::db('ctrl_asis')->ejecutar ($sql);    
+			toba::db('ctrl_asis')->ejecutar ($sql);    */
 			
-			/*	$id= $datos[$i]['id_comision'];
+				$id= $datos[$i]['id_permiso'];
 				$legajo = $datos[$i]['legajo'];
 			//	ei_arbol ($datos[$i]['pasada']);
 				if ($datos[$i]['procesado']  == 1){
@@ -48,7 +67,7 @@ class ci_permiso_horario extends ctrl_asis_ci
 				$nombre= $ayn[0]['nombre']; 
 				$fecha_inicio = $datos[$i]['fecha'];
 				$fecha_fin = $datos[$i]['fecha_fin'];
-				$hora_inicio= $datos[$i]['horario'];
+				$hora_inicio= $datos[$i]['horario_incio'];
 				$hora_fin = $datos[$i]['horario_fin'];
 				$lugar =$datos[$i]['lugar'];
 				$motivo = $datos[$i]['motivo'];
@@ -125,11 +144,11 @@ class ci_permiso_horario extends ctrl_asis_ci
 						} 
 					if ($estado == 'C') {
 									
-								$sql= "UPDATE reloj.comision
-								SET observaciones = '$obs', procesado = true 
-								WHERE id_comision = $id";
+								$sql = "UPDATE reloj.permisos_horarios
+								Set  observaciones = '$obs' , procesado = true
+								where id_permiso = $id";
 								toba::db('ctrl_asis')->ejecutar($sql);	
-							}*/	
+							}	
 					}	
 				 
 				
@@ -145,7 +164,90 @@ class ci_permiso_horario extends ctrl_asis_ci
 					WHERE procesado is null
 					";
 		$listado = toba::db('ctrl_asis')->consultar($sql);
+	//	ei_arbol($listado);
 		$componente->set_datos($listado);
+	}
+	function enviar_correos($correo,$aprobado)
+	{
+		require_once('3ros/phpmailer/class.phpmailer.php');
+		$datos =$this->s__datos_correo;
+		//$formula = $this->s__formula;    
+	$fecha=date('d/m/Y',strtotime($datos['fecha_inicio'] ) );
+
+	//$hasta=date('d/m/Y',strtotime($datos['fecha_fin'] ) );
+	$datos ['agente_ayn'] = $datos['apellido']. ', '.$datos['nombre'];
+
+
+//$catedra = $this->            
+
+// ei_arbol ($datos);              
+$mail = new phpmailer();
+$mail->IsSMTP();
+
+//Esto es para activar el modo depuración. En entorno de pruebas lo mejor es 2, en producción siempre 0
+// 0 = off (producción)
+// 1 = client messages
+// 2 = client and server messages
+$mail->SMTPDebug  = 0;
+//Ahora definimos gmail como servidor que aloja nuestro SMTP
+$mail->Host       = 'smtp.gmail.com';
+//El puerto será el 587 ya que usamos encriptación TLS
+$mail->Port       = 587;
+//Definmos la seguridad como TLS
+$mail->SMTPSecure = 'tls';
+//Tenemos que usar gmail autenticados, así que esto a TRUE
+$mail->SMTPAuth   = true;
+//Definimos la cuenta que vamos a usar. Dirección completa de la misma
+$mail->Username   = "formularios_personal@fca.uncu.edu.ar";
+//Introducimos nuestra contraseña de gmail
+$mail->Password   = "djxgidwlytoydsow";
+//Definimos el remitente (dirección y, opcionalmente, nombre)
+$mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formulario Personal');
+//Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
+$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
+//Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)
+$mail->AddAddress($correo, $datos['agente_ayn']);
+//Definimos el tema del email
+$mail->Subject = 'Solicitud de Permiso Horario';
+//Para enviar un correo formateado en HTML lo cargamos con la siguiente función. Si no, puedes meterle directamente una cadena de texto.
+//$mail->MsgHTML(file_get_contents('correomaquetado.html'), dirname(ruta_al_archivo));
+//Y por si nos bloquean el contenido HTML (algunos correos lo hacen por seguridad) una versión alternativa en texto plano (también será válida para lectores de pantalla)
+$mail->IsHTML(true); //el mail contiene html*/
+
+	
+     ei_arbol($datos);
+//
+
+	if ($aprobado) {
+		
+		
+			$body = '<table>
+						Al agente  <b>'.$datos['agente_ayn'].'</b> se aprueba la Solicitud de Permiso Horario </b> <br/>
+						con motivo de' . $datos['motivo'].' el dia ' .$fecha. ' en el horario '. $datos['hora_inicio']. '  hasta '.$datos['hora_fin']. ' <br/> 
+						Saluda atte Direccion de Personal.
+											
+				</table>';
+
+		} else
+		{
+			$body = '<table>
+						Al agente  <b>'.$datos['agente_ayn'].'</b> le ha sido rechazada  la Solicitud de Permiso Horario </b>.<br/>
+						con motivo de' . $datos['motivo'].'  el dia ' .$datos['fecha_inicio']. '  <br/> 
+						Saluda atte Direccion de Personal.
+											
+				</table>';
+		}
+
+	; //date("d/m/y",$fecha)
+	$mail->Body = $body;
+	//Enviamos el correo
+	if(!$mail->Send()) {
+	echo "Error: " . $mail->ErrorInfo;
+	} else {
+		echo "Enviado!";
+	}
+
+	
 	}
 
 }
