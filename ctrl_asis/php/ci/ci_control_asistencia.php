@@ -136,10 +136,21 @@ class ci_control_asistencia extends ctrl_asis_ci
 			}
 			
 			$this->s__datos = $this->dep('access')->get_lista_resumen($agentes,$filtro);
-		
+			
 			unset($agentes);
 
 			$f = $this->s__datos;
+			//ei_arbol($f);
+			$a = count($f);
+			for ($i=0; $i<$a;$i++){
+				$leg = $f[$i]['legajo'];
+				$sql = "SELECT email FROM reloj.agentes_mail
+		        where legajo = $leg";
+		        $email= toba::db('ctrl_asis')->consultar($sql);
+		       // ei_arbol($email);
+		        $f[$i]['email']=$email[0]['email'];
+
+			}
 			
 			if ($this->s__datos_filtro ['marcas']== 1) {
 				$this->s__datos = array_filter($this->s__datos, function ($f) {
@@ -148,6 +159,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 				$this->s__datos = array_filter($this->s__datos, function ($f) {
 				return $f['presentes'] == 0 ;});	
 			} 
+			//ei_arbol($this->s__datos);
 			unset($f);
 			
 			
@@ -193,12 +205,13 @@ class ci_control_asistencia extends ctrl_asis_ci
 			}
 				//}
 			}
+			//ei_arbol($e);
 			unset($e);
 			
 			$todo =	array_values($this->s__datos);		
 			$registros = count($todo); 	
 			//$hasta = $this->s__datos['total'] +1;
-			
+		//ei_arbol ($todo);
 			for ($h=0; $h <= $registros; $h++)
 			{
 			
@@ -234,7 +247,14 @@ class ci_control_asistencia extends ctrl_asis_ci
 					if ($leg <> null or $leg > 10000){
 					$sql = "Select nombre_catedra from reloj.vw_catedra_agente a
 					where legajo = $leg ;";
-				$catedras = toba::db('ctrl_asis')->consultar($sql); 
+					$catedras = toba::db('ctrl_asis')->consultar($sql); 
+					$sql = "SELECT email FROM reloj.agentes_mail
+		      		 where legajo = $leg";
+		      		$email= toba::db('ctrl_asis')->consultar($sql);
+		      		 // ei_arbol($email);
+		      		$todos[$l]['email']=$email[0]['email'];
+
+
 				$cant_catedra = count($catedras);
 			
 						if ($cant_catedra == 1) {

@@ -77,7 +77,7 @@ class ci_permiso_horario extends ctrl_asis_ci
 				$datos_correo ['apellido'] = $apellido;
 				$datos_correo ['nombre'] = $nombre;
 				$datos_correo ['fecha_inicio'] = $fecha_inicio;
-				$datos_correo ['fecha_fin'] = $fecha_fin;
+			//	$datos_correo ['fecha_fin'] = $fecha_fin;
 				$datos_correo ['hora_inicio'] = $hora_inicio;
 				$datos_correo ['horario_fin'] = $hora_fin;
 				$datos_correo ['lugar'] = $lugar;

@@ -251,7 +251,7 @@ $mail->IsHTML(true); //el mail contiene html*/
 			$mail->Subject = 'Solicitud de vacaciones';
 			$body = '<table>
 						Sr/a <b>'.$datos['nombre'].' '.$datos['apellido'].'</b>:
-						Su solicitud de vacaciones correspondiente a '.$datos['anio']. ' ha sido otorgada la cual sera efectiva entre '.$fecha.' y debe reintegrarse el dia'. $hasta.' .<br/>
+						Su solicitud de vacaciones correspondiente al a&ntilde;o '.$datos['anio']. ' ha sido otorgada la cual sera efectiva entre '.$fecha.' y debe reintegrarse el dia '. $hasta.' .<br/>
 						Esperamos que disfrute sus vacaciones                                            
 			</table>';
 		}
@@ -274,7 +274,7 @@ $mail->IsHTML(true); //el mail contiene html*/
 			$mail->Subject = 'Solicitud de vacaciones';
 			$body = '<table>
 						Sr/a <b>'.$datos['nombre'].' '.$datos['apellido'].'</b>:
-						Su solicitud de vacaciones correspondiente a  '.$datos['anio']. 'ha sido rechazada de acuerdo a las siguientes observaciones '.$datos['observaciones'].'.
+						Su solicitud de vacaciones correspondiente al a&ntilde;o '.$datos['anio']. 'ha sido rechazada de acuerdo a las siguientes observaciones '.$datos['observaciones'].'.
 			</table>';
 		}
 

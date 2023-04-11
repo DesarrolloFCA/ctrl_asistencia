@@ -15,7 +15,7 @@ class comision extends toba_ci
 			$form->set_solo_lectura('id_articulo');
 			$form->set_datos($this->dep('datos')->tabla('parte')->get());
 		} // else {
-		//	$this->pantalla()->eliminar_evento('eliminar');
+		//    $this->pantalla()->eliminar_evento('eliminar');
 		//}
 	}
 
@@ -57,7 +57,7 @@ class comision extends toba_ci
 			if (!empty ($datos['legajo'])){
 				$correo_agente = $this->dep('mapuche')->get_legajos_email($datos['legajo']);
 				$datos['agente']=$correo_agente[0]['descripcion'];
-		//	ei_arbol ($correo_agente);
+		//    ei_arbol ($correo_agente);
 			}
 			if (!empty ($datos['superior'])){
 				$correo_sup = $this->dep('mapuche')->get_legajos_email($datos['superior']);
@@ -81,7 +81,7 @@ class comision extends toba_ci
 		
 			$sql = "INSERT INTO reloj.comision
 				(legajo, catedra, lugar, motivo, fecha, horario, observaciones, legajo_sup, legajo_aut,  fecha_fin, horario_fin, fuera) VALUES
-				 ($legajo, $catedra, '$lugar', '$motivo','$fecha', '$horario', '$obs', $superior, $autoridad,'$fecha_fin','$horario_fin',$f);";
+					($legajo, $catedra, '$lugar', '$motivo','$fecha', '$horario', '$obs', $superior, $autoridad,'$fecha_fin','$horario_fin',$f);";
 		
 			toba::db('comision')->ejecutar($sql); 
 		
@@ -139,8 +139,8 @@ $mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formulario Personal');
 
 //$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
 //Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)
-$mail -> AddAddress('ebermejillo@fca.uncu.edu.ar', 'Tester');
-//$mail->AddAddress($correo, 'El Destinatario'); //Descomentar linea cuando pase a produccion
+//$mail -> AddAddress('ebermejillo@fca.uncu.edu.ar', 'Tester');
+$mail->AddAddress($correo, 'El Destinatario'); //Descomentar linea cuando pase a produccion
 //Definimos el tema del email
 $mail->Subject = 'Formulario Comision de Servicio';
 //Para enviar un correo formateado en HTML lo cargamos con la siguiente función. Si no, puedes meterle directamente una cadena de texto.

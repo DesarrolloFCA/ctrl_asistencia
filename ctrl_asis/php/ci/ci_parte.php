@@ -93,8 +93,20 @@ class ci_parte extends toba_ci
 		$this->s__cuadro_xls = 'cuadro';
 
 		if (isset($this->s__datos_filtro)) {
-			$this->s__datos = $this->dep('datos')->tabla('parte')->get_listado($this->s__datos_filtro);
+			$datos = $this->dep('datos')->tabla('parte')->get_listado($this->s__datos_filtro);
+			$max = count($datos);
+			for($i=0;$i<$max;$i++){
+			$dias_calculo = $datos[$i]['dias'] - 1;
+			$dias = '+'.$dias_calculo.' day';
+			$datos[$i]['fecha_fin_licencia']     = date ( 'Y-m-d' , strtotime ( $dias , strtotime ( $datos[$i]['fecha_inicio_licencia'] ) )  ); //sumamos N dias a la fecha de inicio licencia
+			//list($y,$m,$d)=explode("-",$datos['fecha_fin_licencia']); //2011-03-31
+			//$datos[$i]['fecha_fin_licencia'] = $d."/".$m."/".$y;
+			$datos[$i]['nombre_completo'] = $datos[$i]['apellido'].", ".$datos[$i]['nombre'];
+			}
+			//ei_arbol($datos);
+			$this->s__datos = $datos;
 			$cuadro->set_datos($this->s__datos);
+			//ei_arbol($this->s__datos);
 			
 		#} else {
 		#    $this->s__datos = $this->dep('datos')->tabla('parte')->get_listado();

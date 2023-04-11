@@ -24,14 +24,15 @@ class ci_permiso_horario extends comision_ci
 						WHERE legajo = $legajo 
 						AND (id_departamento in (4,6) OR id_departamento >= 10) ";
 				$cat_leg = toba::db('comision')->consultar($sql);
+			//	ei_arbol($cat_leg);
 				$catedra_nodo= $cat_leg [0]['id_catedra'];
 		 	}
 		 }
 		
 		
-		if ($datos['id_catedra '] == $catedra_nodo  and isset($catedra_nodo)){
+		if ($datos['id_catedra'] == $catedra_nodo and isset($catedra_nodo)  ){
 
-
+			//ei_arbol($datos);
 		
 		$sql = "SELECT count(*) cantidad 
 				FROM reloj.permisos_horarios
@@ -87,7 +88,8 @@ class ci_permiso_horario extends comision_ci
 	 {
 	 	require_once('3ros/phpmailer/class.phpmailer.php');
 
-				$datos =$this-> s__datos;    
+				$datos =$this-> s__datos;   
+				 
 				
 //ei_arbol ($this->s__datos);                
 		$mail = new phpmailer();
@@ -129,7 +131,7 @@ $mail->IsHTML(true); //el mail contiene html
 	
 	$body = '<table>
 						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a la catedra/oficina/ direcci&oacute;n <b>'.$datos['n_catedra'].'</b>.<br/>
-						Solicita permiso horario con motivo de '.$datos['razon'].' a realizarse el dia '.$fecha.' a partir de la hora ' .$datos['horario'].' hasta la hora '.$datos['horario_fin'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
+						Solicita permiso horario con motivo de '.$datos['razon'].' a realizarse el dia '.$fecha.' a partir de la hora ' .$datos['horario_incio'].' hasta la hora '.$datos['horario_fin'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
 											
 			</table>'; //date("d/m/y",$fecha)
 $mail->Body = $body;
