@@ -13,6 +13,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 	function conf()
 	{
 
+		
 		//Primero cargo los parametros recibidos
 		$parametros = toba::memoria()->get_parametros();
 		$clave_get = toba::memoria()->get_parametro('fila_safe');
@@ -31,13 +32,53 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 
 			//$agente = toba::tabla('agentes')->get_agente($claves_originales['legajo']);
 			
-			$sql = "SELECT legajo, apellido, nombre, fec_nacim, dni, fec_ingreso, estado_civil, 
-							caracter, categoria, agrupamiento, escalafon, cod_depcia, cuil
+			$sql = "SELECT legajo, apellido, nombre, case 
+									  when sum(cant_horas)/5 = 15  then '10:48'
+									  when sum(cant_horas)/5 = 11  then '08:00'	
+									  when sum(cant_horas)/5 = 10  then '05:36'	
+									  when sum(cant_horas)/5 = 9  then '06:48'
+									  when sum(cant_horas)/5 = 8  then '04:48'
+									  when sum(cant_horas)/5 = 7  then '06:00'
+									  when sum(cant_horas)/5 = 6  then '03:18'
+									  when sum(cant_horas)/5 = 4  then '02:00'
+									  when sum(cant_horas)/5 = 2  then '00:48'
+									  end
+									  horas_diarias,fec_nacim, dni, fec_ingreso, estado_civil 
+
+							--caracter,	categoria, agrupamiento, escalafon, cod_depcia,cuil, 
+					FROM uncu.legajo WHERE legajo = ".$claves_originales['legajo']."
+						
+						group by legajo, apellido, nombre, fec_nacim, dni, fec_ingreso, estado_civil 
+							 --categoria, agrupamiento, escalafon, cod_depcia, cuil
+							 --, cant_horas";
+						
+			/*$sql = "SELECT legajo, apellido, nombre, fec_nacim, dni, fec_ingreso, estado_civil, 
+							caracter, categoria, agrupamiento, escalafon, cod_depcia, cuil, 
+							case 
+							when codc_dedic = 'SIMP' then cant_horas / 5
+							when codc_dedic = 'SEMI' then cant_horas / 5
+							when codc_dedic = 'EXCL' then cant_horas / 5
+							end horas_diarias
+
+
 						FROM uncu.legajo WHERE legajo = '".$claves_originales['legajo']."
-						'";
+						'";*/
 			$agente =  toba::db('mapuche')->consultar_fila($sql); 
-		
+		//ei_arbol($agente);
 			$agru=$agente['agrupamiento'];
+			$horas_diarias= $agente['horas_diarias'];
+			/*$hora_diaria = explode(".", $agente['horas_diarias'] );
+
+			$hora_diaria[1] = floatval('0.'.$hora_diaria[1]); 
+			$horas_diarias = $hora_diaria[0] . ':'. $hora_diaria[1] ;
+			ei_arbol($hora_diaria);
+			$horas_diarias = date('h:i',strtotime($horas_diarias));*/
+			//date('h:i A', strtotime($time))
+
+			//substr_replace( '930', ':', -2, 0 )
+		//	$hora_diaria = date_create($horas_diarias);
+			//ei_arbol($hora_diaria);
+			//$hora_diaria =date_format($hora_diaria,"H:i");
 
 			//foto
 			if(file_exists('fotos/'.$agente['dni'].'.jpg')){
@@ -63,6 +104,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 
 			//seteamos fecha ingreso de tabla antiguedad --------------------------------
 			$dato_antiguedad = toba::tabla('antiguedad')->get_antiguedad($filtro['legajo']);
+			
 			if(!empty($dato_antiguedad['fecha_ingreso'])){
 				$agente['fec_ingreso'] = $dato_antiguedad['fecha_ingreso'];
 			}
@@ -258,6 +300,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 						$array_marcas[$key]['entrada_ver']  = $marca['entrada'];
 						$array_marcas[$key]['salida_ver']   = $marca['salida'];
 
+
 						//agregamos horarios que falten, con vista en rojo
 						if(!empty($marca['entrada']) and empty($marca['salida']) ) { //tiene solo la entrada
 
@@ -282,7 +325,18 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 						//calculamos horas 
 						$horas            = $this->dep('access')->restar_horas($array_marcas[$key]['entrada'],$array_marcas[$key]['salida']);
 						$horas_totales = $this->dep('access')->sumar_horas($horas,$horas_totales);
+
+						
+
 						$array_marcas[$key]['horas']         = $horas;
+						//$horas_diarias = $horas_diarias. ':00'; 
+						//ei_arbol($horas,$horas_diarias);
+						if ($horas < $horas_diarias) {
+							$array_marcas[$key]['horas_diarias'] = '<b><span style="color:#FF0000">'.$horas_diarias.'</b></span>';
+						} else {
+							$array_marcas[$key]['horas_diarias'] = $horas_diarias;
+						}
+						
 						$array_marcas[$key]['suma_acum']     = $horas_totales;
 						$array_marcas[$key]['prom_acum']     = $this->dep('access')->dividir_horas($horas_totales,$marca['contador_marcas']);//dividendo,divisor    
 
@@ -295,7 +349,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 			}
 			//-----------------------------------------------------------------------------------------------
 
-
+			//ei_arbol($array_marcas);
 			$agente['fecha_desde']         = $fecha_desde;
 			$agente['fecha_hasta']         = $fecha_hasta;
 

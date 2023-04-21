@@ -384,7 +384,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'ctrl_asis', --objeto_cuadro_proyecto
 	'396000075', --objeto_cuadro
 	'396000195', --objeto_cuadro_col
-	'motivo', --clave
+	'id_motivo_nombre', --clave
 	'8', --orden
 	'Motivo', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
@@ -415,7 +415,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'ctrl_asis', --objeto_cuadro_proyecto
 	'396000075', --objeto_cuadro
 	'396000196', --objeto_cuadro_col
-	'decreto', --clave
+	'id_decreto_nombre', --clave
 	'9', --orden
 	'Decreto', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
@@ -446,7 +446,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'ctrl_asis', --objeto_cuadro_proyecto
 	'396000075', --objeto_cuadro
 	'396000197', --objeto_cuadro_col
-	'articulo', --clave
+	'id_articulo', --clave
 	'10', --orden
 	'Artículo e Inciso', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
