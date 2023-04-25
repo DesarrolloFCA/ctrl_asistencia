@@ -64,8 +64,28 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 						FROM uncu.legajo WHERE legajo = '".$claves_originales['legajo']."
 						'";*/
 			$agente =  toba::db('mapuche')->consultar_fila($sql); 
+			$sql = "SELECT escalafon from legajo
+					Where legajo =".$claves_originales['legajo'].
+					
+					";";
 		//ei_arbol($agente);
-			$agru=$agente['agrupamiento'];
+			$age = toba::db('mapuche')->consultar_fila($sql); 
+		/*	$cant_cargos = count($age); 
+			$bandera = 1;
+			for ($i=0;$i<$cant_cargos;$i++){
+				if ($bandera==1){
+				if ($age[$i]['escalafon'] == 'DOCE' ){
+					$escalafon = 'DOCE';
+					$bandera = 0;
+				} else{
+					$escalafon='NODO';
+				}
+
+				  
+			}*/
+			$escalafon = $age['escalafon'];
+			//ei_arbol ($escalafon);
+			//$agru=$agente['agrupamiento'];
 			$horas_diarias= $agente['horas_diarias'];
 			/*$hora_diaria = explode(".", $agente['horas_diarias'] );
 
@@ -103,25 +123,98 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 			}
 
 			//seteamos fecha ingreso de tabla antiguedad --------------------------------
-			$dato_antiguedad = toba::tabla('antiguedad')->get_antiguedad($filtro['legajo']);
+		//			$dato_antiguedad = toba::tabla('antiguedad')->get_antiguedad($agente['legajo']);
+		//	$dato_antiguedad = $this->dep('datos')->tabla('antiguedad')->get_antiguedad($agente['legajo']);
 			
+	
+			/*$agente = toba::db('mapuche')->consultar($sql);          
+		$cant = count($agente);*/
+		$legajo=$agente['legajo'];
+		$sql = "SELECT MIN(fec_ingreso) fecha from uncu.legajo
+		where legajo = $legajo";
+		$fec_ingreso = toba::db('mapuche')->consultar($sql);
+		$res = 	$fec_ingreso[0]['fecha'];
+		list($y,$m,$d)=explode("-",$res); //2011-03-31
+                $fecha = $d."-".$m."-".$y;
+                $dias = explode('-', $fecha, 3);
+                $dias = mktime(0,0,0,$dias[1],$dias[0],$dias[2]);
+                $antiguedad = ((time()-$dias)/31556926 );
+                (int)((time()-$dias)/31556926 );
+                //ei_arbol($antiguedad);
+                if ($antiguedad == 0){
+                	$prop_vaca= (int)((time()-$dias)/1729147);
+                }
+        $sql ="SELECT fecha_ingreso from reloj.antiguedad
+        WHERE legajo = $legajo";
+        $fec_ingreso = toba::db('ctrl_asis')->consultar($sql);
+        if (isset($fec_ingreso[0]['fecha_ingreso'])) {
+        	$fec=$fec_ingreso[0]['fecha_ingreso'];
+        	list($y,$m,$d)=explode("-",$fec); //2011-03-31
+                $fecha = $d."-".$m."-".$y;
+                $dias = explode('-', $fecha, 3);
+                $dias = mktime(0,0,0,$dias[1],$dias[0],$dias[2]);
+                $antiguedad = ((time()-$dias)/31556926 );
+                (int)((time()-$dias)/31556926 );
+            }
+          // $agente['ant'] = $antiguedad; 
+          //ei_arbol($agente);
+
+        //$dias= $datos['dias'];
+       // $anio= $datos['anio'];*/
+			
+
+
+
 			if(!empty($dato_antiguedad['fecha_ingreso'])){
 				$agente['fec_ingreso'] = $dato_antiguedad['fecha_ingreso'];
 			}
 
 			//seteamos datos de vacaciones -----------------------------------------------
 			if(!empty($agente['fec_ingreso'])){
-				$antiguedad = toba::tabla('vacaciones_antiguedad')->get_array_antiguedad($agente['fec_ingreso'],$agente['agrupamiento']);
-				$agente['dias_vac_antiguedad']   = utf8_decode($antiguedad['dias'].' días');
-				$agente['antiguedad']            = utf8_decode(intval($antiguedad['antiguedad']).' años');
+				if ($escalafon == 'NODO') {
+					if ($antiguedad > 20){
+						$dias_totales = 40;
+					} elseif ($antiguedad > 15 && $antiguedad <=20)
+							{
+							$dias_totales = 35;
+							} elseif ($antiguedad > 10 && $antiguedad <=15) {
+								$dias_totales = 30;
+
+							} elseif ($antiguedad > 5 && $antiguedad <=10)
+								{
+									$dias_totales = 25;
+								} elseif ($antiguedad > 0.5 && $antiguedad <=5)
+								{
+									$dias_totales = 20;
+								} else {
+									$dias_totales= (int)((time()-$dias)/1729147); //Proporcional de Vacaciones
+								}
+				} else {
+					if ($antiguedad > 15){
+								$dias_totales = 45 ;
+					
+					} else {
+								$dias_totales = 30;			
+				
+					}
+				}
+
+
+
+
+
+			//	$antiguedadv = toba::tabla('vacaciones_antiguedad')->get_array_antiguedad($agente['fec_ingreso'],$escalafon);
+				$agente['dias_vac_antiguedad']   = utf8_decode($dias_totales.' dÃ­as');
+				$agente['antiguedad']            = utf8_decode(intval($antiguedad).' aÃ±os');
+				//$antiguedad['antiguedad']).' aÃ±os');
 
 				//obtenemos dias tomados---------------------------------------
-				$dias_tomados = 0;
+				/*$dias_tomados = 0;
 				list($y,$m,$d) = explode('-',$fecha_desde);
 				$filtro_parte['legajo']      = $agente['legajo']; 
 				$filtro_parte['id_motivo']   = '35'; //Vacaciones 
 				$filtro_parte['anio']        = $y; 
-				for ($i=0; $i < 12; $i++) {  // bucle en todos los meses hasta el ultimo mes del año
+				for ($i=0; $i < 12; $i++) {  // bucle en todos los meses hasta el ultimo mes del aÃ±o
 					$mes = $i+1;
 					if($mes<10){ $filtro_parte['mes']  = "0".$mes;  }else{  $filtro_parte['mes']  = $mes; }
 					
@@ -131,11 +224,22 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 							$dias_tomados = $dias_tomados + $parte['dias_mes'];
 						}
 					}
-				}
+				}*/
 
-				$agente['dias_vac_tomadas']     = utf8_decode($dias_tomados.' días');
+				//$agente['dias_vac_tomadas']     = utf8_decode($dias_tomados.' dÃ­as');
+				//$dias_disponibles = toba::tabla('vacaciones_restantes')->get_vac_rest($legajo);
+				$slq="SELECT dias FROM reloj.vacaciones_restantes
+				where legajo =". $legajo.";";
+				
+				$dias_disponibles= toba::db('ctrl_asis')->consultar($sql);	
+				if(isset($dias_disponibles)){
+					$dias_vac_disponibles= 0;
+				}else {
+					$dias_vac_disponibles= $dias_disponibles[0]['dias'];
+				}
+				
 				$dias_vac_disponibles = $antiguedad['dias'] - $dias_tomados;
-				$agente['dias_vac_disponibles'] = utf8_decode($dias_vac_disponibles.' días');
+				$agente['dias_vac_tomadas'] = utf8_decode($dias_vac_disponibles.' dÃ­as');
 
 			}             
 			//-----------------------------------------------------------------------------------------------------------------
@@ -194,7 +298,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 				//$fecha_fin_feriado = $array_marcas[$j]['fecha'];
 				
 			//	if ((toba::tabla('conf_feriados')->hay_feriado($dia)){// or ( $fecha_fin_feriado == $dia)){
-					//$cantidad_feriado = toba::tabla('conf_feriados')->hay_feriado($dia);//revisamos el día solo si no es feriado
+					//$cantidad_feriado = toba::tabla('conf_feriados')->hay_feriado($dia);//revisamos el dÃ­a solo si no es feriado
 			
 					//$cantidad_feriado = $cantidad_feriado +1;
 					//ei_arbol($cantidad_feriado); 
@@ -229,7 +333,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 					$datos_dia = getdate($i);
 					
 
-					switch ($datos_dia['wday']) { //0 (para Domingo) hasta 6 (para Sábado)
+					switch ($datos_dia['wday']) { //0 (para Domingo) hasta 6 (para SÃ¡bado)
 						
 						case 1: //lunes
 
@@ -248,7 +352,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 						case 3: //miercoles
 
 							if($jornada['normal']==1 or $jornada['miercoles']==1 ) {
-								$this->calculo_dia ('miercoles', 'Mi�rcoles', $agente, $array_marcas, $contador_marcas, $dia, $filtro_marca);
+								$this->calculo_dia ('miercoles', 'Miércoles', $agente, $array_marcas, $contador_marcas, $dia, $filtro_marca);
 							}
 							break;
 
@@ -270,7 +374,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 						case 6: //sabado
 
 							if($jornada['sabado']==1) {
-								$this->calculo_dia ('sabado', 'S�bado', $agente, $array_marcas, $contador_marcas, $dia, $filtro_marca);
+								$this->calculo_dia ('sabado', 'Sábado', $agente, $array_marcas, $contador_marcas, $dia, $filtro_marca);
 							}
 							break;
 
@@ -624,8 +728,8 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 		$pdf = $salida->get_pdf();
 		$pdf->ezSetMargins(80, 50, 30, 30);    //top, bottom, left, right
 				
-		//Pie de página
-		$formato = 'Página {PAGENUM} de {TOTALPAGENUM}';
+		//Pie de pÃ¡gina
+		$formato = 'PÃ¡gina {PAGENUM} de {TOTALPAGENUM}';
 		$pdf->ezStartPageNumbers(300, 20, 8, 'left', $formato, 1);    //x, y, size, pos, texto, pagina inicio
 
 		//Inserto los componentes usando la API de toba_vista_pdf

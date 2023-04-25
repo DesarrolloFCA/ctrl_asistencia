@@ -347,9 +347,9 @@ class ci_control_asistencia extends ctrl_asis_ci
 			unset($todo);
 						
 			for ($l = 0; $l < $registros; $l++){
-				
-
-					$leg = $todos [$l]['legajo'];
+				$leg = $todos [$l]['legajo'];
+				$mail = $this->dep('datos')->tabla('agentes_mail')->get_legajo_mail($leg);
+				$todos[$l]['email']=$mail[0]['email'];
 			
 					if ($leg <> null or $leg > 10000){
 					$sql = "Select nombre_catedra from reloj.vw_catedra_agente a
@@ -376,7 +376,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 					
 			}
 			//ei_arbol(round((memory_get_usage()/(1024*1024)),2));
-			ei_arbol($todos);
+			//ei_arbol($todos);
 			$lim = count($todos);
 			for ($l=0;$l<$lim;$l++){
 
