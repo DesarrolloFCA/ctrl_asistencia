@@ -445,7 +445,7 @@ class vistas_mapuche extends toba_datos_relacion
        
         $sql = "SELECT DISTINCT t_l.legajo, t_l.apellido, t_l.nombre, 
 		t_l.fec_nacim, dni, t_l.fec_ingreso, t_l.estado_civil,-- t_l.caracter, t_l.categoria,
-		t_l.agrupamiento,-- t_l.escalafon, t_l.cod_depcia, 
+		t_l.agrupamiento, t_l.escalafon ,-- t_l.cod_depcia, 
 		t_l.cuil, t_l.email, 
                t_h.cant_horas, (t_h.cant_horas / 5) as horas_requeridas_prom 
               FROM $nombre_tabla as t_l, uncu.cant_hora as t_h 

@@ -223,7 +223,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 				
 				$tmp= 0;
 						//ei_arbol($todo[$i]['laborables'] );
-						$dias_trab = $todo[$i]['laborables'] -  $todo[$i]['feriados'] - $todo[$i]['justificados'];
+						$dias_trab = $todo[$i]['laborables'] - $todo[$i]['justificados'];
 						//ei_arbol($dias_trab);
 						
 						$horas_min = explode(":",$horas_diarias);
