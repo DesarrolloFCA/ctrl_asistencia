@@ -210,13 +210,16 @@ class ci_control_asistencia extends ctrl_asis_ci
 				
 				switch ($todo[$i]['cant_horas']){
 					case 10 :  
-					$horas_diarias= '00:48';
+					$horas_diarias= '01:24';
 								break;	
 					case 20 : 
-					$horas_diarias= '02:00';
+					$horas_diarias= '02:48';
 								break;	
+					case 30 :
+					$horas_diarias = '04:12';
+							break;			
 					case 40:
-					$horas_diarias = '04:48';
+					$horas_diarias = '05:36';
 						break;
 					case 35:
 					$horas_diarias = '06:00';

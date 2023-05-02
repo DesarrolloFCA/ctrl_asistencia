@@ -33,15 +33,15 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 			//$agente = toba::tabla('agentes')->get_agente($claves_originales['legajo']);
 			
 			$sql = "SELECT legajo, apellido, nombre, case 
-									  when sum(cant_horas)/5 = 15  then '10:48'
-									  when sum(cant_horas)/5 = 11  then '08:00'	
-									  when sum(cant_horas)/5 = 10  then '05:36'	
-									  when sum(cant_horas)/5 = 9  then '06:48'
-									  when sum(cant_horas)/5 = 8  then '04:48'
+									  when sum(cant_horas)/5 = 15  then '11:36'
+									  when sum(cant_horas)/5 = 11  then '08:48'	
+									  when sum(cant_horas)/5 = 10  then '06:00'	
+									  when sum(cant_horas)/5 = 9  then '07:24'
+									  when sum(cant_horas)/5 = 8  then '05:36'
 									  when sum(cant_horas)/5 = 7  then '06:00'
-									  when sum(cant_horas)/5 = 6  then '03:18'
-									  when sum(cant_horas)/5 = 4  then '02:00'
-									  when sum(cant_horas)/5 = 2  then '00:48'
+									  when sum(cant_horas)/5 = 6  then '04:12'
+									  when sum(cant_horas)/5 = 4  then '02:48'
+									  when sum(cant_horas)/5 = 2  then '01:24'
 									  end
 									  horas_diarias,fec_nacim, dni, fec_ingreso, estado_civil 
 
