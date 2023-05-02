@@ -143,6 +143,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 			unset($agentes);
 
 			$f = $this->s__datos;
+			//ei_arbol($f);
 			$total_registros = count($f);
 			
 		
@@ -202,6 +203,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 			unset($e);
 			
 			$todo =	array_values($this->s__datos);		
+			//	ei_arbol($todo);
 			$registros = count($todo); 	
 			//$hasta = $this->s__datos['total'] +1;
 			for ($i = 0;$i<$registros;$i++){
@@ -250,7 +252,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 						
 						$todo[$i]['horas_requeridas_prom']= $requerido;
 			}
-			//ei_arbol($todo);
+		//	ei_arbol($todo);
 			
 			for ($h=0; $h <= $registros; $h++)
 			{
@@ -260,7 +262,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 					$legajo_actual = ($todo[$h]['legajo']);
 
 					if ($legajo_actual ==''){
-						unset($todo[$h]);	
+						//unset($todo[$h]);	
 					}else {
 					$legajo_ant = ($todo[$k]['legajo']);
 					//$requerido = $todo [$h]['cant_horas'];
@@ -285,7 +287,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 						$todo [$k]['horas_requeridas_prom'] =$requerido;
 
 
-						unset($todo[$h]);
+						//unset($todo[$h]);
 					}
 					//$requerido = $todo [$k]['horas_requeridas_prom'] /5 ;
 					/*ei_arbol ($requerido);
@@ -345,6 +347,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 			$todos =	array_values($todo);		
 			$registros = count($todos)  ; 
 			unset($todo);
+			//ei_arbol($todos);
 						
 			for ($l = 0; $l < $registros; $l++){
 				$leg = $todos [$l]['legajo'];
