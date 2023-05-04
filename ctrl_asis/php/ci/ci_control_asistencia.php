@@ -61,7 +61,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 
 		
 		if (isset($this->s__datos_filtro)) {
-
+			ei_arbol($this->s__datos_filtro);
 			// ORiginal
 			/* if (isset($this->s__datos_filtro['anio'])) {
 				//  $y = $this->s__datos_filtro['anio'];
@@ -136,7 +136,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 			if (isset($this->s__datos_filtro['basedatos'])) {
 			$filtro['basedatos'] = $this->s__datos_filtro['basedatos'];
 			}
-			
+			ei_arbol($filtro);
 			$this->s__datos = $this->dep('access')->get_lista_resumen($agentes,$filtro);
 		
 			//ei_arbol($agentes);

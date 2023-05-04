@@ -636,6 +636,7 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 		$total = 0;
 		//ei_arbol(round((memory_get_usage()/(1024*1024)),2));
 		$agentes =$personas;
+		ei_arbol($filtro);
 		//ei_arbol($personas);	
 		$fecha_desde = $filtro['fecha_desde'];
 		$fecha_hasta = $filtro['fecha_hasta'];
@@ -643,11 +644,11 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 		$feriados = toba::tabla('conf_feriados')->get_listado($filtro);
 		$cantidad_feriado = count($feriados);
 	//	ei_arbol($feriados);
-		for($i=0;$i<$cantidad_feriado;$i++){
+		/*for($i=0;$i<$cantidad_feriado;$i++){
 			$fechaferiado = strtotime($feriados[$i]['fecha']);
 			$feriados[$i]['fecha']= date("Y-m-d", $fechaferiado);
 
-		}
+		}*/
 			//ei_arbol($feriados);
 		
 			if (isset($filtro['basedatos'])) {
