@@ -11,13 +11,17 @@ class ci_articulo extends comision_ci
 	{
 		
 
-		
+		$datos['anio']= date('Y');
 
 		$bandera_nodo = true;    
 		$legajo =$datos['legajo'];
 		$id_catedra = $datos['catedra'];
 		$anio=$datos['anio'];
 		$id_motivo = $datos['id_motivo'] ;
+		
+		if ($datos['dias'] > 0) {
+			
+		
 		
 		if ($id_motivo == 35 or $id_motivo == 57 or $id_motivo == 55) {
 		$sql =  "SELECT count(*) cantidad from reloj.inasistencias
@@ -236,7 +240,7 @@ class ci_articulo extends comision_ci
 										$temp[0]['dias_restantes'] =abs($temp[0]['dias_restantes']);
 									}
 
-								toba::notificacion()->agregar('Ud ha excedido la cantidad mensual de razones particulares este mes cuenta con '.$temp[0]['dias_restantes'] .' días', "info");
+								toba::notificacion()->agregar('Ud ha excedido la cantidad mensual de razones particulares este mes cuenta con '.$temp[0]['dias_restantes'] .' d&iacute;as', "info");
 
 									$bandera_nodo = false;
 
@@ -244,12 +248,12 @@ class ci_articulo extends comision_ci
 
 							} else
 							{
-								toba::notificacion()->agregar('Ud ha excedido la cantidad de dias recuerde que las razones particulares son entre 1 y 2 dias' , "info");
+								toba::notificacion()->agregar('Ud ha excedido la cantidad de dias recuerde que las razones particulares son entre 1 y 2 d&iacute;as' , "info");
 								$bandera_nodo = false;    
 							}
 					//ei_arbol($agente);
 					} else {
-						toba::notificacion()->agregar('Introduzca el corriente año. Gracias ', "info");
+						toba::notificacion()->agregar('Introduzca el corriente a&ntilde;o. Gracias ', "info");
 
 									$bandera_nodo = false;
 
@@ -273,7 +277,7 @@ class ci_articulo extends comision_ci
 								$dias_totales = 40 + $dias_restantes - $adelanto;
 							//     ei_arbol ($dias);
 								if ($dias < 30) { 
-									toba::notificacion()->agregar('Los días de vacaciones no pueden ser menores de 30 dias', "info");
+									toba::notificacion()->agregar('Los días de vacaciones no pueden ser menores de 30 d&iacute;as', "info");
 									break;
 								} else {
 
@@ -301,7 +305,7 @@ class ci_articulo extends comision_ci
 
 								
 								if ($dias < 30) { 
-									toba::notificacion()->agregar('Los días de vacaciones no pueden ser menores de 30 dias', "info");
+									toba::notificacion()->agregar('Los días de vacaciones no pueden ser menores de 30 d&iacute;as', "info");
 									$bandera_nodo = false;
 									break;
 
@@ -326,7 +330,7 @@ class ci_articulo extends comision_ci
 									{
 									$dias_totales = 30 + $dias_restantes -$adelanto;    
 									if ($dias < 30) { 
-									toba::notificacion()->agregar('Los días de vacaciones no pueden ser menores de 30 dias', "info");
+									toba::notificacion()->agregar('Los días de vacaciones no pueden ser menores de 30 d&iacute;as', "info");
 									$bandera_nodo = false;
 									break;
 									} else {
@@ -359,7 +363,7 @@ class ci_articulo extends comision_ci
 								}
 
 					if ($dias >$dias_totales ) {
-									toba::notificacion()->agregar('Los días de vacaciones tienen que ser menores o iguales a '.$dias_totales .' días.', "info");
+									toba::notificacion()->agregar('Los días de vacaciones tienen que ser menores o iguales a '.$dias_totales .' d&iacute;as.', "info");
 
 									$bandera_nodo=false;
 							
@@ -372,6 +376,7 @@ class ci_articulo extends comision_ci
 				} else if ($id_motivo==57){
 					$agente[$i]['articulo'] = null;
 							$agente [$i]['id_decreto'] = 4;
+							$datos['anio'] = $anio -1;
 							//ei_arbol ($agente);
 							$sql= "SELECT sum(dias)  dias_rest from reloj.vacaciones_restantes
 									WHERE legajo = $legajo AND anio <= $anio;";
@@ -386,14 +391,14 @@ class ci_articulo extends comision_ci
 							$bandera= true;    
 
 							} else {
-								toba::notificacion()->agregar('Usted cuenta con  '.$dias_pendientes .' días, coloque una cantidad de dias validos.', "info");
+								toba::notificacion()->agregar('Usted cuenta con  '.$dias_pendientes .' d&iacute;as, coloque una cantidad de d&iacute;as validos.', "info");
 							$bandera = false;    
 							}
 				// Adelanto de Vacaciones
 				} else if ($id_motivo == 55){
 					$agente [$i]['id_decreto'] = 4;
 					if ($anio != date("Y")) {
-						toba::notificacion()->agregar('Para pedir Adelanto de vacaciones recuerde colocar el año en curso', "info");
+						toba::notificacion()->agregar('Para pedir Adelanto de vacaciones recuerde colocar el a&ntildeo en curso', "info");
 						$bandera = false;
 
 					} else {
@@ -421,7 +426,7 @@ class ci_articulo extends comision_ci
 
 						} else {
 							$bandera = false;
-							toba::notificacion()->agregar('Ud. no cuenta con la antigüedad suficiente para solicitar Adelanto de Vacaciones', "info");
+							toba::notificacion()->agregar('Ud. no cuenta con la antig&uuml;edad suficiente para solicitar Adelanto de Vacaciones', "info");
 
 						}
 						if ($bandera){
@@ -499,7 +504,7 @@ class ci_articulo extends comision_ci
 
 									}
 									if(!is_null($temp[0]['dias_restantes'])&&!($temp[0]['dias_restantes']> 0 &&$temp[0]['dias_restantes'] < 6) ){
-									toba::notificacion()->agregar('Ud ha excedido la cantidad anual de razones particulares este año cuenta con '.$temp[0]['dias_restantes'] .' días', "info");
+									toba::notificacion()->agregar('Ud ha excedido la cantidad anual de razones particulares este a&ntilde;o cuenta con '.$temp[0]['dias_restantes'] .' d&iacute;as', "info");
 									} 
 								} else if($temp[0]['dias_restantes']<=0 || $temp[0]['dias_restantes']> 2 )
 								{
@@ -517,10 +522,10 @@ class ci_articulo extends comision_ci
 								
 								
 							} else {
-								toba::notificacion()->agregar('Ud ha excedido la cantidad de dias recuerde que las razones particulares son entre 1 y 2 dias' , "info");                                
+								toba::notificacion()->agregar('Ud ha excedido la cantidad de d&iacute;as recuerde que las razones particulares son entre 1 y 2 d&iacute;as' , "info");                                
 							}
 						} else {
-						toba::notificacion()->agregar('Introduzca el corriente año. Gracias ', "info");
+						toba::notificacion()->agregar('Introduzca el corriente a&ntildeo. Gracias ', "info");
 
 									$bandera_nodo = false;
 
@@ -537,7 +542,7 @@ class ci_articulo extends comision_ci
 							if ($antiguedad > 15){
 								$dias_totales = 45 + $dias_restantes;
 								if ($dias < 30) { 
-									toba::notificacion()->agregar('Los días de vacaciones no pueden ser menores de 30 dias', "info");
+									toba::notificacion()->agregar('Los días de vacaciones no pueden ser menores de 30 d&iacute;as', "info");
 									break;
 									}else {
 									if ($agrego == 0 and $insertadas > 0 and $hay_cargadas == 0){
@@ -557,7 +562,7 @@ class ci_articulo extends comision_ci
 							}else {
 								$dias_totales = 30 +$dia_restantes;
 								if ($dias < 30) { 
-									toba::notificacion()->agregar('Los días de vacaciones no pueden ser menores de 30 dias', "info");
+									toba::notificacion()->agregar('Los días de vacaciones no pueden ser menores de 30 d&iacute;as', "info");
 									break;
 								}else {
 									if ($agrego == 0 and $insertadas > 0 and $hay_cargadas == 0){
@@ -577,7 +582,7 @@ class ci_articulo extends comision_ci
 							
 
 								if ($dias >$dias_totales ) {
-									toba::notificacion()->agregar('Los días de vacaciones tienen que ser menores o iguales a '.$dias_totales .' días', "info");
+									toba::notificacion()->agregar('Los días de vacaciones tienen que ser menores o iguales a '.$dias_totales .' d&iacute;as', "info");
 								}
 								
 							}
@@ -585,6 +590,7 @@ class ci_articulo extends comision_ci
 				}else if ($id_motivo==57){
 					$agente[$i]['articulo'] = null;
 					$agente [$i]['id_decreto'] = 2;
+					$datos['anio'] = $anio -1;
 							
 							//ei_arbol ($agente);
 							$sql= "SELECT sum(dias)  dias_rest from reloj.vacaciones_restantes
@@ -600,14 +606,14 @@ class ci_articulo extends comision_ci
 							$bandera= true;    
 							$datos ['dias_restantes'] = $dias_pendientes;
 							} else {
-								toba::notificacion()->agregar('Usted cuenta con  '.$dias_pendientes .' días, coloque una cantidad de dias validos.', "info");
+								toba::notificacion()->agregar('Usted cuenta con  '.$dias_pendientes .' d&iacute;as, coloque una cantidad de d&iacute;as validos.', "info");
 							$bandera = false;    
 							}
 				//adelanto de Vacaciones
 				} else if ($id_motivo == 55){
 					$agente [$i]['id_decreto'] = 2;
 					if ($anio != date("Y")) {
-						toba::notificacion()->agregar('Para pedir Adelanto de vacaciones recuerde colocar el año en curso', "info");
+						toba::notificacion()->agregar('Para pedir Adelanto de vacaciones recuerde colocar el a&ntildeo en curso', "info");
 						$bandera = false;
 
 					} else {
@@ -635,7 +641,7 @@ class ci_articulo extends comision_ci
 
 						} else {
 							$bandera = false;
-							toba::notificacion()->agregar('Ud. no cuenta con la antigüedad suficiente para solicitar Adelanto de Vacaciones', "info");
+							toba::notificacion()->agregar('Ud. no cuenta con la antig&uuml;edad suficiente para solicitar Adelanto de Vacaciones', "info");
 
 						}
 						if ($bandera){
@@ -644,7 +650,7 @@ class ci_articulo extends comision_ci
 								$dias_adelantados = $adelanto + $dias;
 
 							} else {
-							toba::notificacion()->agregar('Ud.  cuenta con '. $dias_vacaciones. ' por favor corrija los dias para solicitar Adelanto de Vacaciones', "info");
+							toba::notificacion()->agregar('Ud.  cuenta con '. $dias_vacaciones. ' por favor corrija los d&iacute;as para solicitar Adelanto de Vacaciones', "info");
 							$bandera = false;    
 
 							}
@@ -839,6 +845,10 @@ class ci_articulo extends comision_ci
 		}
 
 		}    
+	} 
+	}else {
+		toba::notificacion()->agregar("Coloque un d&iacute;a mayor que 0","info");
+
 	}        
 	}    
 
@@ -918,8 +928,8 @@ $mail->IsHTML(true); //el mail contiene html
 		//$motivo = 'Razones Particulares con gose de haberes';
 		$mail->Subject = 'Formulario de Solicitud Razones Particulares';
 		$body = '<table>
-						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita Justificacion de Inasistencia por Razones Particulares a partir del dia '.$fecha.' hasta '.$hasta. '.
+						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la catedra/oficina/ direcci&oacute;n <b>'.$datos['catedra'].'</b>.<br/>
+						Solicita Justificaci&oacute;n de Inasistencia por Razones Particulares a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.
 							Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
 											
 			</table>';
@@ -930,7 +940,7 @@ $mail->IsHTML(true); //el mail contiene html
 		//$motivo = 'Vacaciones'.$datos['anio'];
 		$body = '<table>
 						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita la licencia anual correspondiente al  '.$datos['anio'].' a partir del dia '.$fecha.'hasta '.$hasta. '. <br/>
+						Solicita la licencia anual correspondiente al  '.$datos['anio'].' a partir del d&iacute;a '.$fecha.'hasta '.$hasta. '. <br/>
 						Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
 											
 			</table>';
@@ -940,8 +950,8 @@ $mail->IsHTML(true); //el mail contiene html
 		$body = '<table>
 
 				El/la agente <b>'.$datos['agente_ayn'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
-				Solicita adelanto de licencia anual correspondiente al' .$datos['anio']. ' a partir del dia'.$fecha. ' hasta '.$hasta. '<br/>
-				Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. 'Estos días de adelanto que ud ha solicitado,
+				Solicita adelanto de licencia anual correspondiente al' .$datos['anio']. ' a partir del d&iacute;a'.$fecha. ' hasta '.$hasta. '<br/>
+				Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. 'Estos d&iacute;as de adelanto que ud ha solicitado,
 				serán restados del total de vacaciones correspondientes al año en curso
 			<table/>';
 
@@ -952,9 +962,9 @@ $mail->IsHTML(true); //el mail contiene html
 		$body = '<table>
 
 				El/la agente <b>'.$datos['agente_ayn'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
-				Solicita los dias pendientes de la licencia anual correspondiente al ' .$datos['anio']. ' a partir del dia '.$fecha. ' hasta '.$hasta. '<br/>
+				Solicita los d&iacute;as pendientes de la licencia anual correspondiente al ' .$datos['anio']. ' a partir del d&iacute;a '.$fecha. ' hasta '.$hasta. '<br/>
 				Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones'].  '<br/>
-				Ud. cuenta con '.$datos['dias_restantes'].' dias de vacaciones pendientes.
+				Ud. cuenta con '.$datos['dias_restantes'].' d&iacute;as de vacaciones pendientes.
 			<table/>';
 
 
@@ -987,7 +997,7 @@ function enviar_correos_sup($correo,$destino)
 
 	$hasta=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] . "+ " .$datos['dias']. " days") );
 	
-/*            
+            
 		//    ei_arbol($correo,$destino);   
 		$mail = new phpmailer();
 		$mail->IsSMTP();
@@ -1026,9 +1036,9 @@ $mail->IsHTML(true); //el mail contiene html
 	if ($datos['id_motivo'] == 30) {
 		//$motivo = 'Razones Particulares con gose de haberes';
 		$body = '<table>
-						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
+						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la catedra/oficina/ direcci&oacute;n <b>'.$datos['catedra'].'</b>.<br/>
 
-						Ha solicitado la Justificacion de Inasistencia por Razones Particulares a partir del dia '.$fecha.' hasta '.$hasta. '.<br/>
+						Ha solicitado la Justificaci&oacute;n de Inasistencia por Razones Particulares a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.<br/>
 							Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. ' <br/>
 							Por favor haga <a href="http://172.22.8.49/ctrl_asis/1.0">click aqui </a> para su autorizacion
 
@@ -1042,7 +1052,7 @@ $mail->IsHTML(true); //el mail contiene html
 		$body = '<table>
 
 						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita Vacaciones correspondiente al  '.$datos['anio'].' a partir del dia '.$fecha.' hasta '.$hasta. '.<br/>
+						Solicita Vacaciones correspondiente al  '.$datos['anio'].' a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.<br/>
 						Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. ' <br/>
 						En caso de no estar de acuerdo con la autorizacion comuniquese por correo con la autoridad correspondiente.
 
@@ -1058,7 +1068,7 @@ if(!$mail->Send()) {
 	echo "Error: " . $mail->ErrorInfo;
 } else {
 	echo "Enviado!";
-}*/
+}
 }
 }
 ?>
