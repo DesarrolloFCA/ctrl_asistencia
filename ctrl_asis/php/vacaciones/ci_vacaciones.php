@@ -220,7 +220,7 @@ $mail->Password   = "djxgidwlytoydsow";
 //Definimos el remitente (dirección y, opcionalmente, nombre)
 $mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formulario Personal');
 //Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
-$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
+//$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
 //Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)
 $mail->AddAddress($correo, $datos['agente_ayn']);
 //Definimos el tema del email
