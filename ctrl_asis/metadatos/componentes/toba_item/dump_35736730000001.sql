@@ -13,7 +13,7 @@ INSERT INTO apex_item (item_id, proyecto, item, padre_id, padre_proyecto, padre,
 	'35736730000001', --item
 	NULL, --padre_id
 	'ctrl_asis', --padre_proyecto
-	'4000545', --padre
+	'35736730000066', --padre
 	'0', --carpeta
 	'0', --nivel_acceso
 	'web', --solicitud_tipo
@@ -28,7 +28,7 @@ INSERT INTO apex_item (item_id, proyecto, item, padre_id, padre_proyecto, padre,
 	'4000021', --punto_montaje
 	NULL, --actividad_accion
 	'1', --menu
-	NULL, --orden
+	'35', --orden
 	'0', --solicitud_registrar
 	NULL, --solicitud_obs_tipo_proyecto
 	NULL, --solicitud_obs_tipo

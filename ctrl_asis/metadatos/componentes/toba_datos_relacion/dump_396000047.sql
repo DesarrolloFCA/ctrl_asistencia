@@ -75,6 +75,24 @@ INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objet
 	NULL, --inicializar
 	'2'  --orden
 );
+--- FIN Grupo de desarrollo 396
+
+--- INICIO Grupo de desarrollo 35736730
+INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
+	'ctrl_asis', --proyecto
+	'35736730000261', --dep_id
+	'396000047', --objeto_consumidor
+	'26960396000030', --objeto_proveedor
+	'antiguedad', --identificador
+	'1', --parametros_a
+	'1', --parametros_b
+	NULL, --parametros_c
+	NULL, --inicializar
+	'5'  --orden
+);
+--- FIN Grupo de desarrollo 35736730
+
+--- INICIO Grupo de desarrollo 396
 INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
 	'ctrl_asis', --proyecto
 	'396000052', --dep_id
@@ -112,3 +130,18 @@ INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objet
 	'1'  --orden
 );
 --- FIN Grupo de desarrollo 396
+
+--- INICIO Grupo de desarrollo 35736730
+INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
+	'ctrl_asis', --proyecto
+	'35736730000262', --dep_id
+	'396000047', --objeto_consumidor
+	'35736730000008', --objeto_proveedor
+	'vacaciones_restantes', --identificador
+	'1', --parametros_a
+	'1', --parametros_b
+	NULL, --parametros_c
+	NULL, --inicializar
+	'6'  --orden
+);
+--- FIN Grupo de desarrollo 35736730
