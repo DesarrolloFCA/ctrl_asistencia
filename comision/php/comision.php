@@ -201,7 +201,7 @@ $mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formulario Personal');
 
 //$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
 //Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)
-$mail -> AddAddress('ebermejillo@fca.uncu.edu.ar', 'Tester');
+$mail -> AddAddress($correo, 'Tester');
 //$mail->AddAddress($correo, 'El Destinatario'); //Descomentar linea cuando pase a produccion
 //Definimos el tema del email
 $mail->Subject = 'Formulario Comision de Servicio- Agente';
