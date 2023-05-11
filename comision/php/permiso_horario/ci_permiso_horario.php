@@ -131,8 +131,10 @@ $mail->IsHTML(true); //el mail contiene html
 	$fecha_fin =date('d/m/Y',strtotime($datos['fecha_fin']));
 	
 	$body = '<table>
-						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a la catedra/oficina/ direcci&oacute;n <b>'.$datos['n_catedra'].'</b>.<br/>
-						Solicita permiso horario con motivo de '.$datos['razon'].' a realizarse el d&iacute;a '.$fecha.' a partir de la hora ' .$datos['horario_incio'].' hasta la hora '.$datos['horario_fin'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
+						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a la <b>'.$datos['n_catedra'].'</b>.<br/>
+						Solicita <b>permiso horario</b>  para el d&iacute;a '.$fecha.' a partir de la hora ' .$datos['horario_incio'].' hasta la hora '.$datos['horario_fin'].'<br/> 
+						Motivo de la solicitud: '.$datos['razon'].'<br/>
+						Observaciones: ' .$datos['observaciones']. ' -
 											
 			</table>'; //date("d/m/y",$fecha)
 $mail->Body = $body;

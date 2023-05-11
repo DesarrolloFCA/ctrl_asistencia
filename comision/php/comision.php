@@ -151,9 +151,9 @@ $mail->IsHTML(true); //el mail contiene html
 	$fecha_fin =date('d/m/Y',strtotime($datos['fecha_fin']));
 	
 	$body = '<table>
-						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita Comision de Servicio con motivo de '.$datos['motivo'].' a realizarse el dia '.$fecha.' hasta el dia ' .$fecha_fin. '
-						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].' hasta la hora '.$datos['horario_fin'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
+						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
+						Solicita Comision de Servicio a realizarse el dia '.$fecha.' hasta el dia ' .$fecha_fin. '
+						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].' hasta la hora '.$datos['horario_fin'].' con el siguiente motivo de: '.$datos['motivo'].' observaciones: ' .$datos['observaciones']. '
 											
 			</table>'; //date("d/m/y",$fecha)
 $mail->Body = $body;

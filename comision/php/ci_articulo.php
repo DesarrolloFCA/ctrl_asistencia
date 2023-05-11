@@ -949,7 +949,7 @@ $mail->IsHTML(true); //el mail contiene html
 						Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
 											
 			</table>';
-	} else if ($datos['id_motivo'] == 55)
+	/*} else if ($datos['id_motivo'] == 55)
 	{
 		$mail->Subject = 'Formulario de Adelanto de Licencia Anual';
 		$body = '<table>
@@ -958,12 +958,12 @@ $mail->IsHTML(true); //el mail contiene html
 				Solicita adelanto de licencia anual correspondiente al' .$datos['anio']. ' a partir del d&iacute;a'.$fecha. ' hasta '.$hasta. '<br/>
 				Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. 'Estos d&iacute;as de adelanto que ud ha solicitado,
 				serán restados del total de vacaciones correspondientes al año en curso
-			<table/>';
+			<table/>';*/
 
 
 	} else if ($datos ['id_motivo'] == 57)
 	{
-		$mail->Subject = 'Formulario de Dias Pendientes de la Licencia Anual';
+		$mail->Subject = 'Formulario de D&iacute&as Pendientes de la Licencia Anual';
 		$body = '<table>
 
 				El/la agente <b>'.$datos['agente_ayn'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
@@ -1030,7 +1030,7 @@ $mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formularios Personal');
 //Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)
 $mail->AddAddress($correo, $destino);
 //Definimos el tema del email
-$mail->Subject = 'Formulario de Vacaciones del Agente ' .$datos['agente_ayn'];
+//$mail->Subject = 'Formulario de Vacaciones del Agente ' .$datos['agente_ayn'];
 //Para enviar un correo formateado en HTML lo cargamos con la siguiente función. Si no, puedes meterle directamente una cadena de texto.
 //$mail->MsgHTML(file_get_contents('correomaquetado.html'), dirname(ruta_al_archivo));
 //Y por si nos bloquean el contenido HTML (algunos correos lo hacen por seguridad) una versión alternativa en texto plano (también será válida para lectores de pantalla)
@@ -1040,29 +1040,41 @@ $mail->IsHTML(true); //el mail contiene html
 
 	if ($datos['id_motivo'] == 30) {
 		//$motivo = 'Razones Particulares con gose de haberes';
+		$mail->Subject = 'Formulario de Solicitud Razones Particulares del Agente ' .$datos['agente_ayn'];
 		$body = '<table>
-						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la catedra/oficina/ direcci&oacute;n <b>'.$datos['catedra'].'</b>.<br/>
-
-						Ha solicitado la Justificaci&oacute;n de Inasistencia por Razones Particulares a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.<br/>
-							Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. ' <br/>
+						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la <b>'.$datos['catedra'].'</b> solicita <b> Razones Particulares </b> a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.<br/>
+							Observaciones: ' .$datos['observaciones']. ' - <br/>
 							Por favor haga <a href="http://172.22.8.49/ctrl_asis/1.0">click aqui </a> para su autorizacion
 
 											
 			</table>';
 
-	} else
+	} else if ($datos['id_motivo'] == 35)
 	{
 			
 		//$motivo = 'Vacaciones'.$datos['anio'];
+		$mail->Subject = 'Formulario de Solicitud Licencia Anual del Agente ' .$datos['agente_ayn'];
 		$body = '<table>
 
-						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita Vacaciones correspondiente al  '.$datos['anio'].' a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.<br/>
+						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a  la <b>'.$datos['catedra'].'</b>.<br/>
+						Solicita <b> Licencia Anual</b> correspondiente al  '.$datos['anio'].' a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.<br/>
 						Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. ' <br/>
 						En caso de no estar de acuerdo con la autorizacion comuniquese por correo con la autoridad correspondiente.
 
 											
 			</table>';
+	} else if ($datos ['id_motivo'] == 57)
+	{
+		$mail->Subject = 'Formulario de D&iacute&as Pendientes de la Licencia Anual del Agente' .$datos['agente_ayn'];
+		$body = '<table>
+
+				El/la agente <b>'.$datos['agente_ayn'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
+				Solicita <b>los d&iacute;as pendientes de la licencia anual</b> correspondiente al ' .$datos['anio']. ' a partir del d&iacute;a '.$fecha. ' hasta '.$hasta. '<br/>
+				Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones'].  '<br/>
+				Ud. cuenta con '.$datos['dias_restantes'].' d&iacute;as de vacaciones pendientes.
+			<table/>';
+
+
 	}
 	
 	
