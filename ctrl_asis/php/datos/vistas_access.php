@@ -92,7 +92,7 @@ class vistas_access extends toba_datos_relacion
 
 		sqlsrv_free_stmt($result);
 		sqlsrv_close($conn);
-		ei_arbol($result);
+		//ei_arbol($result);
 		return $array;
 
 	}
@@ -636,13 +636,20 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 		$total = 0;
 		//ei_arbol(round((memory_get_usage()/(1024*1024)),2));
 		$agentes =$personas;
-	
+		//ei_arbol($filtro);
+		//ei_arbol($personas);	
 		$fecha_desde = $filtro['fecha_desde'];
 		$fecha_hasta = $filtro['fecha_hasta'];
 		//if ($fecha_desde <> $fecha_hasta){
 		$feriados = toba::tabla('conf_feriados')->get_listado($filtro);
 		$cantidad_feriado = count($feriados);
+	//	ei_arbol($feriados);
+		/*for($i=0;$i<$cantidad_feriado;$i++){
+			$fechaferiado = strtotime($feriados[$i]['fecha']);
+			$feriados[$i]['fecha']= date("Y-m-d", $fechaferiado);
 
+		}*/
+			//ei_arbol($feriados);
 		
 			if (isset($filtro['basedatos'])) {
 				$filtro_marca['basedatos'] = $filtro['basedatos'];
@@ -738,9 +745,14 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 					//ei_arbol(round((memory_get_usage()/(1024*1024)),2));
 					//$v= toba::tabla('conf_feriados')->hay_feriado($dia,$agrupamiento);
 					//ei_arbol($v);
+					//ei_arbol($cantidad_feriado);
+
+					
 					if ($cantidad_feriado < 0 ) {	
 						for ($i=0; $i< $cantidad_feriado; $i++){
-							if ($feriados[$i]['fecha'] == $dia and $feriados[$i]['agrupamiento'] == $agrupamiento  ) {	
+							
+
+							if ($feriados[$i]['fecha'] == $dia and ($feriados[$i]['agrupamiento'] == $agrupamiento or $feriados[$i]['agrupamiento']=='Todos'  ) ) {	
 						
 								$agentes[$key]['feriados']++;
 							}
@@ -810,7 +822,7 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 					}//fin no es feriado
 					//$cantidad_feriado = -1;
 				}//fin recorremos todos los dias entre fecha_desde y fecha_hasta
-
+			//	ei_arbol($agentes);
 
 				//Recorremos array de marcas para agregar casos especiales -------------------------------- 
 				$horas_totales = 0;
@@ -966,11 +978,14 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 		$agente = $agentes[$key];
 		//------------------------
 
+		
 		$agentes[$key]['laborables']++;
 						
 		$id_parte = toba::tabla('parte')->tiene_parte($agente['legajo'], $dia);
 		$id_parte_sanidad = toba::tabla('parte')->tiene_parte_sanidad($agente['legajo'], $dia);
 		$info_complementaria = toba::tabla('info_complementaria')->tiene_info_complementaria($agente['legajo'], $dia);                  
+		$hay_feriado= toba::tabla('conf_feriados')->dia_feriado($dia);
+		//ei_arbol($hay_feriado);
 
 		if($id_parte_sanidad > 0){  
 			
@@ -985,7 +1000,18 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 				'dia'       => $dia_leyenda,
 				'descripcion'  => 'Parte' # sanidad '.$parte['id_parte'].': '.$parte['motivo']
 					);
-
+			}elseif (isset($hay_feriado)){
+					if ($hay_feriado == 'Todos'){
+					$agentes[$key]['feriados']++;
+					$agentes[$key]['laborables']--;	
+					} elseif ($agentes[$key]['escalafon'] == 'NODO'and $hay_feriado == 'Personal de Apoyo'){
+						$agentes[$key]['feriados']++;
+						$agentes[$key]['laborables']--;	
+					} else {
+						$agentes[$key]['feriados']++;
+						$agentes[$key]['laborables']--;	
+					}	
+		
 		}elseif($id_parte > 0){ 
 			$agentes[$key]['partes']++; 
 
@@ -1014,6 +1040,9 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 
 					$agentes[$key]['ausentes']++; //$agente['presentes']++;
 					$agentes[$key]['justificados']++;
+
+				
+					
 
 				}else{
 					$agentes[$key]['ausentes']++;

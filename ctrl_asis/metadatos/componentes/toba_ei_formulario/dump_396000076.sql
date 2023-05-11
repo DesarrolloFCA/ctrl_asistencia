@@ -133,7 +133,7 @@ INSERT INTO apex_objeto_ut_formulario (objeto_ut_formulario_proyecto, objeto_ut_
 		</tr>
 	</tbody>
 </table>
-<p>[ef id=fecha_nacimiento][ef id=apellido][ef id=nombre][ef id=edad][ef id=estado_civil][ef id=tipo_sexo][ef id=domicilio][ef id=localidad][ef id=separador_instituto][ef id=cod_depcia][ef id=agrupamiento][ef id=separador_parte][ef id=fecha_inicio_licencia][ef id=id_motivo][ef id=id_decreto][ef id=id_articulo][ef id=descripcion_articulo][ef id=anio][ef id=dias][ef id=observaciones]</p>', --template
+<p>[ef id=fecha_nacimiento][ef id=apellido][ef id=nombre][ef id=edad][ef id=estado_civil][ef id=tipo_sexo][ef id=domicilio][ef id=localidad][ef id=separador_instituto][ef id=cod_depcia][ef id=agrupamiento][ef id=separador_parte][ef id=fecha_inicio_licencia] [ef id=id_motivo][ef id=id_decreto][ef id=id_articulo][ef id=descripcion_articulo][ef id=anio][ef id=dias][ef id=observaciones]</p>', --template
 	NULL  --template_impresion
 );
 

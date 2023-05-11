@@ -204,7 +204,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'396000030', --objeto_cuadro
 	'396000058', --objeto_cuadro_col
 	'ausentes', --clave
-	'14', --orden
+	'20', --orden
 	'Ausentes', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'col-cen-s1', --estilo
@@ -235,7 +235,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'396000030', --objeto_cuadro
 	'396000060', --objeto_cuadro_col
 	'injustificados', --clave
-	'15', --orden
+	'21', --orden
 	'Injustificados', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'col-cen-s1', --estilo
@@ -266,7 +266,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'396000030', --objeto_cuadro
 	'396000061', --objeto_cuadro_col
 	'partes_sanidad', --clave
-	'17', --orden
+	'23', --orden
 	'Con Parte sanidad', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'col-cen-s1', --estilo
@@ -297,7 +297,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'396000030', --objeto_cuadro
 	'396000108', --objeto_cuadro_col
 	'presentes', --clave
-	'13', --orden
+	'19', --orden
 	'Presentes', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'col-cen-s1', --estilo
@@ -328,7 +328,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'396000030', --objeto_cuadro
 	'396000109', --objeto_cuadro_col
 	'horas_promedio', --clave
-	'19', --orden
+	'12', --orden
 	'Promedio', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'col-cen-s1', --estilo
@@ -359,7 +359,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'396000030', --objeto_cuadro
 	'396000111', --objeto_cuadro_col
 	'laborables', --clave
-	'12', --orden
+	'18', --orden
 	'Laborables', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'col-cen-s1', --estilo
@@ -390,7 +390,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'396000030', --objeto_cuadro
 	'396000112', --objeto_cuadro_col
 	'feriados', --clave
-	'11', --orden
+	'17', --orden
 	'Feriados', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'col-cen-s1', --estilo
@@ -452,7 +452,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'396000030', --objeto_cuadro
 	'396000158', --objeto_cuadro_col
 	'horas_requeridas_prom', --clave
-	'20', --orden
+	'13', --orden
 	'Requerido', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'col-cen-s1', --estilo
@@ -483,7 +483,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'396000030', --objeto_cuadro
 	'396000159', --objeto_cuadro_col
 	'horas_totales', --clave
-	'18', --orden
+	'11', --orden
 	'Totales', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'col-cen-s1', --estilo
@@ -514,7 +514,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'396000030', --objeto_cuadro
 	'396000160', --objeto_cuadro_col
 	'desviacion_horario', --clave
-	'21', --orden
+	'14', --orden
 	'Desviación', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'col-cen-s1', --estilo
@@ -576,7 +576,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'396000030', --objeto_cuadro
 	'396000162', --objeto_cuadro_col
 	'partes', --clave
-	'16', --orden
+	'22', --orden
 	'Con Parte', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'col-cen-s1', --estilo
@@ -799,7 +799,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'396000030', --objeto_cuadro
 	'35736730000196', --objeto_cuadro_col
 	'entrada', --clave
-	'22', --orden
+	'15', --orden
 	'Entrada', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'4', --estilo
@@ -830,7 +830,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'396000030', --objeto_cuadro
 	'35736730000197', --objeto_cuadro_col
 	'salida', --clave
-	'23', --orden
+	'16', --orden
 	'Salida', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'4', --estilo
