@@ -136,24 +136,14 @@ class ci_control_asistencia extends ctrl_asis_ci
 			if (isset($this->s__datos_filtro['basedatos'])) {
 			$filtro['basedatos'] = $this->s__datos_filtro['basedatos'];
 			}
-			//ei_arbol($filtro);
+		//	ei_arbol($filtro);
 			$this->s__datos = $this->dep('access')->get_lista_resumen($agentes,$filtro);
-
+		
+			//ei_arbol($agentes);
 			unset($agentes);
 
 			$f = $this->s__datos;
 			//ei_arbol($f);
-			$a = count($f);
-			for ($i=0; $i<$a;$i++){
-				$leg = $f[$i]['legajo'];
-				$sql = "SELECT email FROM reloj.agentes_mail
-		        where legajo = $leg";
-		        $email= toba::db('ctrl_asis')->consultar($sql);
-		       // ei_arbol($email);
-		        $f[$i]['email']=$email[0]['email'];
-
-			}
-
 			$total_registros = count($f);
 			
 		
@@ -219,7 +209,12 @@ class ci_control_asistencia extends ctrl_asis_ci
 			$registros = count($todo); 	
 			//$hasta = $this->s__datos['total'] +1;
 			for ($i = 0;$i<$registros;$i++){
+				$horas_esp = $this->dep('datos')->tabla('conf_jornada')->get_horas_diarias($todo[$i]['legajo']);
+				//ei_arbol($horas_esp);
+				if(isset($horas_esp)){
+					$horas_diarias = '0'.$horas_esp[0]['horas'].':00';
 				
+				} else {
 				switch ($todo[$i]['cant_horas']){
 					case 10 :  
 					$horas_diarias= '01:24';
@@ -235,9 +230,11 @@ class ci_control_asistencia extends ctrl_asis_ci
 						break;
 					case 35:
 					$horas_diarias = '06:00';
-					break;					
+					break;	
+
 				} 
-				
+				}
+			//	ei_arbol($horas_diarias);
 				$tmp= 0;
 						//ei_arbol($todo[$i]['laborables'] );
 						$dias_trab = $todo[$i]['laborables'] - $todo[$i]['justificados'];
@@ -248,7 +245,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 						
 						$horas= $dias_trab * $horas_min[0];
 						
-						// Calulos de minutos
+						// Calculos de minutos
 						$minutos = $dias_trab * $horas_min[1];
 
 						while ($minutos >= 60){
@@ -269,7 +266,6 @@ class ci_control_asistencia extends ctrl_asis_ci
 			}
 		//	ei_arbol($todo);
 			
-
 			for ($h=0; $h <= $registros; $h++)
 			{
 				

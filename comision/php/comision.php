@@ -70,10 +70,13 @@ class comision extends toba_ci
 			$this->s__datos = $datos;
 			if (!empty ($datos['legajo'])){
 			$this->enviar_correos($correo_agente[0]['email']);
+			$this->enviar_correos_sup($correo_sup[0]['email']);
 		
 			}
-			if (!empty ($datos['legajo_sup'])){
-				$this->enviar_correos_sup($correo_sup[0]['email']);
+		//	ei_arbol($correo_sup);
+			/*if (!empty ($datos['legajo_sup'])){
+
+				
 			}
 			/*if (!empty ($datos['legajo_aut'])){
 			$this->enviar_correos_sup($correo_aut[0]['email']);
@@ -152,7 +155,7 @@ $mail->IsHTML(true); //el mail contiene html
 	
 	$body = '<table>
 						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita Comision de Servicio a realizarse el dia '.$fecha.' hasta el dia ' .$fecha_fin. '
+						Solicita <b>Comision de Servicio</b> a realizarse el dia '.$fecha.' hasta el dia ' .$fecha_fin. '
 						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].' hasta la hora '.$datos['horario_fin'].' con el siguiente motivo de: '.$datos['motivo'].' observaciones: ' .$datos['observaciones']. '
 											
 			</table>'; //date("d/m/y",$fecha)
@@ -175,7 +178,7 @@ if(!$mail->Send()) {
 
 				$datos =$this-> s__datos;    
 				
-//ei_arbol ($this->s__datos);                
+//ei_arbol ($correo);                
 		$mail = new phpmailer();
 		$mail->IsSMTP();
 //Esto es para activar el modo depuración. En entorno de pruebas lo mejor es 2, en producción siempre 0
@@ -213,7 +216,7 @@ $mail->IsHTML(true); //el mail contiene html
 	
 	$body = '<table>
 						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita Comision de Servicio con motivo de '.$datos['motivo'].' a realizarse el dia '.$fecha.' hasta el dia' .$fecha_fin. '
+						Solicita <b>Comision de Servicio</b> con motivo de '.$datos['motivo'].' a realizarse el dia '.$fecha.' hasta el dia' .$fecha_fin. '
 						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].' hasta la hora '.$datos['horario_fin'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '</br>
 						Por favor haga <a href="http://172.22.8.49/ctrl_asis/1.0">click aqui
 											
