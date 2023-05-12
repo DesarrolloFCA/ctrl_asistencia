@@ -117,6 +117,18 @@ INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objet
 	NULL, --inicializar
 	'6'  --orden
 );
+INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
+	'ctrl_asis', --proyecto
+	'35736730000268', --dep_id
+	'396000029', --objeto_consumidor
+	'396000032', --objeto_proveedor
+	'conf_jornada', --identificador
+	'1', --parametros_a
+	'1', --parametros_b
+	NULL, --parametros_c
+	NULL, --inicializar
+	'7'  --orden
+);
 --- FIN Grupo de desarrollo 35736730
 
 --- INICIO Grupo de desarrollo 396

@@ -462,5 +462,4 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'Ausentes Justificados', --grupo
 	NULL  --evento_asociado
 );
-
 --- FIN Grupo de desarrollo 35736730
