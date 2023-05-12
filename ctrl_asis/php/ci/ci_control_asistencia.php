@@ -211,7 +211,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 			for ($i = 0;$i<$registros;$i++){
 				$horas_esp = $this->dep('datos')->tabla('conf_jornada')->get_horas_diarias($todo[$i]['legajo']);
 				//ei_arbol($horas_esp);
-				if(isset($horas_esp)){
+				if(isset($horas_esp[0]['horas'])){
 					$horas_diarias = '0'.$horas_esp[0]['horas'].':00';
 				
 				} else {
