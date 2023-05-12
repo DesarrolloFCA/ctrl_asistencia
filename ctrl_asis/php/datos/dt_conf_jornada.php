@@ -120,6 +120,16 @@ class dt_conf_jornada extends toba_datos_tabla
 			return false;
 		}
 	}
+	function get_horas_diarias($legajo){
+		$sql = "Select max(fecha_ini), date_part('hours',h2-h1) horas, a.legajo from reloj.conf_jornada a
+inner join  reloj.agentes_mail b on a.legajo =b.legajo 
+where date_part('hours',h2-h1) <> 6
+and a.legajo =" .$legajo. "
+group by h1,h2, a.legajo;" ;
+return toba::db('ctrl_asis')->consultar($sql);
+
+
+	}
 
 }
 
