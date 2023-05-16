@@ -50,7 +50,134 @@ class ci_informe_servicio_efectiva extends ctrl_asis_ci
 			$this->s__datos = $this->dep('access')->get_lista_resumen($agentes,$filtro);
 			//$f = $this->s__datos;
 			//ei_arbol($f);
+			$todo =	array_values($this->s__datos);		
+			//	ei_arbol($todo);
+			$registros = count($todo); 	
+			//$hasta = $this->s__datos['total'] +1;
+			for ($i = 0;$i<$registros;$i++){
+				$horas_esp = $this->dep('datos')->tabla('conf_jornada')->get_horas_diarias($todo[$i]['legajo']);
+				//ei_arbol($horas_esp);
+				if(isset($horas_esp[0]['horas'])){
+					$horas_diarias = '0'.$horas_esp[0]['horas'].':00';
+				
+				} else {
+				switch ($todo[$i]['cant_horas']){
+					case 10 :  
+					$horas_diarias= '01:24';
+								break;	
+					case 20 : 
+					$horas_diarias= '02:48';
+								break;	
+					case 30 :
+					$horas_diarias = '04:12';
+							break;			
+					case 40:
+					$horas_diarias = '05:36';
+						break;
+					case 35:
+					$horas_diarias = '06:00';
+					break;	
+
+				} 
+			}
+
 		}
+		$tmp= 0;
+						//ei_arbol($todo[$i]['laborables'] );
+						$dias_trab = $todo[$i]['laborables'] - $todo[$i]['justificados'];
+						//ei_arbol($dias_trab);
+						
+						$horas_min = explode(":",$horas_diarias);
+						//Horas totales ideales trabajadas
+						
+						$horas= $dias_trab * $horas_min[0];
+						
+						// Calculos de minutos
+						$minutos = $dias_trab * $horas_min[1];
+
+						while ($minutos >= 60){
+							$minutos = $minutos - 60;
+							$tmp ++;
+						}
+
+						$horas = $horas + $tmp;
+						
+						if($minutos < 10) {
+							$minutos = '0'.$minutos;
+						}
+
+						$requerido = $horas .':'.$minutos;
+						//ei_arbol($requerido);
+						
+						$todo[$i]['horas_requeridas_prom']= $requerido;
+			}
+		//	ei_arbol($todo);
+			
+			for ($h=0; $h <= $registros; $h++)
+			{
+				
+				if ($h<>0) {
+					$k = $h-1;
+					$legajo_actual = ($todo[$h]['legajo']);
+
+					if ($legajo_actual ==''){
+						//unset($todo[$h]);	
+					}else {
+					$legajo_ant = ($todo[$k]['legajo']);
+					//$requerido = $todo [$h]['cant_horas'];
+					//$todo [$h]['horas_requeridas_prom'] =$requerido;
+					//ei_arbol($todo);
+			
+						if ($legajo_ant ==$legajo_actual){ 
+						$tmp = 0;
+						//$requerido = ($todo [$k]['cant_horas'] + $todo [$h]['cant_horas']);
+						$horas_1 =explode(":",$todo [$k]['horas_requeridas_prom']);
+						$horas_2 = explode(":",$todo [$h]['horas_requeridas_prom']);
+						$hora=$horas_1[0]+$horas_2[0];
+						$min = $horas_1[1]+$horas_2[1];
+						while ($min >= 60){
+							$min = $min - 60;
+							$tmp ++;
+						}
+						$hora=$hora+$tmp;
+						$requerido=$hora .':'.$min;
+						//$requerido = ($todo [$k]['horas_requeridas_prom']) + ($todo [$h]['horas_requeridas_prom']);
+						
+						$todo [$k]['horas_requeridas_prom'] =$requerido;
+
+
+						//unset($todo[$h]);
+					}
+				}
+			}
+		}
+			for ($l=0;$l<$lim;$l++){
+
+				$tot=$todo[$l]['horas_totales'];
+				$h_tot = explode(":",$tot);
+				
+
+				$req =$todo[$l]['horas_requeridas_prom'];
+				$h_req =explode(":",$req);
+
+				if ($h_tot[0] < $h_req[0]) {
+					$todo[$l]['horas_totales'] = '<b><span style="color:#FF0000">'.$todo[$l]['horas_totales'].'</b></span>';
+				} else if ($h_tot[0] == $h_req[0]){
+						if ($h_tot[1] < $h_req[1] ){
+							$todo[$l]['horas_totales'] = '<b><span style="color:#FF0000">'.$todo[$l]['horas_totales'].'</b></span>';
+						} 
+				}	
+
+				
+					
+						
+					
+			}
+			$this ->s__datos = $todo;
+
+			ei_arbol($this->s__datos);
+			$cuadro->set_datos($this->s__datos);
+
 	}
 
 	//-----------------------------------------------------------------------------------

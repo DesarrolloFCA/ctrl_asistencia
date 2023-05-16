@@ -726,13 +726,33 @@ class vistas_mapuche extends toba_datos_relacion
         //static function get_legajos_depencencia($cod_depcia)
         static function get_legajos_depencencia()
 		{
+           /* $sql= "SELECT legajo from reloj.adscripcion
+                    where cod_depcia_destino = '04'";
+            $legajos = toba::db('datos')->consultar;
+            $reg = count($legajos);
+            if($reg<>0){
+            for ($i=0 ; $i<$reg;$i++){
+                if ($i<>0){
+                    $legajos_incluir = ',';
+
+                } else {
+                    $legajos_incluir = 'in (';
+                }
+
+                $legajos_incluir= $legajos[$i]['legajo'];
+             }
+             $legajos_incluir = ')';
+            }
+
+            if (isset($legajo_incluir))*/
             $sql = "SELECT legajo, legajo||' - '||apellido||', '||nombre as descripcion 
                     FROM uncu.legajo_todos
                     WHERE legajo in ((Select legajo from uncu.legajo where cod_depcia = '04'))
-                    or legajo in (26562,30893)
+                    or legajo in (20738,30560)
                     ORDER BY apellido, legajo ASC";
 
             return toba::db('mapuche')->consultar($sql); 
+
         }
 
         static function get_legajos()

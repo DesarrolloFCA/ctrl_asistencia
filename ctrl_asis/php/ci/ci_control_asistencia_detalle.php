@@ -68,7 +68,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 			$horas_esp = $this->dep('datos')->tabla('conf_jornada')->get_horas_diarias($claves_originales['legajo']);
 			
 				if(isset($horas_esp[0]['horas'])){
-			ei_arbol($horas_esp);		
+			//ei_arbol($horas_esp);		
 					$horas_diarias = '0'.$horas_esp[0]['horas'].':00'; ///Horas especiales jornadas
 				}
 			$sql = "SELECT escalafon from legajo
