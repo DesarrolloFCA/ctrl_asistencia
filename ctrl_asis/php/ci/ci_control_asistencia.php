@@ -215,7 +215,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 					$horas_diarias = '0'.$horas_esp[0]['horas'].':00';
 				
 				} else {
-				switch ($todo[$i]['cant_horas']){
+				/*switch ($todo[$i]['cant_horas']){
 					case 10 :  
 					$horas_diarias= '01:24';
 								break;	
@@ -227,6 +227,27 @@ class ci_control_asistencia extends ctrl_asis_ci
 							break;			
 					case 40:
 					$horas_diarias = '05:36';
+						break;
+					case 35:
+					$horas_diarias = '06:00';
+					break;	
+
+				} */
+				switch ($todo[$i]['cant_horas']){
+					case 10 :  
+					$horas_diarias= '01:24';
+					$todo[$i]['dedicacion'] = 'SIMPLE';
+								break;	
+					case 20 : 
+					$horas_diarias= '02:48';
+					$todo[$i]['dedicacion'] = 'SEMIEXCLUSIVA';
+								break;	
+					case 30 :
+					$horas_diarias = '04:12';
+							break;			
+					case 40:
+					$horas_diarias = '05:36';
+					$todo[$i]['dedicacion'] = 'EXCLUSIVA';
 						break;
 					case 35:
 					$horas_diarias = '06:00';
@@ -255,8 +276,10 @@ class ci_control_asistencia extends ctrl_asis_ci
 
 						$horas = $horas + $tmp;
 						
-						if($minutos < 10) {
+						if($minutos > 0 or $minutos < 10) {
 							$minutos = '0'.$minutos;
+						} else if ($minutos == 0){
+							$minutos = '00';
 						}
 
 						$requerido = $horas .':'.$minutos;
