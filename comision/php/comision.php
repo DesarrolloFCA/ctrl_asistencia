@@ -14,9 +14,9 @@ class comision extends toba_ci
 			$form->set_solo_lectura('id_motivo');
 			$form->set_solo_lectura('id_articulo');
 			$form->set_datos($this->dep('datos')->tabla('parte')->get());
-		} else {
-			$this->pantalla()->eliminar_evento('eliminar');
-		}
+		} // else {
+		//    $this->pantalla()->eliminar_evento('eliminar');
+		//}
 	}
 
 	function evt__formulario__alta($datos)
@@ -27,14 +27,19 @@ class comision extends toba_ci
 			$fecha=$datos['fecha'];    
 			$fecha_fin=date('d/m/Y',strtotime($datos['fecha_fin']));
 			$legajo=$datos['legajo'];
-			$superior=$datos['legajo_sup'];
-			$autoridad=$datos['leg_aut'];
+			$superior=$datos['superior'];
+			$autoridad=$datos['autoridad'];
 			$lugar=$datos['lugar'];
 			$catedra=$datos['catedra'];
+			$sql= "SELECT nombre_catedra FROM reloj.catedras 
+				Where id_catedra =$catedra";
+			$a = toba::db('comision')->consultar($sql);
+			$datos['catedra']= $a[0]['nombre_catedra'];
 			$horario=$datos['horario'];
 			$obs=$datos['observaciones'].' ';
 			$motivo= $datos['motivo'];
 			$fuera = $datos['fuera'];
+
 			
 		
 			if ($fuera == 1) 
@@ -48,35 +53,38 @@ class comision extends toba_ci
 			
 			$horario_fin=$datos['horario_fin'];
 			
-		
+			//ei_arbol ($datos);
 			if (!empty ($datos['legajo'])){
 				$correo_agente = $this->dep('mapuche')->get_legajos_email($datos['legajo']);
 				$datos['agente']=$correo_agente[0]['descripcion'];
-			//ei_arbol ($correo_agente);
+		//    ei_arbol ($correo_agente);
 			}
 			if (!empty ($datos['superior'])){
-				$correo_sup = $this->dep('mapuche')->get_legajos_email($datos['legajo_sup']);
+				$correo_sup = $this->dep('mapuche')->get_legajos_email($datos['superior']);
 				$datos['superior']=$correo_sup[0]['descripcion'];
 			}
 			if (!empty ($datos['legajo_autoridad'])){
-				$correo_aut = $this->dep('mapuche')->get_legajos_email($datos['leg_aut']);
+				$correo_aut = $this->dep('mapuche')->get_legajos_email($datos['autoridad']);
 			$datos['autoridad']=$correo_aut[0]['descripcion'];
 			}
 			$this->s__datos = $datos;
-			/*if (!empty ($datos['legajo'])){
+			if (!empty ($datos['legajo'])){
 			$this->enviar_correos($correo_agente[0]['email']);
+			$this->enviar_correos_sup($correo_sup[0]['email']);
 		
 			}
-			if (!empty ($datos['legajo_sup'])){
-				$this->enviar_correos_sup($correo_sup[0]['email']);
+		//	ei_arbol($correo_sup);
+			/*if (!empty ($datos['legajo_sup'])){
+
+				
 			}
-			if (!empty ($datos['legajo_aut'])){
+			/*if (!empty ($datos['legajo_aut'])){
 			$this->enviar_correos_sup($correo_aut[0]['email']);
 			}*/
 		
 			$sql = "INSERT INTO reloj.comision
 				(legajo, catedra, lugar, motivo, fecha, horario, observaciones, legajo_sup, legajo_aut,  fecha_fin, horario_fin, fuera) VALUES
-				 ($legajo, $catedra, '$lugar', '$motivo','$fecha', '$horario', '$obs', $superior, $autoridad,'$fecha_fin','$horario_fin',$f);";
+					($legajo, $catedra, '$lugar', '$motivo','$fecha', '$horario', '$obs', $superior, $autoridad,'$fecha_fin','$horario_fin',$f);";
 		
 			toba::db('comision')->ejecutar($sql); 
 		
@@ -123,28 +131,32 @@ $mail->Port       = 587;
 $mail->SMTPSecure = 'tls';
 //Tenemos que usar gmail autenticados, así que esto a TRUE
 $mail->SMTPAuth   = true;
+
 //Definimos la cuenta que vamos a usar. Dirección completa de la misma
-$mail->Username   = "mmolina@fca.uncu.edu.ar";
+$mail->Username   = "formularios_personal@fca.uncu.edu.ar";
 //Introducimos nuestra contraseña de gmail
-$mail->Password   = "cebkeqtiuonnpipw";
+$mail->Password   = "djxgidwlytoydsow";
 //Definimos el remitente (dirección y, opcionalmente, nombre)
-$mail->SetFrom('mmolina@fca.uncu.edu.ar', 'Martin Molina');
+$mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formulario Personal');
 //Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
-$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
+
+//$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
 //Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)
-$mail->AddAddress('molina.martin@gmail.com', 'El Destinatario');
+//$mail -> AddAddress('ebermejillo@fca.uncu.edu.ar', 'Tester');
+$mail->AddAddress($correo, 'El Destinatario'); //Descomentar linea cuando pase a produccion
 //Definimos el tema del email
-$mail->Subject = 'Esto es un correo de prueba';
+$mail->Subject = 'Formulario Comision de Servicio';
 //Para enviar un correo formateado en HTML lo cargamos con la siguiente función. Si no, puedes meterle directamente una cadena de texto.
 //$mail->MsgHTML(file_get_contents('correomaquetado.html'), dirname(ruta_al_archivo));
 //Y por si nos bloquean el contenido HTML (algunos correos lo hacen por seguridad) una versión alternativa en texto plano (también será válida para lectores de pantalla)
 $mail->IsHTML(true); //el mail contiene html
 	$fecha=date('d/m/Y',strtotime($datos['fecha']) );
+	$fecha_fin =date('d/m/Y',strtotime($datos['fecha_fin']));
 	
 	$body = '<table>
-						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita comision de servicio con motivo de '.$datos['motivo'].' a realizarse el dia '.$fecha.' 
-						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
+						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
+						Solicita <b>Comision de Servicio</b> a realizarse el dia '.$fecha.' hasta el dia ' .$fecha_fin. '
+						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].' hasta la hora '.$datos['horario_fin'].' con el siguiente motivo de: '.$datos['motivo'].' observaciones: ' .$datos['observaciones']. '
 											
 			</table>'; //date("d/m/y",$fecha)
 $mail->Body = $body;
@@ -166,7 +178,7 @@ if(!$mail->Send()) {
 
 				$datos =$this-> s__datos;    
 				
-//ei_arbol ($this->s__datos);                
+//ei_arbol ($correo);                
 		$mail = new phpmailer();
 		$mail->IsSMTP();
 //Esto es para activar el modo depuración. En entorno de pruebas lo mejor es 2, en producción siempre 0
@@ -183,17 +195,19 @@ $mail->SMTPSecure = 'tls';
 //Tenemos que usar gmail autenticados, así que esto a TRUE
 $mail->SMTPAuth   = true;
 //Definimos la cuenta que vamos a usar. Dirección completa de la misma
-$mail->Username   = "mmolina@fca.uncu.edu.ar";
+$mail->Username   = "formularios_personal@fca.uncu.edu.ar";
 //Introducimos nuestra contraseña de gmail
-$mail->Password   = "cebkeqtiuonnpipw";
+$mail->Password   = "djxgidwlytoydsow";
 //Definimos el remitente (dirección y, opcionalmente, nombre)
-$mail->SetFrom('mmolina@fca.uncu.edu.ar', 'Martin Molina');
+$mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formulario Personal');
 //Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
-$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
+
+//$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
 //Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)
-$mail->AddAddress('ebermejillo@fca.uncu.edu.ar', 'El Destinatario');
+$mail -> AddAddress($correo, 'Tester');
+//$mail->AddAddress($correo, 'El Destinatario'); //Descomentar linea cuando pase a produccion
 //Definimos el tema del email
-$mail->Subject = 'Esto es un correo de prueba';
+$mail->Subject = 'Formulario Comision de Servicio- Agente';
 //Para enviar un correo formateado en HTML lo cargamos con la siguiente función. Si no, puedes meterle directamente una cadena de texto.
 //$mail->MsgHTML(file_get_contents('correomaquetado.html'), dirname(ruta_al_archivo));
 //Y por si nos bloquean el contenido HTML (algunos correos lo hacen por seguridad) una versión alternativa en texto plano (también será válida para lectores de pantalla)
@@ -202,8 +216,8 @@ $mail->IsHTML(true); //el mail contiene html
 	
 	$body = '<table>
 						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita comision de servicio con motivo de '.$datos['motivo'].' a realizarse el dia '.$fecha.' 
-						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '</br>
+						Solicita <b>Comision de Servicio</b> con motivo de '.$datos['motivo'].' a realizarse el dia '.$fecha.' hasta el dia' .$fecha_fin. '
+						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].' hasta la hora '.$datos['horario_fin'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '</br>
 						Por favor haga <a href="http://172.22.8.49/ctrl_asis/1.0">click aqui
 											
 			</table>'; //date("d/m/y",$fecha)

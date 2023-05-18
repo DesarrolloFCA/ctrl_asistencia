@@ -61,7 +61,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 
 		
 		if (isset($this->s__datos_filtro)) {
-
+			//ei_arbol($this->s__datos_filtro);
 			// ORiginal
 			/* if (isset($this->s__datos_filtro['anio'])) {
 				//  $y = $this->s__datos_filtro['anio'];
@@ -118,6 +118,8 @@ class ci_control_asistencia extends ctrl_asis_ci
 			
 			$agentes_total =  $this->dep('mapuche')->get_agentes_control_asistencia($this->s__datos_filtro);
 			$total_registros = count($agentes_total);
+		//	ei_arbol($agentes_total );
+			
 			unset($agentes_total);
 
 			$agentes =  $this->dep('mapuche')->get_agentes_control_asistencia($this->s__datos_filtro, 'LIMIT '.$limit, 'OFFSET '.$offset);
@@ -134,15 +136,19 @@ class ci_control_asistencia extends ctrl_asis_ci
 			if (isset($this->s__datos_filtro['basedatos'])) {
 			$filtro['basedatos'] = $this->s__datos_filtro['basedatos'];
 			}
-			
 
 			$this->s__datos = $this->dep('access')->get_lista_resumen($agentes,$filtro);
 		
+			//ei_arbol($agentes);
 			unset($agentes);
 
 			$f = $this->s__datos;
 
+			$total_registros = count($f);
+
 			
+		
+
 			if ($this->s__datos_filtro ['marcas']== 1) {
 				$this->s__datos = array_filter($this->s__datos, function ($f) {
 				return $f['presentes'] > 0 ;});	
@@ -150,6 +156,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 				$this->s__datos = array_filter($this->s__datos, function ($f) {
 				return $f['presentes'] == 0 ;});	
 			} 
+			//ei_arbol($this->s__datos);
 			unset($f);
 			
 			
@@ -170,7 +177,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 			
 			$tot = $e['total'];
 			for($m = 0; $m<$tot;$m++){
-				 IF ($e[$m]['agrupamiento'] == 'CORF') {
+				 if ($e[$m]['agrupamiento'] == 'CORF') {
 			 	$e[$m]['agrupamiento'] = 'DOCE';
 			 	$this->s__datos[$m]['agrupamiento'] ='DOCE';
 
@@ -195,48 +202,182 @@ class ci_control_asistencia extends ctrl_asis_ci
 			}
 				//}
 			}
+			//ei_arbol($e);
 			unset($e);
 			
 			$todo =	array_values($this->s__datos);		
+			//	ei_arbol($todo);
 			$registros = count($todo); 	
 			//$hasta = $this->s__datos['total'] +1;
+			for ($i = 0;$i<$registros;$i++){
+				$horas_esp = $this->dep('datos')->tabla('conf_jornada')->get_horas_diarias($todo[$i]['legajo']);
+				//ei_arbol($horas_esp);
+				if(isset($horas_esp[0]['horas'])){
+					$horas_diarias = '0'.$horas_esp[0]['horas'].':00';
+				
+				} else {
+				switch ($todo[$i]['cant_horas']){
+					case 10 :  
+					$horas_diarias= '01:24';
+								break;	
+					case 20 : 
+					$horas_diarias= '02:48';
+								break;	
+					case 30 :
+					$horas_diarias = '04:12';
+							break;			
+					case 40:
+					$horas_diarias = '05:36';
+						break;
+					case 35:
+					$horas_diarias = '06:00';
+					break;	
+
+				} 
+				}
+			//	ei_arbol($horas_diarias);
+				$tmp= 0;
+						//ei_arbol($todo[$i]['laborables'] );
+						$dias_trab = $todo[$i]['laborables'] - $todo[$i]['justificados'];
+						//ei_arbol($dias_trab);
+						
+						$horas_min = explode(":",$horas_diarias);
+						//Horas totales ideales trabajadas
+						
+						$horas= $dias_trab * $horas_min[0];
+						
+						// Calculos de minutos
+						$minutos = $dias_trab * $horas_min[1];
+
+						while ($minutos >= 60){
+							$minutos = $minutos - 60;
+							$tmp ++;
+						}
+
+						$horas = $horas + $tmp;
+						
+						if($minutos < 10) {
+							$minutos = '0'.$minutos;
+						}
+
+						$requerido = $horas .':'.$minutos;
+						//ei_arbol($requerido);
+						
+						$todo[$i]['horas_requeridas_prom']= $requerido;
+			}
+		//	ei_arbol($todo);
 			
 			for ($h=0; $h <= $registros; $h++)
 			{
-			
+				
 				if ($h<>0) {
 					$k = $h-1;
 					$legajo_actual = ($todo[$h]['legajo']);
+
 					if ($legajo_actual ==''){
-						unset($todo[$h]);	
+						//unset($todo[$h]);	
 					}else {
 					$legajo_ant = ($todo[$k]['legajo']);
-					
+					//$requerido = $todo [$h]['cant_horas'];
+					//$todo [$h]['horas_requeridas_prom'] =$requerido;
+					//ei_arbol($todo);
 			
-					if ($legajo_ant ==$legajo_actual){ 
-						$requerido = ($todo [$k]['horas_requeridas_prom']) + ($todo [$h]['horas_requeridas_prom']);
+						if ($legajo_ant ==$legajo_actual){ 
+						$tmp = 0;
+						//$requerido = ($todo [$k]['cant_horas'] + $todo [$h]['cant_horas']);
+						$horas_1 =explode(":",$todo [$k]['horas_requeridas_prom']);
+						$horas_2 = explode(":",$todo [$h]['horas_requeridas_prom']);
+						$hora=$horas_1[0]+$horas_2[0];
+						$min = $horas_1[1]+$horas_2[1];
+						while ($min >= 60){
+							$min = $min - 60;
+							$tmp ++;
+						}
+						$hora=$hora+$tmp;
+						$requerido=$hora .':'.$min;
+						//$requerido = ($todo [$k]['horas_requeridas_prom']) + ($todo [$h]['horas_requeridas_prom']);
+						
 						$todo [$k]['horas_requeridas_prom'] =$requerido;
-						unset($todo[$h]);
+
+
+						//unset($todo[$h]);
 					}
+					//$requerido = $todo [$k]['horas_requeridas_prom'] /5 ;
+					/*ei_arbol ($requerido);
+						switch($requerido) {
+							case 15 :
+								$horas_diarias = '10:48';
+								break;
+							case 11:
+								$horas_diarias= '08:00';
+								break;
+							case 10 :
+								$horas_diarias = '05:36';
+								break;
+							case 9 :
+								$horas_diarias= '06:48';
+								break;
+							case 8 :	
+								$horas_diarias= '04:48';
+								break;
+							case 7 : 
+								$horas_diarias= '06:00';
+								break;
+							case 6 : 
+								$horas_diarias= '03:18';
+								break;
+							case 4 : 
+								$horas_diarias= '02:00';
+								break;	
+							case 2 : 
+								$horas_diarias= '00:48';
+								break;	
+							}
+						$tmp= 0;
+						$dias_trab = $todo[$k]['laborables'] -  $todo[$k]['feriados'] - $todo[$k]['justificados'];
+						$horas_min = explode(':',$$horas_diarias);
+						//Horas totales ideales trabajadas
+						$horas= $dias_trab * $horas_min[0];
+						// Calulos de minutos
+						$minutos = $dias_trab * $horas_min[1];
+						while ($minutos >= 60){
+							$minutos = $minutos - 60;
+							$tmp ++;
+						}
+
+						$horas = $horas + $tmp;
+						if($minutos < 10) {
+							$minutos = '0'.$minutos;
+						}
+						$requerido = $horas .':'.$minutos;
+						ei_arbol ($requerido);*/
 					}
 				
 				}
 			}
 					
-						
+			//	ei_arbol($todo);
 			$todos =	array_values($todo);		
 			$registros = count($todos)  ; 
 			unset($todo);
+			//ei_arbol($todos);
 						
 			for ($l = 0; $l < $registros; $l++){
-				
-			
-					$leg = $todos [$l]['legajo'];
+				$leg = $todos [$l]['legajo'];
+				$mail = $this->dep('datos')->tabla('agentes_mail')->get_legajo_mail($leg);
+				$todos[$l]['email']=$mail[0]['email'];
 			
 					if ($leg <> null or $leg > 10000){
 					$sql = "Select nombre_catedra from reloj.vw_catedra_agente a
 					where legajo = $leg ;";
-				$catedras = toba::db('ctrl_asis')->consultar($sql); 
+					$catedras = toba::db('ctrl_asis')->consultar($sql); 
+					$sql = "SELECT email FROM reloj.agentes_mail
+		      		 where legajo = $leg";
+		      		$email= toba::db('ctrl_asis')->consultar($sql);
+		      		 // ei_arbol($email);
+		      		$todos[$l]['email']=$email[0]['email'];
+
+
 				$cant_catedra = count($catedras);
 			
 						if ($cant_catedra == 1) {
@@ -258,8 +399,31 @@ class ci_control_asistencia extends ctrl_asis_ci
 					
 			}
 			//ei_arbol(round((memory_get_usage()/(1024*1024)),2));
-			
+			//ei_arbol($todos);
+			$lim = count($todos);
+			for ($l=0;$l<$lim;$l++){
+
+				$tot=$todos[$l]['horas_totales'];
+				$h_tot = explode(":",$tot);
+				
+
+				$req =$todos[$l]['horas_requeridas_prom'];
+				$h_req =explode(":",$req);
+
+				if ($h_tot[0] < $h_req[0]) {
+					$todos[$l]['horas_totales'] = '<b><span style="color:#FF0000">'.$todos[$l]['horas_totales'].'</b></span>';
+				} else if ($h_tot[0] == $h_req[0]){
+						if ($h_tot[1] < $h_req[1] ){
+							$todos[$l]['horas_totales'] = '<b><span style="color:#FF0000">'.$todos[$l]['horas_totales'].'</b></span>';
+						} 
+				}				
+				
+					
+						
+					
+			}
 			$this ->s__datos = $todos;
+		//	ei_arbol($todos);
 			unset($todos);
 			$this->s__datos['total'] =count($this->s__datos); 
 			
@@ -292,7 +456,9 @@ class ci_control_asistencia extends ctrl_asis_ci
 			//$total= count($this->s__datos);
 			
 			//$cuadro->set_total_registros($total_registros);
-		
+			//ei_arbol($this->s__datos);
+			
+			
 			$cuadro->set_total_registros($this->s__datos['total']);
 			$cuadro->set_datos($this->s__datos);
 			list($y,$m,$d) = explode('-', $this->s__datos_filtro['fecha_desde']);

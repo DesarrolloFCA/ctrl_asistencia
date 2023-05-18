@@ -172,7 +172,7 @@ class dt_parte extends toba_datos_tabla
 
 
 	function tiene_parte($legajo, $dia){
-
+ //ei_arbol ($dia);
 		$where = array();
 
 		$where[] = "t_p.estado = 'C'";

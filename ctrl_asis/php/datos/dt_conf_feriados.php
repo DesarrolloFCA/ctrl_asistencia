@@ -73,6 +73,18 @@ class dt_conf_feriados extends ctrl_asis_datos_tabla
 		
 		return toba::db('ctrl_asis')->consultar($sql);
 	}
+	function dia_feriado($dia){
+		$sql = "SELECT agrupamiento from reloj.conf_feriados
+				Where feriado_fecha =".quote($dia);
+		$feriado=toba::db('ctrl_asis')->consultar_fila($sql);
+		if(isset($feriado)){
+			return $feriado['agrupamiento'];
+		}else {
+			return false;
+		}
+
+				
+	}
 	
 		
 

@@ -443,9 +443,9 @@ class vistas_mapuche extends toba_datos_relacion
 
         $nombre_tabla = self::get_nombre_tabla_legajos_por_estado_cargo($filtro['cargos_todos']);
        
-        $sql = "SELECT DISTINCT t_l.legajo, t_l.apellido, t_l.nombre, 
-		t_l.fec_nacim, dni, t_l.fec_ingreso, t_l.estado_civil,-- t_l.caracter, t_l.categoria,
-		t_l.agrupamiento,-- t_l.escalafon, t_l.cod_depcia, 
+        $sql = "SELECT  t_l.legajo, t_l.apellido, t_l.nombre, 
+		t_l.fec_nacim, dni, t_l.fec_ingreso, t_l.estado_civil, t_l.caracter, t_l.categoria,
+		t_l.agrupamiento, t_l.escalafon ,-- t_l.cod_depcia, 
 		t_l.cuil, t_l.email, 
                t_h.cant_horas, (t_h.cant_horas / 5) as horas_requeridas_prom 
               FROM $nombre_tabla as t_l, uncu.cant_hora as t_h 
@@ -726,13 +726,33 @@ class vistas_mapuche extends toba_datos_relacion
         //static function get_legajos_depencencia($cod_depcia)
         static function get_legajos_depencencia()
 		{
+           /* $sql= "SELECT legajo from reloj.adscripcion
+                    where cod_depcia_destino = '04'";
+            $legajos = toba::db('datos')->consultar;
+            $reg = count($legajos);
+            if($reg<>0){
+            for ($i=0 ; $i<$reg;$i++){
+                if ($i<>0){
+                    $legajos_incluir = ',';
+
+                } else {
+                    $legajos_incluir = 'in (';
+                }
+
+                $legajos_incluir= $legajos[$i]['legajo'];
+             }
+             $legajos_incluir = ')';
+            }
+
+            if (isset($legajo_incluir))*/
             $sql = "SELECT legajo, legajo||' - '||apellido||', '||nombre as descripcion 
                     FROM uncu.legajo_todos
                     WHERE legajo in ((Select legajo from uncu.legajo where cod_depcia = '04'))
-                    or legajo in (26562,30893)
+                    or legajo in (20738,30560)
                     ORDER BY apellido, legajo ASC";
 
             return toba::db('mapuche')->consultar($sql); 
+
         }
 
         static function get_legajos()
@@ -1184,7 +1204,7 @@ class vistas_mapuche extends toba_datos_relacion
         return $cargos_todos == "1" ? "uncu.legajo_cargos" : "uncu.legajo";
     }
 	static function get_legajos_email ($legajo){
-		
+	//	ei_arbol($legajo);
 		$sql = "SELECT  legajo||' - '||apellido||', '||nombre as descripcion , email
                     FROM uncu.legajo 
                     WHERE legajo = '$legajo'

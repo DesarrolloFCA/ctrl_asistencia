@@ -94,34 +94,33 @@ class ci_vacacionesyrp extends ctrl_asis_ci
 
 		$datos = toba::db('ctrl_asis')->consultar($sql);
 			}*/
-
+			//ei_arbol($filtro);
+		$where = array();
 		if (isset($filtro['legajo_aut']['valor'])){
 			$legajo_superior = $filtro['legajo_aut']['valor'];
 			$componente->set_solo_lectura('auto_sup',true);
-			
+			$sql = "SELECT * from reloj.inasistencias
+				where leg_aut = $legajo_superior
+				And estado ='A'";
 
 			if(isset($filtro['id_catedra']['valor'])){
 			$id_catedra=$filtro['id_catedra']['valor'];
-				$sql = "SELECT * from reloj.inasistencias
-				where leg_aut = $legajo_superior
-				--and auto_aut = false
-				And estado ='A'
-				AND id_catedra=$id_catedra";
-			}else{
-			$id_catedra=$filtro['id_catedra']['valor'];
-				$sql = "SELECT * from reloj.inasistencias
-				where leg_aut = $legajo_superior
-				--and auto_aut = false
-				And estado ='A'";
+			$where  []= " id_catedra=".quote($id_catedra);
+			//	AND id_catedra=$id_catedra";
 			}
+
+			if (isset($filtro['id_motivo']['valor'])){
+
+				$id_motivo =$filtro['id_motivo']['valor'];
+				$where  []= " id_motivo=$id_motivo";
+			}
+			$sql = sql_concatenar_where($sql, $where);	
+		}
+		
 
 		$datos = toba::db('ctrl_asis')->consultar($sql);
 		//ei_arbol($sql);
-		}
-
-		
-		
-		
+				
 		//ei_arbol ($datos);        
 		$cant = count($datos);
 		

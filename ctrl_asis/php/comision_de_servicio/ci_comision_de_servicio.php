@@ -7,11 +7,11 @@ class ci_comision_de_servicio extends ctrl_asis_ci
 
 	//---- Filtro -----------------------------------------------------------------------
 
-	function conf__filtro(toba_ei_formulario $filtro)
+	function conf__filtro(ctrl_asis_ei_filtro  $filtro)
 	{
-		if (isset($this->s__datos_filtro)) {
+	/*	if (isset($this->s__datos_filtro)) {
 			$filtro->set_datos($this->s__datos_filtro);
-		}
+		}*/
 	}
 
 	function evt__filtro__filtrar($datos)
@@ -64,15 +64,31 @@ class ci_comision_de_servicio extends ctrl_asis_ci
 
 	function conf__formulario(toba_ei_formulario $form)
 	{
-		if ($this->dep('datos')->esta_cargada()) {
-			$listado=$this->dep('datos')->tabla('comision')->get();
+		//$listado=$this->dep('datos')->tabla('comision')->get();
+		//ei_arbol($listado);
+		
+			$sql = "SELECT  *  FROM reloj.comision
+					WHERE pasada is null
+					";
+			$listado = toba::db('ctrl_asis')->consultar($sql);		
+
+		//	ei_arbol($listado);
+		//$cant_comision = count($listado);
+		// for ($i=0;$i<=$cant_comision;$i++){
+		// 	$datos =
+		// }
+
+			$form->set_datos($listado);
+		/*if ($this->dep('datos')->esta_cargada()) {
+			//$listado=$this->dep('datos')->tabla('comision')->get();
+			
 			$listado['fecha']=date('d/m/Y',strtotime($listado['fecha']) );
 			$listado['fecha_fin']=date('d/m/Y',strtotime($listado['fecha_fin']) );
 			$listado['horario']=substr($listado['horario'],0,5);
 			$listado['horario_fin']=substr($listado['horario_fin'],0,5);
 			$this->s__id_comision =$listado['id_comision'];
 			
-			//ei_arbol($listado);
+			ei_arbol($listado);
 			$legajo=$listado['legajo'];
 			$leg_sup=$listado['legajo_sup'];
 			$leg_aut=$listado['legajo_aut'];
@@ -85,8 +101,8 @@ class ci_comision_de_servicio extends ctrl_asis_ci
 			$form->set_datos($listado);
 			//$form->set_datos($this->dep('datos')->tabla('comision')->get());
 		} else {
-			$this->pantalla()->eliminar_evento('eliminar');
-		}
+			//$this->pantalla()->eliminar_evento('eliminar');
+		}*/
 	}
 
 	function evt__formulario__modificacion($datos)
@@ -94,9 +110,37 @@ class ci_comision_de_servicio extends ctrl_asis_ci
 		//$this->dep('datos')->tabla('comision')->set($datos);
 	//ei_arbol($datos);
 	
-		$id = ($this->s__id_comision);
-		
-		if ($datos['autoriza_aut']== 1)
+		//$id = ($this->s__id_comision);
+		$cant = count($datos); 
+		for($i=0;$i<$cant;$i++){
+			$id= $datos[$i]['id_comision'];
+			$a_sup=$datos[$i]['autoriza_sup'];
+			//ei_arbol($sup);
+		/*	if ($sup == 1) {
+				$a_sup = True;
+			}else {
+				$a_sup= False;
+			}*/
+			$a_aut=$datos[$i]['autoriza_aut'];
+			/*if ($aut == 1) {
+				$a_aut = True;
+			} else
+			{
+				$a_aut = False;
+			}*/
+			$obs = $datos[$i]['observaciones'];
+		//	ei_arbol(is_bool($a_sup));
+			if ($datos[$i]['apex_ei_analisis_fila'] == 'M' ){
+			$sql = "UPDATE reloj.comision
+					Set autoriza_sup = $a_sup, autoriza_aut = $a_aut, observaciones = '$obs'
+					where id_comision = $id";
+		   // ei_arbol($sql);
+		toba::db('ctrl_asis')->ejecutar ($sql);    
+
+			} 
+			}
+
+		/*if ($datos['autoriza_aut']== 1)
 		{
 		$sql = "SELECT legajo, apellido, nombre, fec_nacim, dni, fec_ingreso, estado_civil, 
 							caracter, categoria, agrupamiento, escalafon, cod_depcia, cuil
@@ -146,7 +190,7 @@ class ci_comision_de_servicio extends ctrl_asis_ci
 		else
 		{
 		toba::notificacion()->agregar('Falta la autorizacion de la autoridad correspondiente', 'info');
-		}
+		}*/
 	}
 	
 	function resetear()
@@ -157,10 +201,10 @@ class ci_comision_de_servicio extends ctrl_asis_ci
 
 	//---- EVENTOS CI -------------------------------------------------------------------
 
-	function evt__agregar()
+	/*function evt__agregar()
 	{
 		$this->set_pantalla('pant_edicion');
-	}
+	}*/
 
 	function evt__volver()
 	{
@@ -175,8 +219,11 @@ class ci_comision_de_servicio extends ctrl_asis_ci
 
 	function evt__guardar()
 	{
+		//$this->dep('datos')->sincronizar();
+		//$this->resetear();
 		$this->dep('datos')->sincronizar();
-		$this->resetear();
+		$this->dep('datos')->resetear();
+		$this->dep('datos')->cargar();
 	}
 	function obtener_edad_segun_fecha($fecha_nacimiento)
 	{
@@ -186,6 +233,20 @@ class ci_comision_de_servicio extends ctrl_asis_ci
     return $diferencia->format("%y");
 	}
 
-}
+	//-----------------------------------------------------------------------------------
+	//---- JAVASCRIPT -------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------
 
+	function extender_objeto_js()
+	{
+		echo "
+		//---- Eventos ---------------------------------------------
+		
+		{$this->objeto_js}.evt__guardar = function()
+		{
+		}
+		";
+	}
+
+}
 ?>

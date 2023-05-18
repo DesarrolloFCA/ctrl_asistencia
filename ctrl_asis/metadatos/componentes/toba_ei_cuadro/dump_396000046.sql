@@ -219,10 +219,10 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'396000046', --objeto_cuadro
 	'396000165', --objeto_cuadro_col
 	'suma_acum', --clave
-	'9', --orden
+	'10', --orden
 	'Horas acumuladas', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
-	'col-cen-s1', --estilo
+	'col-cen-s3', --estilo
 	NULL, --ancho
 	'1', --formateo
 	NULL, --vinculo_indice
@@ -281,7 +281,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'396000046', --objeto_cuadro
 	'396000167', --objeto_cuadro_col
 	'prom_acum', --clave
-	'10', --orden
+	'11', --orden
 	'Promedio acumulado', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'col-cen-s1', --estilo
@@ -312,7 +312,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'396000046', --objeto_cuadro
 	'396000168', --objeto_cuadro_col
 	'contador_marcas', --clave
-	'11', --orden
+	'12', --orden
 	'cont', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'4', --estilo
@@ -435,3 +435,37 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	NULL  --evento_asociado
 );
 --- FIN Grupo de desarrollo 26960396
+
+--- INICIO Grupo de desarrollo 35736730
+INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro, objeto_cuadro_col, clave, orden, titulo, estilo_titulo, estilo, ancho, formateo, vinculo_indice, no_ordenar, mostrar_xls, mostrar_pdf, pdf_propiedades, desabilitado, total, total_cc, usar_vinculo, vinculo_carpeta, vinculo_item, vinculo_popup, vinculo_popup_param, vinculo_target, vinculo_celda, vinculo_servicio, permitir_html, grupo, evento_asociado) VALUES (
+	'ctrl_asis', --objeto_cuadro_proyecto
+	'396000046', --objeto_cuadro
+	'35736730000328', --objeto_cuadro_col
+	'horas_diarias', --clave
+	'9', --orden
+	'Horas Diarias', --titulo
+	'ei-cuadro-col-tit', --estilo_titulo
+	'col-cen-s1', --estilo
+	NULL, --ancho
+	'1', --formateo
+	NULL, --vinculo_indice
+	'0', --no_ordenar
+	NULL, --mostrar_xls
+	NULL, --mostrar_pdf
+	NULL, --pdf_propiedades
+	NULL, --desabilitado
+	'0', --total
+	NULL, --total_cc
+	'0', --usar_vinculo
+	NULL, --vinculo_carpeta
+	NULL, --vinculo_item
+	NULL, --vinculo_popup
+	NULL, --vinculo_popup_param
+	NULL, --vinculo_target
+	NULL, --vinculo_celda
+	NULL, --vinculo_servicio
+	'1', --permitir_html
+	NULL, --grupo
+	NULL  --evento_asociado
+);
+--- FIN Grupo de desarrollo 35736730

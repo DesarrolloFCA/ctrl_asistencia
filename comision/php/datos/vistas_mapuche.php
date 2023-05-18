@@ -1165,11 +1165,19 @@ class vistas_mapuche extends toba_datos_relacion
                     ";
         $ayn= toba::db('mapuche')->consultar($sql);
         //ei_arbol($ayn);
-        return $ayn[0]['ayn']; 
-    
-    } 
-    
+        return $ayn[0]['ayn'];
+        }
 
-}
+    static function get_legajo_escalafon ($legajo){
+      // ei_arbol($legajo);
+        $sql = "SELECT legajo, escalafon
+                FROM uncu.legajo
+                WHERE legajo = $legajo
+                AND cod_depcia = '04' ";
+        return toba::db('mapuche')->consultar($sql); 
+
+         }
+    
+    }
 
 ?>

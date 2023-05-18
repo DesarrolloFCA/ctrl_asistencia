@@ -1,5 +1,5 @@
 ------------------------------------------------------------
---[35736730000028]--  Comisión de Sevicio 
+--[35736730000030]--  Permiso Horario 
 ------------------------------------------------------------
 
 ------------------------------------------------------------
@@ -9,12 +9,12 @@
 --- INICIO Grupo de desarrollo 35736730
 INSERT INTO apex_molde_operacion (proyecto, molde, operacion_tipo, nombre, item, carpeta_archivos, prefijo_clases, fuente, punto_montaje) VALUES (
 	'ctrl_asis', --proyecto
-	'35736730000028', --molde
+	'35736730000030', --molde
 	'11', --operacion_tipo
-	'Comisión de Sevicio', --nombre
-	'35736730000064', --item
-	'comision_de_sevicio', --carpeta_archivos
-	'_comision_de_sevicio', --prefijo_clases
+	'Permiso Horario', --nombre
+	'35736730000075', --item
+	'permiso_horario', --carpeta_archivos
+	'_permiso_horario', --prefijo_clases
 	'ctrl_asis', --fuente
 	'4000021'  --punto_montaje
 );
@@ -25,8 +25,8 @@ INSERT INTO apex_molde_operacion (proyecto, molde, operacion_tipo, nombre, item,
 ------------------------------------------------------------
 INSERT INTO apex_molde_operacion_abms (proyecto, molde, tabla, gen_usa_filtro, gen_separar_pantallas, filtro_comprobar_parametros, cuadro_eof, cuadro_eliminar_filas, cuadro_id, cuadro_forzar_filtro, cuadro_carga_origen, cuadro_carga_sql, cuadro_carga_php_include, cuadro_carga_php_clase, cuadro_carga_php_metodo, datos_tabla_validacion, apdb_pre, punto_montaje) VALUES (
 	'ctrl_asis', --proyecto
-	'35736730000028', --molde
-	'comision', --tabla
+	'35736730000030', --molde
+	'permisos_horarios', --tabla
 	NULL, --gen_usa_filtro
 	NULL, --gen_separar_pantallas
 	NULL, --filtro_comprobar_parametros
@@ -51,12 +51,12 @@ INSERT INTO apex_molde_operacion_abms (proyecto, molde, tabla, gen_usa_filtro, g
 --- INICIO Grupo de desarrollo 35736730
 INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
 	'ctrl_asis', --proyecto
-	'35736730000028', --molde
-	'35736730000256', --fila
+	'35736730000030', --molde
+	'35736730000288', --fila
 	'1', --orden
-	'id_comision', --columna
+	'id_permiso', --columna
 	'1000003', --asistente_tipo_dato
-	'Id Comision', --etiqueta
+	'Id Permiso', --etiqueta
 	'0', --en_cuadro
 	'0', --en_form
 	'0', --en_filtro
@@ -65,7 +65,7 @@ INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, column
 	'7', --cuadro_formato
 	'E', --dt_tipo_dato
 	NULL, --dt_largo
-	'comision_id_comision_seq', --dt_secuencia
+	'permisos_horarios_id_permiso_seq', --dt_secuencia
 	'1', --dt_pk
 	'ef_editable_numero', --elemento_formulario
 	'0', --ef_obligatorio
@@ -83,8 +83,8 @@ INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, column
 );
 INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
 	'ctrl_asis', --proyecto
-	'35736730000028', --molde
-	'35736730000257', --fila
+	'35736730000030', --molde
+	'35736730000289', --fila
 	'2', --orden
 	'legajo', --columna
 	'1000003', --asistente_tipo_dato
@@ -115,44 +115,76 @@ INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, column
 );
 INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
 	'ctrl_asis', --proyecto
-	'35736730000028', --molde
-	'35736730000258', --fila
+	'35736730000030', --molde
+	'35736730000290', --fila
 	'3', --orden
-	'lugar', --columna
-	'1000001', --asistente_tipo_dato
-	'Lugar', --etiqueta
+	'id_motivo', --columna
+	'1000008', --asistente_tipo_dato
+	'Id Motivo', --etiqueta
 	'1', --en_cuadro
 	'1', --en_form
 	'0', --en_filtro
-	'ILIKE', --filtro_operador
+	'=', --filtro_operador
 	'4', --cuadro_estilo
 	'1', --cuadro_formato
 	'C', --dt_tipo_dato
 	NULL, --dt_largo
 	'', --dt_secuencia
 	'0', --dt_pk
-	'ef_editable', --elemento_formulario
+	'ef_combo', --elemento_formulario
 	'1', --ef_obligatorio
 	NULL, --ef_desactivar_modificacion
 	NULL, --ef_procesar_javascript
-	NULL, --ef_carga_origen
-	NULL, --ef_carga_sql
+	'datos_tabla', --ef_carga_origen
+	'SELECT id_motivo, descripcion FROM motivo ORDER BY descripcion', --ef_carga_sql
 	NULL, --ef_carga_php_include
 	NULL, --ef_carga_php_clase
 	NULL, --ef_carga_php_metodo
-	NULL, --ef_carga_tabla
-	NULL, --ef_carga_col_clave
-	NULL, --ef_carga_col_desc
+	'motivo', --ef_carga_tabla
+	'id_motivo', --ef_carga_col_clave
+	'descripcion', --ef_carga_col_desc
 	NULL  --punto_montaje
 );
 INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
 	'ctrl_asis', --proyecto
-	'35736730000028', --molde
-	'35736730000259', --fila
+	'35736730000030', --molde
+	'35736730000291', --fila
 	'4', --orden
-	'motivo', --columna
+	'id_catedra', --columna
+	'1000008', --asistente_tipo_dato
+	'Id Catedra', --etiqueta
+	'1', --en_cuadro
+	'1', --en_form
+	'0', --en_filtro
+	'=', --filtro_operador
+	'4', --cuadro_estilo
+	'1', --cuadro_formato
+	'C', --dt_tipo_dato
+	NULL, --dt_largo
+	'', --dt_secuencia
+	'0', --dt_pk
+	'ef_combo', --elemento_formulario
+	'0', --ef_obligatorio
+	NULL, --ef_desactivar_modificacion
+	NULL, --ef_procesar_javascript
+	'datos_tabla', --ef_carga_origen
+	'SELECT id_catedra, nombre_catedra FROM catedras ORDER BY nombre_catedra', --ef_carga_sql
+	NULL, --ef_carga_php_include
+	NULL, --ef_carga_php_clase
+	NULL, --ef_carga_php_metodo
+	'catedras', --ef_carga_tabla
+	'id_catedra', --ef_carga_col_clave
+	'nombre_catedra', --ef_carga_col_desc
+	NULL  --punto_montaje
+);
+INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
+	'ctrl_asis', --proyecto
+	'35736730000030', --molde
+	'35736730000292', --fila
+	'5', --orden
+	'razon', --columna
 	'1000001', --asistente_tipo_dato
-	'Motivo', --etiqueta
+	'Razon', --etiqueta
 	'1', --en_cuadro
 	'1', --en_form
 	'0', --en_filtro
@@ -179,9 +211,9 @@ INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, column
 );
 INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
 	'ctrl_asis', --proyecto
-	'35736730000028', --molde
-	'35736730000260', --fila
-	'5', --orden
+	'35736730000030', --molde
+	'35736730000293', --fila
+	'6', --orden
 	'fecha', --columna
 	'1000004', --asistente_tipo_dato
 	'Fecha', --etiqueta
@@ -211,19 +243,19 @@ INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, column
 );
 INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
 	'ctrl_asis', --proyecto
-	'35736730000028', --molde
-	'35736730000261', --fila
-	'6', --orden
-	'horario', --columna
-	'1000001', --asistente_tipo_dato
-	'Horario', --etiqueta
+	'35736730000030', --molde
+	'35736730000294', --fila
+	'7', --orden
+	'horario_incio', --columna
+	'1000012', --asistente_tipo_dato
+	'Horario Incio', --etiqueta
 	'1', --en_cuadro
 	'1', --en_form
 	'0', --en_filtro
-	'ILIKE', --filtro_operador
-	'4', --cuadro_estilo
-	'1', --cuadro_formato
-	'C', --dt_tipo_dato
+	'=', --filtro_operador
+	'7', --cuadro_estilo
+	'18', --cuadro_formato
+	'T', --dt_tipo_dato
 	NULL, --dt_largo
 	'', --dt_secuencia
 	'0', --dt_pk
@@ -243,56 +275,24 @@ INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, column
 );
 INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
 	'ctrl_asis', --proyecto
-	'35736730000028', --molde
-	'35736730000262', --fila
-	'7', --orden
-	'observaciones', --columna
-	'1000002', --asistente_tipo_dato
-	'Observaciones', --etiqueta
-	'1', --en_cuadro
-	'1', --en_form
-	'0', --en_filtro
-	'ILIKE', --filtro_operador
-	'4', --cuadro_estilo
-	'14', --cuadro_formato
-	'X', --dt_tipo_dato
-	NULL, --dt_largo
-	'', --dt_secuencia
-	'0', --dt_pk
-	'ef_editable_textarea', --elemento_formulario
-	'0', --ef_obligatorio
-	NULL, --ef_desactivar_modificacion
-	NULL, --ef_procesar_javascript
-	NULL, --ef_carga_origen
-	NULL, --ef_carga_sql
-	NULL, --ef_carga_php_include
-	NULL, --ef_carga_php_clase
-	NULL, --ef_carga_php_metodo
-	NULL, --ef_carga_tabla
-	NULL, --ef_carga_col_clave
-	NULL, --ef_carga_col_desc
-	NULL  --punto_montaje
-);
-INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
-	'ctrl_asis', --proyecto
-	'35736730000028', --molde
-	'35736730000263', --fila
+	'35736730000030', --molde
+	'35736730000295', --fila
 	'8', --orden
-	'legajo_sup', --columna
-	'1000003', --asistente_tipo_dato
-	'Legajo Sup', --etiqueta
+	'horario_fin', --columna
+	'1000012', --asistente_tipo_dato
+	'Horario Fin', --etiqueta
 	'1', --en_cuadro
 	'1', --en_form
 	'0', --en_filtro
 	'=', --filtro_operador
-	'0', --cuadro_estilo
-	'7', --cuadro_formato
-	'E', --dt_tipo_dato
+	'7', --cuadro_estilo
+	'18', --cuadro_formato
+	'T', --dt_tipo_dato
 	NULL, --dt_largo
 	'', --dt_secuencia
 	'0', --dt_pk
-	'ef_editable_numero', --elemento_formulario
-	'0', --ef_obligatorio
+	'ef_editable', --elemento_formulario
+	'1', --ef_obligatorio
 	NULL, --ef_desactivar_modificacion
 	NULL, --ef_procesar_javascript
 	NULL, --ef_carga_origen
@@ -307,12 +307,12 @@ INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, column
 );
 INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
 	'ctrl_asis', --proyecto
-	'35736730000028', --molde
-	'35736730000264', --fila
+	'35736730000030', --molde
+	'35736730000296', --fila
 	'9', --orden
-	'legajo_aut', --columna
+	'leg_aut', --columna
 	'1000008', --asistente_tipo_dato
-	'Legajo Aut', --etiqueta
+	'Leg Aut', --etiqueta
 	'1', --en_cuadro
 	'1', --en_form
 	'0', --en_filtro
@@ -339,12 +339,12 @@ INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, column
 );
 INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
 	'ctrl_asis', --proyecto
-	'35736730000028', --molde
-	'35736730000265', --fila
+	'35736730000030', --molde
+	'35736730000297', --fila
 	'10', --orden
-	'autoriza_sup', --columna
+	'auto_aut', --columna
 	'1000005', --asistente_tipo_dato
-	'Autoriza Sup', --etiqueta
+	'Auto Aut', --etiqueta
 	'1', --en_cuadro
 	'1', --en_form
 	'0', --en_filtro
@@ -371,172 +371,12 @@ INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, column
 );
 INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
 	'ctrl_asis', --proyecto
-	'35736730000028', --molde
-	'35736730000266', --fila
+	'35736730000030', --molde
+	'35736730000298', --fila
 	'11', --orden
-	'autoriza_aut', --columna
-	'1000005', --asistente_tipo_dato
-	'Autoriza Aut', --etiqueta
-	'1', --en_cuadro
-	'1', --en_form
-	'0', --en_filtro
-	'=', --filtro_operador
-	'7', --cuadro_estilo
-	'13', --cuadro_formato
-	'L', --dt_tipo_dato
-	NULL, --dt_largo
-	'', --dt_secuencia
-	'0', --dt_pk
-	'ef_checkbox', --elemento_formulario
-	'0', --ef_obligatorio
-	NULL, --ef_desactivar_modificacion
-	NULL, --ef_procesar_javascript
-	NULL, --ef_carga_origen
-	NULL, --ef_carga_sql
-	NULL, --ef_carga_php_include
-	NULL, --ef_carga_php_clase
-	NULL, --ef_carga_php_metodo
-	NULL, --ef_carga_tabla
-	NULL, --ef_carga_col_clave
-	NULL, --ef_carga_col_desc
-	NULL  --punto_montaje
-);
-INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
-	'ctrl_asis', --proyecto
-	'35736730000028', --molde
-	'35736730000267', --fila
-	'12', --orden
-	'fecha_fin', --columna
-	'1000004', --asistente_tipo_dato
-	'Fecha Fin', --etiqueta
-	'1', --en_cuadro
-	'1', --en_form
-	'0', --en_filtro
-	'=', --filtro_operador
-	'7', --cuadro_estilo
-	'8', --cuadro_formato
-	'F', --dt_tipo_dato
-	NULL, --dt_largo
-	'', --dt_secuencia
-	'0', --dt_pk
-	'ef_editable_fecha', --elemento_formulario
-	'0', --ef_obligatorio
-	NULL, --ef_desactivar_modificacion
-	NULL, --ef_procesar_javascript
-	NULL, --ef_carga_origen
-	NULL, --ef_carga_sql
-	NULL, --ef_carga_php_include
-	NULL, --ef_carga_php_clase
-	NULL, --ef_carga_php_metodo
-	NULL, --ef_carga_tabla
-	NULL, --ef_carga_col_clave
-	NULL, --ef_carga_col_desc
-	NULL  --punto_montaje
-);
-INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
-	'ctrl_asis', --proyecto
-	'35736730000028', --molde
-	'35736730000268', --fila
-	'13', --orden
-	'horario_fin', --columna
-	'1000001', --asistente_tipo_dato
-	'Horario Fin', --etiqueta
-	'1', --en_cuadro
-	'1', --en_form
-	'0', --en_filtro
-	'ILIKE', --filtro_operador
-	'4', --cuadro_estilo
-	'1', --cuadro_formato
-	'C', --dt_tipo_dato
-	NULL, --dt_largo
-	'', --dt_secuencia
-	'0', --dt_pk
-	'ef_editable', --elemento_formulario
-	'0', --ef_obligatorio
-	NULL, --ef_desactivar_modificacion
-	NULL, --ef_procesar_javascript
-	NULL, --ef_carga_origen
-	NULL, --ef_carga_sql
-	NULL, --ef_carga_php_include
-	NULL, --ef_carga_php_clase
-	NULL, --ef_carga_php_metodo
-	NULL, --ef_carga_tabla
-	NULL, --ef_carga_col_clave
-	NULL, --ef_carga_col_desc
-	NULL  --punto_montaje
-);
-INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
-	'ctrl_asis', --proyecto
-	'35736730000028', --molde
-	'35736730000269', --fila
-	'14', --orden
-	'fuera', --columna
-	'1000005', --asistente_tipo_dato
-	'Fuera', --etiqueta
-	'1', --en_cuadro
-	'1', --en_form
-	'0', --en_filtro
-	'=', --filtro_operador
-	'7', --cuadro_estilo
-	'13', --cuadro_formato
-	'L', --dt_tipo_dato
-	NULL, --dt_largo
-	'', --dt_secuencia
-	'0', --dt_pk
-	'ef_checkbox', --elemento_formulario
-	'0', --ef_obligatorio
-	NULL, --ef_desactivar_modificacion
-	NULL, --ef_procesar_javascript
-	NULL, --ef_carga_origen
-	NULL, --ef_carga_sql
-	NULL, --ef_carga_php_include
-	NULL, --ef_carga_php_clase
-	NULL, --ef_carga_php_metodo
-	NULL, --ef_carga_tabla
-	NULL, --ef_carga_col_clave
-	NULL, --ef_carga_col_desc
-	NULL  --punto_montaje
-);
-INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
-	'ctrl_asis', --proyecto
-	'35736730000028', --molde
-	'35736730000270', --fila
-	'15', --orden
-	'pasada', --columna
-	'1000005', --asistente_tipo_dato
-	'Pasada', --etiqueta
-	'1', --en_cuadro
-	'1', --en_form
-	'0', --en_filtro
-	'=', --filtro_operador
-	'7', --cuadro_estilo
-	'13', --cuadro_formato
-	'L', --dt_tipo_dato
-	NULL, --dt_largo
-	'', --dt_secuencia
-	'0', --dt_pk
-	'ef_checkbox', --elemento_formulario
-	'0', --ef_obligatorio
-	NULL, --ef_desactivar_modificacion
-	NULL, --ef_procesar_javascript
-	NULL, --ef_carga_origen
-	NULL, --ef_carga_sql
-	NULL, --ef_carga_php_include
-	NULL, --ef_carga_php_clase
-	NULL, --ef_carga_php_metodo
-	NULL, --ef_carga_tabla
-	NULL, --ef_carga_col_clave
-	NULL, --ef_carga_col_desc
-	NULL  --punto_montaje
-);
-INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
-	'ctrl_asis', --proyecto
-	'35736730000028', --molde
-	'35736730000271', --fila
-	'16', --orden
-	'catedra', --columna
+	'leg_sup', --columna
 	'1000003', --asistente_tipo_dato
-	'Catedra', --etiqueta
+	'Leg Sup', --etiqueta
 	'1', --en_cuadro
 	'1', --en_form
 	'0', --en_filtro
@@ -548,6 +388,102 @@ INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, column
 	'', --dt_secuencia
 	'0', --dt_pk
 	'ef_editable_numero', --elemento_formulario
+	'0', --ef_obligatorio
+	NULL, --ef_desactivar_modificacion
+	NULL, --ef_procesar_javascript
+	NULL, --ef_carga_origen
+	NULL, --ef_carga_sql
+	NULL, --ef_carga_php_include
+	NULL, --ef_carga_php_clase
+	NULL, --ef_carga_php_metodo
+	NULL, --ef_carga_tabla
+	NULL, --ef_carga_col_clave
+	NULL, --ef_carga_col_desc
+	NULL  --punto_montaje
+);
+INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
+	'ctrl_asis', --proyecto
+	'35736730000030', --molde
+	'35736730000299', --fila
+	'12', --orden
+	'aut_sup', --columna
+	'1000005', --asistente_tipo_dato
+	'Aut Sup', --etiqueta
+	'1', --en_cuadro
+	'1', --en_form
+	'0', --en_filtro
+	'=', --filtro_operador
+	'7', --cuadro_estilo
+	'13', --cuadro_formato
+	'L', --dt_tipo_dato
+	NULL, --dt_largo
+	'', --dt_secuencia
+	'0', --dt_pk
+	'ef_checkbox', --elemento_formulario
+	'0', --ef_obligatorio
+	NULL, --ef_desactivar_modificacion
+	NULL, --ef_procesar_javascript
+	NULL, --ef_carga_origen
+	NULL, --ef_carga_sql
+	NULL, --ef_carga_php_include
+	NULL, --ef_carga_php_clase
+	NULL, --ef_carga_php_metodo
+	NULL, --ef_carga_tabla
+	NULL, --ef_carga_col_clave
+	NULL, --ef_carga_col_desc
+	NULL  --punto_montaje
+);
+INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
+	'ctrl_asis', --proyecto
+	'35736730000030', --molde
+	'35736730000300', --fila
+	'13', --orden
+	'procesado', --columna
+	'1000005', --asistente_tipo_dato
+	'Procesado', --etiqueta
+	'1', --en_cuadro
+	'1', --en_form
+	'0', --en_filtro
+	'=', --filtro_operador
+	'7', --cuadro_estilo
+	'13', --cuadro_formato
+	'L', --dt_tipo_dato
+	NULL, --dt_largo
+	'', --dt_secuencia
+	'0', --dt_pk
+	'ef_checkbox', --elemento_formulario
+	'0', --ef_obligatorio
+	NULL, --ef_desactivar_modificacion
+	NULL, --ef_procesar_javascript
+	NULL, --ef_carga_origen
+	NULL, --ef_carga_sql
+	NULL, --ef_carga_php_include
+	NULL, --ef_carga_php_clase
+	NULL, --ef_carga_php_metodo
+	NULL, --ef_carga_tabla
+	NULL, --ef_carga_col_clave
+	NULL, --ef_carga_col_desc
+	NULL  --punto_montaje
+);
+INSERT INTO apex_molde_operacion_abms_fila (proyecto, molde, fila, orden, columna, asistente_tipo_dato, etiqueta, en_cuadro, en_form, en_filtro, filtro_operador, cuadro_estilo, cuadro_formato, dt_tipo_dato, dt_largo, dt_secuencia, dt_pk, elemento_formulario, ef_obligatorio, ef_desactivar_modificacion, ef_procesar_javascript, ef_carga_origen, ef_carga_sql, ef_carga_php_include, ef_carga_php_clase, ef_carga_php_metodo, ef_carga_tabla, ef_carga_col_clave, ef_carga_col_desc, punto_montaje) VALUES (
+	'ctrl_asis', --proyecto
+	'35736730000030', --molde
+	'35736730000301', --fila
+	'14', --orden
+	'observaciones', --columna
+	'1000001', --asistente_tipo_dato
+	'Observaciones', --etiqueta
+	'1', --en_cuadro
+	'1', --en_form
+	'0', --en_filtro
+	'ILIKE', --filtro_operador
+	'4', --cuadro_estilo
+	'1', --cuadro_formato
+	'C', --dt_tipo_dato
+	NULL, --dt_largo
+	'', --dt_secuencia
+	'0', --dt_pk
+	'ef_editable', --elemento_formulario
 	'0', --ef_obligatorio
 	NULL, --ef_desactivar_modificacion
 	NULL, --ef_procesar_javascript
