@@ -57,7 +57,7 @@ class ci_articulo extends comision_ci
                  	 AND escalafon in ('NODO','AUTO') ";
 			}
 
-		//ei_arbol($sql);
+		ei_arbol($sql);
 		}
 		
        		$agente = toba::db('mapuche')->consultar($sql);          
