@@ -1,5 +1,5 @@
 ------------------------------------------------------------
---[35736730000203]--  Comision de Servicio 
+--[35736730000203]--  Comisión de Servicio 
 ------------------------------------------------------------
 
 ------------------------------------------------------------
@@ -20,7 +20,7 @@ INSERT INTO apex_objeto (proyecto, objeto, anterior, identificador, reflexivo, c
 	'comision.php', --subclase_archivo
 	NULL, --objeto_categoria_proyecto
 	NULL, --objeto_categoria
-	'Comision de Servicio', --nombre
+	'Comisión de Servicio', --nombre
 	NULL, --titulo
 	'0', --colapsable
 	NULL, --descripcion

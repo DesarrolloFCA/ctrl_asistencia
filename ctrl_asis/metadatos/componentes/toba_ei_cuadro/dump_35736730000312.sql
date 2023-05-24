@@ -373,7 +373,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'ctrl_asis', --objeto_cuadro_proyecto
 	'35736730000312', --objeto_cuadro
 	'35736730000360', --objeto_cuadro_col
-	'dias_liquidacion', --clave
+	'liquidados', --clave
 	'10', --orden
 	'Días Liquidación', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
@@ -404,7 +404,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'ctrl_asis', --objeto_cuadro_proyecto
 	'35736730000312', --objeto_cuadro
 	'35736730000361', --objeto_cuadro_col
-	'Observaciones', --clave
+	'observaciones', --clave
 	'11', --orden
 	'Observaciones', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
