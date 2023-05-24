@@ -260,10 +260,13 @@ class ci_control_asistencia extends ctrl_asis_ci
 						//ei_arbol($todo[$i]['laborables'] );
 						$dias_trab = $todo[$i]['laborables'] - $todo[$i]['justificados'];
 						//ei_arbol($dias_trab);
-						
+						// guardo horas diarias
+
 						$horas_min = explode(":",$horas_diarias);
+						$todo[$i]['h_min'] = $horas_min[0] +($horas_min[1]/60);
+
 						//Horas totales ideales trabajadas
-						
+					//	ei_arbol($horas_min);
 						$horas= $dias_trab * $horas_min[0];
 						
 						// Calculos de minutos
@@ -276,11 +279,9 @@ class ci_control_asistencia extends ctrl_asis_ci
 
 						$horas = $horas + $tmp;
 						
-						if($minutos > 0 or $minutos < 10) {
+						if($minutos < 10) {
 							$minutos = '0'.$minutos;
-						} else if ($minutos == 0){
-							$minutos = '00';
-						}
+						} 
 
 						$requerido = $horas .':'.$minutos;
 						//ei_arbol($requerido);
@@ -316,6 +317,9 @@ class ci_control_asistencia extends ctrl_asis_ci
 							$tmp ++;
 						}
 						$hora=$hora+$tmp;
+						if($minutos < 10) {
+							$minutos = '0'.$minutos;
+						}
 						$requerido=$hora .':'.$min;
 						//$requerido = ($todo [$k]['horas_requeridas_prom']) + ($todo [$h]['horas_requeridas_prom']);
 						
@@ -324,6 +328,9 @@ class ci_control_asistencia extends ctrl_asis_ci
 
 						//unset($todo[$h]);
 					}
+					
+					// equivalencia dias
+
 					//$requerido = $todo [$k]['horas_requeridas_prom'] /5 ;
 					/*ei_arbol ($requerido);
 						switch($requerido) {
@@ -431,7 +438,22 @@ class ci_control_asistencia extends ctrl_asis_ci
 
 				$req =$todos[$l]['horas_requeridas_prom'];
 				$h_req =explode(":",$req);
-
+				// Equivalencia Dias
+				if ($todos[$l]['escalafon'] == 'DOCE'){
+				//$ho_dia= explode(":",$horas_diarias);
+				$ho_totales = $h_tot[0]+($h_tot[1]/60);
+				
+				$dias_eq = $ho_totales/$todos[$l]['h_min'];
+				$todos[$l]['presentes'] = intval($ho_totales/$todos[$l]['h_min']);
+				$trab = $todos[$l]['laborables'] - $todos[$l]['presentes'] ;
+					if ($trab > 0) {
+					$todos[$l]['ausentes'] =$trab;
+					$todos[$l]['injustificados'] = $trab -( $todos[$l]['partes'] + $todos[$l]['partes_sanidad']);
+					}else {
+					$todos[$l]['ausentes'] = 0;
+					$todos[$l]['injustificados'] = 0;
+					}
+				}
 				if ($h_tot[0] < $h_req[0]) {
 					$todos[$l]['horas_totales'] = '<b><span style="color:#FF0000">'.$todos[$l]['horas_totales'].'</b></span>';
 				} else if ($h_tot[0] == $h_req[0]){

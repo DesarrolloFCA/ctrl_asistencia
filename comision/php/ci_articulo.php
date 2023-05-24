@@ -205,7 +205,7 @@ class ci_articulo extends comision_ci
 								$fecha_fin = date_create(date("Y-m-d",$fechaentera1)); 
 								$diferencia = date_diff($fecha_inicio , $fecha_fin);
 								$dias_tomados = $dias_tomados + $diferencia;
-								ei_arbol($dias_tomados);
+								//ei_arbol($dias_tomados);
 								}
 
 							if ($parte[0]['dias_restantes'] == null ) {
@@ -865,7 +865,7 @@ class ci_articulo extends comision_ci
 
 			//verificamos que no exista otro parte abiertos(estado) con el mismo legajo, motivo y dependencia.
 			$datos = $this->dep('datos')->tabla('parte')->get();
-			ei_arbol ($datos);    
+			//ei_arbol ($datos);    
 			/*$filtro['legajo']     = $datos['legajo'];
 			$filtro['id_motivo']  = $datos['id_motivo'];
 			$filtro['cod_depcia'] = 04;*/

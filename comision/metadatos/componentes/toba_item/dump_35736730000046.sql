@@ -1,5 +1,5 @@
 ------------------------------------------------------------
---[35736730000046]--  Comision de Servicio 
+--[35736730000046]--  Comisión de Servicio 
 ------------------------------------------------------------
 
 ------------------------------------------------------------
@@ -23,7 +23,7 @@ INSERT INTO apex_item (item_id, proyecto, item, padre_id, padre_proyecto, padre,
 	NULL, --actividad_buffer
 	NULL, --actividad_patron_proyecto
 	NULL, --actividad_patron
-	'Comision de Servicio', --nombre
+	'Comisión de Servicio', --nombre
 	NULL, --descripcion
 	'35736730000002', --punto_montaje
 	NULL, --actividad_accion

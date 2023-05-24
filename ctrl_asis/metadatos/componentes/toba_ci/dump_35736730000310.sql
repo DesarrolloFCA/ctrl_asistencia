@@ -1,5 +1,5 @@
 ------------------------------------------------------------
---[35736730000203]--  Comisión de Servicio 
+--[35736730000310]--  Informe Efectiva Prestacion 
 ------------------------------------------------------------
 
 ------------------------------------------------------------
@@ -8,19 +8,19 @@
 
 --- INICIO Grupo de desarrollo 35736730
 INSERT INTO apex_objeto (proyecto, objeto, anterior, identificador, reflexivo, clase_proyecto, clase, punto_montaje, subclase, subclase_archivo, objeto_categoria_proyecto, objeto_categoria, nombre, titulo, colapsable, descripcion, fuente_datos_proyecto, fuente_datos, solicitud_registrar, solicitud_obj_obs_tipo, solicitud_obj_observacion, parametro_a, parametro_b, parametro_c, parametro_d, parametro_e, parametro_f, usuario, creacion, posicion_botonera) VALUES (
-	'comision', --proyecto
-	'35736730000203', --objeto
+	'ctrl_asis', --proyecto
+	'35736730000310', --objeto
 	NULL, --anterior
 	NULL, --identificador
 	NULL, --reflexivo
 	'toba', --clase_proyecto
 	'toba_ci', --clase
-	'35736730000002', --punto_montaje
-	'comision', --subclase
-	'comision.php', --subclase_archivo
+	'4000021', --punto_montaje
+	'ci_informe_servicio_efectiva', --subclase
+	'Informes/informes_prestacion/ci_informe_servicio_efectiva.php', --subclase_archivo
 	NULL, --objeto_categoria_proyecto
 	NULL, --objeto_categoria
-	'Comisión de Servicio', --nombre
+	'Informe Efectiva Prestacion', --nombre
 	NULL, --titulo
 	'0', --colapsable
 	NULL, --descripcion
@@ -36,7 +36,7 @@ INSERT INTO apex_objeto (proyecto, objeto, anterior, identificador, reflexivo, c
 	NULL, --parametro_e
 	NULL, --parametro_f
 	NULL, --usuario
-	'2022-09-26 15:32:19', --creacion
+	'2023-05-16 11:45:35', --creacion
 	'abajo'  --posicion_botonera
 );
 --- FIN Grupo de desarrollo 35736730
@@ -45,8 +45,8 @@ INSERT INTO apex_objeto (proyecto, objeto, anterior, identificador, reflexivo, c
 -- apex_objeto_mt_me
 ------------------------------------------------------------
 INSERT INTO apex_objeto_mt_me (objeto_mt_me_proyecto, objeto_mt_me, ev_procesar_etiq, ev_cancelar_etiq, ancho, alto, posicion_botonera, tipo_navegacion, botonera_barra_item, con_toc, incremental, debug_eventos, activacion_procesar, activacion_cancelar, ev_procesar, ev_cancelar, objetos, post_procesar, metodo_despachador, metodo_opciones) VALUES (
-	'comision', --objeto_mt_me_proyecto
-	'35736730000203', --objeto_mt_me
+	'ctrl_asis', --objeto_mt_me_proyecto
+	'35736730000310', --objeto_mt_me
 	NULL, --ev_procesar_etiq
 	NULL, --ev_cancelar_etiq
 	NULL, --ancho
@@ -73,10 +73,34 @@ INSERT INTO apex_objeto_mt_me (objeto_mt_me_proyecto, objeto_mt_me, ev_procesar_
 
 --- INICIO Grupo de desarrollo 35736730
 INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
-	'comision', --proyecto
-	'35736730000185', --dep_id
-	'35736730000203', --objeto_consumidor
-	'35736730000218', --objeto_proveedor
+	'ctrl_asis', --proyecto
+	'35736730000274', --dep_id
+	'35736730000310', --objeto_consumidor
+	'35736730000314', --objeto_proveedor
+	'access', --identificador
+	NULL, --parametros_a
+	NULL, --parametros_b
+	NULL, --parametros_c
+	NULL, --inicializar
+	NULL  --orden
+);
+INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
+	'ctrl_asis', --proyecto
+	'35736730000272', --dep_id
+	'35736730000310', --objeto_consumidor
+	'35736730000312', --objeto_proveedor
+	'cuadro', --identificador
+	NULL, --parametros_a
+	NULL, --parametros_b
+	NULL, --parametros_c
+	NULL, --inicializar
+	NULL  --orden
+);
+INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
+	'ctrl_asis', --proyecto
+	'35736730000275', --dep_id
+	'35736730000310', --objeto_consumidor
+	'35736730000315', --objeto_proveedor
 	'datos', --identificador
 	NULL, --parametros_a
 	NULL, --parametros_b
@@ -85,11 +109,11 @@ INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objet
 	NULL  --orden
 );
 INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
-	'comision', --proyecto
-	'35736730000181', --dep_id
-	'35736730000203', --objeto_consumidor
-	'35736730000204', --objeto_proveedor
-	'formulario', --identificador
+	'ctrl_asis', --proyecto
+	'35736730000271', --dep_id
+	'35736730000310', --objeto_consumidor
+	'35736730000311', --objeto_proveedor
+	'filtro', --identificador
 	NULL, --parametros_a
 	NULL, --parametros_b
 	NULL, --parametros_c
@@ -97,10 +121,10 @@ INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objet
 	NULL  --orden
 );
 INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
-	'comision', --proyecto
-	'35736730000201', --dep_id
-	'35736730000203', --objeto_consumidor
-	'35736730000233', --objeto_proveedor
+	'ctrl_asis', --proyecto
+	'35736730000273', --dep_id
+	'35736730000310', --objeto_consumidor
+	'35736730000313', --objeto_proveedor
 	'mapuche', --identificador
 	NULL, --parametros_a
 	NULL, --parametros_b
@@ -116,9 +140,9 @@ INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objet
 
 --- INICIO Grupo de desarrollo 35736730
 INSERT INTO apex_objeto_ci_pantalla (objeto_ci_proyecto, objeto_ci, pantalla, identificador, orden, etiqueta, descripcion, tip, imagen_recurso_origen, imagen, objetos, eventos, subclase, subclase_archivo, template, template_impresion, punto_montaje) VALUES (
-	'comision', --objeto_ci_proyecto
-	'35736730000203', --objeto_ci
-	'35736730000073', --pantalla
+	'ctrl_asis', --objeto_ci_proyecto
+	'35736730000310', --objeto_ci
+	'35736730000092', --pantalla
 	'pant_inicial', --identificador
 	NULL, --orden
 	'Pantalla Inicial', --etiqueta
@@ -140,9 +164,16 @@ INSERT INTO apex_objeto_ci_pantalla (objeto_ci_proyecto, objeto_ci, pantalla, id
 -- apex_objetos_pantalla
 ------------------------------------------------------------
 INSERT INTO apex_objetos_pantalla (proyecto, pantalla, objeto_ci, orden, dep_id) VALUES (
-	'comision', --proyecto
-	'35736730000073', --pantalla
-	'35736730000203', --objeto_ci
+	'ctrl_asis', --proyecto
+	'35736730000092', --pantalla
+	'35736730000310', --objeto_ci
 	'0', --orden
-	'35736730000181'  --dep_id
+	'35736730000271'  --dep_id
+);
+INSERT INTO apex_objetos_pantalla (proyecto, pantalla, objeto_ci, orden, dep_id) VALUES (
+	'ctrl_asis', --proyecto
+	'35736730000092', --pantalla
+	'35736730000310', --objeto_ci
+	'1', --orden
+	'35736730000272'  --dep_id
 );
