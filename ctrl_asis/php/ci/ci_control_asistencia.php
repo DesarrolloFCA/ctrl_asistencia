@@ -455,14 +455,17 @@ class ci_control_asistencia extends ctrl_asis_ci
 					}
 				}
 				if ($h_tot[0] < $h_req[0]) {
-					$todos[$l]['horas_totales'] = '<b><span style="color:#FF0000">'.$todos[$l]['horas_totales'].'</b></span>';
+					$todos[$l]['horas_totales'] = $todos[$l]['horas_totales'];
 				} else if ($h_tot[0] == $h_req[0]){
 						if ($h_tot[1] < $h_req[1] ){
-							$todos[$l]['horas_totales'] = '<b><span style="color:#FF0000">'.$todos[$l]['horas_totales'].'</b></span>';
+							$todos[$l]['horas_totales'] = $todos[$l]['horas_totales'];
 						} 
 				}				
 				
-					
+				$todos[$l]['desviacion_horario'] = $this->restar_horas($todos[$l]['horas_requeridas_prom'],$todos[$l]['horas_totales']);
+				if($todos[$l]['horas_requeridas_prom']> $todos[$l]['horas_totales']){
+					$todos[$l]['desviacion_horario'] = '-'.$todos[$l]['desviacion_horario'] ;
+				}
 						
 					
 			}
@@ -709,6 +712,22 @@ class ci_control_asistencia extends ctrl_asis_ci
 		}else{
 			toba::notificacion()->agregar("No hay datos para enviar.", "error");
 		}
+	}
+	function restar_horas($horaini,$horafin)
+	{
+		$horasi = explode(":",$horaini);
+		$horasi_seg = $horasi[0]*3600+$horasi[1]*60;
+		$horasf = explode(":",$horafin);
+		$horasf_seg = $horasf[0]*3600+$horasf[1]*60;
+		
+				
+		$dif=$horasi_seg-$horasf_seg;
+		
+		$difh=floor($dif/3600);
+		$difm=floor(($dif-($difh*3600))/60);
+		//$difs=$dif-($difm*60)-($difh*3600);
+		#return date("H:i:s",mktime($difh,$difm,$difs));
+		return date("H:i",mktime($difh,$difm));
 	}
 
 	

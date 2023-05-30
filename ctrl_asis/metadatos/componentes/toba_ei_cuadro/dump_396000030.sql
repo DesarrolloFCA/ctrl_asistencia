@@ -173,8 +173,8 @@ INSERT INTO apex_objeto_cuadro (objeto_cuadro_proyecto, objeto_cuadro, titulo, s
 	NULL, --eof_customizado
 	'0', --siempre_con_titulo
 	'0', --exportar_paginado
-	'1', --exportar
-	'1', --exportar_rtf
+	'0', --exportar
+	'0', --exportar_rtf
 	NULL, --pdf_propiedades
 	NULL, --pdf_respetar_paginacion
 	NULL, --asociacion_columnas
@@ -328,7 +328,7 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'396000030', --objeto_cuadro
 	'396000109', --objeto_cuadro_col
 	'horas_promedio', --clave
-	'12', --orden
+	'13', --orden
 	'Promedio', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'col-cen-s1', --estilo
@@ -452,8 +452,8 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'396000030', --objeto_cuadro
 	'396000158', --objeto_cuadro_col
 	'horas_requeridas_prom', --clave
-	'13', --orden
-	'Requerido', --titulo
+	'11', --orden
+	'Requeridas', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'col-cen-s1', --estilo
 	NULL, --ancho
@@ -483,8 +483,8 @@ INSERT INTO apex_objeto_ei_cuadro_columna (objeto_cuadro_proyecto, objeto_cuadro
 	'396000030', --objeto_cuadro
 	'396000159', --objeto_cuadro_col
 	'horas_totales', --clave
-	'11', --orden
-	'Totales', --titulo
+	'12', --orden
+	'Trabajadas', --titulo
 	'ei-cuadro-col-tit', --estilo_titulo
 	'col-cen-s1', --estilo
 	NULL, --ancho
