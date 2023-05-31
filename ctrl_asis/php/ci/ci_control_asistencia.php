@@ -713,21 +713,34 @@ class ci_control_asistencia extends ctrl_asis_ci
 			toba::notificacion()->agregar("No hay datos para enviar.", "error");
 		}
 	}
-	function restar_horas($horaini,$horafin)
+	function restar_horas($hora1,$hora2)
 	{
-		$horasi = explode(":",$horaini);
-		$horasi_seg = $horasi[0]*3600+$horasi[1]*60;
-		$horasf = explode(":",$horafin);
-		$horasf_seg = $horasf[0]*3600+$horasf[1]*60;
-		
-				
-		$dif=$horasi_seg-$horasf_seg;
-		
-		$difh=floor($dif/3600);
-		$difm=floor(($dif-($difh*3600))/60);
-		//$difs=$dif-($difm*60)-($difh*3600);
-		#return date("H:i:s",mktime($difh,$difm,$difs));
-		return date("H:i",mktime($difh,$difm));
+	
+	$timei = explode(':',$hora1);
+	$time1 = $timei[0]*3600 +$timei[1]*60;
+	$timef = explode(':',$hora2);
+	$time2 = $timef[0]*3600 +$timef[1]*60;
+	//$time1 = strtotime($hora1);
+    //$time2 = strtotime($hora2);
+	//	$time1 = $hora1;
+	//	$time2 = $hora2;
+
+    $diff = $time1 - $time2;
+    //ei_arbol(strtotime($time1),$time2);
+
+    if ($diff >= 0) {
+        $signo = "+";
+        $horas = floor($diff / 3600);
+        $minutos = floor(($diff % 3600) / 60);
+    } else {
+        $signo = "-";
+        $horas = floor(abs($diff) / 3600);
+        $minutos = floor((abs($diff) % 3600) / 60);
+    }
+
+    $resultado = sprintf("%s%02d:%02d", $signo, $horas, $minutos);
+
+    return $resultado;
 	}
 
 	
