@@ -62,7 +62,7 @@ class ci_permiso_horario extends comision_ci
 				$correo_sup=$this->dep('datos')->tabla('agentes_mail')->get_correo($datos['leg_sup']);
 				$datos['superior']=$correo_sup[0]['descripcion'];
 			}
-			ei_arbol ($datos);
+			//ei_arbol ($datos);
 
 			$this->s__datos = $datos;
 			if (!empty ($datos['legajo'])){
