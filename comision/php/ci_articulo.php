@@ -797,18 +797,21 @@ class ci_articulo extends comision_ci
 					}        
 		
 					if (isset($legajo)){
-					$correo_agente = $this->dep('mapuche')->get_legajos_email($datos['legajo']);
+					//$correo_agente = $this->dep('mapuche')->get_legajos_email($datos['legajo']);
+					$correo_agente=$this->dep('datos')->tabla('agentes_mail')->get_correo($datos['legajo']);
 					$datos['agente_ayn']=$correo_agente[0]['descripcion'];
 		
 					}
 
 					if(isset($datos['superior'])and $datos['superior']<>0) {
-					$correo_sup = $this->dep('mapuche')->get_legajos_email($datos['superior']);
+					//$correo_sup = $this->dep('mapuche')->get_legajos_email($datos['superior']);
+					$correo_agente=$this->dep('datos')->tabla('agentes_mail')->get_correo($datos['superior']);	
 					$datos['superior_ayn']=$correo_sup[0]['descripcion'];
 					}
 
 					if(isset($datos['autoridad'])) {
-					$correo_aut = $this->dep('mapuche')->get_legajos_email($datos['autoridad']);
+					//$correo_aut = $this->dep('mapuche')->get_legajos_email($datos['autoridad']);
+					$correo_agente=$this->dep('datos')->tabla('agentes_mail')->get_correo($datos['autoridad']);
 					$datos['autoridad_ayn']=$correo_aut[0]['descripcion'];
 		
 					}
