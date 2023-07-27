@@ -24,6 +24,7 @@ class ci_comisiones_de_servicio extends ctrl_asis_ci
 		//$componente->set_datos($this->dep('datos')->get_filas());
 		$sql = "SELECT  *  FROM reloj.comision
 					WHERE pasada is null or pasada = false
+					--limit 25
 					";
 			$listado = toba::db('ctrl_asis')->consultar($sql);		
 
@@ -47,7 +48,7 @@ class ci_comisiones_de_servicio extends ctrl_asis_ci
 			
 				$id= $datos[$i]['id_comision'];
 				$legajo = $datos[$i]['legajo'];
-				ei_arbol ($datos[$i]['pasada']);
+			//	ei_arbol ($datos[$i]['pasada']);
 				if ($datos[$i]['pasada']  == 1){
 					$estado = 'C';
 				} else {
@@ -212,7 +213,7 @@ $mail->SMTPAuth   = true;
 //Definimos la cuenta que vamos a usar. Dirección completa de la misma
 $mail->Username   = "formularios_personal@fca.uncu.edu.ar";
 //Introducimos nuestra contraseña de gmail
-$mail->Password   = "djxgidwlytoydsow";
+$mail->Password   = "anzmxlazswghxqgb";
 //Definimos el remitente (dirección y, opcionalmente, nombre)
 $mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formulario Personal');
 //Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)

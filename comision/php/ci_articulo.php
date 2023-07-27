@@ -910,11 +910,12 @@ $mail->SMTPSecure = 'tls';
 //Tenemos que usar gmail autenticados, así que esto a TRUE
 $mail->SMTPAuth   = true;
 //Definimos la cuenta que vamos a usar. Dirección completa de la misma
-$mail->Username   = "formularios_personal@fca.uncu.edu.ar";
+//Leo: cambiamos de cuenta porque la hackearon esta esta contraseña para aplicaciones
+$mail->Username   = "formularios_asistencia@fca.uncu.edu.ar";
 //Introducimos nuestra contraseña de gmail
-$mail->Password   = "djxgidwlytoydsow";
+$mail->Password   = "anzmxlazswghxqgb";
 //Definimos el remitente (dirección y, opcionalmente, nombre)
-$mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formulario Personal');
+$mail->SetFrom('formularios_asistencia@fca.uncu.edu.ar', 'Formulario Personal');
 //Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
 
 //$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
@@ -1021,11 +1022,12 @@ $mail->SMTPSecure = 'tls';
 //Tenemos que usar gmail autenticados, así que esto a TRUE
 $mail->SMTPAuth   = true;
 //Definimos la cuenta que vamos a usar. Dirección completa de la misma
-$mail->Username   = "formularios_personal@fca.uncu.edu.ar";
+//Leo: cambiamos de cuenta porque la hackearon esta esta contraseña para aplicaciones
+$mail->Username   = "formularios_asistencia@fca.uncu.edu.ar";
 //Introducimos nuestra contraseña de gmail
-$mail->Password   = "djxgidwlytoydsow";
+$mail->Password   = "anzmxlazswghxqgb";
 //Definimos el remitente (dirección y, opcionalmente, nombre)
-$mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formularios Personal');
+$mail->SetFrom('formularios_asistencia@fca.uncu.edu.ar', 'Formularios Personal');
 //Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
 //$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
 //Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)

@@ -210,10 +210,11 @@ class dt_catedra extends comision_datos_tabla
                     	WHERE legajo = $leg";
        			$jefe = toba::db('mapuche')->consultar ($sql);
        			} else {
+       				//Agregué la catedra en la consulta como esta en desarrollo (la 49) para que traiga bien el jefe de departamento - LEO
        				$sql = "SELECT b.legajo_dir  FROM reloj.catedras_agentes a
 							inner join reloj.catedras c on c.id_catedra = a.id_catedra
 							inner join reloj.departamento_director b on b.id_departamento = c.id_departamento
-							where a.legajo = $legajo";
+							where a.legajo = $legajo and c.id_catedra = $id_catedra";
 					$temp = toba::db('comision')->consultar($sql);	
 					
 							if (count($temp)> 0) {

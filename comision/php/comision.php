@@ -75,7 +75,6 @@ class comision extends toba_ci
 			}
 		//	ei_arbol($correo_sup);
 			/*if (!empty ($datos['legajo_sup'])){
-
 				
 			}
 			/*if (!empty ($datos['legajo_aut'])){
@@ -133,11 +132,12 @@ $mail->SMTPSecure = 'tls';
 $mail->SMTPAuth   = true;
 
 //Definimos la cuenta que vamos a usar. Dirección completa de la misma
-$mail->Username   = "formularios_personal@fca.uncu.edu.ar";
+//Leo: cambiamos de cuenta porque la hackearon esta esta contraseña para aplicaciones
+$mail->Username   = "formularios_asistencia@fca.uncu.edu.ar";
 //Introducimos nuestra contraseña de gmail
-$mail->Password   = "djxgidwlytoydsow";
+$mail->Password   = "anzmxlazswghxqgb";
 //Definimos el remitente (dirección y, opcionalmente, nombre)
-$mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formulario Personal');
+$mail->SetFrom('formularios_asistencia@fca.uncu.edu.ar', 'Formulario Personal');
 //Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
 
 //$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
@@ -195,11 +195,12 @@ $mail->SMTPSecure = 'tls';
 //Tenemos que usar gmail autenticados, así que esto a TRUE
 $mail->SMTPAuth   = true;
 //Definimos la cuenta que vamos a usar. Dirección completa de la misma
-$mail->Username   = "formularios_personal@fca.uncu.edu.ar";
+//Leo: cambiamos de cuenta porque la hackearon esta esta contraseña para aplicaciones
+$mail->Username   = "formularios_asistencia@fca.uncu.edu.ar";
 //Introducimos nuestra contraseña de gmail
-$mail->Password   = "djxgidwlytoydsow";
+$mail->Password   = "anzmxlazswghxqgb";
 //Definimos el remitente (dirección y, opcionalmente, nombre)
-$mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formulario Personal');
+$mail->SetFrom('formularios_asistencia@fca.uncu.edu.ar', 'Formulario Personal');
 //Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
 
 //$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
@@ -218,7 +219,8 @@ $mail->IsHTML(true); //el mail contiene html
 						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
 						Solicita <b>Comision de Servicio</b> con motivo de '.$datos['motivo'].' a realizarse el dia '.$fecha.' hasta el dia' .$fecha_fin. '
 						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].' hasta la hora '.$datos['horario_fin'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '</br>
-						Por favor haga <a href="http://172.22.8.49/ctrl_asis/1.0">click aqui
+						En caso de rechazar la solicitud del agente, debera enviar un correo a la siguiente direccion: asistencia@fca.uncu.edu.ar </br>
+
 											
 			</table>'; //date("d/m/y",$fecha)
 $mail->Body = $body;

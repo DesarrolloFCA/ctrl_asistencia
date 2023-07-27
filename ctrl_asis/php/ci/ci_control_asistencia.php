@@ -203,8 +203,9 @@ class ci_control_asistencia extends ctrl_asis_ci
 				//}
 			}
 			//ei_arbol($e);
+			//unset($e);
+			$this->s__datos = $e; //para agregar catedras y parcelas
 			unset($e);
-			
 			$todo =	array_values($this->s__datos);		
 			//	ei_arbol($todo);
 			$registros = count($todo); 	
