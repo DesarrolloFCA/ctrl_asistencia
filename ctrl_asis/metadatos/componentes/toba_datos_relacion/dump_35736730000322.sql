@@ -1,5 +1,5 @@
 ------------------------------------------------------------
---[35736730000218]--  Comision de Servicio - mapuche 
+--[35736730000322]--  Cátedra/ Oficina - CI - mapuche 
 ------------------------------------------------------------
 
 ------------------------------------------------------------
@@ -8,24 +8,24 @@
 
 --- INICIO Grupo de desarrollo 35736730
 INSERT INTO apex_objeto (proyecto, objeto, anterior, identificador, reflexivo, clase_proyecto, clase, punto_montaje, subclase, subclase_archivo, objeto_categoria_proyecto, objeto_categoria, nombre, titulo, colapsable, descripcion, fuente_datos_proyecto, fuente_datos, solicitud_registrar, solicitud_obj_obs_tipo, solicitud_obj_observacion, parametro_a, parametro_b, parametro_c, parametro_d, parametro_e, parametro_f, usuario, creacion, posicion_botonera) VALUES (
-	'comision', --proyecto
-	'35736730000218', --objeto
+	'ctrl_asis', --proyecto
+	'35736730000322', --objeto
 	NULL, --anterior
 	NULL, --identificador
 	NULL, --reflexivo
 	'toba', --clase_proyecto
 	'toba_datos_relacion', --clase
-	'35736730000002', --punto_montaje
-	NULL, --subclase
-	NULL, --subclase_archivo
+	'4000021', --punto_montaje
+	'vistas_mapuche', --subclase
+	'datos/vistas_mapuche.php', --subclase_archivo
 	NULL, --objeto_categoria_proyecto
 	NULL, --objeto_categoria
-	'Comision de Servicio - mapuche', --nombre
+	'Cátedra/ Oficina - CI - mapuche', --nombre
 	NULL, --titulo
 	NULL, --colapsable
 	NULL, --descripcion
-	'comision', --fuente_datos_proyecto
-	'comision', --fuente_datos
+	'ctrl_asis', --fuente_datos_proyecto
+	'mapuche', --fuente_datos
 	NULL, --solicitud_registrar
 	NULL, --solicitud_obj_obs_tipo
 	NULL, --solicitud_obj_observacion
@@ -36,7 +36,7 @@ INSERT INTO apex_objeto (proyecto, objeto, anterior, identificador, reflexivo, c
 	NULL, --parametro_e
 	NULL, --parametro_f
 	NULL, --usuario
-	'2022-10-24 09:14:48', --creacion
+	'2023-05-22 12:54:49', --creacion
 	NULL  --posicion_botonera
 );
 --- FIN Grupo de desarrollo 35736730
@@ -45,34 +45,15 @@ INSERT INTO apex_objeto (proyecto, objeto, anterior, identificador, reflexivo, c
 -- apex_objeto_datos_rel
 ------------------------------------------------------------
 INSERT INTO apex_objeto_datos_rel (proyecto, objeto, debug, clave, ap, punto_montaje, ap_clase, ap_archivo, sinc_susp_constraints, sinc_orden_automatico, sinc_lock_optimista) VALUES (
-	'comision', --proyecto
-	'35736730000218', --objeto
+	'ctrl_asis', --proyecto
+	'35736730000322', --objeto
 	'0', --debug
 	NULL, --clave
 	'2', --ap
-	'35736730000002', --punto_montaje
+	'4000021', --punto_montaje
 	NULL, --ap_clase
 	NULL, --ap_archivo
 	'0', --sinc_susp_constraints
 	'1', --sinc_orden_automatico
 	'1'  --sinc_lock_optimista
 );
-
-------------------------------------------------------------
--- apex_objeto_dependencias
-------------------------------------------------------------
-
---- INICIO Grupo de desarrollo 35736730
-INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
-	'comision', --proyecto
-	'35736730000283', --dep_id
-	'35736730000218', --objeto_consumidor
-	'35736730000323', --objeto_proveedor
-	'agentes_mail', --identificador
-	'1', --parametros_a
-	'1', --parametros_b
-	NULL, --parametros_c
-	NULL, --inicializar
-	'1'  --orden
-);
---- FIN Grupo de desarrollo 35736730

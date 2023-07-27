@@ -881,29 +881,46 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 				}
 
 				//-----------------------------------------------------------------------------------------------
-
 				$agentes[$key]['fecha_desde']       = $fecha_desde;
 				$agentes[$key]['fecha_hasta']       = $fecha_hasta;
+				$dias = (strtotime($fecha_desde)-strtotime($fecha_hasta))/86400;
+				$dias = abs($dias);
+				$dias =floor($dias)+1 - $agentes[$key]['feriados'];
 				$agentes[$key]['entrada'] = $hora_entrada;
 				$agentes[$key]['salida'] = $hora_salida;
 				
-				
-				if($agentes[$key]['horas_requeridas_prom'] == 7){
-					$agentes[$key]['horas_requeridas_prom']   = $agentes[$key]['horas_requeridas_prom'] - 1; //por convenio 
-				}
+			
+				if ($agentes[$key]['escalafon']== 'DOCE'){
+					switch ($agentes[$key]['horas_requeridas_prom']){
+						case 2: 
+						$horas_diarias= '01:24';
+						break;	
+						case 4 : 
+						$horas_diarias= '02:48';
+						break;	
+						case 40:
+						$horas_diarias = '05:36';
+						break;
+					}
+				} else if ($agentes[$key]['escalafon']== 'NODO'){
+						$horas_diarias = '06:00';
 
+				}
+				//ei_arbol($prom_acum);
+				$agentes[$key]['horas_requeridas_prom'] = $this->calculo_horas_req($horas_diarias,$dias);
 				if($agentes[$key]['laborables'] > 0){
+
 					$agentes[$key]['horas_totales']       = $horas_totales;
 					$agentes[$key]['horas_promedio']      = $prom_acum;
 				}else{
 					$agentes[$key]['horas_promedio']      = '0:00:00';
 				}
+			
+				//if($agentes[$key]['horas_promedio'] < $agentes[$key]['horas_requeridas_prom']){ //dif negativa
 
-				if($agentes[$key]['horas_promedio'] < $agentes[$key]['horas_requeridas_prom']){ //dif negativa
+					//$desviacion_horario = $this->restar_horas($agentes[$key]['horas_promedio'],$agentes[$key]['horas_requeridas_prom']);
 
-					$desviacion_horario = $this->restar_horas($agentes[$key]['horas_promedio'],$agentes[$key]['horas_requeridas_prom']);
-
-					$entero_desviacion  = str_replace(':', '', $desviacion_horario);
+				//	$entero_desviacion  = str_replace(':', '', $desviacion_horario);
 
 					/* if((int)$entero_desviacion > 30){
 						$agentes[$key]['desviacion_horario']    = "<p style='background-color: #DD4B39; color:#FFFFFF; padding: 2px;'>$desviacion_horario</p>";
@@ -911,10 +928,10 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 						$agentes[$key]['desviacion_horario']    = "<p style='background-color: #f39c12; color:#FFFFFF; padding: 2px;'>$desviacion_horario</p>";
 					}*/
 
-				}else{ //dif positiva
+				//}else{ //dif positiva
 					$desviacion_horario =  $this->restar_horas($agentes[$key]['horas_requeridas_prom'],$agentes[$key]['horas_promedio']);
-					$agentes[$key]['desviacion_horario']    = "<p style='background-color: #00A65A; color:#FFFFFF; padding: 2px;'>$desviacion_horario</p>";
-				}
+					$agentes[$key]['desviacion_horario']    = $desviacion_horario;
+			//	}
 				
 				//--------------------------------------------------------------------------------------------
 				//--------------------------------------------------------------------------------------------
@@ -1149,6 +1166,32 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 
 			}
 		}
+
+	}
+	function calculo_horas_req ($hora_min,$dias){
+		$horas_min = explode(":",$horas_diarias);
+						$todo[$i]['h_min'] = $horas_min[0] +($horas_min[1]/60);
+
+						//Horas totales ideales trabajadas
+					//	ei_arbol($horas_min);
+						$horas= $dias * $horas_min[0];
+						
+						// Calculos de minutos
+						$minutos = $dias * $horas_min[1];
+
+						while ($minutos >= 60){
+							$minutos = $minutos - 60;
+							$tmp ++;
+						}
+
+						$horas = $horas + $tmp;
+						
+						if($minutos < 10) {
+							$minutos = '0'.$minutos;
+						} 
+
+						$requerido = $horas .':'.$minutos;
+						return $requerido;
 
 	}
 }

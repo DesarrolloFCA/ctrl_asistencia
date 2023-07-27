@@ -52,18 +52,21 @@ class ci_permiso_horario extends comision_ci
 			$a = toba::db('comision')->consultar($sql);
 			$datos['n_catedra']= $a[0]['nombre_catedra'];
 		if (!empty ($datos['legajo'])){
-				$correo_agente = $this->dep('mapuche')->get_legajos_email($datos['legajo']);
+				//$correo_agente = $this->dep('mapuche')->get_legajos_email($datos['legajo']);
+				$correo_agente=$this->dep('datos')->tabla('agentes_mail')->get_correo($datos['legajo']);
 				$datos['agente']=$correo_agente[0]['descripcion'];
-		//	ei_arbol ($correo_agente);
+		
 			}
 			if (!empty ($datos['leg_sup'])){
-				$correo_sup = $this->dep('mapuche')->get_legajos_email($datos['leg_sup']);
+				//$correo_sup = $this->dep('mapuche')->get_legajos_email($datos['leg_sup']);
+				$correo_sup=$this->dep('datos')->tabla('agentes_mail')->get_correo($datos['leg_sup']);
 				$datos['superior']=$correo_sup[0]['descripcion'];
 			}
-			
+			//ei_arbol ($datos);
+
 			$this->s__datos = $datos;
 			if (!empty ($datos['legajo'])){
-			$this->enviar_correos($correo_agente[0]['email']);
+			//$this->enviar_correos($correo_agente[0]['email']);
 
 		
 			}
@@ -74,10 +77,10 @@ class ci_permiso_horario extends comision_ci
 			toba::notificacion()->agregar('Ud. ha excedido la cantidad de permisos excepcionales que se otorgan por a&ntilde;o', 'info');
 		}	
 			if (!empty ($datos['leg_sup'])){
-				$this->enviar_correos($correo_sup[0]['email']);
+			//	$this->enviar_correos($correo_sup[0]['email']);
 			}
 		} else {
-			toba::notificacion()->agregar('Solamente esta licencia es aplicable a Personal de Apoyo Acad&eacute;mico', 'info');
+			toba::notificacion()->agregar('Esta licencia es aplicable solamente a Personal de Apoyo Acad&eacute;mico', 'info');
 		}	
 
 	}

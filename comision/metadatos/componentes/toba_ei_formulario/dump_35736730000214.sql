@@ -594,7 +594,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	NULL, --carga_consulta_php
 	NULL, --carga_sql
 	'comision', --carga_fuente
-	'30/Razones Particulares con Goce,35/Vacaciones,57/Vacaciones Pendientes', --carga_lista
+	'30/Razones Particulares con Goce,35/Licencia Anual por Vacaciones,57/Vacaciones Pendientes', --carga_lista
 	NULL, --carga_col_clave
 	NULL, --carga_col_desc
 	NULL, --carga_maestros

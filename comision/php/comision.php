@@ -55,22 +55,27 @@ class comision extends toba_ci
 			
 			//ei_arbol ($datos);
 			if (!empty ($datos['legajo'])){
-				$correo_agente = $this->dep('mapuche')->get_legajos_email($datos['legajo']);
+				//$correo_agente = $this->dep('mapuche')->get_legajos_email($datos['legajo']);
+				$correo_agente=$this->dep('datos')->tabla('agentes_mail')->get_correo($datos['legajo']);
 				$datos['agente']=$correo_agente[0]['descripcion'];
 		//    ei_arbol ($correo_agente);
 			}
 			if (!empty ($datos['superior'])){
-				$correo_sup = $this->dep('mapuche')->get_legajos_email($datos['superior']);
+			//	$correo_sup = $this->dep('mapuche')->get_legajos_email($datos['superior']);
+				$correo_sup=$this->dep('datos')->tabla('agentes_mail')->get_correo($datos['superior']);
 				$datos['superior']=$correo_sup[0]['descripcion'];
 			}
 			if (!empty ($datos['legajo_autoridad'])){
-				$correo_aut = $this->dep('mapuche')->get_legajos_email($datos['autoridad']);
+		//		$correo_aut = $this->dep('mapuche')->get_legajos_email($datos['autoridad']);
+				$correo_aut=$this->dep('datos')->tabla('agentes_mail')->get_correo($datos['autoridad']);
 			$datos['autoridad']=$correo_aut[0]['descripcion'];
 			}
 			$this->s__datos = $datos;
+			//ei_arbol($datos);
+			//ei_arbol($correo_sup);
 			if (!empty ($datos['legajo'])){
-			$this->enviar_correos($correo_agente[0]['email']);
-			$this->enviar_correos_sup($correo_sup[0]['email']);
+			$this->enviar_correos($datos['agente']);
+			$this->enviar_correos_sup($datos['superior']);
 		
 			}
 		//	ei_arbol($correo_sup);
@@ -81,11 +86,11 @@ class comision extends toba_ci
 			$this->enviar_correos_sup($correo_aut[0]['email']);
 			}*/
 		
-			$sql = "INSERT INTO reloj.comision
+			/*$sql = "INSERT INTO reloj.comision
 				(legajo, catedra, lugar, motivo, fecha, horario, observaciones, legajo_sup, legajo_aut,  fecha_fin, horario_fin, fuera) VALUES
 					($legajo, $catedra, '$lugar', '$motivo','$fecha', '$horario', '$obs', $superior, $autoridad,'$fecha_fin','$horario_fin',$f);";
 		
-			toba::db('comision')->ejecutar($sql); 
+			toba::db('comision')->ejecutar($sql); */
 		
 			if($datos['fuera'] == 1){
 			toba::notificacion()->agregar('Si viaja fuera de la provincia de Mendoza diríjase a la oficina de Personal para tramitar su seguro', 'info');
@@ -161,6 +166,7 @@ $mail->IsHTML(true); //el mail contiene html
 			</table>'; //date("d/m/y",$fecha)
 $mail->Body = $body;
 //Enviamos el correo
+ 
 if(!$mail->Send()) {
 	echo "Error: " . $mail->ErrorInfo;
 } else {
@@ -168,9 +174,8 @@ if(!$mail->Send()) {
 }
 	
 
+	
 		
-		
-
 	}
 	function enviar_correos_sup($correo)
 	{
@@ -220,6 +225,7 @@ $mail->IsHTML(true); //el mail contiene html
 						Solicita <b>Comision de Servicio</b> con motivo de '.$datos['motivo'].' a realizarse el dia '.$fecha.' hasta el dia' .$fecha_fin. '
 						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].' hasta la hora '.$datos['horario_fin'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '</br>
 						En caso de rechazar la solicitud del agente, debera enviar un correo a la siguiente direccion: asistencia@fca.uncu.edu.ar </br>
+
 
 											
 			</table>'; //date("d/m/y",$fecha)

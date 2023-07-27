@@ -52,7 +52,8 @@ class ci_informe_servicio_efectiva extends ctrl_asis_ci
 			//ei_arbol($f);
 			$todo =	array_values($this->s__datos);		
 			//	ei_arbol($todo);
-			$registros = count($todo); 	
+			$registros = count($todo); 
+		//	ei_arbol($registros);	
 			//$hasta = $this->s__datos['total'] +1;
 			for ($i = 0;$i<$registros;$i++){
 				$horas_esp = $this->dep('datos')->tabla('conf_jornada')->get_horas_diarias($todo[$i]['legajo']);
@@ -110,10 +111,9 @@ class ci_informe_servicio_efectiva extends ctrl_asis_ci
 						//ei_arbol($requerido);
 						
 						$todo[$i]['horas_requeridas_prom']= $requerido;
-			}
-		//	ei_arbol($todo);
-			
-			for ($h=0; $h <= $registros; $h++)
+				$registros = count($todo); 
+	//		ei_arbol($registros);
+			for ($h=0; $h < $registros; $h++)
 			{
 				
 				if ($h<>0) {
@@ -151,6 +151,8 @@ class ci_informe_servicio_efectiva extends ctrl_asis_ci
 				}
 			}
 		}
+			$lim = count($todo) ;
+			//ei_arbol($lim);
 			for ($l=0;$l<$lim;$l++){
 
 				$tot=$todo[$l]['horas_totales'];
@@ -159,6 +161,22 @@ class ci_informe_servicio_efectiva extends ctrl_asis_ci
 
 				$req =$todo[$l]['horas_requeridas_prom'];
 				$h_req =explode(":",$req);
+				// Equivalencia Dias
+				if ($todos[$l]['escalafon'] == 'DOCE'){
+				//$ho_dia= explode(":",$horas_diarias);
+				$ho_totales = $h_tot[0]+($h_tot[1]/60);
+				
+				$dias_eq = $ho_totales/$todos[$l]['h_min'];
+				$todo[$l]['presentes'] = intval($ho_totales/$todos[$l]['h_min']);
+				$trab = $todos[$l]['laborables'] - $todos[$l]['presentes'] ;
+					if ($trab > 0) {
+					$todo[$l]['ausentes'] =$trab;
+					$todo[$l]['injustificados'] = $trab -( $todos[$l]['partes'] + $todos[$l]['partes_sanidad']);
+					}else {
+					$todo[$l]['ausentes'] = 0;
+					$todo[$l]['injustificados'] = 0;
+					}
+				}
 
 				if ($h_tot[0] < $h_req[0]) {
 					$todo[$l]['horas_totales'] = '<b><span style="color:#FF0000">'.$todo[$l]['horas_totales'].'</b></span>';
@@ -173,10 +191,31 @@ class ci_informe_servicio_efectiva extends ctrl_asis_ci
 						
 					
 			}
-			$this ->s__datos = $todo;
+			
+			$reg = count($todo);
+			for ($i=0; $i<$reg;$i++){
+				if ($todo[$i]['legajo'] <> null) {
+					$datos [$i]['cuil'] = $todo[$i]['cuil'];
+					$datos [$i]['legajo'] = $todo[$i]['legajo'];
+					$datos [$i]['nombre_completo'] = $todo[$i]['nombre_completo'];
+					$datos [$i]['categoria'] = $todo[$i]['categoria'];
+					$datos [$i]['dedicacion'] = $todo[$i]['dedicacion'];
+					$datos [$i]['escalafon'] = $todo[$i]['escalafon'];
+					$datos [$i]['caracter'] = $todo[$i]['caracter'];
+					$datos [$i]['laborables'] = $todo[$i]['laborables'];
+					$datos [$i]['ausentes'] = $todo[$i]['ausentes'];
+					$datos [$i]['liquidados'] = $todo[$i]['liquidados'];
+					$datos [$i]['observaciones'] = $todo[$i]['observaciones'];
+				}
+			}
+			unset($todo);
+			$this->s__datos = $datos;
 
-			ei_arbol($this->s__datos);
-			$cuadro->set_datos($this->s__datos);
+			//ei_arbol($this->s__datos);
+			$cuadro->set_datos($this->s__datos);		
+			}
+		//	ei_arbol($todo);
+			
 
 	}
 

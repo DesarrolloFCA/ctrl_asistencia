@@ -202,8 +202,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 			}
 				//}
 			}
-			//ei_arbol($e);
-			//unset($e);
+
 			$this->s__datos = $e; //para agregar catedras y parcelas
 			unset($e);
 			$todo =	array_values($this->s__datos);		
@@ -217,7 +216,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 					$horas_diarias = '0'.$horas_esp[0]['horas'].':00';
 				
 				} else {
-				switch ($todo[$i]['cant_horas']){
+				/*switch ($todo[$i]['cant_horas']){
 					case 10 :  
 					$horas_diarias= '01:24';
 								break;	
@@ -234,17 +233,47 @@ class ci_control_asistencia extends ctrl_asis_ci
 					$horas_diarias = '06:00';
 					break;	
 
+				} */
+				switch ($todo[$i]['cant_horas']){
+					case 10 :  
+					//$horas_diarias= '01:24';
+					$requerido = '28:00';
+					$todo[$i]['dedicacion'] = 'SIMPLE';
+								break;	
+					case 20 : 
+					//$horas_diarias= '02:48';
+					$requerido = '56:00';			
+					
+					$todo[$i]['dedicacion'] = 'SEMIEXCLUSIVA';
+								break;	
+					case 30 :
+					//$horas_diarias = '04:12';
+					$requerido = '84:00';
+							break;			
+					case 40:
+					$requerido = '112:00';
+					//$horas_diarias = '05:05';
+					$todo[$i]['dedicacion'] = 'EXCLUSIVA';
+						break;
+					case 35:
+					//$horas_diarias = '06:00';
+					$requerido = '120:24';
+					break;	
+
 				} 
 				}
 			//	ei_arbol($horas_diarias);
-				$tmp= 0;
+				/*$tmp= 0;
 						//ei_arbol($todo[$i]['laborables'] );
 						$dias_trab = $todo[$i]['laborables'] - $todo[$i]['justificados'];
 						//ei_arbol($dias_trab);
-						
+						// guardo horas diarias
+
 						$horas_min = explode(":",$horas_diarias);
+						$todo[$i]['h_min'] = $horas_min[0] +($horas_min[1]/60);
+
 						//Horas totales ideales trabajadas
-						
+					//	ei_arbol($horas_min);
 						$horas= $dias_trab * $horas_min[0];
 						
 						// Calculos de minutos
@@ -259,9 +288,9 @@ class ci_control_asistencia extends ctrl_asis_ci
 						
 						if($minutos < 10) {
 							$minutos = '0'.$minutos;
-						}
+						} 
 
-						$requerido = $horas .':'.$minutos;
+						$requerido = $horas .':'.$minutos;*/
 						//ei_arbol($requerido);
 						
 						$todo[$i]['horas_requeridas_prom']= $requerido;
@@ -295,6 +324,9 @@ class ci_control_asistencia extends ctrl_asis_ci
 							$tmp ++;
 						}
 						$hora=$hora+$tmp;
+						if($minutos < 10) {
+							$minutos = '0'.$minutos;
+						}
 						$requerido=$hora .':'.$min;
 						//$requerido = ($todo [$k]['horas_requeridas_prom']) + ($todo [$h]['horas_requeridas_prom']);
 						
@@ -303,6 +335,9 @@ class ci_control_asistencia extends ctrl_asis_ci
 
 						//unset($todo[$h]);
 					}
+					
+					// equivalencia dias
+
 					//$requerido = $todo [$k]['horas_requeridas_prom'] /5 ;
 					/*ei_arbol ($requerido);
 						switch($requerido) {
@@ -402,27 +437,45 @@ class ci_control_asistencia extends ctrl_asis_ci
 			//ei_arbol(round((memory_get_usage()/(1024*1024)),2));
 			//ei_arbol($todos);
 			$lim = count($todos);
-			for ($l=0;$l<$lim;$l++){
+			/*for ($l=0;$l<$lim;$l++){
 
 				$tot=$todos[$l]['horas_totales'];
 				$h_tot = explode(":",$tot);
 				
-
+// Ver dias Equivantes realizar calculos
 				$req =$todos[$l]['horas_requeridas_prom'];
 				$h_req =explode(":",$req);
-
+				// Equivalencia Dias
+				if ($todos[$l]['escalafon'] == 'DOCE'){
+				//$ho_dia= explode(":",$horas_diarias);
+				$ho_totales = $h_tot[0]+($h_tot[1]/60);
+				
+				$dias_eq = $ho_totales/$todos[$l]['h_min'];
+				$todos[$l]['presentes'] = intval($ho_totales/$todos[$l]['h_min']);
+				$trab = $todos[$l]['laborables'] - $todos[$l]['presentes'] ;
+					if ($trab > 0) {
+					$todos[$l]['ausentes'] =$trab;
+					$todos[$l]['injustificados'] = $trab -( $todos[$l]['partes'] + $todos[$l]['partes_sanidad']);
+					}else {
+					$todos[$l]['ausentes'] = 0;
+					$todos[$l]['injustificados'] = 0;
+					}
+				}
 				if ($h_tot[0] < $h_req[0]) {
-					$todos[$l]['horas_totales'] = '<b><span style="color:#FF0000">'.$todos[$l]['horas_totales'].'</b></span>';
+					$todos[$l]['horas_totales'] = $todos[$l]['horas_totales'];
 				} else if ($h_tot[0] == $h_req[0]){
 						if ($h_tot[1] < $h_req[1] ){
-							$todos[$l]['horas_totales'] = '<b><span style="color:#FF0000">'.$todos[$l]['horas_totales'].'</b></span>';
+							$todos[$l]['horas_totales'] = $todos[$l]['horas_totales'];
 						} 
 				}				
 				
-					
+				$todos[$l]['desviacion_horario'] = $this->restar_horas($todos[$l]['horas_requeridas_prom'],$todos[$l]['horas_totales']);
+				if($todos[$l]['horas_requeridas_prom']> $todos[$l]['horas_totales']){
+					$todos[$l]['desviacion_horario'] = '-'.$todos[$l]['desviacion_horario'] ;
+				}
 						
 					
-			}
+			}*/
 			$this ->s__datos = $todos;
 		//	ei_arbol($todos);
 			unset($todos);
@@ -666,6 +719,35 @@ class ci_control_asistencia extends ctrl_asis_ci
 		}else{
 			toba::notificacion()->agregar("No hay datos para enviar.", "error");
 		}
+	}
+	function restar_horas($hora1,$hora2)
+	{
+	
+	$timei = explode(':',$hora1);
+	$time1 = $timei[0]*3600 +$timei[1]*60;
+	$timef = explode(':',$hora2);
+	$time2 = $timef[0]*3600 +$timef[1]*60;
+	//$time1 = strtotime($hora1);
+    //$time2 = strtotime($hora2);
+	//	$time1 = $hora1;
+	//	$time2 = $hora2;
+
+    $diff = $time1 - $time2;
+    //ei_arbol(strtotime($time1),$time2);
+
+    if ($diff >= 0) {
+        $signo = "+";
+        $horas = floor($diff / 3600);
+        $minutos = floor(($diff % 3600) / 60);
+    } else {
+        $signo = "-";
+        $horas = floor(abs($diff) / 3600);
+        $minutos = floor((abs($diff) % 3600) / 60);
+    }
+
+    $resultado = sprintf("%s%02d:%02d", $signo, $horas, $minutos);
+
+    return $resultado;
 	}
 
 	
