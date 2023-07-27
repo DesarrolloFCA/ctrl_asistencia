@@ -236,28 +236,34 @@ class ci_control_asistencia extends ctrl_asis_ci
 				} */
 				switch ($todo[$i]['cant_horas']){
 					case 10 :  
-					$horas_diarias= '01:24';
+					//$horas_diarias= '01:24';
+					$requerido = '28:00';
 					$todo[$i]['dedicacion'] = 'SIMPLE';
 								break;	
 					case 20 : 
-					$horas_diarias= '02:48';
+					//$horas_diarias= '02:48';
+					$requerido = '56:00';			
+					
 					$todo[$i]['dedicacion'] = 'SEMIEXCLUSIVA';
 								break;	
 					case 30 :
-					$horas_diarias = '04:12';
+					//$horas_diarias = '04:12';
+					$requerido = '84:00';
 							break;			
 					case 40:
-					$horas_diarias = '05:36';
+					$requerido = '112:00';
+					//$horas_diarias = '05:05';
 					$todo[$i]['dedicacion'] = 'EXCLUSIVA';
 						break;
 					case 35:
-					$horas_diarias = '06:00';
+					//$horas_diarias = '06:00';
+					$requerido = '120:24';
 					break;	
 
 				} 
 				}
 			//	ei_arbol($horas_diarias);
-				$tmp= 0;
+				/*$tmp= 0;
 						//ei_arbol($todo[$i]['laborables'] );
 						$dias_trab = $todo[$i]['laborables'] - $todo[$i]['justificados'];
 						//ei_arbol($dias_trab);
@@ -284,7 +290,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 							$minutos = '0'.$minutos;
 						} 
 
-						$requerido = $horas .':'.$minutos;
+						$requerido = $horas .':'.$minutos;*/
 						//ei_arbol($requerido);
 						
 						$todo[$i]['horas_requeridas_prom']= $requerido;
@@ -431,12 +437,12 @@ class ci_control_asistencia extends ctrl_asis_ci
 			//ei_arbol(round((memory_get_usage()/(1024*1024)),2));
 			//ei_arbol($todos);
 			$lim = count($todos);
-			for ($l=0;$l<$lim;$l++){
+			/*for ($l=0;$l<$lim;$l++){
 
 				$tot=$todos[$l]['horas_totales'];
 				$h_tot = explode(":",$tot);
 				
-
+// Ver dias Equivantes realizar calculos
 				$req =$todos[$l]['horas_requeridas_prom'];
 				$h_req =explode(":",$req);
 				// Equivalencia Dias
@@ -469,7 +475,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 				}
 						
 					
-			}
+			}*/
 			$this ->s__datos = $todos;
 		//	ei_arbol($todos);
 			unset($todos);

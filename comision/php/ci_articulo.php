@@ -96,10 +96,11 @@ class ci_articulo extends comision_ci
 			
 
 		} 
-		//ei_arbol($sql);
-				$agente = toba::db('mapuche')->consultar($sql);          
+		
+		$agente = toba::db('mapuche')->consultar($sql);          
+		
 		$cant = count($agente);
-
+		//ei_arbol($agente);
 		$sql = "SELECT MIN(fec_ingreso) fecha from uncu.legajo
 		where legajo = $legajo";
 		$fec_ingreso = toba::db('mapuche')->consultar($sql);
@@ -169,17 +170,19 @@ class ci_articulo extends comision_ci
 		$insertadas = count($vac_pen);
 		//  ei_arbol($insertadas);
 
-		for ($i=0; $i < $cant; $i++) {
+		for ($i=0; $i <= $cant; $i++)
+		{ 
 			
 			if ($agente [$i]['escalafon'] == 'NODO'){
 				
 				
 				
 				if ($id_motivo == 30) { //Razones Particulares
+						
 						if (date("Y") == $anio){    
 							if($dias<=2){
 							$agente [$i]['articulo'] = null;
-							$agente [$i]['id_decreto'] = 4;
+							$agente[$i]['id_decreto'] = 4;
 							
 
 							$sql = "SELECT -SUM(dias) dias_restantes 
@@ -268,7 +271,7 @@ class ci_articulo extends comision_ci
 							
 					//ei_arbol($agente);
 							$agente[$i]['articulo'] = 0;
-							$agente [$i]['id_decreto'] = 4;
+							$agente[$i]['id_decreto'] = 4;
 							//ei_arbol ($agente);
 							/*$sql= "SELECT count(*) tiene from reloj.vacaciones_restantes
 									WHERE legajo = $legajo AND anio= $anio;";
@@ -380,7 +383,7 @@ class ci_articulo extends comision_ci
 
 				} else if ($id_motivo==57){
 					$agente[$i]['articulo'] = null;
-							$agente [$i]['id_decreto'] = 4;
+							$agente[$i]['id_decreto'] = 4;
 							$datos['anio'] = $anio -1;
 							//ei_arbol ($agente);
 							$sql= "SELECT sum(dias)  dias_rest from reloj.vacaciones_restantes
@@ -401,7 +404,7 @@ class ci_articulo extends comision_ci
 							}
 				// Adelanto de Vacaciones
 				}/* else if ($id_motivo == 55){
-					$agente [$i]['id_decreto'] = 4;
+					$agente[$i]['id_decreto'] = 4;
 					if ($anio != date("Y")) {
 						toba::notificacion()->agregar('Para pedir Adelanto de vacaciones recuerde colocar el a&ntildeo en curso', "info");
 						$bandera = false;
@@ -462,38 +465,36 @@ class ci_articulo extends comision_ci
 			} else {
 				
 				if ($id_motivo == 30) {
-							
+						//ei_arbol($i);
 						if (date("Y") == $anio){
 							if ($dias <= 2){
-							$agente [$i]['articulo'] = 0;
-							$agente [$i]['id_decreto'] = 8;
+							for ($j=0; $j < $cant; $j++){
+							$agente [$j]['articulo'] = 0;
+							$agente[$j]['id_decreto'] = 8;	
+							}
+							
 							$sql = "SELECT -SUM(dias) +2 dias_restantes 
 									FROM reloj.parte
 							WHERE legajo = $legajo
 							AND id_motivo = 30
 							AND  DATE_PART('month', fecha_inicio_licencia) = $m";
 							$parte = toba::db('comision')->consultar($sql);
-							$sql = "SELECT fecha_inicio, fecha_fin
+							/*$sql = "SELECT fecha_inicio, fecha_fin*/
+							$sql = "SELECT  fecha_fin - fecha_inicio + 1 dias_rp
 								FROM reloj.inasistencias
 								Where legajo = $legajo AND id_motivo=30 AND extract (month from fecha_inicio)=$m And extract(year from fecha_inicio) = $anio";
 
 							$pendiente = toba::db('comision')->consultar($sql);
 								$lim = count($pendiente);
 								$dias_tomados = 0;
-								for ($i=0; $i<=$lim; $i++){
-									$fecha_inicio = $pendiente[$i]['fecha_inicio'];
-										$fechaentera1 =strtotime($fecha_inicio);
-								$fecha_inicio = date_create(date("Y-m-d",$fechaentera1)); 
-								$fecha_fin = $pendiente[$i]['fecha_fin'];
-										$fechaentera1 =strtotime($fecha_fin);
-								$fecha_fin = date_create(date("Y-m-d",$fechaentera1)); 
-								$diferencia = date_diff($fecha_inicio , $fecha_fin);
-								$dias_tomados = $dias_tomados + $diferencia;
-
+								for ($i=0; $i<$lim; $i++){
+									$dias_tomados = $dias_tomados + $pendiente[$i]['dias_rp'];
+									
 								}
 
 							
 							$temp[0]['dias_restantes'] = $parte[0]['dias_restantes']+ $dias_tomados + $dias;
+							ei_arbol($temp);
 								if(!is_null($temp)&&($temp[0]['dias_restantes'] >= 0 && $temp[0]['dias_restantes']<=2 )){
 									$sql="SELECT -SUM(dias) +6 dias_restantes 
 									FROM reloj.parte
@@ -539,7 +540,7 @@ class ci_articulo extends comision_ci
 				} elseif ($id_motivo == 35) {
 							
 							$agente[$i]['articulo'] = 56;
-							$agente [$i]['id_decreto'] = 2;
+							$agente[$i]['id_decreto'] = 2;
 							$bandera= true;
 
 							
@@ -592,9 +593,9 @@ class ci_articulo extends comision_ci
 								
 							}
 				// VAcaciones pendientes docentes            
-				}else if ($id_motivo==57){
+				}else if ($id_motivo == 57){
 					$agente[$i]['articulo'] = null;
-					$agente [$i]['id_decreto'] = 2;
+					$agente[$i]['id_decreto'] = 2;
 					$datos['anio'] = $anio -1;
 							
 							//ei_arbol ($agente);
@@ -616,7 +617,7 @@ class ci_articulo extends comision_ci
 							}
 				//adelanto de Vacaciones
 				} /*else if ($id_motivo == 55){
-					$agente [$i]['id_decreto'] = 2;
+					$agente[$i]['id_decreto'] = 2;
 					if ($anio != date("Y")) {
 						toba::notificacion()->agregar('Para pedir Adelanto de vacaciones recuerde colocar el a&ntildeo en curso', "info");
 						$bandera = false;
@@ -675,7 +676,7 @@ class ci_articulo extends comision_ci
 
 		$edad = $this->dep('mapuche')->get_edad($legajo, null);
 			$datos['dias_restantes'] = $dias_restantes;
-		//ei_arbol($agente);    
+		ei_arbol($agente);    
 		if($bandera) {
 			$fecha_inicio_licencia = $datos['fecha_inicio_licencia'];
 				$fechaentera1 =strtotime($fecha_inicio_licencia);
@@ -707,27 +708,24 @@ class ci_articulo extends comision_ci
 				$anio=$datos['anio'];
 				$superior= $datos['superior'];
 				$autoridad=$datos['autoridad'];
+				
 			}
 
 
-	
+			
 	
 			if($datos['fecha_inicio_licencia']< '2022-12-26'){
 				toba::notificacion()->agregar('Ingrese una fecha mayor o igual al 26/12/2022', "info");
 			}else
 			{
-			//ei_arbol($ya_tomo,$bandera_nodo);
+			
 				if ($ya_tomo == 0){
 						if($bandera_nodo ){
 							if ($id_motivo != 30){
-							$sql= "INSERT INTO reloj.inasistencias(
-							legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto, id_articulo)    VALUES (
-							$usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto, $articulo);";
+							$sql= "INSERT INTO reloj.inasistencias( legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto, id_articulo)    VALUES ( $usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto, $articulo);";
 							} else 
 							{
-								$sql= "INSERT INTO reloj.inasistencias(
-							legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto)    VALUES (
-							$usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto);";
+								$sql= "INSERT INTO reloj.inasistencias(	legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto)    VALUES ($usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto);";
 							}
 
 
@@ -821,7 +819,7 @@ class ci_articulo extends comision_ci
 					$sql= "SELECT email from reloj.agentes_mail
 					where legajo=$legajo";
 					$correo = toba::db('comision')->consultar($sql);
-					$this->enviar_correos($correo[0]['email']);
+				//	$this->enviar_correos($correo[0]['email']);
 					}
 
 					if(isset($datos['superior'])and $datos['superior']<>0) {
@@ -830,7 +828,7 @@ class ci_articulo extends comision_ci
 					$sql= "SELECT email from reloj.agentes_mail
 					where legajo=$superior";
 					$correo = toba::db('comision')->consultar($sql);
-					$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
+				//	$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
 
 
 					}
@@ -912,11 +910,11 @@ $mail->SMTPSecure = 'tls';
 //Tenemos que usar gmail autenticados, así que esto a TRUE
 $mail->SMTPAuth   = true;
 //Definimos la cuenta que vamos a usar. Dirección completa de la misma
-$mail->Username   = "formularios_personal@fca.uncu.edu.ar";
+$mail->Username   = "formularios_asistencia@fca.uncu.edu.ar";
 //Introducimos nuestra contraseña de gmail
-$mail->Password   = "djxgidwlytoydsow";
+$mail->Password   = "anzmxlazswghxqgb";
 //Definimos el remitente (dirección y, opcionalmente, nombre)
-$mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formulario Personal');
+$mail->SetFrom('formularios_asistencia@fca.uncu.edu.ar', 'Formulario Personal');
 //Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
 
 //$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
@@ -1023,11 +1021,11 @@ $mail->SMTPSecure = 'tls';
 //Tenemos que usar gmail autenticados, así que esto a TRUE
 $mail->SMTPAuth   = true;
 //Definimos la cuenta que vamos a usar. Dirección completa de la misma
-$mail->Username   = "formularios_personal@fca.uncu.edu.ar";
+$mail->Username   = "formularios_asistencia@fca.uncu.edu.ar";
 //Introducimos nuestra contraseña de gmail
-$mail->Password   = "djxgidwlytoydsow";
+$mail->Password   = "anzmxlazswghxqgb";
 //Definimos el remitente (dirección y, opcionalmente, nombre)
-$mail->SetFrom('formularios_personal@fca.uncu.edu.ar', 'Formularios Personal');
+$mail->SetFrom('formularios_asistencia@fca.uncu.edu.ar', 'Formulario Personal');
 //Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
 //$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
 //Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)

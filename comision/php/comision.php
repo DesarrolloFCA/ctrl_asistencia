@@ -72,9 +72,10 @@ class comision extends toba_ci
 			}
 			$this->s__datos = $datos;
 			//ei_arbol($datos);
+			//ei_arbol($correo_sup);
 			if (!empty ($datos['legajo'])){
-			//$this->enviar_correos($correo_agente[0]['email']);
-			//$this->enviar_correos_sup($correo_sup[0]['email']);
+			$this->enviar_correos($datos['agente']);
+			$this->enviar_correos_sup($datos['superior']);
 		
 			}
 		//	ei_arbol($correo_sup);
@@ -166,6 +167,7 @@ $mail->IsHTML(true); //el mail contiene html
 			</table>'; //date("d/m/y",$fecha)
 $mail->Body = $body;
 //Enviamos el correo
+ 
 if(!$mail->Send()) {
 	echo "Error: " . $mail->ErrorInfo;
 } else {
@@ -173,9 +175,8 @@ if(!$mail->Send()) {
 }
 	
 
+	
 		
-		
-
 	}
 	function enviar_correos_sup($correo)
 	{
