@@ -488,13 +488,13 @@ class ci_articulo extends comision_ci
 								$lim = count($pendiente);
 								$dias_tomados = 0;
 								for ($i=0; $i<$lim; $i++){
-									$dias_tomados = $dias_tomados + $pendiente[$i]['dias_rp'];
+								$dias_tomados = $dias_tomados + $pendiente[$i]['dias_rp'];
 									
 								}
 
 							
 							$temp[0]['dias_restantes'] = $parte[0]['dias_restantes']+ $dias_tomados + $dias;
-							ei_arbol($temp);
+							//ei_arbol($temp);
 								if(!is_null($temp)&&($temp[0]['dias_restantes'] >= 0 && $temp[0]['dias_restantes']<=2 )){
 									$sql="SELECT -SUM(dias) +6 dias_restantes 
 									FROM reloj.parte
@@ -676,7 +676,7 @@ class ci_articulo extends comision_ci
 
 		$edad = $this->dep('mapuche')->get_edad($legajo, null);
 			$datos['dias_restantes'] = $dias_restantes;
-		ei_arbol($agente);    
+		//ei_arbol($agente);    
 		if($bandera) {
 			$fecha_inicio_licencia = $datos['fecha_inicio_licencia'];
 				$fechaentera1 =strtotime($fecha_inicio_licencia);

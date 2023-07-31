@@ -40,9 +40,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 
 	function evt__filtro__filtrar($datos)
 	{
-		
 		$this->s__datos_filtro = $datos;
-		
 	}
 
 	function evt__filtro__cancelar()
@@ -116,9 +114,11 @@ class ci_control_asistencia extends ctrl_asis_ci
 			}else{
 			//---------------------------------------------------------------------------------------------------
 			
+			
+
 			$agentes_total =  $this->dep('mapuche')->get_agentes_control_asistencia($this->s__datos_filtro);
 			$total_registros = count($agentes_total);
-		//	ei_arbol($agentes_total );
+			
 			
 			unset($agentes_total);
 
@@ -136,7 +136,6 @@ class ci_control_asistencia extends ctrl_asis_ci
 			if (isset($this->s__datos_filtro['basedatos'])) {
 			$filtro['basedatos'] = $this->s__datos_filtro['basedatos'];
 			}
-		//	ei_arbol($filtro);
 			$this->s__datos = $this->dep('access')->get_lista_resumen($agentes,$filtro);
 		
 			//ei_arbol($agentes);

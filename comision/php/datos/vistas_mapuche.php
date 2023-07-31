@@ -1150,6 +1150,7 @@ class vistas_mapuche extends toba_datos_relacion
             $sql = "SELECT legajo, legajo as descripcion 
                     FROM uncu.legajo 
                     WHERE cod_depcia = '04'
+                    or legajo in (20738,30560)
                     ORDER BY  legajo ASC";
 
             return toba::db('mapuche')->consultar($sql); 

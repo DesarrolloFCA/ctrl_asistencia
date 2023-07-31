@@ -19,7 +19,9 @@ class dt_conf_feriados extends ctrl_asis_datos_tabla
 		}else {
 				$agru='Todos';
 		}		
-		$sql= "Select count(feriado_id) as resultado from reloj.conf_feriados where feriado_fecha = '$fecha' and agrupamiento in ('$agru',NULL);";
+		$sql= "Select count(feriado_id) as resultado from reloj.conf_feriados
+		 where '$fecha' between feriado_fecha and feriado_fecha_fin
+		 and agrupamiento in ('$agru',NULL);";
 		$res = toba::db('ctrl_asis')->consultar_fila($sql);
 		
 		return $res['resultado'];
@@ -30,7 +32,7 @@ class dt_conf_feriados extends ctrl_asis_datos_tabla
 	function get_feriado($fecha)
 	{
 		
-		$sql = "SELECT feriado_id, feriado, feriado as descripcion, feriado_fecha FROM reloj.conf_feriados where feriado_fecha = '$fecha'";
+		$sql = "SELECT feriado_id, feriado, feriado as descripcion, feriado_fecha FROM reloj.conf_feriados where '$fecha' between feriado_fecha and feriado_fecha_fin";
 
 		return toba::db('ctrl_asis')->consultar_fila($sql);
 		

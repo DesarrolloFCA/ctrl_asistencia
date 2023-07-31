@@ -319,6 +319,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 							'fecha'        => date('Y-m-d',strtotime('+'.$j.' day', strtotime($dia))),
 							'descripcion'  => 'Feriado: '.$feriado['descripcion'],
 								);
+
 							
 						//}
 					//	$bandera = false;
@@ -395,7 +396,9 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 
 				}//fin no es feriado
 
-			}//fin recorremos todos los dias entre fecha_desde y fecha_hasta
+			}
+			ei_arbol($feriado);
+			//fin recorremos todos los dias entre fecha_desde y fecha_hasta
 
 
 			//Recorremos array de marcas para agregar casos especiales --------------------------------
@@ -460,7 +463,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 			}
 			//-----------------------------------------------------------------------------------------------
 
-			//ei_arbol($array_marcas);
+			ei_arbol($array_marcas);
 			$agente['fecha_desde']         = $fecha_desde;
 			$agente['fecha_hasta']         = $fecha_hasta;
 
