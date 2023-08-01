@@ -489,7 +489,7 @@ class ci_articulo extends comision_ci
 								$lim = count($pendiente);
 								$dias_tomados = 0;
 								for ($i=0; $i<$lim; $i++){
-									$dias_tomados = $dias_tomados + $pendiente[$i]['dias_rp'];
+								$dias_tomados = $dias_tomados + $pendiente[$i]['dias_rp'];
 									
 								}
 
