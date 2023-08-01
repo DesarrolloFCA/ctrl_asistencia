@@ -66,7 +66,7 @@ class ci_permiso_horario extends comision_ci
 
 			$this->s__datos = $datos;
 			if (!empty ($datos['legajo'])){
-			//$this->enviar_correos($correo_agente[0]['email']);
+			$this->enviar_correos($correo_agente[0]['email']);
 
 		
 			}
@@ -77,7 +77,7 @@ class ci_permiso_horario extends comision_ci
 			toba::notificacion()->agregar('Ud. ha excedido la cantidad de permisos excepcionales que se otorgan por a&ntilde;o', 'info');
 		}	
 			if (!empty ($datos['leg_sup'])){
-			//	$this->enviar_correos($correo_sup[0]['email']);
+				$this->enviar_correos($correo_sup[0]['email']);
 			}
 		} else {
 			toba::notificacion()->agregar('Esta licencia es aplicable solamente a Personal de Apoyo Acad&eacute;mico', 'info');
