@@ -495,7 +495,7 @@ class ci_articulo extends comision_ci
 
 							
 							$temp[0]['dias_restantes'] = $parte[0]['dias_restantes']+ $dias_tomados + $dias;
-							ei_arbol($temp);
+							//ei_arbol($temp);
 								if(!is_null($temp)&&($temp[0]['dias_restantes'] >= 0 && $temp[0]['dias_restantes']<=2 )){
 									$sql="SELECT -SUM(dias) +6 dias_restantes 
 									FROM reloj.parte
@@ -677,7 +677,7 @@ class ci_articulo extends comision_ci
 
 		$edad = $this->dep('mapuche')->get_edad($legajo, null);
 			$datos['dias_restantes'] = $dias_restantes;
-		ei_arbol($agente);    
+		//ei_arbol($agente);    
 		if($bandera) {
 			$fecha_inicio_licencia = $datos['fecha_inicio_licencia'];
 				$fechaentera1 =strtotime($fecha_inicio_licencia);
@@ -820,7 +820,7 @@ class ci_articulo extends comision_ci
 					$sql= "SELECT email from reloj.agentes_mail
 					where legajo=$legajo";
 					$correo = toba::db('comision')->consultar($sql);
-				//	$this->enviar_correos($correo[0]['email']);
+					$this->enviar_correos($correo[0]['email']);
 					}
 
 					if(isset($datos['superior'])and $datos['superior']<>0) {
@@ -829,7 +829,7 @@ class ci_articulo extends comision_ci
 					$sql= "SELECT email from reloj.agentes_mail
 					where legajo=$superior";
 					$correo = toba::db('comision')->consultar($sql);
-				//	$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
+					$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
 
 
 					}

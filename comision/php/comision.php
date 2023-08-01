@@ -86,11 +86,11 @@ class comision extends toba_ci
 			$this->enviar_correos_sup($correo_aut[0]['email']);
 			}*/
 		
-			/*$sql = "INSERT INTO reloj.comision
+			$sql = "INSERT INTO reloj.comision
 				(legajo, catedra, lugar, motivo, fecha, horario, observaciones, legajo_sup, legajo_aut,  fecha_fin, horario_fin, fuera) VALUES
 					($legajo, $catedra, '$lugar', '$motivo','$fecha', '$horario', '$obs', $superior, $autoridad,'$fecha_fin','$horario_fin',$f);";
 		
-			toba::db('comision')->ejecutar($sql); */
+			toba::db('comision')->ejecutar($sql);
 		
 			if($datos['fuera'] == 1){
 			toba::notificacion()->agregar('Si viaja fuera de la provincia de Mendoza diríjase a la oficina de Personal para tramitar su seguro', 'info');
