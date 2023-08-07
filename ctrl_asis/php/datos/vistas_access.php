@@ -641,9 +641,11 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 		$fecha_desde = $filtro['fecha_desde'];
 		$fecha_hasta = $filtro['fecha_hasta'];
 		//if ($fecha_desde <> $fecha_hasta){
-		$feriados = toba::tabla('conf_feriados')->get_listado($filtro);
-		$cantidad_feriado = count($feriados);
-	//	ei_arbol($feriados);
+		//$feriados = toba::tabla('conf_feriados')->get_listado($filtro);
+		$feriados = toba::tabla('conf_feriados')->suma_feriados($filtro);
+		$cantidad_feriado = 3;
+		//$cantidad_feriado = count($feriados);
+		//ei_arbol($feriados);
 		/*for($i=0;$i<$cantidad_feriado;$i++){
 			$fechaferiado = strtotime($feriados[$i]['fecha']);
 			$feriados[$i]['fecha']= date("Y-m-d", $fechaferiado);
@@ -743,20 +745,24 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 					//ei_arbol(toba::tabla('conf_feriados')->hay_feriado($dia));
 					//if(toba::tabla('conf_feriados')->hay_feriado($dia)){ //revisamos el día solo si no es feriado
 					//ei_arbol(round((memory_get_usage()/(1024*1024)),2));
-					//$v= toba::tabla('conf_feriados')->hay_feriado($dia,$agrupamiento);
+					$v= toba::tabla('conf_feriados')->hay_feriado($dia,$agrupamiento);
+					//ei_arbol($v,$dia,$agrupamiento);
+					if ($v > 0) {
+						$agentes[$key]['feriados']++;
+					
 					//ei_arbol($v);
 					//ei_arbol($cantidad_feriado);
 
 					
-					if ($cantidad_feriado < 0 ) {	
-						for ($i=0; $i< $cantidad_feriado; $i++){
+					//if ($cantidad_feriado < 0 ) {	
+					//	for ($i=0; $i< $cantidad_feriado; $i++){
 							
 
-							if ($feriados[$i]['fecha'] == $dia and ($feriados[$i]['agrupamiento'] == $agrupamiento or $feriados[$i]['agrupamiento']=='Todos'  ) ) {	
+					///		if ($feriados[$i]['fecha'] == $dia and ($feriados[$i]['agrupamiento'] == $agrupamiento or $feriados[$i]['agrupamiento']=='Todos'  ) ) {	
 						
-								$agentes[$key]['feriados']++;
-							}
-						}
+					//			$agentes[$key]['feriados']++;
+					//		}
+					//	}
 						/*if ($feriados['fecha'] == $dia ) {	
 						
 						$agentes[$key]['feriados']++;*/

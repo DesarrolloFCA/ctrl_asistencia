@@ -21,7 +21,7 @@ class dt_catedras extends ctrl_asis_datos_tabla
 			$where[] = "nombre_catedra ILIKE ".quote("%{$filtro['nombre_catedra']}%");
 		}
 		if (isset($filtro['id_departamento'])) {
-			$where[] = "t_c.id_departamento = ".quote($filtro['id_departamento']);
+			$where[] = "t_d.id_departamento = ".quote($filtro['id_departamento']);
 		}
 		$sql = "SELECT
 			t_c.id_catedra,
@@ -35,6 +35,8 @@ class dt_catedras extends ctrl_asis_datos_tabla
 		}
 		return toba::db('ctrl_asis')->consultar($sql);
 	}
+
+
 
 }
 ?>

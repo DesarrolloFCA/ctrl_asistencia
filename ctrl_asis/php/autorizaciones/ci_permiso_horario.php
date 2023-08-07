@@ -180,7 +180,7 @@ class ci_permiso_horario extends ctrl_asis_ci
 
 //$catedra = $this->            
 
-// ei_arbol ($datos);              
+//ei_arbol ($datos);              
 $mail = new phpmailer();
 $mail->IsSMTP();
 
@@ -215,16 +215,15 @@ $mail->Subject = 'Solicitud de Permiso Horario';
 $mail->IsHTML(true); //el mail contiene html*/
 
 	
-     ei_arbol($datos);
+//  ei_arbol($aprobado);
 //
 
-	if ($aprobado) {
+	if ($aprobado==1) {
 		
 		
 			$body = '<table>
 						Al agente  <b>'.$datos['agente_ayn'].'</b> se aprueba la Solicitud de Permiso Horario </b> <br/>
-						con motivo de' . $datos['motivo'].' el dia ' .$fecha. ' en el horario '. $datos['hora_inicio']. '  hasta '.$datos['hora_fin']. ' <br/> 
-						Saluda atte Direccion de Personal.
+						con motivo de' . $datos['motivo'].' el dia ' .$fecha. ' en el horario '. $datos['hora_inicio']. '  hasta '.$datos['hora_fin']. ' <br/>
 											
 				</table>';
 
@@ -232,8 +231,7 @@ $mail->IsHTML(true); //el mail contiene html*/
 		{
 			$body = '<table>
 						Al agente  <b>'.$datos['agente_ayn'].'</b> le ha sido rechazada  la Solicitud de Permiso Horario </b>.<br/>
-						con motivo de' . $datos['motivo'].'  el dia ' .$datos['fecha_inicio']. '  <br/> 
-						Saluda atte Direccion de Personal.
+						con motivo de' . $datos['motivo'].'  el dia ' .$datos['fecha_inicio']. '  <br/>
 											
 				</table>';
 		}
