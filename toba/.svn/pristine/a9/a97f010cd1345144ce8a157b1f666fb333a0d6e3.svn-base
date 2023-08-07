@@ -1,0 +1,466 @@
+<?php
+
+/**
+ * Description of sincronizador_arai_cli
+ *
+ * @author lramirez
+ */
+class sincronizador_arai_cli {
+
+	protected $catalogo;
+	protected $clase_catalogo;
+	protected $encabezado;
+	protected $tabla;
+	protected $datos_tabla;
+	protected $columnas;
+	protected $fk;
+	protected $lk;
+	protected $subset;
+	protected $relacion_recursiva;
+	protected $registros_sincronizados;
+	protected $revision_cliente;
+	protected $ultima_revision_cliente;
+
+	public function __construct($catalogo, &$datos_tabla, $revision = null) {
+		$container = \SIU\AraiCli\Factory::getContainer();
+
+		$this->catalogo = $catalogo;
+		$this->tabla = $container['arai-catalogos-lista']['catalogos'][$this->catalogo]["definicion"][0]['tabla'];
+		$this->datos_tabla = $datos_tabla;
+
+		if (!is_null($revision)) {
+			$this->revision_cliente = $revision;
+		} else {
+			$this->revision_cliente = self::getUltimaRevision($this->tabla);
+		}
+
+		$this->namespace = $container['arai-catalogos-namespace'];
+
+		self::setDatosEncabezadoApp($this->encabezado, $this->tabla);
+
+		if (class_exists($this->namespace . '\\' . $this->catalogo)) {
+			$this->clase_catalogo = $this->namespace . '\\' . $this->catalogo;
+		} else {
+			$this->clase_catalogo = $this->namespace . '\AraiCatalogos';
+		}
+		$c = new $this->clase_catalogo($this->encabezado, $this->catalogo);
+
+		$this->columnas = $c->getColumnas();
+		$this->fk = $c->getColumnasFK();
+		$this->lk = $c->getColumnasLK();
+		$this->relacion_recursiva = $c->getColumnasRecursiva();
+		$this->subset = $c->getFiltroSubset();
+	}
+
+	function getClaseCatalogo() {
+		return $this->clase_catalogo;
+	}
+
+	function getTablaCatalogo() {
+		return $this->tabla;
+	}
+
+	function getEncabezado() {
+		return $this->encabezado;
+	}
+
+	/*
+	 *  Realiza la sincronización / sincronización inicial
+	 *  @inicial boolean Si es true realiza sincronización inicial, si es false realiza una sincronización
+	 *  @consola boolean true si el comando se ejecuta desde la consola (comando administrativo), false si se ejecuta desde la aplicación web
+	 */
+
+	public function sincronizacion($inicial = false, $consola = false) {
+
+		$this->aplicaValidaciones($consola);
+		$this->aplicaEstadoSincronizar();
+
+		$c = new $this->clase_catalogo($this->encabezado, $this->catalogo);
+
+		try {
+			if ($inicial) {
+				if ($consola) {
+					xlib::salida_comandos()->mostrar_titulo('Realizando sincronización inicial');
+				}
+
+				if (isset($this->relacion_recursiva)) {
+					$where = $this->relacion_recursiva['fk'] . ' IS NULL';
+					$datos = $this->getDatosSinIdAraiRecursivo($where, $consola);
+				} else {
+					$datos = $this->getDatosSinIdArai(null, false);
+					
+					if ($consola)
+						xlib::salida_comandos()->inicializar_barra_de_progreso(count($datos));
+
+					$r = $c->cargaInicial($datos);
+					$this->procesarRegistros($r, $consola);
+
+					if ($consola)
+						xlib::salida_comandos()->eliminar_barra_de_progreso();
+				}
+
+				if ($consola) {
+					xlib::salida_comandos()->separador();
+					xlib::salida_comandos()->separador();
+					xlib::salida_comandos()->mostrar_mensaje('Registros sincronizados: ' . count($datos));
+					xlib::salida_comandos()->mostrar_titulo('Fin de sincronización inicial. Memoria utilizada: ' . round(((memory_get_peak_usage() / 1024) / 1024), 2) . ' mb.');
+					xlib::salida_comandos()->separador();
+				}
+			}
+
+			if (!is_null($this->revision_cliente))
+				$this->ultima_revision_cliente = $this->revision_cliente;
+			else
+				$this->ultima_revision_cliente = self::getUltimaRevision($this->tabla);
+
+			if ($consola) {
+				xlib::salida_comandos()->mostrar_titulo('Comienzo de sincronización');
+				$ultima_revision_servidor = self::getUltimaRevision($this->tabla);
+				xlib::salida_comandos()->inicializar_barra_de_progreso($ultima_revision_servidor - $this->ultima_revision_cliente);
+			}
+
+			$registros_sincronizados = 0;
+
+			while ($datos_sincronizacion = $c->getDatosSincronizacion($this->ultima_revision_cliente)) {
+				$registros_sincronizados += count($datos_sincronizacion);
+
+				if ($datos_sincronizacion)
+					$this->ultima_revision_cliente = $this->procesarRegistros($datos_sincronizacion);
+
+				if ($consola) {
+					xlib::salida_comandos()->inicializar_barra_de_progreso(self::getUltimaRevision($this->tabla) - $this->ultima_revision_cliente);
+				}
+
+				if (is_null($this->ultima_revision_cliente))
+					$this->ultima_revision_cliente = self::getUltimaRevision($this->tabla);
+			}
+
+			if ($consola) {
+				xlib::salida_comandos()->eliminar_barra_de_progreso();
+				xlib::salida_comandos()->separador();
+				xlib::salida_comandos()->separador();
+				xlib::salida_comandos()->mostrar_mensaje("Registros sincronizados: " . $registros_sincronizados);
+				xlib::salida_comandos()->mostrar_mensaje("Ultima revisión del catálogo {$this->catalogo}: " . self::getUltimaRevision($this->tabla));
+				xlib::salida_comandos()->mostrar_mensaje('Fin de sincronización. Memoria utilizada: ' . round(((memory_get_peak_usage() / 1024) / 1024), 2) . ' mb.');
+			}
+		} catch (toba_error $e) {
+			if ($consola) {
+				xlib::salida_comandos()->mostrar_mensaje("Error:" . $e->getMessage());
+			}
+			throw $e;
+		} catch (Exception $e) {
+			if ($consola) {
+				xlib::salida_comandos()->mostrar_mensaje("Error:" . $e->getMessage());
+			}
+			throw new excepcion_pilaga($e->getMessage());
+		}
+		$this->s__encabezado['revision'] = self::getUltimaRevision($this->tabla);
+	}
+
+	/*
+	 * Procesa las validaciones que corresponda realizar
+	 */
+
+	protected function aplicaValidaciones($consola) {
+		if ($consola) {
+			xlib::salida_comandos()->mostrar_titulo("Realizando validaciones");
+		}
+
+		//Si el catalogo tiene una clave logica definida, verifica que no haya duplicados
+		if (isset($this->lk)){
+			$resultado = $this->verificaDuplicados($consola); //Si el catalogo tiene una clave logica definida, verifica que no haya duplicados
+
+		if ($resultado) {
+			if ($consola) {
+				xlib::salida_comandos()->mostrar_resultado(0, "Validaciones OK.");
+			}
+		} else {
+			exit;
+		}
+		}
+	}
+
+	/*
+	 * Actualiza el campo sincronizar del catalogo de acuerdo al criterio de filtro de datos a sincronizar (si aplica)
+	 */
+
+	protected function aplicaEstadoSincronizar() {
+		$sql = "UPDATE {$this->tabla} SET sincronizar='S'";
+		if (!is_null($this->subset)) {
+			$sql .= " WHERE " . $this->subset["campo"] ." ". $this->subset["operador"] ."  :".$this->subset["campo"]; // $array["valor"];;
+		}
+		$sentencia = toba::db()->get_pdo()->prepare($sql);
+		if (!is_null($this->subset)) {
+			$sentencia->bindParam(':'.$this->subset["campo"], $this->subset["valor"]); 
+		}
+		$d = $sentencia->execute();
+		return $d;
+	}
+
+	/*
+	 * Verifica si existen duplicados en el campo indicado como clave logica (LK)
+	 * return boolean true si no hay duplicados, false si encuentra duplicados
+	 */
+
+	protected function verificaDuplicados($consola) {
+		$sql = "SELECT " . implode(',', $this->lk) . " FROM " . $this->tabla . " GROUP BY " . implode(',', $this->lk) . " HAVING COUNT(*) > 1";
+		$datos = consultar_fuente($sql);
+
+		if (count($datos) > 0) {
+			$mensaje = "Se encontraron registros duplicados en los campos indicados como clave logica (lk):" . PHP_EOL . PHP_EOL;
+			foreach ($datos as $clave => $valor) {
+				foreach ($this->lk as $lk) {
+					$mensaje .= "$lk:" . $valor[$lk] . PHP_EOL;
+					$mensaje .= '------' . PHP_EOL;
+				}
+			}
+			$mensaje .= "Por favor corrija estos duplicados y vuelva a ejecutar la sincronización" . PHP_EOL;
+
+			if ($consola) {
+				echo xlib::salida_comandos()->mostrar_resultado(0, $mensaje);
+			} else {
+				throw new excepcion_pilaga($mensaje);
+			}
+			return false;
+		}
+		return true;
+	}
+
+	/*
+	 * Retorna los registros que cumplan las condiciones para ser sincronizados y no tenga id_arai asignado
+	 * @sql_where string especifica un filtro (sql) si aplica
+	 * @recursivo boolean true si el catalogo tiene una relacion recursiva definida 
+	 */
+
+	protected function getDatosSinIdArai($sql_where = null, $recursivo = false) {
+		$columnas_clave = array();
+
+		$func_trim = function(&$columnas_sql, $clave, $columnas_clave) {
+			if (in_array($columnas_sql, $columnas_clave))
+				$columnas_sql = "trim(CAST($columnas_sql AS VARCHAR)) as $columnas_sql";
+		};
+
+		//Busco si hay columnas repetidas entre los datos y (fk y lk) para no traerlas por duplicado
+		//Las fk y lk se deben trimear siempre, y no pueden aparecer por duplicado
+
+		if (is_array($this->fk)) {
+			$columnas_sql = array_merge($this->columnas, $this->fk);
+			$columnas_clave = array_merge($columnas_clave, $this->fk);
+		}
+		if (is_array($this->lk)) {
+			$columnas_sql = array_merge($this->columnas, $this->lk);
+			$columnas_clave = array_merge($columnas_clave, $this->lk);
+		}
+		$columnas_sql = array_unique($columnas_sql);
+		array_walk($columnas_sql, $func_trim, $columnas_clave);
+
+
+		$sql = "SELECT " . (isset($this->relacion_recursiva['id']) ? $this->relacion_recursiva['id'] . ',' : '') .
+				implode(",", $columnas_sql) .
+				" FROM $this->tabla WHERE sincronizar='S' " . ((!$recursivo) ? ' AND id_arai IS NULL' : '') . (isset($sql_where) ? " AND $sql_where" : '');
+
+		$datos = consultar_fuente($sql);
+
+		if (isset($this->relacion_recursiva['id'])) {
+			$datos = self::convierteIdRelacionRecursiva($datos, $this->relacion_recursiva, $this->tabla);
+		}
+		return $datos;
+	}
+
+	/*
+	 * Retorna los registros que cumplan las condiciones para ser sincronizados y no tenga id_arai asignado, para catalogos con relaciones recursivas
+	 * @sql_where string especifica un filtro (sql) si aplica
+	 * @consola boolean true si el comando se ejecuta desde la consola (comando administrativo), false si se ejecuta desde la aplicación web
+	 */
+
+	protected function getDatosSinIdAraiRecursivo($sql_where = null, $consola = false) {
+		$datos = $this->getDatosSinIdArai($sql_where, true);
+
+		if (count($datos) > 0) {
+			$c = new $this->clase_catalogo($this->encabezado, $this->catalogo);
+			$datos_filtrados = array_filter($datos, array($this, 'sinIdArai'));
+
+			if (count($datos_filtrados) > 0) {
+				$r = $c->cargaInicial($datos_filtrados);
+
+				if ($consola)
+					echo ".";
+
+				$this->procesarRegistros($r);
+
+				//Mando a sincronizar para que los registros padres ya estén en la BD con su correspondiente ID ARAI
+				$this->sincronizacion();
+			}
+
+			for ($x = 0; count($datos) > $x; $x++) {
+				$sql_where = $this->relacion_recursiva['fk'] . '=' . self::getIdRegistro($this->lk, $this->tabla, $this->relacion_recursiva['id_local'], $datos[$x]);
+				$this->getDatosSinIdAraiRecursivo($sql_where, $consola);
+			}
+		}
+	}
+
+	/*
+	 * Callback que devuelve si el elemento id_arai existe en el arreglo recibido como parametro
+	 */
+
+	protected function sinIdArai($val) {
+		if (is_null($val["id_arai"])) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/*
+	 * Procesa los datos recibidos en @datos_sincronizacion y los guarda en la BD local
+	 * @datos_sincronizacion array Datos a sincronizar
+	 * @consola boolean true si el comando se ejecuta desde la consola (comando administrativo), false si se ejecuta desde la aplicación web
+	 */
+
+	protected function procesarRegistros($datos_sincronizacion, $consola = false) {
+		$t = $this->datos_tabla;
+		
+		for ($x = 0; $x < count($datos_sincronizacion); $x++) {
+			$registro["id_arai"] = $datos_sincronizacion[$x]["idArai"];
+			$registro["revision"] = $datos_sincronizacion[$x]["revision"];
+			$registro["estado"] = ($datos_sincronizacion[$x]["activo"] ? 'AC' : 'IN');
+
+			//Pregunta si esa revisión trae un array con datos, evita posibles errores donde la API no devuelve datos en una revisión
+			if (is_array($datos_sincronizacion[$x]["datos"])) {
+				$procesar_registro = false;
+				if (is_null($this->subset)) {
+					$procesar_registro = true;
+				} else {
+					if (version_compare(trim( $datos_sincronizacion[$x]["datos"][$this->subset["campo"]] ), trim( $this->subset["valor"] ), $this->subset["operador"]) ) {
+						$procesar_registro = true;
+					}
+				}
+
+				if ($procesar_registro) {
+					for ($c = 0; $c < count($this->columnas); $c++) {
+						if (is_array($datos_sincronizacion[$x]["datos"][$this->columnas[$c]]))
+							$registro[$this->columnas[$c]] = $datos_sincronizacion[$x]["datos"][$this->columnas[$c]]["id_arai"];
+						else
+							$registro[$this->columnas[$c]] = $datos_sincronizacion[$x]["datos"][$this->columnas[$c]];
+					}
+
+					if (!is_null($this->relacion_recursiva)) {
+						if (!is_null($registro[$this->relacion_recursiva['fk']]))
+							$registro[$this->relacion_recursiva['fk']] = $this->getIdRegistro(array($this->relacion_recursiva['id'] => $registro[$this->relacion_recursiva['fk']]), $this->tabla, null, $this->relacion_recursiva['id_local']);
+					}
+
+					if (!is_null($this->lk)) {
+						foreach ($this->lk as $clave) {
+							$lk_cargar[$clave] = $datos_sincronizacion[$x]["datos"][$clave];
+						}
+					} else {
+						$lk_cargar["id_arai"] = $registro["id_arai"];
+					}
+
+					$t->cargar($lk_cargar);
+					$t->set($registro);
+					$t->sincronizar();
+					$t->resetear();
+				}
+				if ($consola)
+					xlib::salida_comandos()->actualizar_barra_de_progreso();
+			}
+		}
+
+		if (isset($registro["revision"]))
+			return $registro["revision"];
+		else
+			return null;
+	}
+
+	/*
+	 * Convierte un array en sintaxis SQL
+	 */
+
+	protected function arrayToSql($array) {
+		return $array["campo"] . $array["operador"] . $array["valor"];
+	}
+
+	/*
+	 * Completa los datos del arreglo encabezado que corresponden a la aplicación
+	 * @encabezado array Arreglo con datos del encabezado
+	 * @tabla string Nombre de la tabla donde se almacena id_arai y revision del catalogo
+	 */
+
+	static function setDatosEncabezadoApp(&$encabezado, $tabla) {
+		$encabezado["version_aplicacion"] = quote(toba::proyecto()->get_version()->__toString());
+		$encabezado["usuario_aplicacion"] = toba::usuario()->get_id();
+		//$encabezado["usuario_rest"] = "usuario_rest";
+		$encabezado["revision"] = self::getUltimaRevision($tabla);
+	}
+
+	/*
+	 * @tabla string Nombre de la tabla donde se almacena id_arai y revision del catalogo
+	 * return integer Valor de la última revisión, si no existe ninguna hasta el momento devuelve 0 
+	 */
+
+	static function getUltimaRevision($tabla) {
+		$sql = "SELECT MAX(revision) as revision FROM $tabla";
+		$row = consultar_fuente($sql);
+
+		if (is_null($row[0]["revision"])) {
+			return 0;
+		} else {
+			return $row[0]["revision"];
+		}
+	}
+
+	/*
+	 * Devuelve el valor de un campo en particular (@id_registro), usando la clave logica indica en @lk, y el id indicado en @datos
+	 * @lk array|string Clave/s logica
+	 * @tabla string Nombre de la tabla
+	 * @id_registro string Nombre del campo
+	 * @datos array Datos del registro activo
+	 * return array Registro
+	 */
+
+	static function getIdRegistro($lk, $tabla, $id_registro, $datos = null) {
+		$sql = "SELECT $id_registro as valor FROM $tabla WHERE 1=1";
+
+		if (!is_array($lk)) {
+			$sql .= " AND $lk = " . quote($datos[$lk]);
+		} else {
+			if (isset($lk[0])) {
+				foreach ($lk as $clave) {
+					$sql .= " AND $clave = " . quote($datos[$clave]);
+				}
+			} else {
+				foreach ($lk as $clave => $valor) {
+					$sql .= " AND $clave = " . quote($valor);
+				}
+			}
+		}
+
+		$dato = consultar_fuente($sql);
+
+		if (isset($dato[0]["valor"]))
+			return $dato[0]["valor"];
+		else
+			return null;
+	}
+
+	/*
+	 * Convierte el id_local del catalogo con relación recursiva en el id global (arai)
+	 * @datos array Registro activo
+	 * @relacion_recursiva array Definición de la relación recursiva
+	 * @tabla string Nombre de la tabla
+	 * return array Id globales por cada registro
+	 */
+
+	static function convierteIdRelacionRecursiva($datos, $relacion_recursiva, $tabla) {
+		//Se le pasa el valor global en vez del valor local (ej: id_arai en vez del valor del id local)
+		for ($z = 0; count($datos) > $z; $z++) {
+			if (!is_null($datos[$z][$relacion_recursiva['fk']]))
+				$datos[$z][$relacion_recursiva['fk']] = self::getIdRegistro(array($relacion_recursiva['id_local'] => $datos[$z][$relacion_recursiva['fk']]), $tabla, $relacion_recursiva['id'], $datos[$z]);
+		}
+		return $datos;
+	}
+
+}
+
+?>

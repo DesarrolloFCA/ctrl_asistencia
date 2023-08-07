@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Conflicts",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "description",
+    "mantainer",
+    "mantainer-email"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]*$",
+      "minLegth": 1,
+      "description": "Application name, including 'vendor-name/' prefix."
+    },
+    "description": {
+      "type": "string",
+      "minLegth": 1,
+      "description": "Short application description."
+    },
+    "mantainer": {
+      "type": "string",
+      "description": "Mantainers name."
+    },
+    "mantainer-email": {
+      "type": "string",
+      "description": "Mantainers email."
+    },
+    "conflicts": {
+      "type": "array",
+      "description": "conflicts list for the Arai user.",
+      "items": {
+        "type": "object",
+        "required": [
+          "uniqueIdentifier",
+          "attributes"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "uniqueIdentifier": {
+            "type": "string",
+            "minLegth": 1,
+            "description": "RFC1274: unique identifer"
+          },
+          "attributes": {
+            "type": "array",
+            "description": "Attributes list for the Arai user.",
+            "items": {
+              "type": "object",
+              "required": [
+                "attribute",
+                "appValues"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "attribute": {
+                  "type": "string",
+                  "minLegth": 1,
+                  "description": "Attribute for the Arai User"
+                },
+                "appValues": {
+                  "type": "array",
+                  "description": "Applications and values for the Arai user attribute.",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "value"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "appUniqueId": {
+                        "type": "string",
+                        "minLegth": 1,
+                        "description": "identification for the application"
+                      },
+                      "appName": {
+                        "type": "string",
+                        "minLegth": 1,
+                        "description": "name for the application"
+                      },
+                      "value": {
+                        "type": "string",
+                        "minLegth": 1,
+                        "description": "value for the Arai user attribute"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

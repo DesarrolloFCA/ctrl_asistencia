@@ -1,0 +1,9 @@
+<?php
+namespace SIU\AraiJsonParser\Version\Constraints;
+
+interface ConstraintInterface {
+    public function matches(ConstraintInterface $provider);
+    public function setPrettyString($prettyString);
+    public function getPrettyString();
+    public function __toString();
+}

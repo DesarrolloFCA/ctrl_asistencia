@@ -1,0 +1,117 @@
+<?php
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: ablanco
+ * Date: 23/06/15
+ * Time: 15:25.
+ */
+namespace SIU\AraiCli\IO;
+
+/**
+ * IOInterface that is not interactive and never writes the output.
+ *
+ * @author Christophe Coevoet <stof@notk.org>
+ */
+class NullIO implements IOInterface
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function isInteractive()
+    {
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isVerbose()
+    {
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isVeryVerbose()
+    {
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isDebug()
+    {
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isDecorated()
+    {
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function write($messages, $newline = true)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function writeError($messages, $newline = true)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function overwrite($messages, $newline = true, $size = 80)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function overwriteError($messages, $newline = true, $size = 80)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function ask($question, $default = null)
+    {
+        return $default;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function askConfirmation($question, $default = true)
+    {
+        return $default;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function askAndValidate($question, $validator, $attempts = false, $default = null)
+    {
+        return $default;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function askAndHideAnswer($question)
+    {
+        return;
+    }
+}

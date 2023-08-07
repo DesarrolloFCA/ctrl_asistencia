@@ -1,0 +1,104 @@
+{
+  "name": "migrationMapuche",
+  "description": "Migracion de usuarios de Mapuche",
+  "mantainer": "pepe",
+  "mantainer-email": "pepe@mail.com",
+  "people": [
+    {
+      "givenName": "Juan",
+      "sn": "Perez",
+      "cn": "Juan Perez",
+      "mail": "jperez@siu.edu.ar",
+      "bloqueada": "1",
+      "employeeNumber": "15",
+      "genero": "M",
+      "grupos": ["dev"],
+      "extra": {
+        "employeeNumberSIU": "16"
+      },
+      "documento": {
+        "tipo": "DNI",
+        "numero": "36521874"
+      }
+    },
+    {
+      "givenName": "Federico",
+      "sn": "Bohn",
+      "cn": "Federico Bohn",
+      "mail": "fbohn@siu.edu.ar",
+      "bloqueada": "0"
+    },
+    {
+      "givenName": "Jorge",
+      "sn": "Gonzalez",
+      "cn": "Jorge Gonzalez",
+      "bloqueada": "1",
+      "genero": "M",
+      "documento": {
+        "tipo": "LC",
+        "numero": "36521871"
+      }
+    }
+  ],
+  "accounts": [
+    {
+      "uid": "jperez1",
+      "appUniqueId": "siu-arai-usuarios_1.siu-arai-usuarios-gestion",
+      "appName": "Mapuche",
+      "uniqueIdentifier": "jperez",
+      "password": "123456",
+      "passwordAlgorithm": "crypt",
+      "person": {
+        "givenName": "Juan",
+        "sn": "Perez",
+        "cn": "Juan Perez",
+        "mail": "jperez@siu.edu.ar",
+        "bloqueada": "1",
+        "employeeNumber": "15",
+        "grupos": ["dev"],
+        "genero": "M",
+        "extra": {
+          "employeeNumberSIU": "16"
+        },
+        "documento": {
+          "tipo": "DNI",
+          "numero": "36521874"
+        }
+      }
+    },
+    {
+      "uid": "jperez2",
+      "appUniqueId": "siu-arai-usuarios_1.siu-arai-usuarios-gestion",
+      "appName": "pilaga",
+      "person": {
+        "givenName": "Juan",
+        "sn": "Perez",
+        "cn": "Juan Perez",
+        "mail": "jperez@siu.edu.ar",
+        "bloqueada": "1"
+      }
+    },
+    {
+      "uid": "jperez3",
+      "appUniqueId": "siu-arai-usuarios_1.siu-arai-usuarios-gestion",
+      "appName": "diaguita",
+      "uniqueIdentifier": "jperez",
+      "password": "123456",
+      "passwordAlgorithm": "crypt",
+      "person": {
+        "givenName": "Juan",
+        "sn": "Perez",
+        "cn": "Juan Perez",
+        "bloqueada": "0",
+        "genero": "M",
+        "extra": {
+          "employeeNumberSIU": "16"
+        },
+        "documento": {
+          "tipo": "DNI",
+          "numero": "36521874"
+        }
+      }
+    }
+  ]
+}

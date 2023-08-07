@@ -1,0 +1,14 @@
+# Before Script
+before_script:
+  - composer self-update
+  - composer install --prefer-dist > /dev/null
+
+# PHP 5.5
+php:5.5:
+  image: siutoba/docker-web
+  script:
+    - echo "Running PHPUnit Tests"
+    - phpunit --colors --debug --coverage-text
+variables:
+  COMPOSER_SIU_USER: "guest"
+  COMPOSER_SIU_PASS: "guestarai"    

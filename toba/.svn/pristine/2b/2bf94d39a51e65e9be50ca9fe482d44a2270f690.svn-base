@@ -1,0 +1,66 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: fbohn
+ * Date: 28/03/16
+ * Time: 17:44
+ */
+
+namespace SIU\AraiJsonMigrator\Util;
+
+
+class Documento
+{
+    protected $type;
+    protected $number;
+
+    /**
+     *
+     */
+    public function __construct($type, $number)
+    {
+        $this->type = $type;
+        $this->number = $number;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
+    /**
+     * @param mixed $number
+     */
+    public function setNumber($number)
+    {
+        $this->number = $number;
+    }
+
+    public function toArray()
+    {
+        $rs = array();
+        Util::writeIfNotEmpty($rs, 'tipo', $this->getType());
+        Util::writeIfNotEmpty($rs, 'numero', $this->getNumber());
+        return $rs;
+    }
+
+}

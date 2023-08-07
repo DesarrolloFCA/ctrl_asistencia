@@ -1,0 +1,75 @@
+{
+    "catalogos": {
+        "rubro": {
+            "definicion": [{
+                    "tabla": "anx_rubros",
+                    "columnas": ["descripcion"]
+                }],
+            "lk": ["descripcion"],
+            "fk": null,
+            "id_componente_dt": " anx_rubros",
+            "tabla_maestra": "anx_rubros",
+            "ultima_revision": "call_user_func('sincronizador_arai_cli::getUltimaRevision', 'anx_rubros');"
+        },
+        "tipos_documentacion": {
+            "definicion": [{
+                    "tabla": "sau_no_documentacion_tipos",
+                    "columnas": ["tipo_de_documentacion", "descripcion", "requiere_liquidacion", "formato", "imprime", "reimprime", "tipo_documentacion"]
+                }],
+            "lk": ["tipo_de_documentacion"],
+            "fk": null,
+            "id_componente_dt": " sau_no_documentacion_tipos",
+            "tabla_maestra": "sau_no_documentacion_tipos",
+            "subset": {
+                "campo": "tipo_documentacion",
+                "operador": "=",
+                "valor": "D"
+            },
+            "ultima_revision": "call_user_func('sincronizador_arai_cli::getUltimaRevision', 'sau_no_documentacion_tipos')"
+        },
+        "zonas": {
+            "definicion": [{
+                    "tabla": "anx_zonas",
+                    "columnas": ["pais", "nombre"]
+                }],
+            "lk": null,
+            "fk": {
+                "catalogo": "pais",
+                "campo": "pais"
+            },
+            "id_componente_dt": "anx_zonas",
+            "tabla_maestra": "anx_zonas",
+            "ultima_revision": "call_user_func('sincronizador_arai_cli::getUltimaRevision', 'anx_zonas')"
+        },
+        "bienServicio": {
+	"definicion": [{
+		"columnas": ["id_bien_servicio_tipo", "codigo", "codigo_completo", "nombre", "nivel", "estado"],
+		"tabla": "anx_catalogo_bienes_servicios"
+                }],
+            "lk": ["codigo_completo"],
+            "fk": null,
+            "id_componente_dt": "anx_catalogo_bienes_servicios",
+            "tabla_maestra": "anx_catalogo_bienes_servicios",
+             "subset": {
+                "campo": "nivel",
+                "operador": "=",
+                "valor": 4
+            },
+            "ultima_revision": "call_user_func('sincronizador_arai_cli::getUltimaRevision', 'anx_catalogo_bienes_servicios')"
+        },
+        "paises": {
+            "definicion": [{
+                    "tabla": "anx_paises",
+                    "columnas": [ "pais", "nombre", "codigoiso"]
+                }],
+            "lk": null,
+            "fk": {
+                "catalogo": "continente",
+                "campo": "continente"
+            },
+            "id_componente_dt": "anx_paises",
+            "tabla_maestra": "anx_paises",
+            "ultima_revision": "call_user_func('sincronizador_arai_cli::getUltimaRevision', 'anx_paises')"
+        }
+    }
+}

@@ -1,0 +1,228 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: ablanco
+ * Date: 17/06/15
+ * Time: 13:54
+ */
+
+namespace SIU\AraiJsonParser;
+
+use SIU\AraiJsonParser\Feature\Consumption;
+use SIU\AraiJsonParser\Feature\Extension\Api;
+use SIU\AraiJsonParser\Feature\Extension\App;
+use SIU\AraiJsonParser\Feature\Extension\Service;
+use SIU\AraiJsonParser\Feature\Extension\TypeExtension;
+use SIU\AraiJsonParser\Feature\Feature;
+use SIU\AraiJsonParser\Feature\FeatureApi;
+use SIU\AraiJsonParser\Feature\FeatureApp;
+use SIU\AraiJsonParser\Feature\FeatureService;
+use SIU\AraiJsonParser\Feature\Provision;
+use SIU\JsonUtil\JsonFile;
+use SIU\AraiJsonParser\Version\Constraints\ConstraintInterface;
+use SIU\AraiJsonParser\Version\Constraints\EmptyConstraint;
+use SIU\AraiJsonParser\Version\VersionParser;
+use SIU\JsonUtil\JsonValidationException;
+
+class AraiJsonManager
+{
+    function __construct()
+    {
+
+    }
+
+    protected function getSchemaPath()
+    {
+        return __DIR__ . '/../../../res/arai-composer-schema.json';
+    }
+
+    /**
+     * @param string $path
+     * @return AraiPackage
+     * @throws JsonValidationException
+     */
+    public function load($path)
+    {
+        $jsonFile = new JsonFile($path);
+        $jsonFile->validateSchema($this->getSchemaPath());
+        $data = $jsonFile->read();
+        return $this->hydrate($data);
+    }
+
+    /**
+     * @param string $content
+     * @return AraiPackage
+     * @throws JsonValidationException
+     */
+    public function loadFromString($content)
+    {
+        $data = JsonFile::parseJson($content);
+        JsonFile::validateStringSchema($content, $this->getSchemaPath());
+        return $this->hydrate($data);
+    }
+
+    /**
+     * @param AraiPackage $data the hash to encode
+     * @param int $options to json_encode method
+     * @return string
+     */
+    public function encodeJson(AraiPackage $data, $options = 448)
+    {
+        $jsonString = JsonFile::encode($data->toArray(), $options);
+        JsonFile::validateStringSchema($jsonString, $this->getSchemaPath());
+        return $jsonString;
+    }
+
+    /**
+     * @param $jsonData
+     * @return AraiPackage
+     */
+    private function hydrate($jsonData)
+    {
+        $package = new AraiPackage($jsonData["name"], $jsonData["description"], $jsonData["scripts"], $jsonData["mantainer"], $jsonData["mantainer-email"]);
+
+        $package->setHash($this->getOptional($jsonData, 'hash', ""));
+
+        // Por más que sea obligatorio en el schema json en la registración no viene seteado xq hay datos que no se
+        // pueden completar en arai.json (eg: el token y instance-name). Por eso se trata como opcional aunque no lo es
+        if (isset($jsonData['arai-remote'])) {
+            $package->setHasAraiRemote(true);
+            $package->setAraiRemoteUrl($this->getOptional($jsonData['arai-remote'], 'url', ""));
+            $package->setAraiRemoteInstanceName($this->getOptional($jsonData['arai-remote'], 'instance-name', ""));
+            $package->setAraiRemoteToken($this->getOptional($jsonData['arai-remote'], 'token', ""));
+            $package->setAraiRemoteLastSync($this->getOptional($jsonData['arai-remote'], 'last-sync', ""));
+        }
+
+        if (isset($jsonData["consume"])) {
+            foreach ($jsonData["consume"] as $jsonConsumption) {
+                $package->addConsumption($this->createConsumption($jsonConsumption));
+            }
+        }
+
+        if (isset($jsonData["provide"])) {
+            foreach ($jsonData["provide"] as $jsonProvision) {
+                $package->addProvide($this->createProvision($jsonProvision));
+            }
+        }
+
+        return $package;
+    }
+
+    /**
+     * @param $jsonConsumption array parseado a partir del json que define la consumisión
+     * @return Consumption
+     * @throws \Exception
+     */
+    public function createConsumption($jsonConsumption)
+    {
+        $consumption = new Consumption($this->createTypeExtension($jsonConsumption));
+        $this->hydrateFeature($consumption, $jsonConsumption);
+
+        // se agregan estos que son específicos a las consumisiones
+        $consumption->setStatus($this->getOptional($jsonConsumption, 'status'));
+        $consumption->setOnMissing($this->getOptional($jsonConsumption, 'on-missing'));
+        if (isset($jsonConsumption['providers']) && is_array($jsonConsumption['providers'])) {
+            foreach ($jsonConsumption['providers'] as $jsonProvider) {
+                $consumption->addProvider($this->createProvision($jsonProvider));
+            }
+        }
+
+        return $consumption;
+    }
+
+    /**
+     * @param $jsonProvision
+     * @return Provision
+     * @throws \Exception
+     */
+    public function createProvision($jsonProvision)
+    {
+        $provision = new Provision($this->createTypeExtension($jsonProvision));
+        $this->hydrateFeature($provision, $jsonProvision);
+
+        $provision->setIcon($this->getOptional($jsonProvision, 'icon'));
+        $provision->setIconBase64($this->getOptional($jsonProvision, 'icon-base-64'));
+
+        if (isset($jsonProvision['consumers']) && is_array($jsonProvision['consumers'])) {
+            foreach ($jsonProvision['consumers'] as $jsonConsumer) {
+                $provision->addConsumer($this->createConsumption($jsonConsumer));
+            }
+        }
+        return $provision;
+    }
+
+    /**
+     * @param array $jsonFeature parseado a partir del json que define la feature
+     * @return TypeExtension
+     * @throws \Exception
+     */
+    protected function createTypeExtension($jsonFeature)
+    {
+        $name = explode(':', $jsonFeature["name"]);
+        $type = $name[0];
+
+        switch ($type) {
+            case 'api':
+                $extension = new Api();
+                $extension->setAuth($this->getOptional($jsonFeature, 'auth', array()));
+                return $extension;
+                break;
+            case 'service':
+                return new Service();
+                break;
+            case 'app':
+                return new App();
+                break;
+            default: throw new \Exception("El tipo de feature '$type' no es soportado");
+        }
+    }
+
+    /**
+     * @param Feature $f parseado a partir del json que define la feature
+     * @param array $jsonFeature parseado a partir del json que define la feature
+     */
+    protected function hydrateFeature(Feature $f, $jsonFeature)
+    {
+        $f
+            ->setName($jsonFeature['name'])
+            ->setRawJson(json_encode($jsonFeature))
+            ->setDescription($this->getOptional($jsonFeature, 'description'))
+            ->setVersion($this->getVersion($jsonFeature))
+            ->setAlias($this->getOptional($jsonFeature, 'alias'))
+            ->setEndpoint($this->getOptional($jsonFeature, 'endpoint'))
+            ->setInstance($this->getOptional($jsonFeature, 'instance'))
+            ->setOptions($this->getOptional($jsonFeature, 'options', array()));
+    }
+
+    /**
+     * @param string $versionString
+     * @return ConstraintInterface
+     */
+    public function getVersionAsConstraint($versionString)
+    {
+        $parser = new VersionParser();
+        return $parser->parseConstraint($versionString);
+    }
+
+    /**
+     * @param $jsonData
+     * @return ConstraintInterface
+     */
+    private function getVersion($jsonData)
+    {
+        $rawVersion = $this->getOptional($jsonData, 'version', null);
+        if ($rawVersion === null) {
+            return new EmptyConstraint();
+        }
+
+        return $this->getVersionAsConstraint($rawVersion);
+    }
+
+    private function getOptional($jsonData, $key, $default = '')
+    {
+        if (isset($jsonData[$key])) {
+            return $jsonData[$key];
+        }
+        return $default;
+    }
+}

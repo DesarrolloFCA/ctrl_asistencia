@@ -1,0 +1,191 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: fbohn
+ * Date: 28/03/16
+ * Time: 13:54
+ */
+
+namespace SIU\AraiJsonMigrator;
+
+use SIU\AraiJsonMigrator\Entities\Account;
+use SIU\AraiJsonMigrator\Entities\Person;
+use SIU\AraiJsonMigrator\Util\Documento;
+use SIU\JsonUtil\JsonFile;
+use SIU\JsonUtil\JsonValidationException;
+
+class AraiMigratorManager
+{
+    function __construct()
+    {
+
+    }
+
+    protected function getSchemaPath()
+    {
+        return __DIR__ . '/../../../schema/arai-migrator-schema.json';
+    }
+
+    /**
+     * @param string $path
+     * @return AraiMigrator
+     * @throws JsonValidationException
+     */
+    public function load($path)
+    {
+        $jsonFile = new JsonFile($path);
+        $jsonFile->validateSchema($this->getSchemaPath());
+        $data = $jsonFile->read();
+        return $this->hydrate($data);
+    }
+
+    /**
+     * @param string $content
+     * @return AraiMigrator
+     * @throws JsonValidationException
+     */
+    public function loadFromString($content)
+    {
+        $data = JsonFile::parseJson($content);
+        JsonFile::validateStringSchema($content, $this->getSchemaPath());
+        return $this->hydrate($data);
+    }
+
+    /**
+     * @param AraiMigrator $data the hash to encode
+     * @param int $options to json_encode method
+     * @return string
+     */
+    public function encodeJson(AraiMigrator $data, $options = 448)
+    {
+        $jsonString = JsonFile::encode($data->toArray(), $options);
+        JsonFile::validateStringSchema($jsonString, $this->getSchemaPath());
+        return $jsonString;
+    }
+
+    /**
+     * @param string $path
+     * @param AraiMigrator $araiMigrator
+     * @return boolean
+     * @throws \Exception
+     */
+    public function save($path, AraiMigrator $araiMigrator)
+    {
+        $jsonFile = new JsonFile($path);
+        $hash = $araiMigrator->toArray();
+        if ($jsonFile->validateHashSchema($hash, $this->getSchemaPath())) {
+            $jsonFile->write($hash);
+        }
+        return true;
+    }
+
+    /**
+     * @param $jsonPerson array parseado a partir del json que define la persona
+     * @return Person
+     * @throws \Exception
+     */
+    public function createPerson($jsonPerson)
+    {
+        $person = new Person();
+        $this->hydratePerson($person, $jsonPerson);
+
+        if (isset($jsonPerson['documento'])) {
+            $person->setDocumento($this->createDocumento($jsonPerson['documento']));
+        }
+
+        return $person;
+    }
+
+    /**
+     * @param $jsonDocumento
+     * @return Documento
+     * @throws \Exception
+     */
+    public function createDocumento($jsonDocumento)
+    {
+        $documento = new Documento($jsonDocumento['tipo'], $jsonDocumento['numero']);
+        return $documento;
+    }
+
+    /**
+     * @param $jsonAccount
+     * @return Account
+     * @throws \Exception
+     */
+    public function createAccount($jsonAccount)
+    {
+        $account = new Account();
+        $this->hydrateAccount($account, $jsonAccount);
+
+        if (isset($jsonAccount['person'])) {
+            $account->setPerson($this->createPerson($jsonAccount['person']));
+        }
+        return $account;
+    }
+
+    /**
+     * @param Person $person parseado a partir del json que define la persona
+     * @param array $jsonPerson parseado a partir del json que define la persona
+     */
+    protected function hydratePerson(Person $person, $jsonPerson)
+    {
+        $person->setGivenName($jsonPerson['givenName']);
+        $person->setSn($jsonPerson['sn']);
+        $person->setCn($jsonPerson['cn']);
+        $person->setGrupos($this->getOptional($jsonPerson, 'grupos', []));
+        $person->setMail($this->getOptional($jsonPerson, 'mail', ''));
+        $person->setBloqueada($jsonPerson['bloqueada']);
+        $person->setEmployeeNumber($this->getOptional($jsonPerson, 'employeeNumber', ''));
+        $person->setGenero($this->getOptional($jsonPerson, 'genero', ''));
+        $person->setExtra($this->getOptional($jsonPerson, 'extra', ''));
+    }
+
+    /**
+     * @param Account $account parseado a partir del json que define la cuenta
+     * @param array $jsonAccount parseado a partir del json que define la cuenta
+     */
+    protected function hydrateAccount(Account $account, $jsonAccount)
+    {
+        $account->setUid($jsonAccount['uid']);
+        $account->setAppUniqueId($this->getOptional($jsonAccount, 'appUniqueId', ''));
+        $account->setAppName($this->getOptional($jsonAccount, 'appName', ''));
+        $account->setUniqueIdentifier($this->getOptional($jsonAccount, 'uniqueIdentifier', ''));
+        $account->setPassword($this->getOptional($jsonAccount, 'password', ''));
+        $account->setPasswordAlgorithm($this->getOptional($jsonAccount, 'passwordAlgorithm', ''));
+    }
+
+    /***********************************************************************************************************
+    ******************************* METODOS PRIVADOS ***********************************************************
+    ***********************************************************************************************************/
+
+    /**
+     * @param $jsonData
+     * @return AraiMigrator
+     */
+    private function hydrate($jsonData)
+    {
+        $migrator = new AraiMigrator($jsonData["name"], $jsonData["description"], $jsonData["mantainer"], $jsonData["mantainer-email"]);
+
+        if (isset($jsonData["people"])) {
+            foreach ($jsonData["people"] as $jsonPerson) {
+                $migrator->addPerson($this->createPerson($jsonPerson));
+            }
+        }
+
+        if (isset($jsonData["accounts"])) {
+            foreach ($jsonData["accounts"] as $jsonAccount) {
+                $migrator->addAccount($this->createAccount($jsonAccount));
+            }
+        }
+
+        return $migrator;
+    }
+
+    private function getOptional($jsonData, $key, $default = '')
+    {
+        if (isset($jsonData[$key])) {
+            return $jsonData[$key];
+        }
+        return $default;
+    }
+}

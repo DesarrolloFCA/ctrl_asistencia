@@ -1,0 +1,127 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: fbohn
+ * Date: 28/03/16
+ * Time: 17:54
+ */
+namespace SIU\AraiJsonMigrator;
+
+use SIU\AraiJsonMigrator\Entities\Conflict;
+
+class AraiConflict
+{
+    protected $name, $description, $mantainer, $mantainerEmail;
+
+    /**
+     * @var Conflict[]
+     */
+    protected $conflicts;
+
+    public function __construct($name, $description, $mantainer='', $mantainerEmail='')
+    {
+        $this->name = $name;
+        $this->description = $description;
+        $this->mantainer = $mantainer;
+        $this->mantainerEmail = $mantainerEmail;
+        $this->conflicts = [];
+    }
+
+    /**
+     * @return string el nombre del migrador
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string la descripción del migrador
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMantainer()
+    {
+        return $this->mantainer;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMantainerEmail()
+    {
+        return $this->mantainerEmail;
+    }
+
+    /**
+     * @param Conflict $conflict
+     * Agrega un conflicto a la lista de conflictos
+     */
+    public function addConflict(Conflict $conflict)
+    {
+        $this->conflicts[] = $conflict;
+    }
+
+    /**
+     * @return Conflict[] un arreglo de conflictos
+     */
+    public function getConflictsList()
+    {
+        return $this->conflicts;
+    }
+
+    /**
+     * @param $uniqueIdentifier
+     * @return null|Conflict
+     */
+    public function getConflict($uniqueIdentifier)
+    {
+        /* @var Conflict $conflict */
+        foreach ($this->getConflictsList() as $conflict)
+        {
+            if ($conflict->getUniqueIdentifier() == $uniqueIdentifier)
+            {
+                return $conflict;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return array de información general del paquete. Descripción y data de los mantainers
+     */
+    public function getHeaderAsArray()
+    {
+        $rs = array();
+        $rs['description'] = $this->getDescription();
+        $rs['mantainer'] = $this->getMantainer();
+        $rs['mantainer-email'] = $this->getMantainerEmail();
+
+        return $rs;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        $rs = array();
+        $rs['name'] = $this->getName();
+        $rs['description'] = $this->getDescription();
+        $rs['mantainer'] = $this->getMantainer();
+        $rs['mantainer-email'] = $this->getMantainerEmail();
+        $rs['conflicts'] = array();
+        /* @var Conflict as $conflict */
+        foreach ($this->conflicts as $conflict) {
+            $rs['conflicts'][] = $conflict->toArray();
+        }
+
+        return $rs;
+    }
+}

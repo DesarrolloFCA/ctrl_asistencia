@@ -1,0 +1,101 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: fbohn
+ * Date: 28/03/16
+ * Time: 16:53
+ */
+
+namespace SIU\AraiJsonMigrator\Entities;
+
+use SIU\AraiJsonMigrator\Util\Util;
+use SIU\AraiJsonMigrator\Util\AppValue;
+
+class Attribute extends Entity
+{
+
+    protected $attribute;
+    /* @var AppValue[] $appValues */
+    protected $appValues;
+
+
+    /**
+     *
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->attribute = null;
+        $this->appValues = [];
+    }
+
+    /**
+     * @return null
+     */
+    public function getAttribute()
+    {
+        return $this->attribute;
+    }
+
+    /**
+     * @param null $attribute
+     */
+    public function setAttribute($attribute)
+    {
+        $this->attribute = $attribute;
+    }
+
+    /**
+     * @return AppValue[]
+     */
+    public function getAppValueList()
+    {
+        return $this->appValues;
+    }
+
+    /**
+     * @param AppValue $appValue
+     */
+    public function addAppValue(AppValue $appValue)
+    {
+        $this->appValues[] = $appValue;
+    }
+
+    /**
+     * @param $appUniqueId
+     * @param $appName
+     * @param $value
+     * @return null|AppValue
+     */
+    public function getAppValue($appUniqueId = null, $appName = null, $value)
+    {
+        /* @var AppValue $appValue */
+        foreach ($this->getAppValueList() as $appValue)
+        {
+            if ($appValue->getAppUniqueId() == $appUniqueId && $appValue->getValue() == $value)
+            {
+                return $appValue;
+            }
+            if ($appValue->getAppName() == $appName && $appValue->getValue() == $value)
+            {
+                return $appValue;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        $rs = parent::toArray();
+        Util::writeIfNotEmpty($rs, 'attribute', $this->getAttribute());
+        $rs['appValues'] = array();
+        /* @var AppValue $appValue */
+        foreach ($this->appValues as $appValue) {
+            $rs['appValues'][] = $appValue->toArray();
+        }
+        return $rs;
+    }
+}

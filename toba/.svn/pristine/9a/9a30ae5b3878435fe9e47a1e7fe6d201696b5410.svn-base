@@ -1,0 +1,53 @@
+<?php
+
+class contexto_ejecucion_pilaga implements toba_interface_contexto_ejecucion
+{
+	function conf__inicial()
+	{
+		if(!defined('com_fuente_datos')){
+			define('com_fuente_datos','pilaga');
+		}
+		define("version","3.0.2");
+		// Librerías
+		require_once(toba::proyecto()->get_path_php().'/customizacion_toba/puente_migracion.php');
+		require_once(toba::proyecto()->get_path_php().'/configuracion.php');
+		//Validacion propia de datos de forms
+		require_once(toba::proyecto()->get_path_php().'/customizacion_toba/pilaga_validador_datos_form.php');
+		require_once(toba::proyecto()->get_path_php().'/customizacion_toba/pilaga_validador_datos_ml.php');
+		require_once(toba::proyecto()->get_path_php().'/customizacion_toba/pilaga_validador_datos_ef_editable.php');
+		toba_ei_formulario::set_callback_validacion(new pilaga_validador_datos_form());
+		toba_ei_formulario_ml::set_callback_validacion(new pilaga_validador_datos_ml());
+		toba_ef_editable::set_callback_errores_validacion(new pilaga_validador_datos_ef_editable());
+		toba_ei_cuadro::set_vista_excel_sin_cortes(true);
+		
+		$this->carga_arai_catalogos();
+	}
+
+	function carga_arai_catalogos(){
+	    if (catalogo_de_parametros("aplicar_sincronizacion_arai") == "S"){
+		    $container = \SIU\AraiCli\Factory::getContainer();
+			
+			$container['arai-catalogos-def-path'] = '/../../arai_definicion_catalogos.json';
+			
+			$container['arai-catalogos-lista'] = function ($c) {				
+				$definition = json_decode(file_get_contents(__DIR__ . $c['arai-catalogos-def-path']), true);
+				return $definition;
+			};			
+			
+		    $container['arai-catalogos-cliente'] = function ($c) {
+			$cliente = toba::servicio_web_rest('arai-catalogos');
+			return $cliente->guzzle();
+		    };
+		    $container['arai-catalogos-encoding'] = 'LATIN1';
+		    $container['arai-catalogos-namespace'] = 'SIU\AraiCli\Services\AraiCatalogos';
+		}
+	}
+	
+	function conf__final() 
+	{
+		$archivo_log = 'clases_faltantes.log';
+		$mensaje = "---\r\n";		
+	}
+}
+
+?>

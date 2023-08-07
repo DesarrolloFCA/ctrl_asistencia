@@ -1,0 +1,167 @@
+<?php
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: fbohn
+ * Date: 28/03/16
+ * Time: 18:08
+ */
+
+use SIU\AraiJsonMigrator\AraiConflict;
+use SIU\AraiJsonMigrator\Entities\Conflict;
+use SIU\AraiJsonMigrator\Entities\Attribute;
+use SIU\AraiJsonMigrator\Util\AppValue;
+
+class AraiConflictTest extends PHPUnit_Framework_TestCase
+{
+
+    /**
+     * @return AraiConflict
+     */
+    public function testCreateConflict()
+    {
+        $name = 'ConflictMigracionMapuche';
+        $description = 'Conflictos en la migracion de los usuarios de Mapuche';
+        $mantainer = 'Federico';
+        $mantainerEmail = 'fbohn@siu.edu.ar';
+
+        /* @var AraiConflict $araiConflict */
+        $araiConflict = new AraiConflict($name, $description, $mantainer, $mantainerEmail);
+
+        $this->assertEquals($name, $araiConflict->getName());
+        $this->assertEquals([
+            'description' => $description,
+            'mantainer' => $mantainer,
+            'mantainer-email' => $mantainerEmail,
+            ],
+            $araiConflict->getHeaderAsArray()
+        );
+
+        return $araiConflict;
+    }
+
+
+    /**
+     * @depends testCreateConflict
+     * @param AraiConflict $araiConflict
+     * @return AraiConflict
+     */
+    public function testAddConflict(AraiConflict $araiConflict)
+    {
+        $appUniqueId = "siu-arai-usuarios_1.siu-arai-usuarios-gestion";
+        $appName = "Arai-Usuarios";
+        $value1 = "Federico";
+        $value2 = "Fede";
+        $value3 = "Feder";
+
+        /* @var AppValue $appValue1 */
+        $appValue1 = new AppValue();
+        $appValue1->setAppUniqueId($appUniqueId);
+        $appValue1->setValue($value1);
+
+        /* @var AppValue $appValue2 */
+        $appValue2 = new AppValue();
+        $appValue2->setValue($value2);
+
+        /* @var AppValue $appValue3 */
+        $appValue3 = new AppValue();
+        $appValue3->setAppName($appName);
+        $appValue3->setValue($value3);
+
+        $atributo = 'nombre';
+
+        /* @var Attribute $attribute */
+        $attribute = new Attribute();
+        $attribute->setAttribute($atributo);
+        $attribute->addAppValue($appValue1);
+        $attribute->addAppValue($appValue2);
+        $attribute->addAppValue($appValue3);
+
+        $uniqueIdentifier = 'jperez';
+
+        /* @var Conflict $conflict */
+        $conflict = new Conflict();
+        $conflict->setUniqueIdentifier($uniqueIdentifier);
+        $conflict->addAttribute($attribute);
+
+        $araiConflict->addConflict($conflict);
+
+        /* @var Conflict[] $consflicts */
+        $conflicts = $araiConflict->getConflictsList();
+
+        $this->assertEquals([
+            'uniqueIdentifier' => $uniqueIdentifier,
+            'attributes' => [
+                [
+                    'attribute' => $atributo,
+                    'appValues' => [
+                        [
+                            'appUniqueId' => $appUniqueId,
+                            'value' => $value1
+                        ],
+                        [
+                            'value' => $value2
+                        ],
+                        [
+                            'appName' => $appName,
+                            'value' => $value3
+                        ],
+                    ]
+                ],
+            ]
+        ], $conflicts[0]->toArray());
+
+        return $araiConflict;
+    }
+
+    /**
+     * @depends testAddConflict
+     * @param AraiConflict $araiConflict
+     * @return AraiConflict
+     */
+    public function testToArray(AraiConflict $araiConflict)
+    {
+        /* @var Conflict[] $conflicts */
+        $conflicts = $araiConflict->getConflictsList();
+
+        /* @var Attribute[] $attributes */
+        $attributes = $conflicts[0]->getAttributeList();
+
+        /* @var AppValue[] $appValues */
+        $appValues = $attributes[0]->getAppValueList();
+
+        $this->assertEquals([
+            'name' => $araiConflict->getName(),
+            'description' => $araiConflict->getDescription(),
+            'mantainer' => $araiConflict->getMantainer(),
+            'mantainer-email' => $araiConflict->getMantainerEmail(),
+            'conflicts' => [
+                [
+                    'uniqueIdentifier' => $conflicts[0]->getUniqueIdentifier(),
+                    'attributes' => [
+                        [
+                            'attribute' => $attributes[0]->getAttribute(),
+                            'appValues' => [
+                                [
+                                    'appUniqueId' => $appValues[0]->getAppUniqueId(),
+                                    'value' => $appValues[0]->getValue(),
+                                ],
+                                [
+                                    'value' => $appValues[1]->getValue(),
+                                ],
+                                [
+                                    'appName' => $appValues[2]->getAppName(),
+                                    'value' => $appValues[2]->getValue(),
+                                ],
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ],
+        $araiConflict->toArray());
+
+        return $araiConflict;
+    }
+
+}

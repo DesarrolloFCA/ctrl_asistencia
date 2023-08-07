@@ -1,0 +1,104 @@
+<?php
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: ablanco
+ * Date: 18/06/15
+ * Time: 17:14.
+ */
+namespace SIU\AraiCli\Commands\Registry;
+
+use Egulias\EmailValidator\EmailValidator;
+use SIU\AraiCli\Factory;
+use SIU\AraiCli\Commands\BaseCommand;
+use SIU\AraiCli\Services\Registry\AraiJsonUtil;
+use SIU\AraiCli\Services\Registry\Registry;
+use SIU\AraiCli\Services\Registry\RegistryException;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+
+class Add extends BaseCommand
+{
+    protected function configure()
+    {
+        $name = 'registry:add';
+        $this
+            ->setName($name)
+            ->addArgument('url', InputArgument::REQUIRED, 'URL del servidor ARAI-Registry')
+            ->addOption('maintainer', 'm', InputOption::VALUE_REQUIRED, 'Nombre del mantenedor de esta aplicación')
+            ->addOption('maintainer-email', 'e', InputOption::VALUE_REQUIRED, 'Email de contacto del mantenedor')
+            ->addOption('nombre-instancia', 'i', InputOption::VALUE_OPTIONAL, 'Nombre de instancia, si no se provee se asigna uno por defecto', null)
+            ->addOption('force-register', 'f', InputOption::VALUE_OPTIONAL, 'Si no se define esta opción el comando falla dejando un log en pantalla si existe el arai.lock. Si el valor es "ask" pregunta antes de hacerlo. Si es "yes" pisa sin preguntar', false)
+            ->setDescription('Se registra en una instancia de ARAI-Registry')
+            ->setHelp(<<<EOT
+El comando $name se registra en el servidor Araí que vive en la URL especificada en el argumento 'url'.
+Se debe especificar un responsable de la aplicación que se pueda contactar en caso de existir algún error en las features
+que esta provee. Para hacer esto se debe ejecutar el comando con las opciones 'maintainer' y 'maintainer-email'. Si ocurre
+algún error al tratar de consumir alguna feature provista por la aplicación (e.g.: se requiere una versión posterior a la provista)
+se mostrarán estos datos para ponerse en contacto y solucionar el problema.
+EOT
+            );
+    }
+
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @return int|null|void
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $c = Factory::getContainer();
+
+        // sacar url del input
+        $c['arai-registry-url'] = $input->getArgument('url');
+        $maintainer = $input->getOption('maintainer');
+        $maintainerEmail = $input->getOption('maintainer-email');
+        $instanceName = $input->getOption('nombre-instancia');
+        $mailValidator = new EmailValidator();
+        if (!$mailValidator->isValid($maintainerEmail)) {
+            $this->getIO()->writeError("<error>El email '$maintainerEmail' no es válido</error>");
+
+            return;
+        }
+
+        // chequear q el path de escritura del arai.lock se writable
+        /** @var AraiJsonUtil $araiJsonUtils */
+        $araiJsonUtils = $c['arai-json-util'];
+
+
+        if ($araiJsonUtils->lockFileExists()) {
+            $this->getIO()->write('<warning>Ya existe un archivo de lock. Si continúa se perderá la configuración actual</warning>');
+            $forceRegister = $input->getOption('force-register');
+            if ($forceRegister === false) {
+                return;
+            } else if ($forceRegister === 'ask') {
+                $result = $this->getIO()->askConfirmation('Desea continuar? [y/n] (n) ', false);
+                if ($result === false) {
+                    return;
+                }
+            } else if ($forceRegister !== 'yes') {
+                return;
+            }
+        }
+
+        /** @var Registry $registry */
+        $registry = $c['arai-registry'];
+
+        try {
+            $contents = $araiJsonUtils->getAraiJsonContentsWithExtraData($maintainer, $maintainerEmail, $instanceName);
+            $araiLock = $registry->register($contents);
+            $araiLock->setHasAraiRemote(true);
+            $araiLock->setAraiRemoteUrl($c['arai-registry-url']);
+            $araiJsonUtils->writeAraiLock($araiLock);
+            $instanceName = $araiLock->getAraiRemoteInstanceName();
+            $this->getIO()->write("Registrado con instance-name <info>$instanceName</info>");
+        } catch (RegistryException $e) {
+            $this->getIO()->writeError("<error>[ {$e->getStatusCode()} ] - {$e->getMessage()} </error>");
+        } catch (\Exception $e) {
+            $this->getIO()->writeError("<error>{$e->getMessage()}</error>");
+        }
+    }
+}

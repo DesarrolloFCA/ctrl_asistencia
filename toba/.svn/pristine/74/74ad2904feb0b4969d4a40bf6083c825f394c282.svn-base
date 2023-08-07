@@ -1,0 +1,9 @@
+# pack-refs with: peeled fully-peeled 
+13efa4368bb2ac88bb3b1459b487d907de4dbf7c refs/remotes/origin/1.0
+4439c51191080ebffdd4c51a95bab5e98e8a622f refs/remotes/origin/cipher_mixer
+90fc8a94fc1f2deb3502b2b9dd9fd20dfcbb1dc2 refs/remotes/origin/improved_string_presets
+ad6a37d7bce67b0954be63feb1b4c47da77c527f refs/remotes/origin/master
+b7685f1aaf872cb8326a8cfe74841257bea95e5b refs/tags/v1.0.0
+^0eaad991c1756842f26dfbcbc6effcabb5003d0a
+77af659e8030c60d74416998df9f5acf92fb2334 refs/tags/v1.1.0
+^13efa4368bb2ac88bb3b1459b487d907de4dbf7c

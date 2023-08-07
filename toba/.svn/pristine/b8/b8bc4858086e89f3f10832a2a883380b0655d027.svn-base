@@ -1,0 +1,30 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: fbohn
+ * Date: 28/03/16
+ * Time: 17:55
+ */
+
+namespace SIU\AraiJsonMigrator\Entities;
+
+
+abstract class Entity
+{
+    /**
+     *
+     */
+    public function __construct()
+    {
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return array();
+    }
+
+
+}

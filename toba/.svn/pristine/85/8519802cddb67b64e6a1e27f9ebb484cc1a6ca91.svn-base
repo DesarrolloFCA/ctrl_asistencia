@@ -1,0 +1,19 @@
+<?php
+namespace SIU\AraiJsonParser\Feature\Extension;
+/**
+ * Created by IntelliJ IDEA.
+ * User: andres
+ * Date: 01/10/15
+ * Time: 16:35
+ */
+class App extends TypeExtension
+{
+
+    /**
+     * @inheritdoc
+     */
+    public function getName()
+    {
+        return 'app';
+    }
+}

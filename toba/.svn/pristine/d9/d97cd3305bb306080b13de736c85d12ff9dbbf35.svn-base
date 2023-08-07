@@ -1,0 +1,124 @@
+<?php
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: ablanco
+ * Date: 22/06/15
+ * Time: 17:32.
+ */
+namespace SIU\AraiCli;
+
+use GuzzleHttp\Client;
+use SIU\AraiCli\Services\Registry\AraiJsonUtil;
+use SIU\AraiCli\Services\Registry\Registry;
+use SIU\AraiJsonParser\AraiJsonManager;
+use Pimple\Container;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
+class Factory
+{
+    /**
+     * @var Container
+     */
+    protected static $container;
+
+    /**
+     * @return Container
+     */
+    public static function getContainer()
+    {
+        if (isset(static::$container)) {
+            return static::$container;
+        }
+
+        $container = new Container();
+        $container['base-dir'] = realpath(__DIR__.'/../../../../../../');         //Vendor folder by default
+        $container['arai-file-name'] = 'arai.json';
+        $container['arai-registry-url'] = function($c) {
+            /** @var AraiJsonUtil $util */
+            $util = $c['arai-json-util'];
+            if ($util->lockFileExists()) {
+                $lockFile = $util->parseLockFile();
+                return $lockFile->getAraiRemoteUrl();
+            }
+            return '__placeholder__';
+        };
+
+        $container['config'] = function ($c) {
+            $config = new Config();
+            $config->merge([
+                'base-dir' => $c['base-dir'],
+                'arai-file-name' => $c['arai-file-name'],
+            ]);
+
+            return $config;
+        };
+
+        $container['json-manager'] = function ($c) {
+            return new AraiJsonManager();
+        };
+
+        $container['arai-registry-user'] = function ($c) {
+            if (getenv("ARAI_REGISTRY_USER") != false) {
+                return getenv("ARAI_REGISTRY_USER");
+            }
+
+            //TODO: necesitamos dentro de la app consumir el endpoing?
+            return false;
+        };
+
+        $container['arai-registry-pass'] = function ($c) {
+            if (getenv("ARAI_REGISTRY_PASS") != false) {
+                return getenv("ARAI_REGISTRY_PASS");
+            }
+
+            //TODO: necesitamos dentro de la app consumir el endpoing?
+            return false;
+        };
+
+        $container['api-client'] = function ($c) {
+            return new Client([
+                'base_uri' => $c['arai-registry-url'].'/rest/',    //--Guzzle 6.0
+                'base_url' => $c['arai-registry-url'].'/rest/',    //--Guzzle 5.1
+                'defaults' => [
+                    'auth' => [$c['arai-registry-user'], $c['arai-registry-pass']]
+                ]
+
+            ]);
+        };
+
+        $container['arai-json-util'] = function ($c) {
+            return new AraiJsonUtil($c['config'], $c['json-manager']);
+        };
+
+        $container['arai-registry'] = function ($c) {
+            return new Registry($c['config'], $c['api-client'], $c['json-manager'], $c['arai-json-util']);
+        };
+		
+		$container['arai-version-path'] = '/../../../version';
+		$container['arai-version'] = function ($c) {
+			$definition = trim(file_get_contents(__DIR__ . $c['arai-version-path']));
+			//Si es una version y comienza con v, se saca
+			if ($definition[0] == 'v') {				
+				return substr($definition, 1, strlen($definition)-1);
+			} else {
+				return $definition;
+			}			
+		};
+		
+		//Arai Catalogos
+
+		$container['arai-catalogos-path-logs'] = '/../../../logs/arai-catalogos-cli.log';
+		$container['arai-catalogos-logger'] = function ($c) {
+			$log = new Logger('arai-catalogos-cli');
+			$streamHandler = new StreamHandler(__DIR__ . $c['arai-catalogos-path-logs'], Logger::NOTICE, false);
+			$log->pushHandler($streamHandler);
+			return $log;
+		};
+		$container['arai-catalogos-json-schema-path'] = '/../../../../../res/catalogos/schemas/';		
+		static::$container = $container;
+
+		return static::$container;
+    }
+}

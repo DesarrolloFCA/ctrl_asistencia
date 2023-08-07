@@ -1,0 +1,290 @@
+<?php
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: ablanco
+ * Date: 22/06/15
+ * Time: 15:24.
+ */
+namespace SIU\AraiCli\Services\Registry;
+
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use SIU\AraiCli\Config;
+use SIU\AraiJsonParser\AraiJsonManager;
+use SIU\AraiJsonParser\AraiPackage;
+
+class Registry
+{
+    /**
+     * @var Client
+     */
+    protected $httpClient;
+
+    /**
+     * @var Config
+     */
+    protected $config;
+
+    /**
+     * @var AraiJsonManager
+     */
+    protected $jsonManager;
+
+    /**
+     * @var AraiJsonUtil
+     */
+    protected $jsonUtil;
+
+    public function __construct(Config $config, Client $httpClient, AraiJsonManager $jsonManager, AraiJsonUtil $jsonUtil)
+    {
+        $this->config = $config;
+        $this->httpClient = $httpClient;
+        $this->jsonManager = $jsonManager;
+        $this->jsonUtil = $jsonUtil;
+    }
+
+    /**
+     * Parsea el archivo .lock y lo devuelve como un AraiPackage. Si el archivo .lock no existe se dispara una \Exception
+     * @return AraiPackage
+     * @throws \Exception
+     */
+    public function getPackage()
+    {
+        if (!$this->jsonUtil->lockFileExists()) {
+            throw new \Exception('No se puede obtener el paquete desde registry porque la aplicación actual no fue registrada');
+        }
+        return $this->jsonUtil->parseLockFile();
+    }
+
+    /**
+     * Recibe el $appName (eg: app:siu/mapuche) y lo transforma en una clave única a partir del instance name de paquete.
+     *  * Las '/' se reemplazan por '-', tanto en $appName como en $instanceName
+     *  * El separador entre instanceName y appName es '.'
+     * @param string $appName.
+     * @param string $instanceName por defecto es el instance name del sistema desde donde se invocó este método.
+     * @return string clave única de la app dentro del paquete. Si appName == 'siu/mapuche' e instanceName == 'mapuche_1'
+     * el id generado tendrá la forma: "mapuche_1.siu-mapuche"
+     */
+    public function generateAppUniqueId($appName, $instanceName = null)
+    {
+        if (is_null($instanceName)) {
+            $instanceName = $this->getPackage()->getAraiRemoteInstanceName();
+        }
+        if (strpos($appName, ':')) { // si viene con prefijo se saca
+            $appName = explode(":", $appName, 2)[1];
+        }
+
+        list($instanceName, $appName) = str_replace('/', '-', [$instanceName, $appName]);
+        return $instanceName.'.'.$appName;
+    }
+
+    /**
+     * @return array con las claves: 'registrada', 'url', 'nombre-instancia', 'ultima-actualizacion'.
+     * Notar que si 'registrada' es false el resto de los índices no están definidos.
+     * 'ultima-actualizacion' está en formato DATE_ISO8601
+     */
+    public function getStatus()
+    {
+        $registrada = $this->jsonUtil->lockFileExists();
+        if (!$registrada) {
+            return ['registrada' => false];
+        }
+
+        $package = $this->jsonUtil->parseLockFile();
+
+        return [
+            'registrada' => true,
+            'url' => $package->getAraiRemoteUrl(),
+            'nombre-instancia' => $package->getAraiRemoteInstanceName(),
+            'ultima-actualizacion' => $package->getAraiRemoteLastSync()
+        ];
+
+
+    }
+
+    protected function getMensajeExcepcion(ClientException $e)
+    {
+        try {
+            $response = $e->getResponse();
+            if ($response != null) {
+                $body = $e->getResponse()->getBody();
+                $json = json_decode($body->getContents(), true);
+                if (isset($json['descripcion'])) {
+                    return $json['descripcion'];
+                }
+            }
+        } catch (\Exception $jsonException) {
+        }
+
+        return '';
+    }
+
+    /**
+     * @param string $type puede ser vacío, 'api', 'service', 'app'
+     * @return array de dos niveles. 1er nivel paquete, la clave es el instanceName. El 2do nivel es la provision, la
+     * clave es la featureName
+     * @throws RegistryException
+     */
+    public function queryProvisions($type = '')
+    {
+        $endpoint = 'provisions';
+        try {
+            $query = [];
+            if ($type !== '') {
+                $query = [ 'type' => $type ];
+            }
+            /*
+             * @var \Psr\Http\Message\ResponseIntere
+             */
+            $response = $this->httpClient->get($endpoint, [
+                'query' => $query,
+            ]);
+            $raw = json_decode($response->getBody()->getContents(), true);
+            $result = [];
+            foreach ($raw as $provision) {
+                $result[$provision['package_instance_name']][$provision['feature_name']] =
+                    $this->jsonManager->createProvision(json_decode($provision['properties'], true));
+            }
+
+            return $result;
+        } catch (ClientException $e) {
+            $mensajeExtra = $this->getMensajeExcepcion($e);
+            switch ($e->getCode()) {
+                case 401:
+                    throw new RegistryException('Las credenciales provistas para Arai Registry son inválidas. '.$mensajeExtra, $e->getCode());
+                case 409:
+                    throw new RegistryException('La aplicación que se intenta registrar ya se encuentra registrada en Arai. '.$mensajeExtra, $e->getCode());
+                case 422:
+                    throw new RegistryException('Problemas al registrar la aplicacion. '.$mensajeExtra, $e->getCode());
+                default:
+                    throw new RegistryException('Ocurrió un error al intentar registrar la aplicación. '.$mensajeExtra, $e->getCode());
+            }
+        }
+    }
+
+    /**
+     * @return HooksInterface $hooksScript
+     */
+    protected function getHookObject($clase)
+    {
+        return new $clase;
+    }
+
+    /**
+     * @param AraiPackage $p
+     */
+    protected function triggerPostHooks(AraiPackage $p)
+    {
+        $hooksScript = $this->getHookObject($p->getHooksScript());
+
+        foreach ($p->getConsumeList() as $c) {
+            $hooksScript->postConsume($c);
+        }
+
+        foreach ($p->getProvideList() as $provision) {
+            $hooksScript->postProvide($provision);
+        }
+    }
+
+    /**
+     * @param string $appJson el json de la aplicación que se quiere registrar
+     *
+     * @return AraiPackage
+     *
+     * @throws RegistryException
+     */
+    public function register($appJson)
+    {
+        try {
+            /*
+             * @var \Psr\Http\Message\ResponseInterface
+             */
+            $response = $this->httpClient->post("packages", [
+                'body' => $appJson,
+            ]);
+
+            $p = $this->jsonManager->loadFromString($response->getBody()->getContents());
+            $this->jsonUtil->writeAraiLock($p);
+            $this->triggerPostHooks($p);
+            $this->getHookObject($p->getHooksScript())->postAdd();
+            return $p;
+        } catch (ClientException $e) {
+            $mensajeExtra = $this->getMensajeExcepcion($e);
+            switch ($e->getCode()) {
+                case 401:
+                    throw new RegistryException('Las credenciales provistas para Arai Registry son inválidas. '.$mensajeExtra, $e->getCode());
+                case 409:
+                    throw new RegistryException('La aplicación que se intenta registrar ya se encuentra registrada en Arai. '.$mensajeExtra, $e->getCode());
+                case 422:
+                    throw new RegistryException('Problemas al registrar la aplicacion. '.$mensajeExtra, $e->getCode());
+                default:
+                    throw new RegistryException('Ocurrió un error al intentar registrar la aplicación. '.$mensajeExtra, $e->getCode());
+            }
+        }
+    }
+
+    /**
+     * @param $appJson
+     * @return AraiPackage
+     * @throws RegistryException
+     * @throws \Exception
+     */
+    public function sync($appJson)
+    {
+        try {
+            $response = $this->httpClient->put("packages", [
+                'body' => $appJson,
+            ]);
+
+            $p = $this->jsonManager->loadFromString($response->getBody()->getContents());
+            $this->triggerPostHooks($p);
+            $this->getHookObject($p->getHooksScript())->postSync();
+            return $p;
+        } catch (ClientException $e) {
+            $mensajeExtra = $this->getMensajeExcepcion($e);
+            switch ($e->getCode()) {
+                case 200:
+                case 204:
+                    break;
+                case 404:
+                    throw new RegistryException('La aplicación que se quiere sincronizar no está registrada en el servidor de Arai. '.$mensajeExtra, $e->getCode());
+                default:
+                    throw new RegistryException('Ocurrió un error al intentar sincronizar. '.$mensajeExtra, $e->getCode());
+            }
+        }
+    }
+
+    /**
+     * @param $appJson
+     *
+     * @return mixed
+     *
+     * @throws RegistryException
+     */
+    public function unregister($appJson)
+    {
+        try {
+            $response = $this->httpClient->delete('packages', [
+                'body' => $appJson
+            ]);
+
+            return $response->getBody()->getContents();
+        } catch (ClientException $e) {
+            $mensajeExtra = $this->getMensajeExcepcion($e);
+            switch ($e->getCode()) {
+                case 200:
+                case 204:
+                    break;
+                case 404:
+                    throw new RegistryException('La aplicación que se quiere desregistrar no está registrada en el servidor de Arai. '.$mensajeExtra, $e->getCode());
+                case 422:
+                    throw new RegistryException('Alguna feature de la aplicación ya existe en Arai con el mismo nombre. '.$mensajeExtra, $e->getCode());
+                default:
+                    throw new RegistryException('Ocurrió un error al intentar registrar la aplicación. '.$mensajeExtra, $e->getCode());
+            }
+        }
+
+    }
+
+}

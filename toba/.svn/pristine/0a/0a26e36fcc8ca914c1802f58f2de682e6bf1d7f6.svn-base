@@ -1,0 +1,11 @@
+{
+	"encabezado" : "1.0.0",
+	"pais" : "1.0.0",
+	"zona" : "1.0.0",
+        "rubro" : "1.0.0",
+	"tipoDocumento": "1.0.0",
+	"provinciaXZona": "1.0.0",
+	"version_cliente_arai_catalogos": "1.0.0",
+	"bienServicio": "1.0.0",
+	"bienConsumo": "1.0.0"
+}

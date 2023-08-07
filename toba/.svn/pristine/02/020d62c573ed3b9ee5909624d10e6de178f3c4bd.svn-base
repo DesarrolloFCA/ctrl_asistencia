@@ -1,0 +1,23 @@
+{
+  "name": "siu/arai-json-parser",
+  "description": "Utilidades para parsear el json de Araí",
+  "type": "project",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://satis.siu.edu.ar"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0",
+    "siu/json-util": "~1.0"
+  },
+  "authors": [{
+    "name": "Andrés Blanco",
+    "email": "ablanco@siu.edu.ar"
+  }],
+
+  "autoload": {
+    "psr-4": { "": "src" }
+  }
+}

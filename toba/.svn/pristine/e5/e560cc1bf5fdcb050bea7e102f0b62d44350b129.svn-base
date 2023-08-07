@@ -1,0 +1,36 @@
+{
+    "name": "siu/arai-cli",
+    "description": "Librería cliente de los componentes ARAI",
+
+    "repositories": [{
+        "type": "composer",
+        "url": "https://satis.siu.edu.ar"
+    }],
+    
+    "require": {
+        "php": ">=5.4",
+        "monolog/monolog": "^1.13.0",
+        "symfony/console": "^2.6.0",
+        "symfony/debug": "^2.7.0",
+        "siu/arai-json-parser": "1.0.0",
+        "guzzlehttp/guzzle": "5.1.0",
+        "seld/cli-prompt": "~1.0",
+        "egulias/email-validator": "~1.2",
+        "pimple/pimple": "~3.0"
+    },
+
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^1.5.0",
+        "phpunit/phpunit": "^4.5.0",
+        "symfony/process": "^2.6.0"
+    },
+
+    "autoload": {
+        "psr-4": { "": "src" }
+    },
+
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "bin": ["bin/arai-cli"]
+
+}

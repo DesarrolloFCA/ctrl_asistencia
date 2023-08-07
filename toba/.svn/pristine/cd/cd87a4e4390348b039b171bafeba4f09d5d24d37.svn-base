@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: ablanco
+ * Date: 23/06/15
+ * Time: 13:32.
+ */
+namespace SIU\AraiCli\Services\Registry;
+
+class AraiJsonException extends \Exception
+{
+}

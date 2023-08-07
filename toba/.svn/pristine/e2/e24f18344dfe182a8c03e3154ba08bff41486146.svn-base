@@ -1,0 +1,35 @@
+<?php
+
+namespace SIU\AraiCli\Commands;
+
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
+
+class PHPUnit extends BaseCommand
+{
+    protected function configure()
+    {
+        $this
+            ->setName('dev:test')
+            ->setDescription('Runs phpunit (from vendor) using default config')
+        ;
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $pathXml = realpath(__DIR__.'/../../../../phpunit.xml');
+        $process = new Process(sprintf(__DIR__.'/../../../../vendor/phpunit/phpunit/phpunit -c %s', $pathXml));
+
+        $process->run();
+        if ($process->isSuccessful()) {
+            $output->write($process->getOutput());
+        } else {
+            $output->write($process->getErrorOutput());
+        }
+    }
+
+    public function setContainer($container)
+    {
+    }
+}

@@ -1,0 +1,1241 @@
+-o-o-o-o-o-
+Fecha: 13-03-2020 18:07:29
+Operacion: Mantenimiento de usuarios
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_usuarios/2.7/?ai=toba_usuarios&tcm=previsualizacion&tm=1
+Referrer: http://localhost/toba_editor/2.7/aplicacion.php?ah=st5e6bbdcc6ef0d5.70846182&ai=toba_editor%7C%7C1000241
+Host: ::1
+==========
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] Cargando USUARIO 'toba' en el proyecto 'toba_usuarios'
+[DEBUG][toba] Crear SESION '8' en el proyecto 'toba_usuarios'
+[DEBUG][toba] Se creo la SESION [usuario: toba ]
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba_usuarios] INSTALACION "C:/proyectos/toba/instalacion"
+[DEBUG][toba_usuarios] Parametros instancia desarrollo: array (
+  'base' => 'toba_2_7',
+  'proyectos' => 'toba_editor, toba_referencia, toba_usuarios, cit_digesto',
+  'tipo' => 'normal',
+  'toba_editor' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_editor',
+    'url' => '/toba_editor/2.7',
+  ),
+  'toba_referencia' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_referencia',
+    'url' => '/toba_referencia/2.7',
+  ),
+  'toba_usuarios' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_usuarios',
+    'url' => '/toba_usuarios/2.7',
+  ),
+  'cit_digesto' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/cit_digesto',
+    'url' => '/cit_digesto/1.0',
+  ),
+)
+[DEBUG][toba_usuarios] INSTANCIA "desarrollo"
+[DEBUG][toba_usuarios] Conectando a base 'toba_2_7'
+[DEBUG][toba_usuarios] Parametros de conexion: array (
+  'motor' => 'postgres7',
+  'profile' => 'localhost',
+  'usuario' => 'postgres',
+  'clave' => 'postgres',
+  'base' => 'toba_2_7',
+  'puerto' => '5432',
+  'encoding' => 'LATIN1',
+  'schema' => 'desarrollo',
+)
+[DEBUG][toba_usuarios] PROYECTO "toba_usuarios"
+[DEBUG][toba_usuarios] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba] Se cambia el ítem solicitado a =>array (
+  0 => 'toba_usuarios',
+  1 => '3432',
+)
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[DEBUG][toba_usuarios] PROYECTO "toba_usuarios"
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ci_navegacion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(2190): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(2190): Pantalla de servicio: 'seleccionar'
+[DEBUG][toba] componente(2190): [ callback ] 'conf__seleccionar'
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ei_form_filtro_usuarios.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [ callback ] 'conf__filtro'
+[DEBUG][toba] Se filtro el evento: cancelar
+[DEBUG][toba] componente(2190): [ callback ] 'conf__cuadro'
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+[ERROR][toba] toba_error: DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini' 
+
+[TRAZA]exception 'toba_error' with message 'DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini'' in C:\proyectos\toba\php\nucleo\lib\toba_dba.php:63
+Stack trace:
+#0 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(165): toba_dba::get_parametros_base('desarrollo toba...')
+#1 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(152): toba_dba::conectar_db('desarrollo toba...')
+#2 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(101): toba_dba->get_conexion('desarrollo toba...', true)
+#3 C:\proyectos\toba\php\nucleo\lib\toba_fuente_datos.php(32): toba_dba::get_db_de_fuente('desarrollo', 'toba_usuarios', 'toba_usuarios', true)
+#4 C:\proyectos\toba\php\nucleo\toba.php(162): toba_fuente_datos->get_db()
+#5 C:\proyectos\toba\proyectos\toba_usuarios\php\lib\consultas_instancia.php(8): toba::db()
+#6 [internal function]: consultas_instancia::get_lista_proyectos()
+#7 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(311): call_user_func_array(Array, Array)
+#8 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(180): toba_carga_opciones_ef->ef_metodo_carga_php('proyecto', Array, Array)
+#9 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(121): toba_carga_opciones_ef->ejecutar_metodo_carga_ef('proyecto', Array)
+#10 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(1003): toba_carga_opciones_ef->cargar()
+#11 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(990): toba_ei_formulario->generar_formulario()
+#12 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(564): toba_ei_formulario->generar_html()
+#13 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(548): toba_ei_pantalla->generar_layout()
+#14 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(514): toba_ei_pantalla->generar_html_contenido()
+#15 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(453): toba_ei_pantalla->generar_html_cuerpo()
+#16 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ci.php(835): toba_ei_pantalla->generar_html()
+#17 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(252): toba_ci->generar_html()
+#18 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(185): toba_solicitud_web->servicio__generar_html(Array)
+#19 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(60): toba_solicitud_web->procesar_servicios()
+#20 C:\proyectos\toba\php\nucleo\toba_nucleo.php(81): toba_solicitud_web->procesar()
+#21 C:\proyectos\toba\proyectos\toba_usuarios\www\aplicacion.php(14): toba_nucleo->acceso_web()
+#22 {main}
+[DEBUG][toba] Mensaje a usuario: DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini'
+
+-o-o-o-o-o-
+Fecha: 13-03-2020 18:08:31
+Operacion: Mantenimiento de usuarios
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_usuarios/2.7/?ai=toba_usuarios&tcm=previsualizacion&tm=1
+Referrer: http://localhost/toba_editor/2.7/aplicacion.php?ah=st5e6bbdcc6ef0d5.70846182&ai=toba_editor%7C%7C1000241
+Host: ::1
+==========
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba_usuarios] INSTALACION "C:/proyectos/toba/instalacion"
+[DEBUG][toba_usuarios] Parametros instancia desarrollo: array (
+  'base' => 'toba_2_7',
+  'proyectos' => 'toba_editor, toba_referencia, toba_usuarios, cit_digesto',
+  'tipo' => 'normal',
+  'toba_editor' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_editor',
+    'url' => '/toba_editor/2.7',
+  ),
+  'toba_referencia' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_referencia',
+    'url' => '/toba_referencia/2.7',
+  ),
+  'toba_usuarios' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_usuarios',
+    'url' => '/toba_usuarios/2.7',
+  ),
+  'cit_digesto' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/cit_digesto',
+    'url' => '/cit_digesto/1.0',
+  ),
+)
+[DEBUG][toba_usuarios] INSTANCIA "desarrollo"
+[DEBUG][toba_usuarios] Conectando a base 'toba_2_7'
+[DEBUG][toba_usuarios] Parametros de conexion: array (
+  'motor' => 'postgres7',
+  'profile' => 'localhost',
+  'usuario' => 'postgres',
+  'clave' => 'postgres',
+  'base' => 'toba_2_7',
+  'puerto' => '5432',
+  'encoding' => 'LATIN1',
+  'schema' => 'desarrollo',
+)
+[DEBUG][toba_usuarios] PROYECTO "toba_usuarios"
+[DEBUG][toba_usuarios] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba] Se cambia el ítem solicitado a =>array (
+  0 => 'toba_usuarios',
+  1 => '3432',
+)
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[DEBUG][toba_usuarios] PROYECTO "toba_usuarios"
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ci_navegacion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(2190): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(2190): Pantalla de servicio: 'seleccionar'
+[DEBUG][toba] componente(2190): [ callback ] 'conf__seleccionar'
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ei_form_filtro_usuarios.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [ callback ] 'conf__filtro'
+[DEBUG][toba] Se filtro el evento: cancelar
+[DEBUG][toba] componente(2190): [ callback ] 'conf__cuadro'
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+[ERROR][toba] toba_error: DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini' 
+
+[TRAZA]exception 'toba_error' with message 'DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini'' in C:\proyectos\toba\php\nucleo\lib\toba_dba.php:63
+Stack trace:
+#0 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(165): toba_dba::get_parametros_base('desarrollo toba...')
+#1 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(152): toba_dba::conectar_db('desarrollo toba...')
+#2 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(101): toba_dba->get_conexion('desarrollo toba...', true)
+#3 C:\proyectos\toba\php\nucleo\lib\toba_fuente_datos.php(32): toba_dba::get_db_de_fuente('desarrollo', 'toba_usuarios', 'toba_usuarios', true)
+#4 C:\proyectos\toba\php\nucleo\toba.php(162): toba_fuente_datos->get_db()
+#5 C:\proyectos\toba\proyectos\toba_usuarios\php\lib\consultas_instancia.php(8): toba::db()
+#6 [internal function]: consultas_instancia::get_lista_proyectos()
+#7 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(311): call_user_func_array(Array, Array)
+#8 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(180): toba_carga_opciones_ef->ef_metodo_carga_php('proyecto', Array, Array)
+#9 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(121): toba_carga_opciones_ef->ejecutar_metodo_carga_ef('proyecto', Array)
+#10 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(1003): toba_carga_opciones_ef->cargar()
+#11 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(990): toba_ei_formulario->generar_formulario()
+#12 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(564): toba_ei_formulario->generar_html()
+#13 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(548): toba_ei_pantalla->generar_layout()
+#14 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(514): toba_ei_pantalla->generar_html_contenido()
+#15 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(453): toba_ei_pantalla->generar_html_cuerpo()
+#16 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ci.php(835): toba_ei_pantalla->generar_html()
+#17 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(252): toba_ci->generar_html()
+#18 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(185): toba_solicitud_web->servicio__generar_html(Array)
+#19 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(60): toba_solicitud_web->procesar_servicios()
+#20 C:\proyectos\toba\php\nucleo\toba_nucleo.php(81): toba_solicitud_web->procesar()
+#21 C:\proyectos\toba\proyectos\toba_usuarios\www\aplicacion.php(14): toba_nucleo->acceso_web()
+#22 {main}
+[DEBUG][toba] Mensaje a usuario: DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini'
+
+-o-o-o-o-o-
+Fecha: 19-08-2021 20:08:27
+Operacion: Mantenimiento de usuarios
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_editor/2.7/aplicacion.php?ah=st611e9cd4f28266.14161479&ai=toba_usuarios%7C%7C3432&tm=1
+Referrer: https://localhost/toba_editor/2.7/aplicacion.php?ah=st611e9cd4cc7d65.25088258&ai=toba_editor%7C%7C1000241
+Host: ::1
+==========
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] Cargando USUARIO 'toba' en el proyecto 'toba_usuarios'
+[DEBUG][toba] Crear SESION '28' en el proyecto 'toba_usuarios'
+[DEBUG][toba] Se creo la SESION [usuario: toba ]
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba_usuarios] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ci_navegacion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(2190): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(2190): Pantalla de servicio: 'seleccionar'
+[DEBUG][toba] componente(2190): [ callback ] 'conf__seleccionar'
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ei_form_filtro_usuarios.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [ callback ] 'conf__filtro'
+[DEBUG][toba] Se filtro el evento: cancelar
+[DEBUG][toba] componente(2190): [ callback ] 'conf__cuadro'
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+[ERROR][toba] toba_error: DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini' 
+
+[TRAZA]exception 'toba_error' with message 'DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini'' in C:\proyectos\toba\php\nucleo\lib\toba_dba.php:63
+Stack trace:
+#0 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(165): toba_dba::get_parametros_base('desarrollo toba...')
+#1 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(152): toba_dba::conectar_db('desarrollo toba...')
+#2 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(101): toba_dba->get_conexion('desarrollo toba...', true)
+#3 C:\proyectos\toba\php\nucleo\lib\toba_fuente_datos.php(32): toba_dba::get_db_de_fuente('desarrollo', 'toba_usuarios', 'toba_usuarios', true)
+#4 C:\proyectos\toba\php\nucleo\toba.php(162): toba_fuente_datos->get_db()
+#5 C:\proyectos\toba\proyectos\toba_usuarios\php\lib\consultas_instancia.php(8): toba::db()
+#6 [internal function]: consultas_instancia::get_lista_proyectos()
+#7 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(311): call_user_func_array(Array, Array)
+#8 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(180): toba_carga_opciones_ef->ef_metodo_carga_php('proyecto', Array, Array)
+#9 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(121): toba_carga_opciones_ef->ejecutar_metodo_carga_ef('proyecto', Array)
+#10 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(1003): toba_carga_opciones_ef->cargar()
+#11 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(990): toba_ei_formulario->generar_formulario()
+#12 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(564): toba_ei_formulario->generar_html()
+#13 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(548): toba_ei_pantalla->generar_layout()
+#14 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(514): toba_ei_pantalla->generar_html_contenido()
+#15 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(453): toba_ei_pantalla->generar_html_cuerpo()
+#16 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ci.php(835): toba_ei_pantalla->generar_html()
+#17 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(252): toba_ci->generar_html()
+#18 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(185): toba_solicitud_web->servicio__generar_html(Array)
+#19 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(60): toba_solicitud_web->procesar_servicios()
+#20 C:\proyectos\toba\php\nucleo\toba_nucleo.php(81): toba_solicitud_web->procesar()
+#21 C:\proyectos\toba\proyectos\toba_editor\www\aplicacion.php(17): toba_nucleo->acceso_web()
+#22 {main}
+[DEBUG][toba] Mensaje a usuario: DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini'
+
+-o-o-o-o-o-
+Fecha: 19-08-2021 20:09:29
+Operacion: Mantenimiento de usuarios
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_editor/2.7/aplicacion.php?ah=st611e9cd4f28266.14161479&ai=toba_usuarios%7C%7C3432&tm=1
+Referrer: https://localhost/toba_editor/2.7/aplicacion.php?ah=st611e9cd4cc7d65.25088258&ai=toba_editor%7C%7C1000241
+Host: ::1
+==========
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba_usuarios] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ci_navegacion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(2190): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(2190): Pantalla de servicio: 'seleccionar'
+[DEBUG][toba] componente(2190): [ callback ] 'conf__seleccionar'
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ei_form_filtro_usuarios.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [ callback ] 'conf__filtro'
+[DEBUG][toba] Se filtro el evento: cancelar
+[DEBUG][toba] componente(2190): [ callback ] 'conf__cuadro'
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+[ERROR][toba] toba_error: DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini' 
+
+[TRAZA]exception 'toba_error' with message 'DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini'' in C:\proyectos\toba\php\nucleo\lib\toba_dba.php:63
+Stack trace:
+#0 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(165): toba_dba::get_parametros_base('desarrollo toba...')
+#1 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(152): toba_dba::conectar_db('desarrollo toba...')
+#2 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(101): toba_dba->get_conexion('desarrollo toba...', true)
+#3 C:\proyectos\toba\php\nucleo\lib\toba_fuente_datos.php(32): toba_dba::get_db_de_fuente('desarrollo', 'toba_usuarios', 'toba_usuarios', true)
+#4 C:\proyectos\toba\php\nucleo\toba.php(162): toba_fuente_datos->get_db()
+#5 C:\proyectos\toba\proyectos\toba_usuarios\php\lib\consultas_instancia.php(8): toba::db()
+#6 [internal function]: consultas_instancia::get_lista_proyectos()
+#7 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(311): call_user_func_array(Array, Array)
+#8 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(180): toba_carga_opciones_ef->ef_metodo_carga_php('proyecto', Array, Array)
+#9 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(121): toba_carga_opciones_ef->ejecutar_metodo_carga_ef('proyecto', Array)
+#10 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(1003): toba_carga_opciones_ef->cargar()
+#11 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(990): toba_ei_formulario->generar_formulario()
+#12 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(564): toba_ei_formulario->generar_html()
+#13 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(548): toba_ei_pantalla->generar_layout()
+#14 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(514): toba_ei_pantalla->generar_html_contenido()
+#15 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(453): toba_ei_pantalla->generar_html_cuerpo()
+#16 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ci.php(835): toba_ei_pantalla->generar_html()
+#17 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(252): toba_ci->generar_html()
+#18 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(185): toba_solicitud_web->servicio__generar_html(Array)
+#19 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(60): toba_solicitud_web->procesar_servicios()
+#20 C:\proyectos\toba\php\nucleo\toba_nucleo.php(81): toba_solicitud_web->procesar()
+#21 C:\proyectos\toba\proyectos\toba_editor\www\aplicacion.php(17): toba_nucleo->acceso_web()
+#22 {main}
+[DEBUG][toba] Mensaje a usuario: DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini'
+
+-o-o-o-o-o-
+Fecha: 19-08-2021 20:09:37
+Operacion: Mantenimiento de usuarios
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_usuarios/2.7/aplicacion.php?tm=1&tcm=central&ai=toba_usuarios||3432
+Referrer: https://localhost/toba_editor/2.7/aplicacion.php?ah=st611e9cd4f28266.14161479&ai=toba_usuarios%7C%7C3432&tm=1
+Host: ::1
+==========
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba_usuarios] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ci_navegacion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(2190): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(2190): Pantalla de servicio: 'seleccionar'
+[DEBUG][toba] componente(2190): [ callback ] 'conf__seleccionar'
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ei_form_filtro_usuarios.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [ callback ] 'conf__filtro'
+[DEBUG][toba] Se filtro el evento: cancelar
+[DEBUG][toba] componente(2190): [ callback ] 'conf__cuadro'
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+[ERROR][toba] toba_error: DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini' 
+
+[TRAZA]exception 'toba_error' with message 'DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini'' in C:\proyectos\toba\php\nucleo\lib\toba_dba.php:63
+Stack trace:
+#0 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(165): toba_dba::get_parametros_base('desarrollo toba...')
+#1 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(152): toba_dba::conectar_db('desarrollo toba...')
+#2 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(101): toba_dba->get_conexion('desarrollo toba...', true)
+#3 C:\proyectos\toba\php\nucleo\lib\toba_fuente_datos.php(32): toba_dba::get_db_de_fuente('desarrollo', 'toba_usuarios', 'toba_usuarios', true)
+#4 C:\proyectos\toba\php\nucleo\toba.php(162): toba_fuente_datos->get_db()
+#5 C:\proyectos\toba\proyectos\toba_usuarios\php\lib\consultas_instancia.php(8): toba::db()
+#6 [internal function]: consultas_instancia::get_lista_proyectos()
+#7 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(311): call_user_func_array(Array, Array)
+#8 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(180): toba_carga_opciones_ef->ef_metodo_carga_php('proyecto', Array, Array)
+#9 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(121): toba_carga_opciones_ef->ejecutar_metodo_carga_ef('proyecto', Array)
+#10 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(1003): toba_carga_opciones_ef->cargar()
+#11 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(990): toba_ei_formulario->generar_formulario()
+#12 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(564): toba_ei_formulario->generar_html()
+#13 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(548): toba_ei_pantalla->generar_layout()
+#14 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(514): toba_ei_pantalla->generar_html_contenido()
+#15 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(453): toba_ei_pantalla->generar_html_cuerpo()
+#16 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ci.php(835): toba_ei_pantalla->generar_html()
+#17 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(252): toba_ci->generar_html()
+#18 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(185): toba_solicitud_web->servicio__generar_html(Array)
+#19 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(60): toba_solicitud_web->procesar_servicios()
+#20 C:\proyectos\toba\php\nucleo\toba_nucleo.php(81): toba_solicitud_web->procesar()
+#21 C:\proyectos\toba\proyectos\toba_usuarios\www\aplicacion.php(14): toba_nucleo->acceso_web()
+#22 {main}
+[DEBUG][toba] Mensaje a usuario: DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini'
+
+-o-o-o-o-o-
+Fecha: 19-08-2021 20:22:40
+Operacion: Mantenimiento de usuarios
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_editor/2.7/aplicacion.php?ah=st611e9ebae8d5a4.32889176&ai=toba_usuarios%7C%7C3432&tm=1
+Referrer: https://localhost/toba_editor/2.7/aplicacion.php?ah=st611e9ebacb5364.66764599&ai=toba_editor%7C%7C1000241
+Host: ::1
+==========
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] Cargando USUARIO 'toba' en el proyecto 'toba_usuarios'
+[DEBUG][toba] Crear SESION '29' en el proyecto 'toba_usuarios'
+[DEBUG][toba] Se creo la SESION [usuario: toba ]
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba_usuarios] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ci_navegacion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(2190): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(2190): Pantalla de servicio: 'seleccionar'
+[DEBUG][toba] componente(2190): [ callback ] 'conf__seleccionar'
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ei_form_filtro_usuarios.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [ callback ] 'conf__filtro'
+[DEBUG][toba] Se filtro el evento: cancelar
+[DEBUG][toba] componente(2190): [ callback ] 'conf__cuadro'
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+[ERROR][toba] toba_error: DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini' 
+
+[TRAZA]exception 'toba_error' with message 'DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini'' in C:\proyectos\toba\php\nucleo\lib\toba_dba.php:63
+Stack trace:
+#0 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(165): toba_dba::get_parametros_base('desarrollo toba...')
+#1 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(152): toba_dba::conectar_db('desarrollo toba...')
+#2 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(101): toba_dba->get_conexion('desarrollo toba...', true)
+#3 C:\proyectos\toba\php\nucleo\lib\toba_fuente_datos.php(32): toba_dba::get_db_de_fuente('desarrollo', 'toba_usuarios', 'toba_usuarios', true)
+#4 C:\proyectos\toba\php\nucleo\toba.php(162): toba_fuente_datos->get_db()
+#5 C:\proyectos\toba\proyectos\toba_usuarios\php\lib\consultas_instancia.php(8): toba::db()
+#6 [internal function]: consultas_instancia::get_lista_proyectos()
+#7 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(311): call_user_func_array(Array, Array)
+#8 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(180): toba_carga_opciones_ef->ef_metodo_carga_php('proyecto', Array, Array)
+#9 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(121): toba_carga_opciones_ef->ejecutar_metodo_carga_ef('proyecto', Array)
+#10 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(1003): toba_carga_opciones_ef->cargar()
+#11 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(990): toba_ei_formulario->generar_formulario()
+#12 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(564): toba_ei_formulario->generar_html()
+#13 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(548): toba_ei_pantalla->generar_layout()
+#14 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(514): toba_ei_pantalla->generar_html_contenido()
+#15 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(453): toba_ei_pantalla->generar_html_cuerpo()
+#16 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ci.php(835): toba_ei_pantalla->generar_html()
+#17 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(252): toba_ci->generar_html()
+#18 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(185): toba_solicitud_web->servicio__generar_html(Array)
+#19 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(60): toba_solicitud_web->procesar_servicios()
+#20 C:\proyectos\toba\php\nucleo\toba_nucleo.php(81): toba_solicitud_web->procesar()
+#21 C:\proyectos\toba\proyectos\toba_editor\www\aplicacion.php(17): toba_nucleo->acceso_web()
+#22 {main}
+[DEBUG][toba] Mensaje a usuario: DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini'
+
+-o-o-o-o-o-
+Fecha: 19-08-2021 20:22:44
+Operacion: Perfiles Funcionales
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_usuarios/2.7/aplicacion.php?tm=1&tcm=central&ai=toba_usuarios||3426
+Referrer: https://localhost/toba_editor/2.7/aplicacion.php?ah=st611e9ebae8d5a4.32889176&ai=toba_usuarios%7C%7C3432&tm=1
+Host: ::1
+==========
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba_usuarios] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase perfiles/perfil_funcional/ci_navegacion_perfiles.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2175): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(2175): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(2175): Pantalla de servicio: 'seleccion_perfil'
+[DEBUG][toba] componente(2175): [ callback ] 'conf__seleccion_perfil'
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase perfiles/form_proyecto.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2175): [ callback ] 'conf__filtro_proyectos'
+[DEBUG][toba] componente(2175): [ callback ] 'conf__cuadro_grupos_acceso'
+[ERROR][toba] toba_error: DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini' 
+
+[TRAZA]exception 'toba_error' with message 'DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini'' in C:\proyectos\toba\php\nucleo\lib\toba_dba.php:63
+Stack trace:
+#0 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(165): toba_dba::get_parametros_base('desarrollo toba...')
+#1 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(152): toba_dba::conectar_db('desarrollo toba...')
+#2 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(101): toba_dba->get_conexion('desarrollo toba...', true)
+#3 C:\proyectos\toba\php\nucleo\lib\toba_fuente_datos.php(32): toba_dba::get_db_de_fuente('desarrollo', 'toba_usuarios', 'toba_usuarios', true)
+#4 C:\proyectos\toba\php\nucleo\toba.php(162): toba_fuente_datos->get_db()
+#5 C:\proyectos\toba\php\nucleo\lib\toba_db.php(75): toba::db(NULL)
+#6 C:\proyectos\toba\proyectos\toba_usuarios\php\lib\consultas_instancia.php(405): quote('cit_digesto')
+#7 C:\proyectos\toba\proyectos\toba_usuarios\php\lib\consultas_instancia.php(423): consultas_instancia::get_lista_grupos_acceso(Array)
+#8 C:\proyectos\toba\proyectos\toba_usuarios\php\perfiles\perfil_funcional\ci_navegacion_perfiles.php(154): consultas_instancia::get_lista_grupos_acceso_proyecto('cit_digesto')
+#9 [internal function]: ci_navegacion_perfiles->conf__cuadro_grupos_acceso(Object(toba_ei_cuadro))
+#10 C:\proyectos\toba\php\nucleo\componentes\toba_componente.php(221): call_user_func_array(Array, Array)
+#11 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ci.php(635): toba_componente->invocar_callback('conf__cuadro_gr...', Object(toba_ei_cuadro))
+#12 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ci.php(475): toba_ci->configurar_dep('cuadro_grupos_a...')
+#13 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(91): toba_ci->dependencia('cuadro_grupos_a...')
+#14 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei.php(121): toba_ei_pantalla->aplicar_restricciones_funcionales()
+#15 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ci.php(618): toba_ei->post_configurar()
+#16 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(156): toba_ci->pre_configurar()
+#17 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(60): toba_solicitud_web->procesar_servicios()
+#18 C:\proyectos\toba\php\nucleo\toba_nucleo.php(81): toba_solicitud_web->procesar()
+#19 C:\proyectos\toba\proyectos\toba_usuarios\www\aplicacion.php(14): toba_nucleo->acceso_web()
+#20 {main}
+[DEBUG][toba] Mensaje a usuario: DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini'
+
+-o-o-o-o-o-
+Fecha: 04-10-2021 20:15:11
+Operacion: Mantenimiento de usuarios
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: 172.22.8.63
+URI: /toba_editor/2.7/aplicacion.php?ah=st615b44a86ea115.80970495&ai=toba_usuarios%7C%7C3432&tm=1
+Referrer: http://172.22.8.63/toba_editor/2.7/aplicacion.php?ah=st615b44a81e5fd1.28862273&ai=toba_editor%7C%7C1000241
+Host: 172.22.8.63
+==========
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] Cargando USUARIO 'toba' en el proyecto 'toba_usuarios'
+[DEBUG][toba] Crear SESION '38' en el proyecto 'toba_usuarios'
+[DEBUG][toba] Se creo la SESION [usuario: toba ]
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba_usuarios] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ci_navegacion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(2190): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(2190): Pantalla de servicio: 'seleccionar'
+[DEBUG][toba] componente(2190): [ callback ] 'conf__seleccionar'
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ei_form_filtro_usuarios.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [ callback ] 'conf__filtro'
+[DEBUG][toba] Se filtro el evento: cancelar
+[DEBUG][toba] componente(2190): [ callback ] 'conf__cuadro'
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+[ERROR][toba] toba_error: DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini' 
+
+[TRAZA]exception 'toba_error' with message 'DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini'' in C:\proyectos\toba\php\nucleo\lib\toba_dba.php:63
+Stack trace:
+#0 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(165): toba_dba::get_parametros_base('desarrollo toba...')
+#1 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(152): toba_dba::conectar_db('desarrollo toba...')
+#2 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(101): toba_dba->get_conexion('desarrollo toba...', true)
+#3 C:\proyectos\toba\php\nucleo\lib\toba_fuente_datos.php(32): toba_dba::get_db_de_fuente('desarrollo', 'toba_usuarios', 'toba_usuarios', true)
+#4 C:\proyectos\toba\php\nucleo\toba.php(162): toba_fuente_datos->get_db()
+#5 C:\proyectos\toba\proyectos\toba_usuarios\php\lib\consultas_instancia.php(8): toba::db()
+#6 [internal function]: consultas_instancia::get_lista_proyectos()
+#7 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(311): call_user_func_array(Array, Array)
+#8 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(180): toba_carga_opciones_ef->ef_metodo_carga_php('proyecto', Array, Array)
+#9 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(121): toba_carga_opciones_ef->ejecutar_metodo_carga_ef('proyecto', Array)
+#10 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(1003): toba_carga_opciones_ef->cargar()
+#11 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(990): toba_ei_formulario->generar_formulario()
+#12 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(564): toba_ei_formulario->generar_html()
+#13 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(548): toba_ei_pantalla->generar_layout()
+#14 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(514): toba_ei_pantalla->generar_html_contenido()
+#15 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(453): toba_ei_pantalla->generar_html_cuerpo()
+#16 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ci.php(835): toba_ei_pantalla->generar_html()
+#17 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(252): toba_ci->generar_html()
+#18 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(185): toba_solicitud_web->servicio__generar_html(Array)
+#19 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(60): toba_solicitud_web->procesar_servicios()
+#20 C:\proyectos\toba\php\nucleo\toba_nucleo.php(81): toba_solicitud_web->procesar()
+#21 C:\proyectos\toba\proyectos\toba_editor\www\aplicacion.php(17): toba_nucleo->acceso_web()
+#22 {main}
+[DEBUG][toba] Mensaje a usuario: DBA: La BASE [desarrollo toba_usuarios toba_usuarios] no esta definida en el archivo de definicion de BASES: 'C:/proyectos/toba/instalacion/bases.ini'
+
+-o-o-o-o-o-
+Fecha: 11-08-2022 19:47:54
+Operacion: Mantenimiento de usuarios
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_editor/2.7/aplicacion.php?ah=st62f540a80e2576.40746967&ai=toba_usuarios%7C%7C3432&tm=1
+Referrer: http://localhost/toba_editor/2.7/aplicacion.php?ah=st62f540a7a61232.40543178&ai=toba_editor%7C%7C1000241
+Host: ::1
+==========
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] Cargando USUARIO 'toba' en el proyecto 'toba_usuarios'
+[DEBUG][toba] Crear SESION '40' en el proyecto 'toba_usuarios'
+[DEBUG][toba] Se creo la SESION [usuario: toba ]
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba_usuarios] INSTALACION "C:/proyectos/toba/instalacion"
+[DEBUG][toba_usuarios] Parametros instancia desarrollo: array (
+  'base' => 'toba_2_7',
+  'proyectos' => 'toba_editor, toba_referencia, toba_usuarios, cit_digesto, personal',
+  'tipo' => 'normal',
+  'toba_editor' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_editor',
+    'url' => '/toba_editor/2.7',
+  ),
+  'toba_referencia' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_referencia',
+    'url' => '/toba_referencia/2.7',
+  ),
+  'toba_usuarios' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_usuarios',
+    'url' => '/toba_usuarios/2.7',
+  ),
+  'cit_digesto' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/cit_digesto',
+    'url' => '/cit_digesto/1.0',
+  ),
+  'personal' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/personal',
+    'url' => '',
+  ),
+)
+[DEBUG][toba_usuarios] INSTANCIA "desarrollo"
+[DEBUG][toba_usuarios] Conectando a base 'toba_2_7'
+[DEBUG][toba_usuarios] Parametros de conexion: array (
+  'motor' => 'postgres7',
+  'profile' => 'localhost',
+  'usuario' => 'postgres',
+  'clave' => 'postgres',
+  'base' => 'toba_2_7',
+  'puerto' => '5432',
+  'encoding' => 'LATIN1',
+  'schema' => 'desarrollo',
+)
+[DEBUG][toba_usuarios] PROYECTO "toba_usuarios"
+[ERROR][toba_usuarios] No es posible realizar la conexión a la base. Mensaje: SQLSTATE[08006] [7] FATAL:  password authentication failed for user "postgres"
+[DEBUG][toba_usuarios] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba_usuarios] PROYECTO "toba_usuarios"
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ci_navegacion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(2190): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(2190): Pantalla de servicio: 'seleccionar'
+[DEBUG][toba] componente(2190): [ callback ] 'conf__seleccionar'
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ei_form_filtro_usuarios.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [ callback ] 'conf__filtro'
+[DEBUG][toba] Se filtro el evento: cancelar
+[DEBUG][toba] componente(2190): [ callback ] 'conf__cuadro'
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+[ERROR][toba_usuarios] No es posible realizar la conexión a la base. Mensaje: SQLSTATE[08006] [7] FATAL:  password authentication failed for user "postgres"
+[ERROR][toba] toba_error_db: <p><b>SQLSTATE:</b> db_08006</p><p><b>CODIGO:</b> 7</p><p><b>MENSAJE:</b> SQLSTATE[08006] [7] FATAL:  password authentication failed for user "postgres"</p><p><b>SQL:</b> </p>
+
+[TRAZA]exception 'toba_error_db' with message 'No es posible realizar la conexión a la base.' in C:\proyectos\toba\php\lib\db\toba_db.php:88
+Stack trace:
+#0 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(184): toba_db->conectar()
+#1 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(152): toba_dba::conectar_db('desarrollo toba...')
+#2 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(101): toba_dba->get_conexion('desarrollo toba...', true)
+#3 C:\proyectos\toba\php\nucleo\lib\toba_fuente_datos.php(32): toba_dba::get_db_de_fuente('desarrollo', 'toba_usuarios', 'toba_usuarios', true)
+#4 C:\proyectos\toba\php\nucleo\toba.php(162): toba_fuente_datos->get_db()
+#5 C:\proyectos\toba\proyectos\toba_usuarios\php\lib\consultas_instancia.php(8): toba::db()
+#6 [internal function]: consultas_instancia::get_lista_proyectos()
+#7 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(311): call_user_func_array(Array, Array)
+#8 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(180): toba_carga_opciones_ef->ef_metodo_carga_php('proyecto', Array, Array)
+#9 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(121): toba_carga_opciones_ef->ejecutar_metodo_carga_ef('proyecto', Array)
+#10 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(1003): toba_carga_opciones_ef->cargar()
+#11 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(990): toba_ei_formulario->generar_formulario()
+#12 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(564): toba_ei_formulario->generar_html()
+#13 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(548): toba_ei_pantalla->generar_layout()
+#14 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(514): toba_ei_pantalla->generar_html_contenido()
+#15 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(453): toba_ei_pantalla->generar_html_cuerpo()
+#16 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ci.php(835): toba_ei_pantalla->generar_html()
+#17 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(252): toba_ci->generar_html()
+#18 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(185): toba_solicitud_web->servicio__generar_html(Array)
+#19 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(60): toba_solicitud_web->procesar_servicios()
+#20 C:\proyectos\toba\php\nucleo\toba_nucleo.php(81): toba_solicitud_web->procesar()
+#21 C:\proyectos\toba\proyectos\toba_editor\www\aplicacion.php(17): toba_nucleo->acceso_web()
+#22 {main}
+[DEBUG][toba] Mensaje a usuario: No es posible realizar la conexión a la base.
+
+-o-o-o-o-o-
+Fecha: 11-08-2022 19:48:11
+Operacion: Mantenimiento de usuarios
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_editor/2.7/aplicacion.php?ah=st62f540a80e2576.40746967&ai=toba_usuarios%7C%7C3432&tm=1
+Referrer: http://localhost/toba_editor/2.7/aplicacion.php?ah=st62f540a7a61232.40543178&ai=toba_editor%7C%7C1000241
+Host: ::1
+==========
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba_usuarios] INSTALACION "C:/proyectos/toba/instalacion"
+[DEBUG][toba_usuarios] Parametros instancia desarrollo: array (
+  'base' => 'toba_2_7',
+  'proyectos' => 'toba_editor, toba_referencia, toba_usuarios, cit_digesto, personal',
+  'tipo' => 'normal',
+  'toba_editor' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_editor',
+    'url' => '/toba_editor/2.7',
+  ),
+  'toba_referencia' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_referencia',
+    'url' => '/toba_referencia/2.7',
+  ),
+  'toba_usuarios' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_usuarios',
+    'url' => '/toba_usuarios/2.7',
+  ),
+  'cit_digesto' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/cit_digesto',
+    'url' => '/cit_digesto/1.0',
+  ),
+  'personal' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/personal',
+    'url' => '',
+  ),
+)
+[DEBUG][toba_usuarios] INSTANCIA "desarrollo"
+[DEBUG][toba_usuarios] Conectando a base 'toba_2_7'
+[DEBUG][toba_usuarios] Parametros de conexion: array (
+  'motor' => 'postgres7',
+  'profile' => 'localhost',
+  'usuario' => 'postgres',
+  'clave' => 'postgres',
+  'base' => 'toba_2_7',
+  'puerto' => '5432',
+  'encoding' => 'LATIN1',
+  'schema' => 'desarrollo',
+)
+[DEBUG][toba_usuarios] PROYECTO "toba_usuarios"
+[ERROR][toba_usuarios] No es posible realizar la conexión a la base. Mensaje: SQLSTATE[08006] [7] FATAL:  database "cit_digesto1_0" does not exist
+[DEBUG][toba_usuarios] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba_usuarios] PROYECTO "toba_usuarios"
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ci_navegacion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(2190): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(2190): Pantalla de servicio: 'seleccionar'
+[DEBUG][toba] componente(2190): [ callback ] 'conf__seleccionar'
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ei_form_filtro_usuarios.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [ callback ] 'conf__filtro'
+[DEBUG][toba] Se filtro el evento: cancelar
+[DEBUG][toba] componente(2190): [ callback ] 'conf__cuadro'
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+[ERROR][toba_usuarios] No es posible realizar la conexión a la base. Mensaje: SQLSTATE[08006] [7] FATAL:  database "cit_digesto1_0" does not exist
+[ERROR][toba] toba_error_db: <p><b>SQLSTATE:</b> db_08006</p><p><b>CODIGO:</b> 7</p><p><b>MENSAJE:</b> SQLSTATE[08006] [7] FATAL:  database "cit_digesto1_0" does not exist</p><p><b>SQL:</b> </p>
+
+[TRAZA]exception 'toba_error_db' with message 'No es posible realizar la conexión a la base.' in C:\proyectos\toba\php\lib\db\toba_db.php:88
+Stack trace:
+#0 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(184): toba_db->conectar()
+#1 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(152): toba_dba::conectar_db('desarrollo toba...')
+#2 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(101): toba_dba->get_conexion('desarrollo toba...', true)
+#3 C:\proyectos\toba\php\nucleo\lib\toba_fuente_datos.php(32): toba_dba::get_db_de_fuente('desarrollo', 'toba_usuarios', 'toba_usuarios', true)
+#4 C:\proyectos\toba\php\nucleo\toba.php(162): toba_fuente_datos->get_db()
+#5 C:\proyectos\toba\proyectos\toba_usuarios\php\lib\consultas_instancia.php(8): toba::db()
+#6 [internal function]: consultas_instancia::get_lista_proyectos()
+#7 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(311): call_user_func_array(Array, Array)
+#8 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(180): toba_carga_opciones_ef->ef_metodo_carga_php('proyecto', Array, Array)
+#9 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(121): toba_carga_opciones_ef->ejecutar_metodo_carga_ef('proyecto', Array)
+#10 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(1003): toba_carga_opciones_ef->cargar()
+#11 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(990): toba_ei_formulario->generar_formulario()
+#12 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(564): toba_ei_formulario->generar_html()
+#13 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(548): toba_ei_pantalla->generar_layout()
+#14 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(514): toba_ei_pantalla->generar_html_contenido()
+#15 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(453): toba_ei_pantalla->generar_html_cuerpo()
+#16 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ci.php(835): toba_ei_pantalla->generar_html()
+#17 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(252): toba_ci->generar_html()
+#18 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(185): toba_solicitud_web->servicio__generar_html(Array)
+#19 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(60): toba_solicitud_web->procesar_servicios()
+#20 C:\proyectos\toba\php\nucleo\toba_nucleo.php(81): toba_solicitud_web->procesar()
+#21 C:\proyectos\toba\proyectos\toba_editor\www\aplicacion.php(17): toba_nucleo->acceso_web()
+#22 {main}
+[DEBUG][toba] Mensaje a usuario: No es posible realizar la conexión a la base.
+
+-o-o-o-o-o-
+Fecha: 11-08-2022 19:48:51
+Operacion: Mantenimiento de usuarios
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_editor/2.7/aplicacion.php?ah=st62f540a80e2576.40746967&ai=toba_usuarios%7C%7C3432&tm=1
+Referrer: http://localhost/toba_editor/2.7/aplicacion.php?ah=st62f540a7a61232.40543178&ai=toba_editor%7C%7C1000241
+Host: ::1
+==========
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba_usuarios] INSTALACION "C:/proyectos/toba/instalacion"
+[DEBUG][toba_usuarios] Parametros instancia desarrollo: array (
+  'base' => 'toba_2_7',
+  'proyectos' => 'toba_editor, toba_referencia, toba_usuarios, cit_digesto, personal',
+  'tipo' => 'normal',
+  'toba_editor' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_editor',
+    'url' => '/toba_editor/2.7',
+  ),
+  'toba_referencia' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_referencia',
+    'url' => '/toba_referencia/2.7',
+  ),
+  'toba_usuarios' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_usuarios',
+    'url' => '/toba_usuarios/2.7',
+  ),
+  'cit_digesto' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/cit_digesto',
+    'url' => '/cit_digesto/1.0',
+  ),
+  'personal' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/personal',
+    'url' => '',
+  ),
+)
+[DEBUG][toba_usuarios] INSTANCIA "desarrollo"
+[DEBUG][toba_usuarios] Conectando a base 'toba_2_7'
+[DEBUG][toba_usuarios] Parametros de conexion: array (
+  'motor' => 'postgres7',
+  'profile' => 'localhost',
+  'usuario' => 'postgres',
+  'clave' => 'postgres',
+  'base' => 'toba_2_7',
+  'puerto' => '5432',
+  'encoding' => 'LATIN1',
+  'schema' => 'desarrollo',
+)
+[DEBUG][toba_usuarios] PROYECTO "toba_usuarios"
+[ERROR][toba_usuarios] No es posible realizar la conexión a la base. Mensaje: SQLSTATE[08006] [7] FATAL:  database "toba2_7" does not exist
+[DEBUG][toba_usuarios] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba_usuarios] PROYECTO "toba_usuarios"
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ci_navegacion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(2190): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(2190): Pantalla de servicio: 'seleccionar'
+[DEBUG][toba] componente(2190): [ callback ] 'conf__seleccionar'
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ei_form_filtro_usuarios.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [ callback ] 'conf__filtro'
+[DEBUG][toba] Se filtro el evento: cancelar
+[DEBUG][toba] componente(2190): [ callback ] 'conf__cuadro'
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+[ERROR][toba_usuarios] No es posible realizar la conexión a la base. Mensaje: SQLSTATE[08006] [7] FATAL:  database "toba2_7" does not exist
+[ERROR][toba] toba_error_db: <p><b>SQLSTATE:</b> db_08006</p><p><b>CODIGO:</b> 7</p><p><b>MENSAJE:</b> SQLSTATE[08006] [7] FATAL:  database "toba2_7" does not exist</p><p><b>SQL:</b> </p>
+
+[TRAZA]exception 'toba_error_db' with message 'No es posible realizar la conexión a la base.' in C:\proyectos\toba\php\lib\db\toba_db.php:88
+Stack trace:
+#0 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(184): toba_db->conectar()
+#1 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(152): toba_dba::conectar_db('desarrollo toba...')
+#2 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(101): toba_dba->get_conexion('desarrollo toba...', true)
+#3 C:\proyectos\toba\php\nucleo\lib\toba_fuente_datos.php(32): toba_dba::get_db_de_fuente('desarrollo', 'toba_usuarios', 'toba_usuarios', true)
+#4 C:\proyectos\toba\php\nucleo\toba.php(162): toba_fuente_datos->get_db()
+#5 C:\proyectos\toba\proyectos\toba_usuarios\php\lib\consultas_instancia.php(8): toba::db()
+#6 [internal function]: consultas_instancia::get_lista_proyectos()
+#7 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(311): call_user_func_array(Array, Array)
+#8 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(180): toba_carga_opciones_ef->ef_metodo_carga_php('proyecto', Array, Array)
+#9 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(121): toba_carga_opciones_ef->ejecutar_metodo_carga_ef('proyecto', Array)
+#10 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(1003): toba_carga_opciones_ef->cargar()
+#11 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(990): toba_ei_formulario->generar_formulario()
+#12 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(564): toba_ei_formulario->generar_html()
+#13 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(548): toba_ei_pantalla->generar_layout()
+#14 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(514): toba_ei_pantalla->generar_html_contenido()
+#15 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(453): toba_ei_pantalla->generar_html_cuerpo()
+#16 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ci.php(835): toba_ei_pantalla->generar_html()
+#17 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(252): toba_ci->generar_html()
+#18 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(185): toba_solicitud_web->servicio__generar_html(Array)
+#19 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(60): toba_solicitud_web->procesar_servicios()
+#20 C:\proyectos\toba\php\nucleo\toba_nucleo.php(81): toba_solicitud_web->procesar()
+#21 C:\proyectos\toba\proyectos\toba_editor\www\aplicacion.php(17): toba_nucleo->acceso_web()
+#22 {main}
+[DEBUG][toba] Mensaje a usuario: No es posible realizar la conexión a la base.
+
+-o-o-o-o-o-
+Fecha: 11-08-2022 19:49:12
+Operacion: Mantenimiento de usuarios
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_usuarios/2.7/?ai=toba_usuarios&tcm=previsualizacion&tm=1
+Referrer: http://localhost/toba_editor/2.7/aplicacion.php?ah=st62f5411648acf4.42422987&ai=toba_editor%7C%7C1000241
+Host: ::1
+==========
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] Cargando USUARIO 'toba' en el proyecto 'toba_usuarios'
+[DEBUG][toba] Crear SESION '41' en el proyecto 'toba_usuarios'
+[DEBUG][toba] Se creo la SESION [usuario: toba ]
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba_usuarios] INSTALACION "C:/proyectos/toba/instalacion"
+[DEBUG][toba_usuarios] Parametros instancia desarrollo: array (
+  'base' => 'toba_2_7',
+  'proyectos' => 'toba_editor, toba_referencia, toba_usuarios, cit_digesto, personal',
+  'tipo' => 'normal',
+  'toba_editor' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_editor',
+    'url' => '/toba_editor/2.7',
+  ),
+  'toba_referencia' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_referencia',
+    'url' => '/toba_referencia/2.7',
+  ),
+  'toba_usuarios' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_usuarios',
+    'url' => '/toba_usuarios/2.7',
+  ),
+  'cit_digesto' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/cit_digesto',
+    'url' => '/cit_digesto/1.0',
+  ),
+  'personal' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/personal',
+    'url' => '',
+  ),
+)
+[DEBUG][toba_usuarios] INSTANCIA "desarrollo"
+[DEBUG][toba_usuarios] Conectando a base 'toba_2_7'
+[DEBUG][toba_usuarios] Parametros de conexion: array (
+  'motor' => 'postgres7',
+  'profile' => 'localhost',
+  'usuario' => 'postgres',
+  'clave' => 'postgres',
+  'base' => 'toba_2_7',
+  'puerto' => '5432',
+  'encoding' => 'LATIN1',
+  'schema' => 'desarrollo',
+)
+[DEBUG][toba_usuarios] PROYECTO "toba_usuarios"
+[ERROR][toba_usuarios] No es posible realizar la conexión a la base. Mensaje: SQLSTATE[08006] [7] FATAL:  database "toba2_7" does not exist
+[DEBUG][toba_usuarios] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba] Se cambia el ítem solicitado a =>array (
+  0 => 'toba_usuarios',
+  1 => '3432',
+)
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[DEBUG][toba_usuarios] PROYECTO "toba_usuarios"
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ci_navegacion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(2190): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(2190): Pantalla de servicio: 'seleccionar'
+[DEBUG][toba] componente(2190): [ callback ] 'conf__seleccionar'
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ei_form_filtro_usuarios.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [ callback ] 'conf__filtro'
+[DEBUG][toba] Se filtro el evento: cancelar
+[DEBUG][toba] componente(2190): [ callback ] 'conf__cuadro'
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+[ERROR][toba_usuarios] No es posible realizar la conexión a la base. Mensaje: SQLSTATE[08006] [7] FATAL:  database "toba2_7" does not exist
+[ERROR][toba] toba_error_db: <p><b>SQLSTATE:</b> db_08006</p><p><b>CODIGO:</b> 7</p><p><b>MENSAJE:</b> SQLSTATE[08006] [7] FATAL:  database "toba2_7" does not exist</p><p><b>SQL:</b> </p>
+
+[TRAZA]exception 'toba_error_db' with message 'No es posible realizar la conexión a la base.' in C:\proyectos\toba\php\lib\db\toba_db.php:88
+Stack trace:
+#0 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(184): toba_db->conectar()
+#1 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(152): toba_dba::conectar_db('desarrollo toba...')
+#2 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(101): toba_dba->get_conexion('desarrollo toba...', true)
+#3 C:\proyectos\toba\php\nucleo\lib\toba_fuente_datos.php(32): toba_dba::get_db_de_fuente('desarrollo', 'toba_usuarios', 'toba_usuarios', true)
+#4 C:\proyectos\toba\php\nucleo\toba.php(162): toba_fuente_datos->get_db()
+#5 C:\proyectos\toba\proyectos\toba_usuarios\php\lib\consultas_instancia.php(8): toba::db()
+#6 [internal function]: consultas_instancia::get_lista_proyectos()
+#7 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(311): call_user_func_array(Array, Array)
+#8 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(180): toba_carga_opciones_ef->ef_metodo_carga_php('proyecto', Array, Array)
+#9 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(121): toba_carga_opciones_ef->ejecutar_metodo_carga_ef('proyecto', Array)
+#10 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(1003): toba_carga_opciones_ef->cargar()
+#11 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(990): toba_ei_formulario->generar_formulario()
+#12 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(564): toba_ei_formulario->generar_html()
+#13 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(548): toba_ei_pantalla->generar_layout()
+#14 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(514): toba_ei_pantalla->generar_html_contenido()
+#15 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(453): toba_ei_pantalla->generar_html_cuerpo()
+#16 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ci.php(835): toba_ei_pantalla->generar_html()
+#17 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(252): toba_ci->generar_html()
+#18 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(185): toba_solicitud_web->servicio__generar_html(Array)
+#19 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(60): toba_solicitud_web->procesar_servicios()
+#20 C:\proyectos\toba\php\nucleo\toba_nucleo.php(81): toba_solicitud_web->procesar()
+#21 C:\proyectos\toba\proyectos\toba_usuarios\www\aplicacion.php(14): toba_nucleo->acceso_web()
+#22 {main}
+[DEBUG][toba] Mensaje a usuario: No es posible realizar la conexión a la base.
+
+-o-o-o-o-o-
+Fecha: 11-08-2022 19:49:29
+Operacion: Mantenimiento de usuarios
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_editor/2.7/aplicacion.php?ah=st62f5411676b191.35073896&ai=toba_usuarios%7C%7C3432&tm=1
+Referrer: http://localhost/toba_editor/2.7/aplicacion.php?ah=st62f5411648acf4.42422987&ai=toba_editor%7C%7C1000241
+Host: ::1
+==========
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba_usuarios] INSTALACION "C:/proyectos/toba/instalacion"
+[DEBUG][toba_usuarios] Parametros instancia desarrollo: array (
+  'base' => 'toba_2_7',
+  'proyectos' => 'toba_editor, toba_referencia, toba_usuarios, cit_digesto, personal',
+  'tipo' => 'normal',
+  'toba_editor' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_editor',
+    'url' => '/toba_editor/2.7',
+  ),
+  'toba_referencia' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_referencia',
+    'url' => '/toba_referencia/2.7',
+  ),
+  'toba_usuarios' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_usuarios',
+    'url' => '/toba_usuarios/2.7',
+  ),
+  'cit_digesto' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/cit_digesto',
+    'url' => '/cit_digesto/1.0',
+  ),
+  'personal' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/personal',
+    'url' => '',
+  ),
+)
+[DEBUG][toba_usuarios] INSTANCIA "desarrollo"
+[DEBUG][toba_usuarios] Conectando a base 'toba_2_7'
+[DEBUG][toba_usuarios] Parametros de conexion: array (
+  'motor' => 'postgres7',
+  'profile' => 'localhost',
+  'usuario' => 'postgres',
+  'clave' => 'postgres',
+  'base' => 'toba_2_7',
+  'puerto' => '5432',
+  'encoding' => 'LATIN1',
+  'schema' => 'desarrollo',
+)
+[DEBUG][toba_usuarios] PROYECTO "toba_usuarios"
+[ERROR][toba_usuarios] No es posible realizar la conexión a la base. Mensaje: SQLSTATE[08006] [7] FATAL:  database "toba2_7" does not exist
+[DEBUG][toba_usuarios] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba_usuarios] PROYECTO "toba_usuarios"
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ci_navegacion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(2190): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(2190): Pantalla de servicio: 'seleccionar'
+[DEBUG][toba] componente(2190): [ callback ] 'conf__seleccionar'
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ei_form_filtro_usuarios.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [ callback ] 'conf__filtro'
+[DEBUG][toba] Se filtro el evento: cancelar
+[DEBUG][toba] componente(2190): [ callback ] 'conf__cuadro'
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+[ERROR][toba_usuarios] No es posible realizar la conexión a la base. Mensaje: SQLSTATE[08006] [7] FATAL:  database "toba2_7" does not exist
+[ERROR][toba] toba_error_db: <p><b>SQLSTATE:</b> db_08006</p><p><b>CODIGO:</b> 7</p><p><b>MENSAJE:</b> SQLSTATE[08006] [7] FATAL:  database "toba2_7" does not exist</p><p><b>SQL:</b> </p>
+
+[TRAZA]exception 'toba_error_db' with message 'No es posible realizar la conexión a la base.' in C:\proyectos\toba\php\lib\db\toba_db.php:88
+Stack trace:
+#0 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(184): toba_db->conectar()
+#1 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(152): toba_dba::conectar_db('desarrollo toba...')
+#2 C:\proyectos\toba\php\nucleo\lib\toba_dba.php(101): toba_dba->get_conexion('desarrollo toba...', true)
+#3 C:\proyectos\toba\php\nucleo\lib\toba_fuente_datos.php(32): toba_dba::get_db_de_fuente('desarrollo', 'toba_usuarios', 'toba_usuarios', true)
+#4 C:\proyectos\toba\php\nucleo\toba.php(162): toba_fuente_datos->get_db()
+#5 C:\proyectos\toba\proyectos\toba_usuarios\php\lib\consultas_instancia.php(8): toba::db()
+#6 [internal function]: consultas_instancia::get_lista_proyectos()
+#7 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(311): call_user_func_array(Array, Array)
+#8 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(180): toba_carga_opciones_ef->ef_metodo_carga_php('proyecto', Array, Array)
+#9 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(121): toba_carga_opciones_ef->ejecutar_metodo_carga_ef('proyecto', Array)
+#10 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(1003): toba_carga_opciones_ef->cargar()
+#11 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(990): toba_ei_formulario->generar_formulario()
+#12 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(564): toba_ei_formulario->generar_html()
+#13 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(548): toba_ei_pantalla->generar_layout()
+#14 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(514): toba_ei_pantalla->generar_html_contenido()
+#15 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(453): toba_ei_pantalla->generar_html_cuerpo()
+#16 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ci.php(835): toba_ei_pantalla->generar_html()
+#17 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(252): toba_ci->generar_html()
+#18 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(185): toba_solicitud_web->servicio__generar_html(Array)
+#19 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(60): toba_solicitud_web->procesar_servicios()
+#20 C:\proyectos\toba\php\nucleo\toba_nucleo.php(81): toba_solicitud_web->procesar()
+#21 C:\proyectos\toba\proyectos\toba_editor\www\aplicacion.php(17): toba_nucleo->acceso_web()
+#22 {main}
+[DEBUG][toba] Mensaje a usuario: No es posible realizar la conexión a la base.
+
+-o-o-o-o-o-
+Fecha: 11-08-2022 19:49:58
+Operacion: Mantenimiento de usuarios
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_editor/2.7/aplicacion.php?ah=st62f5411676b191.35073896&ai=toba_usuarios%7C%7C3432&tm=1
+Referrer: http://localhost/toba_editor/2.7/aplicacion.php?ah=st62f5411648acf4.42422987&ai=toba_editor%7C%7C1000241
+Host: ::1
+==========
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba_usuarios] INSTALACION "C:/proyectos/toba/instalacion"
+[DEBUG][toba_usuarios] Parametros instancia desarrollo: array (
+  'base' => 'toba_2_7',
+  'proyectos' => 'toba_editor, toba_referencia, toba_usuarios, cit_digesto, personal',
+  'tipo' => 'normal',
+  'toba_editor' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_editor',
+    'url' => '/toba_editor/2.7',
+  ),
+  'toba_referencia' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_referencia',
+    'url' => '/toba_referencia/2.7',
+  ),
+  'toba_usuarios' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_usuarios',
+    'url' => '/toba_usuarios/2.7',
+  ),
+  'cit_digesto' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/cit_digesto',
+    'url' => '/cit_digesto/1.0',
+  ),
+  'personal' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/personal',
+    'url' => '',
+  ),
+)
+[DEBUG][toba_usuarios] INSTANCIA "desarrollo"
+[DEBUG][toba_usuarios] Conectando a base 'toba_2_7'
+[DEBUG][toba_usuarios] Parametros de conexion: array (
+  'motor' => 'postgres7',
+  'profile' => 'localhost',
+  'usuario' => 'postgres',
+  'clave' => 'postgres',
+  'base' => 'toba_2_7',
+  'puerto' => '5432',
+  'encoding' => 'LATIN1',
+  'schema' => 'desarrollo',
+)
+[DEBUG][toba_usuarios] PROYECTO "toba_usuarios"
+[DEBUG][toba_usuarios] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba_usuarios] PROYECTO "toba_usuarios"
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ci_navegacion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(2190): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(2190): Pantalla de servicio: 'seleccionar'
+[DEBUG][toba] componente(2190): [ callback ] 'conf__seleccionar'
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ei_form_filtro_usuarios.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [ callback ] 'conf__filtro'
+[DEBUG][toba] Se filtro el evento: cancelar
+[DEBUG][toba] componente(2190): [ callback ] 'conf__cuadro'
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+[ERROR][toba_usuarios] SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "apex_proyecto" does not exist
+LINE 1: SELECT proyecto FROM apex_proyecto WHERE proyecto <> 'toba' ...
+                             ^
+[ERROR][toba] toba_error_db: <p><b>SQLSTATE:</b> db_42P01</p><p><b>CODIGO:</b> 7</p><p><b>MENSAJE:</b> ERROR:  relation "apex_proyecto" does not exist
+LINE 1: SELECT proyecto FROM apex_proyecto WHERE proyecto <> 'toba' ...
+                             ^</p><p><b>SQL:</b> SELECT proyecto FROM apex_proyecto WHERE proyecto <> 'toba' ORDER BY proyecto; -- toba_log: 1049 </p>
+
+[TRAZA]exception 'toba_error_db' with message 'SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "apex_proyecto" does not exist
+LINE 1: SELECT proyecto FROM apex_proyecto WHERE proyecto <> 'toba' ...
+                             ^' in C:\proyectos\toba\php\lib\db\toba_db.php:394
+Stack trace:
+#0 C:\proyectos\toba\proyectos\toba_usuarios\php\lib\consultas_instancia.php(8): toba_db->consultar('SELECT proyecto...')
+#1 [internal function]: consultas_instancia::get_lista_proyectos()
+#2 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(311): call_user_func_array(Array, Array)
+#3 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(180): toba_carga_opciones_ef->ef_metodo_carga_php('proyecto', Array, Array)
+#4 C:\proyectos\toba\php\nucleo\componentes\interface\efs\toba_carga_opciones_ef.php(121): toba_carga_opciones_ef->ejecutar_metodo_carga_ef('proyecto', Array)
+#5 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(1003): toba_carga_opciones_ef->cargar()
+#6 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_formulario.php(990): toba_ei_formulario->generar_formulario()
+#7 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(564): toba_ei_formulario->generar_html()
+#8 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(548): toba_ei_pantalla->generar_layout()
+#9 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(514): toba_ei_pantalla->generar_html_contenido()
+#10 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ei_pantalla.php(453): toba_ei_pantalla->generar_html_cuerpo()
+#11 C:\proyectos\toba\php\nucleo\componentes\interface\toba_ci.php(835): toba_ei_pantalla->generar_html()
+#12 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(252): toba_ci->generar_html()
+#13 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(185): toba_solicitud_web->servicio__generar_html(Array)
+#14 C:\proyectos\toba\php\nucleo\toba_solicitud_web.php(60): toba_solicitud_web->procesar_servicios()
+#15 C:\proyectos\toba\php\nucleo\toba_nucleo.php(81): toba_solicitud_web->procesar()
+#16 C:\proyectos\toba\proyectos\toba_editor\www\aplicacion.php(17): toba_nucleo->acceso_web()
+#17 {main}
+[DEBUG][toba] Mensaje a usuario: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "apex_proyecto" does not exist
+LINE 1: SELECT proyecto FROM apex_proyecto WHERE proyecto <> 'toba' ...
+                             ^
+
+-o-o-o-o-o-
+Fecha: 11-08-2022 19:50:40
+Operacion: Mantenimiento de usuarios
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_editor/2.7/aplicacion.php?ah=st62f5411676b191.35073896&ai=toba_usuarios%7C%7C3432&tm=1
+Referrer: http://localhost/toba_editor/2.7/aplicacion.php?ah=st62f5411648acf4.42422987&ai=toba_editor%7C%7C1000241
+Host: ::1
+==========
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase extension_toba/sesion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba_usuarios] INSTALACION "C:/proyectos/toba/instalacion"
+[DEBUG][toba_usuarios] Parametros instancia desarrollo: array (
+  'base' => 'toba_2_7',
+  'proyectos' => 'toba_editor, toba_referencia, toba_usuarios, cit_digesto, personal',
+  'tipo' => 'normal',
+  'toba_editor' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_editor',
+    'url' => '/toba_editor/2.7',
+  ),
+  'toba_referencia' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_referencia',
+    'url' => '/toba_referencia/2.7',
+  ),
+  'toba_usuarios' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_usuarios',
+    'url' => '/toba_usuarios/2.7',
+  ),
+  'cit_digesto' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/cit_digesto',
+    'url' => '/cit_digesto/1.0',
+  ),
+  'personal' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/personal',
+    'url' => '',
+  ),
+)
+[DEBUG][toba_usuarios] INSTANCIA "desarrollo"
+[DEBUG][toba_usuarios] Conectando a base 'toba_2_7'
+[DEBUG][toba_usuarios] Parametros de conexion: array (
+  'motor' => 'postgres7',
+  'profile' => 'localhost',
+  'usuario' => 'postgres',
+  'clave' => 'postgres',
+  'base' => 'toba_2_7',
+  'puerto' => '5432',
+  'encoding' => 'LATIN1',
+  'schema' => 'desarrollo',
+)
+[DEBUG][toba_usuarios] PROYECTO "toba_usuarios"
+[DEBUG][toba_usuarios] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba_usuarios] PROYECTO "toba_usuarios"
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ci_navegacion.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(2190): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(2190): Pantalla de servicio: 'seleccionar'
+[DEBUG][toba] componente(2190): [ callback ] 'conf__seleccionar'
+[INFO][toba_usuarios] PUNTO MONTAJE: se cargó la clase usuarios/ei_form_filtro_usuarios.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_usuarios/php
+[DEBUG][toba] componente(2190): [ callback ] 'conf__filtro'
+[DEBUG][toba] Se filtro el evento: cancelar
+[DEBUG][toba] componente(2190): [ callback ] 'conf__cuadro'
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+

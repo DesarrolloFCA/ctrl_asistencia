@@ -1,0 +1,214 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Application",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "name", "description", "mantainer", "mantainer-email" ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[_a-zA-Z][\\-_a-zA-Z0-9]*\\/[_a-zA-Z][\\-_a-zA-Z0-9]*$",
+      "minLegth": 1,
+      "description": "Application name, including 'vendor-name/' prefix."
+    },
+    "description": {
+      "type": "string",
+      "minLegth": 1,
+      "description": "Short application description."
+    },
+    "mantainer": {
+      "type": "string",
+      "description": "Mantainers name."
+    },
+    "mantainer-email": {
+      "type": "string",
+      "description": "Mantainers email."
+    },
+    "hash": {
+      "type": "string",
+      "description": "Hash from the file that was used to generate the arai.lock. This only appears in arai.lock."
+    },
+    "scripts": {
+      "type": "object",
+      "required": ["hooks"],
+      "additionalProperties": false,
+      "properties": {
+        "hooks": {
+          "type": "string",
+          "description": "Name of the class that implements the hooks."
+        }
+      }
+    },
+    "arai-remote": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "URL where the remote arai-composer lives."
+        },
+        "instance-name": {
+          "type": "string",
+          "description": "Instance name inside arai-registry"
+        },
+        "token": {
+          "type": "string",
+          "description": "Token used to authenticate with arai-composer"
+        },
+        "last-sync": {
+          "type": "string",
+          "description": "Last sync date in DATE_ISO8601 format"
+        }
+      }
+    },
+    "consume": {
+      "type": "array",
+      "description": "Feature list that the application requires to run.",
+      "items": {
+        "type": "object",
+        "required": [ "name" ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^(api|service|app):[_a-zA-Z][\\-_a-zA-Z0-9]*\\/[_a-zA-Z][\\-_a-zA-Z0-9]*$",
+            "minLegth": 1,
+            "description": "Name of the feature."
+          },
+          "version": {
+            "type": "string",
+            "description": "Feature version."
+          },
+          "endpoint": {
+            "type": "string",
+            "description": "Url where the feature lives"
+          },
+          "instance": {
+            "type": "string",
+            "description": "Instance name of the package where the consumed feature lives"
+          },
+          "options": {
+            "type": "object",
+            "description": "Extra parameters specific for the feature",
+            "additionalProperties": true
+          },
+          "providers": {
+            "type": "array",
+            "description": "Details of the providers of this consumption",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "auth": {
+            "type": "array",
+            "description": "List of auth methods for the feature. Used when the feature type is 'api'",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "pattern": "^digest|public$"
+                },
+                "credentials": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "on-missing": {
+            "type": "string",
+            "pattern": "^fail|warn|no\\-action$",
+            "description": "Action to take in case of non-existing feature."
+          },
+          "status": {
+            "type": "string",
+            "pattern": "^exists|missing|undefined$",
+            "description": "exists when the dependency exists, missing if it doesn't or undefined if not known."
+          },
+          "alias": {
+            "type": "string",
+            "description": "Specifies an alias for the feature."
+          }
+        }
+      }
+    },
+    "provide": {
+      "type": "array",
+      "description": "Feature list that the application provides to the environment.",
+      "items": {
+        "type": "object",
+        "required": [ "name" ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^(api|service|app):[_a-zA-Z][\\-_a-zA-Z0-9]*\\/[_a-zA-Z][\\-_a-zA-Z0-9]*$",
+            "description": "Name of the feature."
+          },
+          "description": {
+            "type": "string",
+            "description": "Short description of the feature"
+          },
+          "version": {
+            "type": "string",
+            "description": "Feature version."
+          },
+          "endpoint": {
+            "type": "string",
+            "description": "Url where the feature lives"
+          },
+          "instance": {
+            "type": "string",
+            "description": "Instance name of the package where the provided feature lives"
+          },
+          "options": {
+            "type": "object",
+            "description": "Extra parameters specific for the feature",
+            "additionalProperties": true
+          },
+          "consumers": {
+            "type": "array",
+            "description": "Details of the consumers of this provision",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "auth": {
+            "type": "array",
+            "description": "List of auth methods for the feature. Used when the feature type is 'api'",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "pattern": "^digest|public$"
+                },
+                "credentials": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "alias": {
+            "type": "string",
+            "description": "Specifies an alias for the feature."
+          },
+          "icon": {
+            "type": "string",
+            "description": "Specifies an icon for the feature. This is a path relative to the arai.json file."
+          },
+          "icon-base-64": {
+            "type": "string",
+            "description": "Base 64 representation of the icon."
+          }
+        }
+      }
+    }
+  }
+}

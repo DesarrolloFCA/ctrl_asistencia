@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: ablanco
+ * Date: 18/06/15
+ * Time: 17:14.
+ */
+namespace SIU\AraiCli\Commands\Registry;
+
+use SIU\AraiCli\Factory;
+use SIU\AraiCli\Commands\BaseCommand;
+use SIU\AraiCli\Services\Registry\AraiJsonUtil;
+use SIU\AraiCli\Services\Registry\Registry;
+use SIU\AraiCli\Services\Registry\RegistryException;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+class Remove extends BaseCommand
+{
+    protected function configure()
+    {
+        $this
+            ->setName('registry:remove')
+            ->setDescription('Se desregistra la aplicación de una instancia de ARAI-Registry')
+        ;
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $c = Factory::getContainer();
+        /** @var Registry $server */
+        $server = $c['arai-registry'];
+
+        /** @var AraiJsonUtil $araiJsonUtils */
+        $araiJsonUtils = $c['arai-json-util'];
+
+
+        if (! $araiJsonUtils->lockFileExists()) {
+            $this->getIO()->write('<error>Esta aplicación no se encuentra registrada. Nada que hacer.</error>');
+            return;
+        }
+
+        $dialog = $this->getHelper('dialog');
+        if (!$dialog->askConfirmation(
+            $output,
+            '<question>Se perderá la información de este package en ARAI-Registry. Desea continuar?</question>',
+            true
+        )) {
+            return;
+        }
+
+        try {
+            $server->unregister($araiJsonUtils->getJsonForSync());
+            $this->getIO()->write("La aplicación se quitó del registro exitosamente.");
+        } catch (RegistryException $e) {
+            $this->getIO()->writeError("<error>[ {$e->getStatusCode()} ] - {$e->getMessage()} </error>");
+
+            return;
+        } catch (\Exception $e) {
+            $this->getIO()->writeError("<error>{$e->getMessage()}</error>");
+
+            return;
+        }
+
+        $araiJsonUtils->removeAraiLock();
+    }
+}

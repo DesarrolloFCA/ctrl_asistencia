@@ -1,0 +1,58 @@
+<img src="https://gitlab.siu.edu.ar/ci/projects/1/status.png?ref=master">
+# Arai Json Parser
+Esta pequeña librería implementa el parser de los archivos Json que se utilizan
+como base de interoperabilidad para la nueva arquitectura del SIU.
+
+## Schema
+Se define el schema de el archivo Json en el schema que está, por el momento, 
+dentro de este proyecto en el path `res/arai-composer-schema.json`.
+
+## Incorporación dentro de otros proyectos
+Para utilizar esta librería dentro de algún proyecto se debe incluir a través de
+Composer. Por el momento se debe agregar un repositorio al archivo `composer.json`:
+
+```json
+{
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://satis.siu.edu.ar"
+    }
+  ],
+}
+```
+
+y luego hacer el require
+
+```bash
+composer require siu/arai-json-parser:dev-master
+```
+
+## Uso
+Una vez incluída la librería todo se maneja a través de la clase `SIU\AraiJsonParser\AraiJsonManager`.
+
+### Parsear un archivo o string existente
+
+Parseando un archivo:
+```php
+$path = "/path/a/arai-proyecto.json";
+$manager = new AraiJsonManager(); 
+/**
+ * @var AraiPackage
+ */
+$jsonData = $manager->load($path);
+```
+
+Parseando un string:
+```php
+$jsonString = '<ingrese json generado dinámicamente aquí>';
+$manager = new AraiJsonManager();
+/**
+ * @var AraiPackage
+ */
+$jsonData = $manager->loadFromString($jsonString);
+```
+
+### Obtener información de un archivo Json
+La información se maneja a través de la clase `AraiPackage` que contiene métodos para
+hacer queries.

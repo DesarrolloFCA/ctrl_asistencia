@@ -1,0 +1,101 @@
+<?php
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: ablanco
+ * Date: 23/06/15
+ * Time: 14:57.
+ */
+namespace SIU\AraiCli\Console;
+
+use SIU\AraiCli\IO\ConsoleIO;
+use SIU\AraiCli\IO\IOInterface;
+use Symfony\Component\Console\Application as BaseApplication;
+use Symfony\Component\Console\Formatter\OutputFormatter;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Debug\Debug;
+
+class Application extends BaseApplication
+{
+    /**
+     * @var IOInterface
+     */
+    protected $io;
+
+    /**
+     * @return IOInterface
+     */
+    public function getIO()
+    {
+        return $this->io;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function run(InputInterface $input = null, OutputInterface $output = null)
+    {
+        if (null === $output) {
+            $styles = array(
+                'highlight' => new OutputFormatterStyle('red'),
+                'warning' => new OutputFormatterStyle('black', 'yellow'),
+            );
+            $formatter = new OutputFormatter(null, $styles);
+            $output = new ConsoleOutput(ConsoleOutput::VERBOSITY_NORMAL, null, $formatter);
+        }
+
+        return parent::run($input, $output);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function doRun(InputInterface $input, OutputInterface $output)
+    {
+        $this->io = new ConsoleIO($input, $output, $this->getHelperSet());
+
+        if (PHP_VERSION_ID < 50400) {
+            $this->getIO()->writeError('<warning>Araí Cli oficialmente soporta desde PHP 5.4.0 hacia arriba, probablemente encuentres errores con tu versión de PHP: '.PHP_VERSION.', actualizarse es recomendado. </warning>');
+        }
+
+        if (getenv('ARAICLI_NO_INTERACTION')) {
+            $input->setInteractive(false);
+        }
+
+//        $env = $input->getParameterOption(array('--env', '-e'), getenv('ARAICLI_ENV') ?: 'dev');
+        $env = getenv('ARAICLI_ENV') ?: 'dev';
+        $debug = !$input->hasParameterOption(array('--no-debug', '')) && $env !== 'prod';
+
+        if ($debug) {
+            Debug::enable(error_reporting());
+        }
+
+        if ($input->hasParameterOption('--profile')) {
+            $startTime = microtime(true);
+            $this->io->enableDebugging($startTime);
+        }
+
+        $result = parent::doRun($input, $output);
+
+        if (isset($startTime)) {
+            $this->getIO()->writeError('<info>Uso de memoria: '.round(memory_get_usage() / 1024 / 1024, 2).'MB (peak: '.round(memory_get_peak_usage() / 1024 / 1024, 2).'MB), time: '.round(microtime(true) - $startTime, 2).'s');
+        }
+
+        return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultInputDefinition()
+    {
+        $definition = parent::getDefaultInputDefinition();
+        $definition->addOption(new InputOption('--profile', null, InputOption::VALUE_NONE, 'Mostrar tiempos y uso de memoria'));
+
+        return $definition;
+    }
+}

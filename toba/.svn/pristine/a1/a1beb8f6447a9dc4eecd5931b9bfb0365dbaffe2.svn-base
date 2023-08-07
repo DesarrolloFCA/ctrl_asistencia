@@ -1,0 +1,550 @@
+<?php
+
+/**
+ * User: lramirez
+ * Date: 07/10/15
+ */
+
+namespace SIU\AraiCli\Services\AraiCatalogos;
+
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use SIU\AraiCli\Config;
+use SIU\AraiCli\Factory;
+use SIU\JsonUtil\JsonFile;
+use JsonSchema\Validator;
+use SIUToba\Framework\Arai;
+use SIUToba\Framework;
+
+class AraiCatalogos {
+
+	protected $cliente;
+	protected $logger;
+	protected $catalogo;
+	protected $columnas;
+	protected $columnas_lk;
+	protected $columnas_fk;
+	protected $relacion_recursiva;
+	protected $ultima_revision;
+	protected $desconectado;
+	protected $encabezado;
+	protected $encoding;
+	protected $config;
+	protected $version;
+	protected $version_libreria;
+	protected $filtro_subset;
+	protected $json_schema_catalogo;
+	protected $json_schema_path;
+
+	/**
+	 * @encabezado json Contenido del encabezado
+	 * @catalogo string Nombre del catalogo
+	 * @version int Numero de version del catalogo
+	 * @encoding string Tipo de encoding de la app cliente
+	 */
+	public function __construct($encabezado, $catalogo, $ultima_revision, $version = null, $desconectado = false, $encoding = null) {
+		$this->cliente = Factory::getContainer()['arai-catalogos-cliente'];
+		$this->logger = Factory::getContainer()['arai-catalogos-logger'];
+		$this->definicion = Factory::getContainer()['arai-catalogos-lista'];
+		$this->json_schema_path = Factory::getContainer()['arai-catalogos-json-schema-path'];
+		$this->ultima_revision = $ultima_revision;
+		
+		//Obtiene version arai-cli
+		try{
+			$this->version_libreria = Factory::getContainer()['arai-version'];
+		} catch (Exception $e) {
+			$error = "Ha ocurrido un error al obtener la versión de la libreria arai-cli. Revise el archivo 'version' de la libreria arai-cli.";
+			$this->setLogError($error);
+			throw new \Exception($error, '500');
+		}
+		
+		if ($this->version_libreria != 'develop') {
+			if(!preg_match('/^(\d+\.)?(\d+\.)?(\*|\d+)$/', $this->version_libreria)){
+				$error = "El número de version de la libreria arai-cli es incorrecto. Revise el archivo 'version' de la libreria arai-cli.";
+				$this->setLogError($error);
+				throw new \Exception($error, '500');
+			}
+		}
+
+		//Define si toma el encoding recibido por parametro o lo toma del archivo de configuracion
+		if (is_null($encoding)) {
+			$this->encoding = Factory::getContainer()['arai-catalogos-encoding'];
+		} else {
+			$this->encoding = $encoding;
+		}
+
+		//Verifica si tiene acceso para escribir el directorio donde se encuentran los json schema validators
+		if (!is_writable(__DIR__ . Factory::getContainer()['arai-catalogos-json-schema-path'])) {
+			$error = "No tiene permisos para escribir en el directorio configurado para almacenar los json schema validators. Verifique los permisos de la ruta " . __DIR__ . Factory::getContainer()['arai-catalogos-json-schema-path'];
+			$this->setLogError($error);
+			throw new \Exception($error);
+		}
+		
+		//Verifica si tiene acceso para escribir el archivo de log
+		if (!is_writable(__DIR__ . "/../.." . Factory::getContainer()['arai-catalogos-path-logs'])) {
+			$error = "No tiene permisos para escribir en el archivo configurado para almacenar los logs. Verifique los permisos de la ruta " . __DIR__ . Factory::getContainer()['arai-catalogos-path-logs'];
+			$this->setLogError($error);
+			throw new \Exception($error);
+		}
+		
+		//Define si toma la versión recibida por parametro o lo toma del archivo de configuracion
+		try {
+			if (is_null($version)) {
+				if (isset($this->definicion['versiones'][$catalogo])) {
+					$this->version = $this->definicion['versiones'][$catalogo];
+				} else {
+					$error = "No se encuentra la versión del catálogo $catalogo. Revise el archivo json que contiene la definicion de los catalogos.";
+					$this->setLogError($error);
+					throw new \Exception($error);
+				}
+			} else {
+				$this->version = $version;
+			}
+		} catch (Exception $e) {
+			$error = "Ha ocurrido un error al obtener la versión del catálogo $catalogo. Revise el archivo json que contiene la definicion de los catalogos.";
+			$this->setLogError($error);
+			throw new \Exception($error, '500');
+		}
+		
+		$this->encabezado = $encabezado;
+		$this->catalogo = $catalogo;
+		$this->columnas = Factory::getContainer()['arai-catalogos-lista']['catalogos'][$catalogo]['definicion'][0]['columnas'];
+		$this->columnas_lk = Factory::getContainer()['arai-catalogos-lista']['catalogos'][$catalogo]['lk'];
+		$this->columnas_fk = Factory::getContainer()['arai-catalogos-lista']['catalogos'][$catalogo]['fk'];
+
+		if (isset(Factory::getContainer()['arai-catalogos-lista']['catalogos'][$catalogo]['relacion_recursiva']))
+			$this->relacion_recursiva = Factory::getContainer()['arai-catalogos-lista']['catalogos'][$catalogo]['relacion_recursiva'];
+		else
+			$this->relacion_recursiva = null;
+
+		if (isset(Factory::getContainer()['arai-catalogos-lista']['catalogos'][$catalogo]['subset']))
+			$this->filtro_subset = Factory::getContainer()['arai-catalogos-lista']['catalogos'][$catalogo]['subset'];
+		else
+			$this->filtro_subset = null;
+
+		//Se mantiene esto solo para mantener compatibilidad con 1.1.6 hacia abajo, en la v2 esto no debe existir mas
+		if (isset(Factory::getContainer()['arai-catalogos-lista']['catalogos'][$catalogo]['ultima_revision']))
+			$this->ultima_revision = Factory::getContainer()['arai-catalogos-lista']['catalogos'][$catalogo]['ultima_revision'];
+
+		$this->desconectado = $desconectado;
+		$this->setDatosEncabezadoCli();
+		$this->verificaSchema();
+		$this->encoding = $encoding;
+	}
+
+	public function getColumnas() {
+		return $this->columnas;
+	}
+
+	public function getColumnasFK() {
+		return $this->columnas_fk;
+	}
+
+	public function getColumnasLK() {
+		return $this->columnas_lk;
+	}
+
+	public function getColumnasRecursiva() {
+		return $this->relacion_recursiva;
+	}
+
+	public function getFiltroSubset() {
+		return $this->filtro_subset;
+	}
+
+	/*
+	 * Consulta al servidor la última revisión del catálogo
+	 * return integer última revisión del catálogo
+	 */
+
+	public function getUltimaRevision() {
+		try {
+			$response = $this->cliente->get('ServBackend/revision/objeto/' . $this->catalogo);
+			$datos = json_decode($response->getBody()->getContents(), true);
+		} catch (RequestException $e) {
+			$error = 'No se pudo obtener la respuesta del servicio solicitado.';
+			$this->setLogError($error);
+			throw new \Exception($error, '500');
+		}
+		if (isset($datos['revision']))
+			return $datos['revision'];
+		else
+			return -1;
+	}
+
+	/*
+	 * Completa los datos del encabezado que corresponden a la librería
+	 */
+
+	public function setDatosEncabezadoCli() {
+		try {
+			$this->encabezado['version_cliente_arai_catalogos'] = $this->version_libreria;
+		} catch (Exception $e) {
+			$error = 'Ha ocurrido un error al obtener la versión del cliente arai catalogos. Revise el archivo json que contiene la definicion de los catalogos.';
+			$this->setLogError($error);
+			throw new \Exception($error, '500');
+		}
+		$this->encabezado['version_catalogo'] = $this->version;
+		$this->encabezado['url_from'] = $this->obtenerUrl();
+	}
+
+	/**
+	 * Retorna datos a partir de la revisión indicada en @revision, para el catálogo definido y aplicando el encoding correspondiente.
+	 * @revision int Numero de revisión
+	 * return json con resultado o false si el resultado no existe
+	 */
+	public function getDatosSincronizacion($revision) {
+		$datos = $this->sincronizar($revision);
+
+		if (!empty($datos['dato'])) {
+			return $this->setEncoding($this->encoding, $datos['dato']);
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Valida json de encabezado y catalogo, gestiona alta/baja o modificación con arai catalogos servidor
+	 * @datos array con datos
+	 * @operacion puede ser 'A' (alta), 'M' (modificacion) o 'B' (baja)
+	 * @id_arai opcional integer id arai a modificar
+	 * return json con resultado
+	 */
+	public function setDatos($datos, $operacion, $id_arai = null) {
+		$this->setDatosEncabezadoCli();
+
+		//Valida el encabezado
+		try {
+			//TODO: Resta definir si el encabezado se va a versionar
+			JsonFile::validateStringSchema(json_encode($this->encabezado), __DIR__ . $this->json_schema_path . 'encabezado.json');
+		}
+		catch (\SIU\JsonUtil\JsonValidationException $e) {
+			$error = 'Error al realizar la validacion de JSON Schema. Errores: ' . implode(' | ', $e->getErrors());
+			$this->setLogError($error);
+			throw new \Exception($error, '500');
+		}
+
+		if (!is_null($datos)) {
+			//Formatea datos para tomar las fks que existan
+			$datos = $this->formatearDatos($datos);
+			//Convierte el encoding a UTF8 porque json_encode los necesita asÃ­
+			$datos = $this->setEncoding('UTF8', $datos);
+			$this->formatearDatosSchema($datos);
+
+			//Valida los datos
+			try {
+				JsonFile::validateStringSchema(json_encode($datos), __DIR__ . $this->json_schema_path . $this->catalogo . '_' . $this->version . '.json');
+			}
+			catch (\SIU\JsonUtil\JsonValidationException $e) {
+				$error = 'Error al realizar la validacion de JSON Schema. Errores: ' . implode(' | ', $e->getErrors());
+				$this->setLogError($error);
+				throw new \Exception($error, '500');
+			}
+		}
+
+		try {
+			switch ($operacion) {
+				case 'A':
+					$response = $this->cliente->post('ServCatalogos/' . $this->catalogo, ['body' => json_encode(array('encabezado' => $this->encabezado, 'datos' => $datos))]);
+					break;
+				case 'M':
+					if (is_null($id_arai)) {
+						throw new \Exception('Se solicita realizar una modificaciÃ³n pero no se envia el id arai asociado.', '409');
+					} else {
+						$response = $this->cliente->put("ServCatalogos/$this->catalogo/id/$id_arai", ['body' => json_encode(array('encabezado' => $this->encabezado, 'datos' => $datos))]);
+					}
+					break;
+				case 'B':
+					// El borrado físico no debería ser utilizado
+					if (is_null($id_arai)) {
+						throw new \Exception('Se solicita realizar una baja pero no se envia el id arai asociado.', '409');
+					} else {
+						$response = $this->cliente->delete("ServCatalogos/$this->catalogo/id/$id_arai", ['query' => ['encabezado' => json_encode($this->encabezado)]]);
+					}
+					break;
+			}
+		} catch (\GuzzleHttp\Exception\RequestException $e) {
+			if ($e->hasResponse()) {
+				$excepcion = (string) $e->getResponse()->getBody();
+				$error = (array) json_decode($excepcion);
+				$this->setLogErrorModificacion($error['descripcion'] . '|' . $e->getMessage() . '|' . $e->getRequest()->getMethod());
+				throw new \Exception($error['descripcion'], '500');
+			} else {
+				$this->setLogErrorModificacion($e->getRequest());
+				throw new \Exception($e->getRequest(), '500');
+			}
+		} catch (Exception $e) {
+				$this->setLogErrorModificacion($e->getMessage());
+				throw new \Exception($e->getMessage(), '500');			
+		}
+
+		$body = $response->getBody();
+		$datos = json_decode($body->getContents(), true);
+
+		if (is_array($datos)) {
+			if (array_key_exists('error', $datos)) {
+				echo 'Error en la respuesta del servidor: ' . $datos['descripcion'] . "\n";
+				$this->setLogError('Error en la respuesta del servidor: ' . $datos['descripcion'] . "\n");
+			} else {
+				if (array_key_exists('dato', $datos))
+					$datos['dato'] = $this->setEncoding($this->encoding, $datos['dato']);
+			}
+		} else {
+			$this->setLogError('Error en la respuesta del servidor: ' . $response->getBody() . "\n");
+			throw new \Exception('Error en la respuesta del servidor: ' . $response->getBody(), '500');
+		}
+
+		return $datos;
+	}
+
+	/*
+	 * Verifica si existe el json schema validator para el catálogo/versión indicado. Sino lo descarga del servidor y lo guarda.
+	 */
+
+	protected function verificaSchema() {
+		$this->json_schema_catalogo = $this->catalogo . '_' . $this->version . '.json';
+
+		if (!file_exists(__DIR__ . $this->json_schema_path . $this->json_schema_catalogo)) {
+			if ($this->desconectado) {
+				$error = 'No se encuentra el JSON Schema actualizado para el catÃ¡logo indicado y la aplicaciÃ³n estÃ¡ trabajando en modo desconectado.';
+				$this->setLogError($error);
+				throw new \Exception($error, '500');
+			} else {
+				try {
+					$response = $this->cliente->get('ServCatalogos/' . $this->catalogo . '/schema/' . $this->version);
+					$body = $response->getBody();
+					$datos = $body->getContents();
+					file_put_contents(__DIR__ . $this->json_schema_path . $this->json_schema_catalogo, $datos);
+				} catch (RequestException $e) {
+					$error = 'No se pudo obtener el JSON Schema actualizado para el catÃ¡logo indicado.';
+					$this->setLogError($error);
+					throw new \Exception($error, '500');
+				}
+			}
+		}
+	}
+
+	/**
+	 * En base a la revisión indicada en @revision, consulta al servidor las novedades y las retorna
+	 * @revision int número de revisión
+	 * return array datos a partir de la revisión solicitada
+	 */
+	protected function sincronizar($revision) {
+		$this->setDatosEncabezadoCli();
+
+		try {
+			$response = $this->cliente->get("ServCatalogos/$this->catalogo/revision/$revision", ['query' => ['encabezado' => json_encode($this->encabezado)]]);
+			$this->setLogSincronizacion($revision);
+		} catch (RequestException $e) {
+			echo $e->getRequest() . "\n";
+			if ($e->hasResponse()) {
+				$this->setLogErrorSincronizacion($revision, $e->getResponse());
+				echo $e->getResponse() . "\n";
+			} else {
+				$this->setLogErrorSincronizacion($revision, 'Error no definido');
+			}
+		}
+		$datos = json_decode($response->getBody()->getContents(), true);
+		return $this->setEncoding($this->encoding, $datos);
+	}
+
+	protected function setLogSincronizacion($revision) {
+		$this->logger->addNotice("Sincronizado. CatÃ¡logo: {$this->catalogo} RevisiÃ³n: $revision URL: {$this->obtenerUrl()}");
+	}
+
+	protected function setLogErrorSincronizacion($revision, $error) {
+		$this->logger->addError("Error al sincronizar. CatÃ¡logo: {$this->catalogo} RevisiÃ³n: $revision URL: {$this->obtenerUrl()} Error: $error Encabezado: {$this->encabezado}");
+	}
+
+	protected function setLogError($error) {
+		$this->logger->addError("Error al sincronizar. CatÃ¡logo: {$this->catalogo} URL: {$this->obtenerUrl()} Error: $error");
+	}
+
+	protected function setLogErrorModificacion($error) {
+		$this->logger->addError("Error al modificar un dato. CatÃ¡logo: {$this->catalogo} URL: {$this->obtenerUrl()} Error: $error");
+	}
+
+	/**
+	 * Recibe los datos de los registros sin id arai asociado, envía las altas al servidor y llama a la callback que se encarga de analizar la respuesta del servidor
+	 * @datos array con datos
+	 * return array Registros que el servidor indicó que estaban repetidos
+	 */
+	public function cargaInicial($datos) {
+		$respuesta = null;
+		$c = 0;
+
+		foreach ($datos as $clave => $dato) {
+			$row = $this->setDatos($datos[$clave], 'A');
+
+			//Error de respuesta de la API no capturado por la excepciÃ³n
+			if (is_null($row)) {
+				$this->setLogError("Error no definido en cargaInicial. Indice: $y. Catalogo: {$this->catalogo}");
+				echo "Error en la respuesta de la API. Indice: $y";
+				return false;
+			}
+
+			//status R: vuelven datos modificados
+			//status N: no se modificaron
+			if (!isset($row['error'])) {
+				$datos[$clave]['id_arai'] = $row['idArai'];
+
+				if ($row['revision'] <= $this->ultima_revision)
+					$datos[$clave]['revision'] = $row['revision'];
+				else
+					$datos[$clave]['revision'] = null;
+
+				//Si el dato esta repetido 'R' lo guardo para luego retornar todos los que cumplan con esta condición, ya que no genera una revisión y debe ser procesado en el cliente.
+				if ($row['status'] == 'R') {
+					//FIX: El cliente lo espera en 'datos'
+					$row['datos'] = $row['dato'];
+					unset($row['dato']);
+					$respuesta[$c] = $row;
+					$c = $c + 1;
+				}
+			} else {
+				$this->setLogError('Error en método cargaInicial : ' . $row['error']);
+			}
+		}
+		return $respuesta;
+	}
+
+	/**
+	 * Parsea las properties del catalogo definidas en el json schema validator, y de acuerdo al tipo definido castea @datos
+	 * @datos array Datos a castear
+	 * return array con datos casteados de acuerdo al tipo de datos definido en el json schema validator
+	 */
+	protected function formatearDatosSchema(&$datos) {
+		$definitions = json_decode(file_get_contents(__DIR__ . $this->json_schema_path . $this->catalogo . '_' . $this->version . '.json'), true);
+
+		try {
+			foreach ($definitions['properties'] as $nombre => $key) {
+				switch ($key['type']) {
+					case 'string':
+						/*if (is_numeric($datos[$nombre])) {
+							$datos[$nombre] = '"' . $datos[$nombre] . '"';
+						} else {*/
+							$datos[$nombre] = strval($datos[$nombre]);
+						//}						
+						break;
+					case 'integer':
+						$datos[$nombre] = intval($datos[$nombre]);
+						break;
+					case 'boolean':
+						$datos[$nombre] = boolval($datos[$nombre]);
+						break;
+					case 'number':
+						$datos[$nombre] = floatval($datos[$nombre]);
+						break;
+				}
+			}
+		} catch (Excepcion $e) {
+			$this->setLogError("Error de conversión de tipos en función formatearDatosSchema. Propiedad $nombre | tipo {$key['type']}");
+		}
+	}
+
+	/**
+	 * Arma array con los datos en el formato en el que lo espera el servidor
+	 * @datos array con datos a formatear
+	 * return array con datos y fks mergeados
+	 */
+	protected function formatearDatos($datos) {
+		foreach ($this->columnas as $columna) {
+			$datos_formateados[$columna] = $datos[$columna];
+		}
+
+		if (!empty($this->columnas_fk)) {
+			foreach ($this->columnas_fk as $catalogo => $columna) {
+				if (is_null($datos[$columna]))
+					$datos_formateados[$columna] = $datos[$columna];
+				else
+					$datos_formateados[$columna] = array('catalogo' => $catalogo, 'id_arai' => $datos[$columna]);
+			}
+		}
+
+		return $datos_formateados;
+	}
+
+	//Helpers
+
+	/**
+	 * return string con URL actual
+	 */
+	protected function obtenerUrl() {
+		if (isset($_SERVER['HTTP_HOST'])) {
+			$myUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] && !in_array(strtolower($_SERVER['HTTPS']), array('off', 'no'))) ? 'https' : 'http';
+			// Get domain portion
+			$myUrl .= '://' . $_SERVER['HTTP_HOST'];
+			// Get path to script
+			$myUrl .= $_SERVER['REQUEST_URI'];
+			// Add path info, if any
+			if (!empty($_SERVER['PATH_INFO']))
+				$myUrl .= $_SERVER['PATH_INFO'];
+			// Add query string, if any (some servers include a ?, some don't)
+			//if (!empty($_SERVER['QUERY_STRING']))
+			//    $myUrl .= '?' . ltrim($_SERVER['REQUEST_URI'], '?');
+		} else {
+			$myUrl = '';
+		}
+		return $myUrl;
+	}
+
+	/*
+	 * @encoding string define el tipo de encoding
+	 * @datos array datos a convertir
+	 * return array datos convertidos
+	 */
+
+	protected function setEncoding($encoding, $datos) {
+		if ($encoding == 'UTF8')
+			return $this->utf8Converter($datos);
+		else
+			return $this->latin1Converter($datos);
+	}
+
+	/*
+	 * @array array Arreglo a convertir
+	 * return array convertido a UTF8
+	 */
+
+	protected function utf8Converter($array) {
+		if (is_array($array)) {
+			array_walk_recursive($array, function(&$item, $key) {
+				if (!is_null($item))
+					$item = $this->utf8($item);
+			});
+		}
+		return $array;
+	}
+
+	/*
+	 * @array array Arreglo a convertir     
+	 * return array Arreglo convertido a LATIN1    
+	 */
+
+	protected function latin1Converter($array) {
+		if (is_array($array)) {
+			array_walk_recursive($array, function(&$item, $key) {
+				if (!is_null($item))
+					$item = $this->latin1($item);
+			});
+		}
+		return $array;
+	}
+
+	protected function latin1($txt) {
+		$encoding = mb_detect_encoding($txt, 'ASCII,UTF-8,ISO-8859-1');
+		if ($encoding == 'UTF-8') {
+			$txt = utf8_decode($txt);
+		}
+		return $txt;
+	}
+
+	function utf8($txt) {
+		$encoding = mb_detect_encoding($txt, 'ASCII,UTF-8,ISO-8859-1');
+		if ($encoding == 'ISO-8859-1') {
+			$txt = utf8_encode($txt);
+		}
+		return $txt;
+	}
+
+}

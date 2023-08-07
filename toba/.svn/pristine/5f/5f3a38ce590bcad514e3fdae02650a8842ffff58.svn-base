@@ -1,0 +1,269 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: ablanco
+ * Date: 16/06/15
+ * Time: 17:54
+ */
+namespace SIU\AraiJsonParser;
+
+use SIU\AraiJsonParser\Feature\Consumption;
+use SIU\AraiJsonParser\Feature\Feature;
+use SIU\AraiJsonParser\Feature\Provision;
+use SIU\AraiJsonParser\Util\Util;
+
+class AraiPackage
+{
+    protected $name, $description, $mantainer, $mantainerEmail, $scripts;
+    protected $hash, $araiRemoteUrl, $araiRemoteToken, $araiRemoteInstanceName, $araiRemoteLastSync;
+
+    protected $hasAraiRemote;
+    /**
+     * @var Consumption[]
+     */
+    protected $consumptions;
+
+    /**
+     * @var Provision[]
+     */
+    protected $provides;
+
+    public function __construct($name, $description, $scripts, $mantainer='', $mantainerEmail='')
+    {
+        $this->name = $name;
+        $this->description = $description;
+        $this->scripts = $scripts;
+        $this->mantainer = $mantainer;
+        $this->mantainerEmail = $mantainerEmail;
+        $this->consumptions = [];
+        $this->provides = [];
+    }
+
+    /**
+     * @return string el nombre del proyecto
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string la descripción del proyecto
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function getMantainer()
+    {
+        return $this->mantainer;
+    }
+
+    public function getScripts()
+    {
+        return $this->scripts;
+    }
+
+    public function setScripts($scripts)
+    {
+        $this->scripts = $scripts;
+    }
+
+    public function getHooksScript()
+    {
+        return $this->scripts['hooks'];
+    }
+
+    public function setMantainer($mantainer)
+    {
+        $this->mantainer = $mantainer;
+    }
+
+    public function getMantainerEmail()
+    {
+        return $this->mantainerEmail;
+    }
+
+    public function setMantainerEmail($email)
+    {
+        $this->mantainerEmail = $email;
+    }
+
+    /**
+     * @param string $hash
+     */
+    public function setHash($hash)
+    {
+        $this->hash = $hash;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHash()
+    {
+        return $this->hash;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAraiRemoteLastSync()
+    {
+        return $this->araiRemoteLastSync;
+    }
+
+    /**
+     * @param string $araiRemoteLastSync
+     */
+    public function setAraiRemoteLastSync($araiRemoteLastSync)
+    {
+        $this->araiRemoteLastSync = $araiRemoteLastSync;
+    }
+
+    public function setAraiRemoteUrl($url)
+    {
+        $this->araiRemoteUrl = $url;
+        $this->setHasAraiRemote(true);
+    }
+
+    public function getAraiRemoteUrl()
+    {
+        return $this->araiRemoteUrl;
+    }
+
+    public function setAraiRemoteToken($token)
+    {
+        $this->araiRemoteToken = $token;
+        $this->setHasAraiRemote(true);
+    }
+
+    public function getAraiRemoteToken()
+    {
+        return $this->araiRemoteToken;
+    }
+
+    public function setAraiRemoteInstanceName($instanceName)
+    {
+        $this->araiRemoteInstanceName = $instanceName;
+        $this->setHasAraiRemote(true);
+    }
+
+    public function getAraiRemoteInstanceName()
+    {
+        return $this->araiRemoteInstanceName;
+    }
+
+    /**
+     * @param Consumption $consumption
+     * Agrega una feature a la lista de consumptions
+     */
+    public function addConsumption(Consumption $consumption)
+    {
+        $this->consumptions[] = $consumption;
+    }
+
+    /**
+     * @return Consumption[] un arreglo de Consumption
+     */
+    public function getConsumeList()
+    {
+        return $this->consumptions;
+    }
+
+    /**
+     * @param Provision $provision
+     * Agrega una feature a la lista de provides
+     */
+    public function addProvide(Provision $provision)
+    {
+        $this->provides[] = $provision;
+    }
+
+    public function provides($featureName)
+    {
+        foreach ($this->getProvideList() as $provide)
+        {
+            if ($provide->getName() == $featureName)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $featureName
+     * @return null|Provision
+     */
+    public function getProvide($featureName)
+    {
+        foreach ($this->getProvideList() as $provide)
+        {
+            if ($provide->getName() == $featureName)
+            {
+                return $provide;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return Provision[] un arreglo de Provision
+     */
+    public function getProvideList()
+    {
+        return $this->provides;
+    }
+
+    public function setHasAraiRemote($has)
+    {
+        $this->hasAraiRemote = $has;
+    }
+
+    /**
+     * @return array de información general del paquete. Descripción y data de los mantainers
+     */
+    public function getHeaderAsArray()
+    {
+        $rs = array();
+        $rs['description'] = $this->getDescription();
+        $rs['mantainer'] = $this->getMantainer();
+        $rs['mantainer-email'] = $this->getMantainerEmail();
+        $rs['scripts'] = $this->getScripts();
+
+        return $rs;
+    }
+
+    public function toArray()
+    {
+        $rs = array();
+        $rs['name'] = $this->getName();
+        $rs['description'] = $this->getDescription();
+        $rs['mantainer'] = $this->getMantainer();
+        $rs['mantainer-email'] = $this->getMantainerEmail();
+        $rs['scripts'] = $this->getScripts();
+        Util::writeIfNotEmpty($rs, "hash", $this->getHash());
+        if ($this->hasAraiRemote) {
+            $rs['arai-remote'] = array(
+                'url' => $this->getAraiRemoteUrl(),
+                'instance-name' => $this->getAraiRemoteInstanceName(),
+                'token' => $this->getAraiRemoteToken(),
+                'last-sync' => $this->getAraiRemoteLastSync()
+            );
+        }
+        $rs['consume'] = array();
+        foreach ($this->consumptions as $consume) {
+            $rs['consume'][] = $consume->toArray();
+        }
+        $rs['provide'] = array();
+        foreach ($this->provides as $provide) {
+            $rs['provide'][] = $provide->toArray();
+        }
+
+        return $rs;
+    }
+}

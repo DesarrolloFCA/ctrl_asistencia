@@ -1,0 +1,113 @@
+# SIU-ARAI Arai-Cli
+
+## CHANGELOG
+
+[v1.1.7](/../tree/v1.1.7)
+ * arai-catalogos-cli: se elimina el primer caracter del dato de version (que se almacena en el archivo version), se acepta develop como una version valida
+
+[v1.1.6](/../tree/v1.1.6)
+ * arai-catalogos-cli: nueva forma de obtener la versión de la librería (archivo version)
+ * arai-catalogos-cli: se agregan nuevas validaciones (formato de la versión, permisos sobre paths de logs y json schema validators)
+ * arai-catalogos-cli: se eliminan los archivos con json schema validators de catalogos, se descargan directamente del servidor
+ * arai-catalogos-cli: se cambia la forma en la que se obtiene la ultima revisi�n del catalogo
+
+[v1.1.4](/../tree/v1.1.4)
+ * arai-catalogos-cli: cambio en la forma de cargar definición de catalogos (archivo externo)
+ * arai-catalogos-cli: se modica la forma en la que se devuelven errores de json validator (excepciones), algunas refactorizaciones
+
+[v1.1.3](/../tree/v1.1.3)
+ * bump version
+ * Consumo local de la api requería user/pass (suele usarse solo para cli).  Fixes #19
+ * update .gitignore
+
+[v1.1.2](/../tree/v1.1.2)
+ * bump version
+ * se borra carpeta docs
+ * Se agrega documentación de instalación y consumo de arai-catalogos-cli en la carpeta docs
+ * Se modifica la ubicación de algunos parametros, algunas refactorizaciones, y se agrega posibilidad de sincronizar parcial por condicion
+
+[v1.1.1](/../tree/v1.1.1)
+ * Se incrementa versión a 1.1.1
+ * se arregla #18
+ * se arregla #18
+
+[v1.1.0](/../tree/v1.1.0)
+ * se actualiza composer.lock y se agregar archivo de version
+ * fix comportamiento option --force-register
+ * fix commit anterior
+ * se escribe el arai.lock antes de ejecutar los eventos post-registración. De esta manera si hay algún error en los eventos el archivo se escribe igual y se evita la doble registración
+ * se borra la hardcodeada de credenciales
+ * Update README.md
+ * credenciales para arai registry
+ * merge manual del branch de arai catalogos
+ * Actualizar composer.lock para utilizar https
+ * Refactoring de namespaces de Siu a SIU
+ * Preparando versión 1.0-alpha, composer
+ * Preparando versión 1.0-alpha, composer
+
+[v1.0](/../tree/v1.0)
+ * merge manual del branch de arai catalogos
+ * Actualizar composer.lock para utilizar https
+ * Refactoring de namespaces de Siu a SIU
+ * se mejora la invocación del método Debug de symfony. Se retransmite el level de error_reporting
+ * actualización composer.lock
+ * se agrega symfony/debug como dependencia
+ * Regresion: 'Class 'Symfony\Component\Debug\Debug' not found'
+ * se agrega opción para activar el debug de php
+ * se agrega opción para activar el debug de php
+ * se agrega método queryProvisions
+ * Se agrega método para hacer querys a las provisions
+ * bugfix al cargar el path del icono
+ * se carga el icono en base64 antes de proveer una app
+ * se agrega método para obtener id de una App a partir de su nombre y un instanceName de un paquete
+ * se agrega hook post add
+ * se agrega hook post sync
+ * Mejora documentacion de interface
+ * Bugfix
+ * se mejoran los hooks para que soporten la division entre Consumption y Provision
+ * Avance parcial #9, faltan las versiones
+ * Fixes #11
+ * Se cambia `configureFeature` por `preProvideFeature` para que quede mas claro el timing y sea mas uniforme con los otros metodos
+ * Fixes #5
+ * Fixes #8 También arregla un bug que hacía que no se envíe la información correcta en el sync. La data que hay que enviar en el sync es un merge del arai.lock y el arai.json
+ * Fixes #6 Se agregan hooks pre y post consume
+ * El comando registry:remove pide confirmacion
+ * Fixes #3 Se agrega método getPackage a Registry para que se pueda acceder desde AraiCli::getRegistryService()
+ * se agrega clase vacía para comenzar el testeo de arai-cli
+ * mejoras a sync
+ * comando remove funcionando
+ * El PreSyncInterface de PreSyncInterface no necesita return
+ * Bug en mensaje de error
+ * fix de eliminar
+ * se saca parametro base dir de la invocación programatica de cli
+ * Se implementa el primer hook de arai-cli
+ * hook pre sync
+ * mejor mensaje de error en sync
+ * fix use en clase remove
+ * El path del arai.json se asume en el padre de la carpeta vendor Se quita parametro --file del add (para no confundir, el resto de los comandos no tiene esta opcion, se asume que esta en la barra) El sync no estaba andando
+ * se pasa el base dir para crear programáticamente el Registry
+ * refactoring
+ * cs fixer
+ * refactoringg
+ * se borran métodos que no sirven más en Factory
+ * Al terminar el add se muestra el instance-name
+ * Mejora a la forma de mostrar errores que venian del server y errores al parsear el arai.json
+ * Mejora doc
+ * El comando `arai-cli` esta escrito directamente en php (asi se puede poner en vendor/bin de composer)
+ * Typo
+ * Cambios al comando  * Ahora se llama `arai-cli`  * Se publica como shortcut en `vendor/bin`  * Los comandos de registry quedan en un subcomando  * Se renombra `registrar` y `desregistrar` a `add` y `remove` (menos redundante con 'registry')
+ * Ahora registry tiene un endpoint '/rest'
+ * Se puede ejecutar como libreria composer o standalone
+ * Se pasa a guzzle 5.1 para hacerlo compatible con toba 2.7. Se corre csfixer
+ * Ahora se llama siu/arai-cli en composer (y consume satis)
+ * se actualiza composer.lock y se empieza a utilizar un manejador de dependencias para configuraciones y componentes
+ * registración funcionando
+ * manejo de código de error 422
+ * se agrega nuevos formatters para la línea de comandos
+ * Se corre cs-fixer en la codebase
+ * Se agregan las opciones maintainer y maintainer-email al comando registrar
+ * Forma
+ * cleanup
+ * planteo para instalar
+ * Initial commit
+

@@ -1,0 +1,53 @@
+<?php
+namespace SIU\AraiJsonParser\Feature\Extension;
+/**
+ * Created by IntelliJ IDEA.
+ * User: andres
+ * Date: 01/10/15
+ * Time: 16:35
+ */
+class Api extends TypeExtension
+{
+    protected $auth = [];
+
+    /**
+     * @inheritdoc
+     */
+    public function getName()
+    {
+        return 'api';
+    }
+
+    /**
+     * @param mixed $auth
+     */
+    public function setAuth($auth)
+    {
+        $this->auth = $auth;
+    }
+
+    /**
+     * @param mixed $auth
+     */
+    public function addAuth($auth)
+    {
+        $this->auth[] = $auth;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAuth()
+    {
+        return $this->auth;
+    }
+
+    public function getParams()
+    {
+        if (!empty($this->auth)) {
+            return ['auth' => $this->getAuth()];
+        }
+
+        return [];
+    }
+}

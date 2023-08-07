@@ -1,0 +1,189 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: fbohn
+ * Date: 28/03/16
+ * Time: 13:54
+ */
+
+namespace SIU\AraiJsonMigrator;
+
+use SIU\AraiJsonMigrator\AraiConflict;
+use SIU\AraiJsonMigrator\Util\AppValue;
+use SIU\AraiJsonMigrator\Entities\Attribute;
+use SIU\AraiJsonMigrator\Entities\Conflict;
+use SIU\JsonUtil\JsonFile;
+use SIU\JsonUtil\JsonValidationException;
+
+class AraiConflictManager
+{
+    function __construct()
+    {
+
+    }
+
+    protected function getSchemaPath()
+    {
+        return __DIR__ . '/../../../schema/arai-conflicts-schema.json';
+    }
+
+    /**
+     * @param string $path
+     * @return AraiConflict
+     * @throws JsonValidationException
+     */
+    public function load($path)
+    {
+        $jsonFile = new JsonFile($path);
+        $jsonFile->validateSchema($this->getSchemaPath());
+        $data = $jsonFile->read();
+        return $this->hydrate($data);
+    }
+
+    /**
+     * @param string $content
+     * @return AraiConflict
+     * @throws JsonValidationException
+     */
+    public function loadFromString($content)
+    {
+        $data = JsonFile::parseJson($content);
+        JsonFile::validateStringSchema($content, $this->getSchemaPath());
+        return $this->hydrate($data);
+    }
+
+    /**
+     * @param AraiConflict $data the hash to encode
+     * @param int $options to json_encode method
+     * @return string
+     */
+    public function encodeJson(AraiConflict $data, $options = 448)
+    {
+        $jsonString = JsonFile::encode($data->toArray(), $options);
+        JsonFile::validateStringSchema($jsonString, $this->getSchemaPath());
+        return $jsonString;
+    }
+
+    /**
+     * @param string $path
+     * @param AraiConflict $araiConflict
+     * @return boolean
+     * @throws \Exception
+     */
+    public function save($path, AraiConflict $araiConflict)
+    {
+        $jsonFile = new JsonFile($path);
+        $hash = $araiConflict->toArray();
+        if ($jsonFile->validateHashSchema($hash, $this->getSchemaPath())) {
+            $jsonFile->write($hash);
+        }
+        return true;
+    }
+
+    /**
+     * @param $jsonAppValue array parseado a partir del json que define el conflicto
+     * @return AppValue
+     * @throws \Exception
+     */
+    public function createAppValue($jsonAppValue)
+    {
+        $appValue = new AppValue();
+        $this->hydrateAppValue($appValue, $jsonAppValue);
+
+        return $appValue;
+    }
+
+    /**
+     * @param $jsonAttribute array parseado a partir del json que define el conflicto
+     * @return Attribute
+     * @throws \Exception
+     */
+    public function createAttribute($jsonAttribute)
+    {
+        $attribute = new Attribute();
+        $this->hydrateAttribute($attribute, $jsonAttribute);
+
+        return $attribute;
+    }
+
+    /**
+     * @param $jsonConflict array parseado a partir del json que define el conflicto
+     * @return Conflict
+     * @throws \Exception
+     */
+    public function createConflict($jsonConflict)
+    {
+        $conflict = new Conflict();
+        $this->hydrateConflict($conflict, $jsonConflict);
+
+        return $conflict;
+    }
+
+    /**
+     * @param AppValue $appValue parseado a partir del json que define el conflicto
+     * @param array $jsonAppValue parseado a partir del json que define el conflicto
+     */
+    protected function hydrateAppValue(AppValue $appValue, $jsonAppValue)
+    {
+        $appValue->setAppUniqueId($this->getOptional($jsonAppValue, 'appUniqueId', null));
+        $appValue->setAppName($this->getOptional($jsonAppValue, 'appName', null));
+        $appValue->setValue($jsonAppValue['value']);
+    }
+
+    /**
+     * @param Attribute $attribute parseado a partir del json que define el conflicto
+     * @param array $jsonAttribute parseado a partir del json que define el conflicto
+     */
+    protected function hydrateAttribute(Attribute $attribute, $jsonAttribute)
+    {
+        $attribute->setAttribute($jsonAttribute['attribute']);
+        if (isset($jsonAttribute['appValues'])) {
+            foreach ($jsonAttribute['appValues'] as $jsonAppValue) {
+                $attribute->addAppValue($this->createAppValue($jsonAppValue));
+            }
+        }
+    }
+
+    /**
+     * @param Conflict $conflict parseado a partir del json que define el conflicto
+     * @param array $jsonConflict parseado a partir del json que define el conflicto
+     */
+    protected function hydrateConflict(Conflict $conflict, $jsonConflict)
+    {
+        $conflict->setUniqueIdentifier($jsonConflict['uniqueIdentifier']);
+        if (isset($jsonConflict['attributes'])) {
+            foreach ($jsonConflict['attributes'] as $jsonAttribute) {
+                $conflict->addAttribute($this->createAttribute($jsonAttribute));
+            }
+        }
+    }
+
+    /***********************************************************************************************************
+    ******************************* METODOS PRIVADOS ***********************************************************
+    ***********************************************************************************************************/
+
+    /**
+     * @param $jsonData
+     * @return AraiConflict
+     */
+    private function hydrate($jsonData)
+    {
+        $conflicts = new AraiConflict($jsonData["name"], $jsonData["description"], $jsonData["mantainer"], $jsonData["mantainer-email"]);
+
+        if (isset($jsonData["conflicts"])) {
+            foreach ($jsonData["conflicts"] as $jsonConflict) {
+                $conflicts->addConflict($this->createConflict($jsonConflict));
+            }
+        }
+
+        return $conflicts;
+    }
+
+    private function getOptional($jsonData, $key, $default = '')
+    {
+        if (isset($jsonData[$key])) {
+            return $jsonData[$key];
+        }
+        return $default;
+    }
+}

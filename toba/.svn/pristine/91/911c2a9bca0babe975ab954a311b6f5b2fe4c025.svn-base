@@ -1,0 +1,86 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: fbohn
+ * Date: 28/03/16
+ * Time: 17:44
+ */
+
+namespace SIU\AraiJsonMigrator\Util;
+
+
+class AppValue
+{
+    protected $appUniqueId;
+    protected $appName;
+    protected $value;
+
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->appUniqueId = null;
+        $this->appName = null;
+        $this->value = null;
+    }
+
+    /**
+     * @return null
+     */
+    public function getAppUniqueId()
+    {
+        return $this->appUniqueId;
+    }
+
+    /**
+     * @param null $appUniqueId
+     */
+    public function setAppUniqueId($appUniqueId)
+    {
+        $this->appUniqueId = $appUniqueId;
+    }
+
+    /**
+     * @return null
+     */
+    public function getAppName()
+    {
+        return $this->appName;
+    }
+
+    /**
+     * @param null $appName
+     */
+    public function setAppName($appName)
+    {
+        $this->appName = $appName;
+    }
+
+    /**
+     * @return null
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param null $value
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+    }
+
+
+    public function toArray()
+    {
+        $rs = array();
+        Util::writeIfNotEmpty($rs, 'appUniqueId', $this->getAppUniqueId());
+        Util::writeIfNotEmpty($rs, 'appName', $this->getAppName());
+        Util::writeIfNotEmpty($rs, 'value', $this->getValue());
+        return $rs;
+    }
+
+}

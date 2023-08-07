@@ -1,0 +1,20 @@
+{
+	"title": "pais",
+	"type": "object",
+	"properties": {
+		"nombre": {
+			"type": "string",
+			"maxLength": 40
+		},
+		"continente": {
+			"type": "string",
+			"maxLength": 20
+		},
+		"codigoiso": {
+			"type": "string",
+			"maxLength": 2
+		}
+	},
+	"additionalProperties": false,
+	"required": ["nombre"]
+}

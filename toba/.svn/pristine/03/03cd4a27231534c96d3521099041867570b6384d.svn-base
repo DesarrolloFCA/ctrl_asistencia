@@ -1,0 +1,75 @@
+{
+  "name": "siu/arai-usuarios",
+  "description": "SIU-Arai Usuarios",
+  "hash": "ASDJLKASTJ4903J4F0394J3",
+  "mantainer": "pepe",
+  "mantainer-email": "pepe@mail.com",
+  "scripts": {
+    "hooks": "SIU\\Nombre\\de\\clase"
+  },
+  "arai-remote": {
+    "url": "https://arai.com",
+    "instance-name": "siu/arai-usuarios_1",
+    "token": "GJ045J3G0W94J094J",
+    "last-sync": "2015-09-30T16:56:34-0300"
+  },
+  "consume": [
+    {
+      "name": "service:siu/rdi",
+      "version": ">=0.2",
+      "on-missing": "fail",
+      "status": "exists"
+    }, {
+      "name": "service:siu/sso-saml-sp"
+    },
+	{
+        "name": "api:siu/arai-x",
+        "version": ">=0.1.0",
+        "options": {
+            "toba-rest": [
+                {
+                    "proyecto": "administracion",
+                    "rest-id": "arai-usuarios"
+                }
+            ]
+        },
+        "auth": [
+          {
+            "type": "ssl",
+            "credentials": {
+              "cert": "-----BEGIN CERTIFICATE-----\nMIIFAzCCAuugAwIBAgIRAOYujToj+z/whz9dBaSa2AIwDQYJKoZIhvcNAQELBQAw\nVDELMAkGA1UEBhMCQVIxDzANBgNVBAgMBkJhaXJlczEPMA0GA1UECgwGUk9PVENB\nMRAwDgYDVQQLDAdTSVVURVNUMREwDwYDVQQDDAhNRURJVU1DQTAeFw0xNjA0MTQy\nMjM0MTVaFw0xNzA0MTQyMjM0MTVaMF4xCzAJBgNVBAYTAkFSMQ8wDQYDVQQIDAZC\nYWlyZXMxDzANBgNVBAoMBlJPT1RDQTEQMA4GA1UECwwHU0lVVEVTVDEbMBkGA1UE\nAwwSYWRtaW5pc3RyYWNpb25fY2xpMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB\nCgKCAQEA9+q/IuyLNnVqQ2/5t/5/67rk3baSFgu9ghYtRg2kEYfDuSkmr7s8SsUT\n1FcPtjZ8x38QY6UELQqumAw8E67ssLQLkB0kTKLj5QD986z9owPhFvyyogKJf9nj\nZdksWhHr3pGBKKTEHtWH5BZVIf13TiSZvdYuBIJlZFY8FwnjA99B0foRazEtRMt3\nGqDSiJv0bO8cIiBaU/zXqJDNQG6zZDJ8gvLB1DVwFYmUh2Pare/8ZD0KKvQD12dW\nXWu9pf4v2djUDqH6tIQHNyWE2+eolRDQGjrMrIPDrdnOYDq7NeFv6U+SEGlD7nM3\nVsjgqGzbPdTLvOj4x2qmd/4TdLTSbwIDAQABo4HFMIHCMAkGA1UdEwQCMAAwEQYJ\nYIZIAYb4QgEBBAQDAgWgMDMGCWCGSAGG+EIBDQQmFiRPcGVuU1NMIEdlbmVyYXRl\nZCBDbGllbnQgQ2VydGlmaWNhdGUwHQYDVR0OBBYEFKlO6syKqKB8jJBQs0jt+6Ua\nY15lMB8GA1UdIwQYMBaAFPi00eHMhB3h2F+XdfUx4cw4s2AIMA4GA1UdDwEB/wQE\nAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwDQYJKoZIhvcNAQEL\nBQADggIBAEWrcBfS7Zj6iumqG7eYFTQ1DVcfo1dFlmXnBxp/jV53ceCUxXTt4wDO\nZA+8QHlbqVDPIuAypfVsEU9oZnwpOhHS2OrUQtohuByzNmqF3kgjufdTs+CjmB9f\nNuNEaWpjDeTIB2CMJOOlZ/S70GxA26NIpnr8E/xeyL4ET2qGI82/jCLizDje4QU+\nzNeOoSWzuwWRLWl7r2C+DZl4G+/urijeBBvoQlPXRRssJX/9QYp2x92J7geCZb2B\nMQOjeHx7VsM8kbyyh69RbnM/pg95VDu42pm5lNW5101OuDl0vT4JnZEJpNDMXFej\nZtU8DZsZdAojPeA3GIbYtGoGKIuvprpMKcxlFsVuMC66ePnHa4UO/8U938gkQOcB\nb2v/Yq8qk0FnDCBjK3adCv5VhBLmUblEwWKLttS/ck2ZSlFa3b1Rq/9zWtRzbVaL\nMTaWaMrvH3C87mF3DHh5QVX8U83M0HHA+cAk76aG8NOElnwIWbX0CLmrYTzj2XVT\nWXNoewJEepCC7DE7VML4T0AeyHah4jFTXnFPrRLtIV97cvOoPhePneUZL3qJFJWJ\n8bU7g3vsQ8NwHwUbejqT56iH4M+iTajlm4TZ4XNoyu8UpfuIrnzT2Bnvck/fB6JP\nVcJQ5tbw9RGGS1c+4U/VWkUjNKBUuh4favfQ6/zKcvk3HYCBx6cO\n-----END CERTIFICATE-----\n"
+            }
+        }
+        ]
+    }
+  ],
+
+  "provide": [
+    {
+      "name": "api:siu/usuarios",
+      "version": "0.1.0",
+      "auth": [
+        {
+          "type": "ssl",
+          "credentials": {
+            "cert": "the cert"
+          }
+        }]
+    }, {
+      "name": "service:siu/sso-saml-idp",
+      "version": "0.2.0"
+    }, {
+      "name": "app:siu/arai-usuarios-gestion",
+      "alias": "Usuarios",
+      "description": "Gestión de usuarios (Backend)",
+      "version": "0.3.0"
+    }, {
+      "name": "app:siu/arai-usuarios-autogestion",
+      "alias": "Mis datos",
+      "description": "Gestión de mis datos personales",
+      "version": "0.1.0",
+      "icon": "./icon.png"
+    }
+  ]
+
+}

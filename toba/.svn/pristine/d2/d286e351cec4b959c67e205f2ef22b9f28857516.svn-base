@@ -1,0 +1,30 @@
+{
+	"title": "Provincias_x_Zonas",
+	"type": "object",
+	"properties": {
+		"zona": {
+			"type": "object",
+			"$ref": "#/definitions/claveForanea"
+		},
+		"provincia": {
+			"type": "object",
+			"$ref": "#/definitions/claveForanea"
+		},
+		"pais": {
+			"type": "object",
+			"$ref": "#/definitions/claveForanea"
+		}
+	},
+    "definitions": {
+        "claveForanea": {
+			"type": "object",
+			"properties": {
+				"id_arai": 	{ "type": "integer" },
+				"catalogo": { "type": "string" }
+			},
+			"required": ["id_arai","catalogo"]
+		}
+	},
+	"additionalProperties": false,
+	"required": ["zona", "provincia", "pais"]
+}

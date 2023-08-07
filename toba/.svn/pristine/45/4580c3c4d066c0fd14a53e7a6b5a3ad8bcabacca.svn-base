@@ -1,0 +1,15 @@
+{
+    "catalogos" : {
+            "rubro": {
+                    "definicion": [{
+                            "tabla": "anx_rubros",
+                            "columnas": ["descripcion"]
+                    }],
+                    "lk": ["descripcion"],
+                    "fk": null,
+                    "id_componente_dt": 20000189,
+                    "tabla_maestra": "anx_rubros",
+                    "ultima_revision": "call_user_func('sincronizador_arai_cli::getUltimaRevision', 'anx_rubros');"
+            }
+    }
+}

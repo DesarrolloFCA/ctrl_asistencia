@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: andres
+ * Date: 24/09/15
+ * Time: 18:08
+ */
+class AraiPackageTest extends PHPUnit_Framework_TestCase
+{
+    public function testGetPreSyncScript()
+    {
+        $nombreClase = "\\nombre\\clase";
+        $p = new \SIU\AraiJsonParser\AraiPackage('nombre', 'desc', array('hooks'=>"$nombreClase"));
+        $this->assertEquals($nombreClase, $p->getHooksScript());
+    }
+}

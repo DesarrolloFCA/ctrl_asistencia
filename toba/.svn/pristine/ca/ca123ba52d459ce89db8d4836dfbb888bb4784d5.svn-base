@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: ablanco
+ * Date: 23/06/15
+ * Time: 13:56.
+ */
+namespace SIU\AraiCli;
+
+class Config
+{
+    public static $defaultConfig = array(
+        'arai-file-name' => 'arai.json',
+    );
+
+    protected $config;
+
+    public function __construct()
+    {
+        $this->config = static::$defaultConfig;
+    }
+
+    public function merge($config)
+    {
+        foreach ($config as $key => $val) {
+            $this->config[$key] = $val;
+        }
+    }
+
+    public function get($key)
+    {
+        return $this->config[$key];
+    }
+}

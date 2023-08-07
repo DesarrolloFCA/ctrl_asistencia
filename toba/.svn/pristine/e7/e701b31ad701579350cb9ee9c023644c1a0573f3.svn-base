@@ -1,0 +1,270 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: ablanco
+ * Date: 16/06/15
+ * Time: 17:55
+ */
+
+namespace SIU\AraiJsonParser\Feature;
+
+
+use SIU\AraiJsonParser\Feature\Extension\TypeExtension;
+use SIU\AraiJsonParser\Util\Util;
+use SIU\AraiJsonParser\Version\Constraints\ConstraintInterface;
+
+abstract class Feature
+{
+    public function __construct(TypeExtension $typeExtension)
+    {
+        $this->typeExtension = $typeExtension;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->typeExtension->getName();
+    }
+
+    /**
+     * @var TypeExtension
+     */
+    protected $typeExtension;
+
+    /**
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * @var string
+     */
+    protected $description;
+
+    /**
+     * @var ConstraintInterface
+     */
+    protected $version;
+
+    /**
+     * @var string
+     */
+    protected $alias;
+
+    /**
+     * @var string
+     */
+    protected $endpoint;
+
+    /**
+     * @var string
+     */
+    protected $instance;
+
+    /**
+     * @var array
+     */
+    protected $options;
+
+    /**
+     * @var string
+     */
+    protected $rawJson;
+
+    /**
+     * @return string
+     */
+    public function getInstance()
+    {
+        return $this->instance;
+    }
+
+    /**
+     * @param string $instance
+     * @return Feature
+     */
+    public function setInstance($instance)
+    {
+        $this->instance = $instance;
+        return $this;
+    }
+
+    public function getRawJson()
+    {
+        return $this->rawJson;
+    }
+
+    public function setRawJson($json)
+    {
+        $this->rawJson = $json;
+        return $this;
+    }
+
+    /**
+     * @return string el nombre de la feature
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return ConstraintInterface la versión de la feature
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * @return string el alias de la feature. Si no está seteado retorna string vacío
+     */
+    public function getAlias()
+    {
+        return $this->alias;
+    }
+
+    /**
+     * @param string $alias
+     * @return Feature
+     */
+    public function setAlias($alias)
+    {
+        $this->alias = $alias;
+        return $this;
+    }
+
+    /**
+     * @param ConstraintInterface $version
+     * @return Feature
+     */
+    public function setVersion(ConstraintInterface $version)
+    {
+        $this->version = $version;
+        return $this;
+    }
+
+    /**
+     * @param string $endpoint
+     * @return Feature
+     */
+    public function setEndpoint($endpoint)
+    {
+        $this->endpoint = $endpoint;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEndpoint()
+    {
+        return $this->endpoint;
+    }
+
+    /**
+     * @param array $options
+     * @return Feature
+     */
+    public function setOptions($options)
+    {
+        $this->options = $options;
+        return $this;
+    }
+
+    public function addOption($key, $value)
+    {
+        $this->options[$key] = $value;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    public function getOption($key)
+    {
+        return $this->options[$key];
+    }
+
+    public function getAuth()
+    {
+        if ($this->typeExtension->getName() != 'api') {
+            throw new \Exception("La feature no es de tipo api, por lo tanto no existe el atributo 'auth'");
+        }
+        return $this->typeExtension->getAuth();
+    }
+
+    public function addAuth($tipo, $credentials)
+    {
+        if ($this->typeExtension->getName() != 'api') {
+            throw new \Exception("La feature no es de tipo api, por lo tanto no existe el atributo 'auth'");
+        }
+        $this->typeExtension->addAuth([
+            'type' => $tipo,
+            'credentials' => $credentials
+        ]);
+    }
+
+    public function setAuth($auth)
+    {
+        if ($this->typeExtension->getName() != 'api') {
+            throw new \Exception("La feature no es de tipo api, por lo tanto no existe el atributo 'auth'");
+        }
+        $this->typeExtension->setAuth($auth);
+    }
+
+    /**
+     * @param string $name
+     * @return Feature
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        $rs = array();
+        $rs['name'] = $this->getName();
+        Util::writeIfNotEmpty($rs, 'description', $this->getDescription());
+        Util::writeIfNotEmpty($rs, 'version', $this->getVersion()->getPrettyString());
+        Util::writeIfNotEmpty($rs, 'alias', $this->getAlias());
+        Util::writeIfNotEmpty($rs, 'endpoint', $this->getEndpoint());
+        Util::writeIfNotEmpty($rs, 'instance', $this->getInstance());
+        Util::writeIfNotEmpty($rs, 'options', $this->getOptions());
+        if ($this->typeExtension->getName() == 'api') {
+            Util::writeIfNotEmpty($rs, 'auth', $this->getAuth());
+        }
+
+        return $rs;
+    }
+
+    /**
+     * @param string $description
+     * @return Feature
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+}

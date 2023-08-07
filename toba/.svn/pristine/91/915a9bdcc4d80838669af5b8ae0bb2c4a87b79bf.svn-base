@@ -1,0 +1,79 @@
+{
+    "title": "BienPatrimonial",
+    "type": "object",
+    "properties": {
+        "vida_util": {
+            "type": "integer"
+        },
+        "id_bien_tipo": {
+            "type": "integer"
+        },
+        "debe_amortizarse": {
+            "type": "string",
+            "maxLength": 1
+        },
+        "id_catalogo_bien_uso_padre": {
+            "type": ["integer", "null"]
+        },
+        "codigo": {
+            "type": "string",
+            "maxLength": 20
+        },
+        "codigo_completo": {
+            "type": ["string", "null"],
+            "maxLength": 20
+        },
+        "nombre": {
+            "type": "string",
+            "maxLength": 120
+        },
+        "nivel": {
+            "type": "integer"
+        },
+        "estado": {
+            "type": "string",
+            "maxLength": 2
+        },
+        "id_catalogo_bien_servicio": {
+            "type": "object",
+            "$ref": "#\/definitions\/claveForaneaNN"
+        }
+    },
+    "definitions": {
+        "claveForanea": {
+            "type": "object",
+            "properties": {
+                "id_arai": {
+                    "type": "integer"
+                },
+                "catalogo": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id_arai",
+                "catalogo"
+            ]
+        },
+        "claveForaneaNN": {
+            "type": "object",
+            "properties": {
+                "id_arai": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    }
+                },
+                "catalogo": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id_arai",
+                "catalogo"
+            ]
+        }
+    },
+    "additionalProperties": false,
+    "required": ["vida_util","id_bien_tipo","debe_amortizarse","codigo","nombre","nivel","estado"]
+}

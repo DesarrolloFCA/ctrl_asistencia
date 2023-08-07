@@ -1,0 +1,175 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: fbohn
+ * Date: 28/03/16
+ * Time: 16:53
+ */
+
+namespace SIU\AraiJsonMigrator\Entities;
+
+
+use SIU\AraiJsonMigrator\Util\Util;
+
+class Account extends Entity
+{
+
+    protected $uid;
+    protected $appUniqueId;
+    protected $appName;
+    protected $uniqueIdentifier;
+    protected $password;
+    protected $passwordAlgorithm;
+
+    /* @var Person $person */
+    protected $person;
+
+
+    /**
+     *
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->uid = null;
+        $this->appUniqueId = null;
+        $this->appName = null;
+        $this->uniqueIdentifier = null;
+        $this->password = null;
+        $this->passwordAlgorithm = null;
+        $this->person = null;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUid()
+    {
+        return $this->uid;
+    }
+
+    /**
+     * @param mixed $uid
+     */
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAppUniqueId()
+    {
+        return $this->appUniqueId;
+    }
+
+    /**
+     * @param mixed $appUniqueId
+     */
+    public function setAppUniqueId($appUniqueId)
+    {
+        $this->appUniqueId = $appUniqueId;
+    }
+
+    /**
+     * @return null
+     */
+    public function getAppName()
+    {
+        return $this->appName;
+    }
+
+    /**
+     * @param null $appName
+     */
+    public function setAppName($appName)
+    {
+        $this->appName = $appName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUniqueIdentifier()
+    {
+        return $this->uniqueIdentifier;
+    }
+
+    /**
+     * @param mixed $uniqueIdentifier
+     */
+    public function setUniqueIdentifier($uniqueIdentifier)
+    {
+        $this->uniqueIdentifier = $uniqueIdentifier;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param mixed $password
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPasswordAlgorithm()
+    {
+        return $this->passwordAlgorithm;
+    }
+
+    /**
+     * @param mixed $passwordAlgorithm
+     */
+    public function setPasswordAlgorithm($passwordAlgorithm)
+    {
+        $this->passwordAlgorithm = $passwordAlgorithm;
+    }
+
+    /**
+     * @param Person $person
+     */
+    public function setPerson(Person $person)
+    {
+        $this->person = $person;
+    }
+
+    /**
+     * @return null|Person
+     */
+    public function getPerson()
+    {
+        return $this->person;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        $rs = parent::toArray();
+        Util::writeIfNotEmpty($rs, 'uid', $this->getUid());
+        Util::writeIfNotEmpty($rs, 'appUniqueId', $this->getAppUniqueId());
+        Util::writeIfNotEmpty($rs, 'appName', $this->getAppName());
+        Util::writeIfNotEmpty($rs, 'uniqueIdentifier', $this->getUniqueIdentifier());
+        Util::writeIfNotEmpty($rs, 'password', $this->getPassword());
+        Util::writeIfNotEmpty($rs, 'passwordAlgorithm', $this->getPasswordAlgorithm());
+        /* @var Person $person */
+        $person = $this->getPerson();
+        if (isset($person)) {
+            Util::writeIfNotEmpty($rs, 'person', $person->toArray());
+        }
+        return $rs;
+    }
+
+}

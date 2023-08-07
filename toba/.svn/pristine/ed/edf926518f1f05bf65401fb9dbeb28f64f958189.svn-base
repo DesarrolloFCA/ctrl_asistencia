@@ -1,0 +1,33 @@
+<?php
+
+namespace SIU\AraiCli\Commands;
+
+use SIU\AraiCli\Console\Application;
+use SIU\AraiCli\IO\NullIO;
+use Symfony\Component\Console\Command\Command;
+
+class BaseCommand extends Command
+{
+    protected $container;
+    protected $io;
+
+    public function setContainer($container)
+    {
+        $this->container = $container;
+    }
+
+    public function getIO()
+    {
+        if (null === $this->io) {
+            $application = $this->getApplication();
+            if ($application instanceof Application) {
+                /* @var $application    Application */
+                $this->io = $application->getIO();
+            } else {
+                $this->io = new NullIO();
+            }
+        }
+
+        return $this->io;
+    }
+}
