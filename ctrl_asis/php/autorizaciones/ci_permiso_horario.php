@@ -49,12 +49,12 @@ class ci_permiso_horario extends ctrl_asis_ci
 			/*$sql = "UPDATE reloj.permisos_horarios
 					Set aut_sup = $a_sup, auto_aut = $a_aut, observaciones = '$obs' , procesado = $p
 					where id_permiso = $id";
-			//ei_arbol($sql);		
+			//ei_arbol($sql);        
 			toba::db('ctrl_asis')->ejecutar ($sql);    */
 			
 				$id= $datos[$i]['id_permiso'];
 				$legajo = $datos[$i]['legajo'];
-			//	ei_arbol ($datos[$i]['pasada']);
+			//    ei_arbol ($datos[$i]['pasada']);
 				if ($datos[$i]['procesado']  == 1){
 					$estado = 'C';
 				} else {
@@ -77,7 +77,7 @@ class ci_permiso_horario extends ctrl_asis_ci
 				$datos_correo ['apellido'] = $apellido;
 				$datos_correo ['nombre'] = $nombre;
 				$datos_correo ['fecha_inicio'] = $fecha_inicio;
-			//	$datos_correo ['fecha_fin'] = $fecha_fin;
+			//    $datos_correo ['fecha_fin'] = $fecha_fin;
 				$datos_correo ['hora_inicio'] = $hora_inicio;
 				$datos_correo ['horario_fin'] = $hora_fin;
 				$datos_correo ['lugar'] = $lugar;
@@ -87,12 +87,12 @@ class ci_permiso_horario extends ctrl_asis_ci
 				$sql= "SELECT email from reloj.agentes_mail
 				where legajo=$legajo";
 				$correo = toba::db('ctrl_asis')->consultar($sql);
-			//	ei_arbol($datos[$i]['pasada'] );
+			//    ei_arbol($datos[$i]['pasada'] );
 				
 				
-			//	ei_arbol($estado);
+			//    ei_arbol($estado);
 
-				if ($estado=='C'&& (($autoriza_sup == 1 )|| ($autoriza_aut == 1))) {	 
+				if ($estado=='C'&& (($autoriza_sup == 1 )|| ($autoriza_aut == 1))) {     
 						if ($autoriza_aut == 1){
 							$auto_aut= true;
 						} else {
@@ -121,7 +121,7 @@ class ci_permiso_horario extends ctrl_asis_ci
 						$dias = $dia->format('%a') +1 ;
 					//ei_arbol($dias);
 						$fecha_ini=$datos[$i]['fecha'];
-					//	ei_arbol($fecha_ini);
+					//    ei_arbol($fecha_ini);
 						$estado_civil = $direccion[0]['estado_civil'];
 						$id_decreto = 5;
 						$id_articulo = 104;
@@ -132,14 +132,14 @@ class ci_permiso_horario extends ctrl_asis_ci
 							legajo, edad, fecha_alta, usuario_alta, estado, fecha_inicio_licencia, dias, cod_depcia, domicilio, localidad, agrupamiento, fecha_nacimiento,
 							apellido, nombre, estado_civil, observaciones, id_decreto, id_motivo, id_articulo, tipo_sexo,usuario_cierre,fecha_cierre)
 							VALUES ($legajo, $edad, '$fecha_alta', '$usuario_alta', '$estado', '$fecha_ini', $dias, '04', '$domicilio', '$localidad', '$agrupamiento', '$fecha_nacimiento',
-							'$apellido', '$nombre',    '$estado_civil', '$observaciones', $id_decreto,  $id_motivo,	  $id_articulo,'$tipo_sexo','$usuario_cierre','$fecha_cierre');";
+							'$apellido', '$nombre',    '$estado_civil', '$observaciones', $id_decreto,  $id_motivo,      $id_articulo,'$tipo_sexo','$usuario_cierre','$fecha_cierre');";
 						toba::db('ctrl_asis')->ejecutar($sql);
 						
 
 						$this->enviar_correos($correo[0]['email'],true);
 						} else  if ($estado =='C'&& (($autoriza_sup == 0 )&& ($autoriza_aut == 0 ))) {
 						
-						$this->enviar_correos($correo[0]['email'],false );			
+						$this->enviar_correos($correo[0]['email'],false );            
 					
 						} 
 					if ($estado == 'C') {
@@ -147,12 +147,12 @@ class ci_permiso_horario extends ctrl_asis_ci
 								$sql = "UPDATE reloj.permisos_horarios
 								Set  observaciones = '$obs' , procesado = true
 								where id_permiso = $id";
-								toba::db('ctrl_asis')->ejecutar($sql);	
-							}	
-					}	
-				 
+								toba::db('ctrl_asis')->ejecutar($sql);    
+							}    
+					}    
+					
 				
-			}	
+			}    
 			
 
 	}
@@ -164,7 +164,7 @@ class ci_permiso_horario extends ctrl_asis_ci
 					WHERE procesado is null
 					";
 		$listado = toba::db('ctrl_asis')->consultar($sql);
-	//	ei_arbol($listado);
+	//    ei_arbol($listado);
 		$componente->set_datos($listado);
 	}
 	function enviar_correos($correo,$aprobado)
@@ -215,7 +215,7 @@ $mail->Subject = 'Solicitud de Permiso Horario';
 $mail->IsHTML(true); //el mail contiene html*/
 
 	
-     ei_arbol($datos);
+		ei_arbol($datos);
 //
 
 	if ($aprobado) {
