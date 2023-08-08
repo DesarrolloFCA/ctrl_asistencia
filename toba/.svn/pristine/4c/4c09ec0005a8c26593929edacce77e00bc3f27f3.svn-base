@@ -1,0 +1,40 @@
+<?php
+
+namespace SIU\AraiCli\Commands;
+
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\CS\Console\Application;
+
+class CSFixer extends BaseCommand
+{
+    protected function configure()
+    {
+        $this
+            ->setName('dev:cs-fixer')
+            ->setDescription('Run CS-Fixer on codebase')
+        ;
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $this->runFixCommand(__DIR__.'/..', $output);
+        $output->writeln('');
+        $this->runFixCommand(__DIR__.'/../../../../tests', $output);
+    }
+
+    protected function runFixCommand($path, OutputInterface $output)
+    {
+        $csfixApp = new Application();
+        $fixCommand = $csfixApp->find('fix');
+
+        $args = [
+            'command' => 'fix',
+            'path' => $path,
+        ];
+
+        $output->writeln(sprintf("Fixing path '%s': ", realpath($path)));
+        $fixCommand->run(new ArrayInput($args), $output);
+    }
+}

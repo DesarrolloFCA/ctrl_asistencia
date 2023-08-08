@@ -1,0 +1,46 @@
+#!/usr/bin/env php
+<?php
+
+namespace SIU\AraiCli;
+
+function includeIfExists($file)
+{
+    if (file_exists($file)) {
+        return include $file;
+    }
+}
+
+if ((!$loader = includeIfExists(__DIR__.'/../vendor/autoload.php')) && (!$loader = includeIfExists(__DIR__.'/../../../autoload.php'))) {
+    $msg = 'You must set up the project dependencies, run the following commands:'.PHP_EOL.
+           'curl -sS https://getcomposer.org/installer | php'.PHP_EOL.
+           'php composer.phar install'.PHP_EOL;
+    fwrite(STDERR, $msg);
+    exit(1);
+}
+
+use SIU\AraiCli\Console\Application;
+
+$app = new Application('SIU-Arai Cli', 'dev');
+
+/*
+ * Add commands here (could be read from folder)
+ */
+$commands = [
+    new Commands\Registry\Add(),
+    new Commands\Registry\Remove(),
+    new Commands\Registry\Sync(),
+    new Commands\Registry\Status(),
+];
+
+$commandsDev = [
+    new Commands\CSFixer(),
+    new Commands\PHPUnit(),
+];
+
+$devEnabled = true;
+if ($devEnabled) {
+    $commands = array_merge($commands, $commandsDev);
+}
+
+$app->addCommands($commands);
+$app->run();

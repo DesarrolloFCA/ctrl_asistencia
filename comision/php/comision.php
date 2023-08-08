@@ -39,6 +39,7 @@ class comision extends toba_ci
 			$obs=$datos['observaciones'].' ';
 			$motivo= $datos['motivo'];
 			$fuera = $datos['fuera'];
+			//$datos['fecha_fin'] = $fecha_fin;
 
 			
 		
@@ -70,6 +71,8 @@ class comision extends toba_ci
 				$correo_aut=$this->dep('datos')->tabla('agentes_mail')->get_correo($datos['autoridad']);
 			$datos['autoridad']=$correo_aut[0]['descripcion'];
 			}
+			$agente= $this -> dep('mapuche')->get_legajo_todos($legajo); 
+			$datos['descripcion']= $agente[0]['descripcion'];
 			$this->s__datos = $datos;
 			//ei_arbol($datos);
 			//ei_arbol($correo_sup);
@@ -159,7 +162,7 @@ $mail->IsHTML(true); //el mail contiene html
 	$fecha_fin =date('d/m/Y',strtotime($datos['fecha_fin']));
 	
 	$body = '<table>
-						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
+						El/la agente  <b>'. $datos['descripcion'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
 						Solicita <b>Comision de Servicio</b> a realizarse el dia '.$fecha.' hasta el dia ' .$fecha_fin. '
 						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].' hasta la hora '.$datos['horario_fin'].' con el siguiente motivo de: '.$datos['motivo'].' observaciones: ' .$datos['observaciones']. '
 											

@@ -1,0 +1,112 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: andres
+ * Date: 01/10/15
+ * Time: 16:53
+ */
+
+namespace SIU\AraiJsonParser\Feature;
+
+use SIU\AraiJsonParser\Feature\Extension\TypeExtension;
+use SIU\AraiJsonParser\Util\Util;
+
+class Consumption extends Feature
+{
+    public function __construct(TypeExtension $typeExtension)
+    {
+        parent::__construct($typeExtension);
+        $this->providers = [];
+    }
+
+    /**
+     * @var Provision[]
+     */
+    protected $providers;
+
+    public function addProvider(Provision $provider)
+    {
+        $this->providers[] = $provider;
+    }
+
+    /**
+     * @return Provision[]
+     */
+    public function getProviders()
+    {
+        return $this->providers;
+    }
+
+    /**
+     * @var string
+     */
+    protected $onMissing;
+
+    /**
+     * @return string el comportamiento esperado cuando la feature no existe. Es uno de los siguientes strings: 'fail'|'warn'|'no-action'.
+     * Por defecto retorna 'fail'
+     */
+    public function getOnMissing()
+    {
+        return $this->onMissing;
+    }
+
+    /**
+     * @param string $onMissing
+     * @return Feature
+     */
+    public function setOnMissing($onMissing)
+    {
+        $this->onMissing = $onMissing;
+        return $this;
+    }
+
+    /**
+     * @var string
+     */
+    protected $status;
+
+    /**
+     * @param string $status
+     * @return Feature
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function toArray()
+    {
+        $rs = $this->toArrayWithoutProviders();
+
+        if (!empty($this->providers)) {
+            $rs['providers'] = [];
+            foreach ($this->providers as $provider) {
+                $rs['providers'][] = $provider->toArrayWithoutConsumers();
+            }
+        }
+
+        return $rs;
+    }
+
+    public function toArrayWithoutProviders()
+    {
+        $rs = parent::toArray();
+        Util::writeIfNotEmpty($rs, 'on-missing', $this->getOnMissing());
+        Util::writeIfNotEmpty($rs, 'status', $this->getStatus());
+        return $rs;
+    }
+}

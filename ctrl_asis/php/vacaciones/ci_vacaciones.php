@@ -42,6 +42,7 @@ class ci_vacaciones extends ctrl_asis_ci
 				$id_inasistencia= $formula[$i]['id_inasistencia'];
 				//ei_arbol($formula[$i]['inasistencia']);
 				$observaciones= $datos[$i]['observaciones'];
+
 				$legajo=$datos[$i]['legajo'];
 				$ayn= $this->dep('mapuche')->get_legajos_autoridad($legajo);
 				$apellido=$ayn[0]['apellido'];
@@ -56,6 +57,7 @@ class ci_vacaciones extends ctrl_asis_ci
 				$datos_correo['fecha_inicio']=$fecha_inicio;
 				$datos_correo['fecha_fin']=$fecha_fin;
 				$datos_correo['auto_aut'] = $auto_aut;
+				$datos_correo['id_motivo']= $datos[$i]['id_motivo'];
 				$this->s__datos_correo=$datos_correo;
 				$sql= "SELECT email from reloj.agentes_mail
 				where legajo=$legajo";
@@ -72,7 +74,6 @@ class ci_vacaciones extends ctrl_asis_ci
 					$localidad= $direccion[0]['localidad'];
 					$agrupamiento = $direccion[0]['escalafon'];
 					$fecha_nacimiento = $direccion[0]['fecha_nacimiento'];
-					
 					$fecha_alta = $formula[$i]['fecha_alta'];
 					$usuario_alta = $formula[$i]['usuario_alta'];
 					$estado=$datos[$i]['estado'];
@@ -231,7 +232,7 @@ $mail->Subject = 'Solicitud de vacaciones';
 $mail->IsHTML(true); //el mail contiene html*/
 
 	
-//     ei_arbol($fecha,$hasta);
+// ei_arbol($datos);
 
 	if ($aprobado == 1) {
 		if ($datos['id_motivo'] == 30) {
@@ -239,7 +240,7 @@ $mail->IsHTML(true); //el mail contiene html*/
 		//$motivo = 'Razones Particulares con gose de haberes';
 			$body = '<table>
 						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita Justificacion de Inasistencia por Razones Particulares a partir del dia '.$fecha.' hasta '.$hasta. '.
+						Solicita Justificacion de Inasistencia por Razones Particulares a partir del dia '.$fecha.' hasta '.$hasta. 'ha sido otorgada.
 							Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
 											
 				</table>';
@@ -262,7 +263,7 @@ $mail->IsHTML(true); //el mail contiene html*/
 			$mail->Subject = 'Solicitud de Razones Particulares';	
 			$body = '<table>
 						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita Justificacion de Inasistencia por Razones Particulares a partir del dia '.$fecha.' hasta '.$hasta. '.
+						La Solicitud de Justificacion de Inasistencia por Razones Particulares a partir del dia '.$fecha.' hasta '.$hasta. 'ha sido <b>rechazada</b>.
 							Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
 											
 				</table>';

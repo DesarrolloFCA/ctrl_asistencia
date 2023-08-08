@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: ablanco
+ * Date: 18/06/15
+ * Time: 17:14.
+ */
+namespace SIU\AraiCli\Commands\Registry;
+
+use SIU\AraiCli\Factory;
+use SIU\AraiCli\Commands\BaseCommand;
+use SIU\AraiCli\Services\Registry\AraiJsonUtil;
+use SIU\AraiCli\Services\Registry\Registry;
+use SIU\AraiCli\Services\Registry\RegistryException;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+
+class Sync extends BaseCommand
+{
+    protected function configure()
+    {
+        $nombre = 'registry:sync';
+        $this
+            ->setName($nombre)
+//            ->setDefinition([
+//                new InputOption('force', 'f', InputOption::VALUE_NONE, 'Fuerza la re-sincronización con ARAI-Registry aunque el archivo arai.json no haya cambiado'),
+//            ])
+            ->setDescription('Sincroniza la configuración del proyecto con el servidor ARAI-Registry')
+            ->setHelp(<<<EOT
+El comando $nombre se comunica con el servidor ARAI-Registry para actualizar la información de configuración de las features
+que este consume; como también para publicar las features que el mismo proyecto provee.
+Si no se ejecutó el comando conectar previamente falla.
+EOT
+        );
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $c = Factory::getContainer();
+
+        /** @var AraiJsonUtil $araiJsonUtil */
+        $araiJsonUtil = $c['arai-json-util'];
+
+        if (!$araiJsonUtil->lockFileExists()) {
+            $path = $araiJsonUtil->getAraiLockPath();
+            $this->getIO()->writeError("<error>No existe un archivo de lock en este path: '$path'. Probablemente no se hizo la registración en Araí</error>");
+            return;
+        }
+
+//        if ($araiJsonUtil->hasValidHash() && !$input->getOption('force')) {
+//            //TODO: esto no se puede saber solo en el cliente, porque el server puede tener nuevos features que el paquete actual necesita (ej. es un IDP y tiene nuevos SPs)
+//            $this->getIO()->writeError('<warning>El sistema ya está sincronizado. Si desea forzar una sincronización ejecutar con la opción --force</warning>');
+//            return;
+//        }
+
+        /** @var Registry $server */
+        $server = $c['arai-registry'];
+
+        try {
+            $araiLockContents = $server->sync($araiJsonUtil->getJsonForSync());
+            $araiJsonUtil->writeAraiLock($araiLockContents);
+            $this->getIO()->write("Se sincronizó correctamente");
+        } catch (RegistryException $e) {
+            $this->getIO()->writeError("<error>[ {$e->getStatusCode()} ] - {$e->getMessage()} </error>");
+
+            return;
+        } catch (\Exception $e) {
+            $this->getIO()->writeError("<error>{$e->getMessage()}</error>");
+
+            return;
+        }
+        // reconfigurar el sistema (disparo de eventos)
+    }
+}

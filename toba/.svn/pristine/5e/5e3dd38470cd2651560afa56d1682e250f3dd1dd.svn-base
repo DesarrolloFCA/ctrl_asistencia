@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: andres
+ * Date: 03/09/15
+ * Time: 14:11.
+ */
+namespace SIU\AraiCli\Error;
+
+class ErrorAraiCli extends \Exception
+{
+}

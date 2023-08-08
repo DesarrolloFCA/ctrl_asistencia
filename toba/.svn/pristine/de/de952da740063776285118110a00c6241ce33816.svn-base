@@ -1,0 +1,97 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: fbohn
+ * Date: 28/03/16
+ * Time: 16:53
+ */
+
+namespace SIU\AraiJsonMigrator\Entities;
+
+use SIU\AraiJsonMigrator\Util\Util;
+use SIU\AraiJsonMigrator\Util\AppValue;
+use SIU\AraiJsonMigrator\Entities\Attribute;
+
+class Conflict extends Entity
+{
+
+    protected $uniqueIdentifier;
+    /* @var Attribute[] $attributes */
+    protected $attributes;
+
+
+    /**
+     *
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->uniqueIdentifier = null;
+        $this->attributes = [];
+    }
+
+    /**
+     * @return null
+     */
+    public function getUniqueIdentifier()
+    {
+        return $this->uniqueIdentifier;
+    }
+
+    /**
+     * @param null $uniqueIdentifier
+     */
+    public function setUniqueIdentifier($uniqueIdentifier)
+    {
+        $this->uniqueIdentifier = $uniqueIdentifier;
+    }
+
+    /**
+     * @return Atribute[]
+     */
+    public function getAttributeList()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * @param Attribute $attribute
+     */
+    public function addAttribute(Attribute $attribute)
+    {
+        $this->attributes[] = $attribute;
+    }
+
+    /**
+     * @param $atributo
+     * @return null|Attribute
+     */
+    public function getAttribute($atributo)
+    {
+        /* @var Attribute $attribute */
+        foreach ($this->getAttributeList() as $attribute)
+        {
+            if ($attribute->getAttribute() == $atributo)
+            {
+                return $attribute;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        $rs = parent::toArray();
+        Util::writeIfNotEmpty($rs, 'uniqueIdentifier', $this->getUniqueIdentifier());
+        $rs['attributes'] = array();
+        /* @var Attribute $attribute */
+        foreach ($this->attributes as $attribute) {
+            $rs['attributes'][] = $attribute->toArray();
+        }
+        return $rs;
+    }
+
+}

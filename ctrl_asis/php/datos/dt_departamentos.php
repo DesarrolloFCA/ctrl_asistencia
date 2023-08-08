@@ -9,6 +9,11 @@ class dt_departamentos extends ctrl_asis_datos_tabla
 
 
 
+
+
+
+
+
 	function get_listado($filtro=array())
 	{
 		$where = array();

@@ -171,7 +171,7 @@ class ci_articulo extends comision_ci
 		$insertadas = count($vac_pen);
 		//  ei_arbol($insertadas);
 
-		for ($i=0; $i <= $cant; $i++)
+		for ($i=0; $i < $cant; $i++)
 		{ 
 			
 			if ($agente [$i]['escalafon'] == 'NODO'){
@@ -179,7 +179,7 @@ class ci_articulo extends comision_ci
 				
 				
 				if ($id_motivo == 30) { //Razones Particulares
-						
+					
 						if (date("Y") == $anio){    
 							if($dias<=2){
 							$agente [$i]['articulo'] = null;
@@ -804,16 +804,20 @@ class ci_articulo extends comision_ci
 
 					if(isset($datos['superior'])and $datos['superior']<>0) {
 					//$correo_sup = $this->dep('mapuche')->get_legajos_email($datos['superior']);
-					$correo_agente=$this->dep('datos')->tabla('agentes_mail')->get_correo($datos['superior']);	
+					$correo_sup=$this->dep('datos')->tabla('agentes_mail')->get_correo($datos['superior']);	
+					
 					$datos['superior_ayn']=$correo_sup[0]['descripcion'];
 					}
 
 					if(isset($datos['autoridad'])) {
 					//$correo_aut = $this->dep('mapuche')->get_legajos_email($datos['autoridad']);
-					$correo_agente=$this->dep('datos')->tabla('agentes_mail')->get_correo($datos['autoridad']);
+					$correo_aut=$this->dep('datos')->tabla('agentes_mail')->get_correo($datos['autoridad']);
 					$datos['autoridad_ayn']=$correo_aut[0]['descripcion'];
 		
 					}
+					$agente= $this -> dep('mapuche')->get_legajo_todos($legajo); 
+					$datos['descripcion']= $agente[0]['descripcion'];
+					
 					$this->s__datos = $datos;
 	
 					if (isset($legajo)){
@@ -829,7 +833,7 @@ class ci_articulo extends comision_ci
 					$sql= "SELECT email from reloj.agentes_mail
 					where legajo=$superior";
 					$correo = toba::db('comision')->consultar($sql);
-					$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
+					//$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
 
 
 					}
@@ -884,10 +888,14 @@ function enviar_correos($correo)
 
 				$datos =$this->s__datos;  
 //ei_arbol($datos);
+if ($datos['id_motivo'] == 30) {
+	$datos['dias']=$datos['dias']-1;
 
+} 
 	$fecha=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] ) );
 
 	$hasta=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] . "+ " .$datos['dias']. " days") );
+	
 
 if ($datos['dias_restantes'] <= 0){
 	$datos['dias_restantes'] = 0;
@@ -936,7 +944,7 @@ $mail->IsHTML(true); //el mail contiene html
 		//$motivo = 'Razones Particulares con gose de haberes';
 		$mail->Subject = 'Formulario de Solicitud Razones Particulares';
 		$body = '<table>
-						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la catedra/oficina/ direcci&oacute;n <b>'.$datos['catedra'].'</b>.<br/>
+						El/la agente  <b>'.$datos['descripcion'].'</b> perteneciente a la catedra/oficina/ direcci&oacute;n <b>'.$datos['catedra'].'</b>.<br/>
 						Solicita Justificaci&oacute;n de Inasistencia por Razones Particulares a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.
 							Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
 											
@@ -947,7 +955,7 @@ $mail->IsHTML(true); //el mail contiene html
 			$mail->Subject = 'Formulario de Licencia Anual';
 		//$motivo = 'Vacaciones'.$datos['anio'];
 		$body = '<table>
-						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
+						El/la agente  <b>'.$datos['descripcion'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
 						Solicita la licencia anual correspondiente al  '.$datos['anio'].' a partir del d&iacute;a '.$fecha.'hasta '.$hasta. '. <br/>
 						Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
 											
@@ -969,7 +977,7 @@ $mail->IsHTML(true); //el mail contiene html
 		$mail->Subject = 'Formulario de D&iacute&as Pendientes de la Licencia Anual';
 		$body = '<table>
 
-				El/la agente <b>'.$datos['agente_ayn'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
+				El/la agente <b>'.$datos['descripcion'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
 				Solicita los d&iacute;as pendientes de la licencia anual correspondiente al ' .$datos['anio']. ' a partir del d&iacute;a '.$fecha. ' hasta '.$hasta. '<br/>
 				Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones'].  '<br/>
 				Ud. cuenta con '.$datos['dias_restantes'].' d&iacute;as de vacaciones pendientes.
@@ -1006,7 +1014,7 @@ function enviar_correos_sup($correo,$destino)
 	$hasta=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] . "+ " .$datos['dias']. " days") );
 	
             
-		//    ei_arbol($correo,$destino);   
+   ei_arbol($datos);   
 		$mail = new phpmailer();
 		$mail->IsSMTP();
 //Esto es para activar el modo depuración. En entorno de pruebas lo mejor es 2, en producción siempre 0
@@ -1046,9 +1054,9 @@ $mail->IsHTML(true); //el mail contiene html
 		//$motivo = 'Razones Particulares con gose de haberes';
 		$mail->Subject = 'Formulario de Solicitud Razones Particulares del Agente ' .$datos['agente_ayn'];
 		$body = '<table>
-						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la <b>'.$datos['catedra'].'</b> solicita <b> Razones Particulares </b> a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.<br/>
+						El/la agente  <b>'.$datos['descripcion'].'</b> perteneciente a la <b>'.$datos['catedra'].'</b> solicita <b> Razones Particulares </b> a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.<br/>
 							Observaciones: ' .$datos['observaciones']. ' - <br/>
-							Por favor haga <a href="http://172.22.8.49/ctrl_asis/1.0">click aqui </a> para su autorizacion
+							En caso de no estar de acuerdo con la autorizacion comuniquese por correo con la autoridad correspondiente.
 
 											
 			</table>';
@@ -1060,7 +1068,7 @@ $mail->IsHTML(true); //el mail contiene html
 		$mail->Subject = 'Formulario de Solicitud Licencia Anual del Agente ' .$datos['agente_ayn'];
 		$body = '<table>
 
-						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a  la <b>'.$datos['catedra'].'</b>.<br/>
+						El/la agente  <b>'.$datos['descripcion'].'</b> perteneciente a  la <b>'.$datos['catedra'].'</b>.<br/>
 						Solicita <b> Licencia Anual</b> correspondiente al  '.$datos['anio'].' a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.<br/>
 						Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. ' <br/>
 						En caso de no estar de acuerdo con la autorizacion comuniquese por correo con la autoridad correspondiente.
@@ -1072,7 +1080,7 @@ $mail->IsHTML(true); //el mail contiene html
 		$mail->Subject = 'Formulario de D&iacute&as Pendientes de la Licencia Anual del Agente' .$datos['agente_ayn'];
 		$body = '<table>
 
-				El/la agente <b>'.$datos['agente_ayn'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
+				El/la agente <b>'.$datos['descripcion'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
 				Solicita <b>los d&iacute;as pendientes de la licencia anual</b> correspondiente al ' .$datos['anio']. ' a partir del d&iacute;a '.$fecha. ' hasta '.$hasta. '<br/>
 				Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones'].  '<br/>
 				Ud. cuenta con '.$datos['dias_restantes'].' d&iacute;as de vacaciones pendientes.

@@ -1,0 +1,66 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: fbohn
+ * Date: 28/03/16
+ * Time: 16:40
+ */
+
+use SIU\AraiJsonMigrator\AraiConflictManager;
+use SIU\AraiJsonMigrator\AraiConflict;
+
+class AraiConflictManagerTest extends PHPUnit_Framework_TestCase
+{
+
+    public function testLoadFromFile()
+    {
+        $manager = new AraiConflictManager();
+        /* @var AraiConflict $data */
+        $data = $manager->load(__DIR__.'/fixtures/conflict-minimal-correct.json');
+        $this->assertTrue($data->getName() === "ConflictosMigracion");
+        $this->assertTrue($data->getDescription() === "Conflictos en la migracion de usuarios de Mapuche");
+        $this->assertTrue($data->getMantainer() === "pepe");
+        $this->assertTrue($data->getMantainerEmail() === "pepe@mail.com");
+        $this->assertTrue(count($data->getConflictsList()) === 0);
+    }
+
+    public function testComplexJsonLoad()
+    {
+        $manager = new AraiConflictManager();
+        /* @var AraiConflict $data */
+        $data = $manager->load(__DIR__.'/fixtures/conflict-correct.json');
+        $this->assertTrue($data->getName() === "ConflictosMigracion");
+        $this->assertTrue($data->getDescription() === "Conflictos en la migracion de usuarios de Mapuche");
+        $this->assertTrue($data->getMantainer() === "pepe");
+        $this->assertTrue($data->getMantainerEmail() === "pepe@mail.com");
+        $this->assertTrue(count($data->getConflictsList()) === 2);
+    }
+
+    public function testEncodeJson()
+    {
+        $manager = new AraiConflictManager();
+        /* @var AraiConflict $data */
+        $data = $manager->load(__DIR__.'/fixtures/conflict-correct.json');
+        $jsonString = $manager->encodeJson($data);
+        
+        $this->assertJsonStringEqualsJsonFile(__DIR__.'/fixtures/conflict-correct.json', $jsonString);
+    }
+
+    public function testSave()
+    {
+        $manager = new AraiConflictManager();
+
+        /* @var AraiConflict $data */
+        $data = $manager->load(__DIR__.'/fixtures/conflict-correct.json');
+        $jsonString = $manager->encodeJson($data);
+
+        $manager->save(__DIR__.'/fixtures/temp/conflict-correct-save.json', $data);
+
+        /* @var AraiConflict $dataSave */
+        $dataSave = $manager->load(__DIR__.'/fixtures/temp/conflict-correct-save.json');
+        $jsonStringSave = $manager->encodeJson($dataSave);
+
+        $this->assertJsonStringEqualsJsonString($jsonString, $jsonStringSave);
+    }
+
+}

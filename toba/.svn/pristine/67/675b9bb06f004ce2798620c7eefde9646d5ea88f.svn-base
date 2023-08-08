@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: ablanco
+ * Date: 23/06/15
+ * Time: 13:32.
+ */
+namespace SIU\AraiCli\Services\Registry;
+
+class RegistryException extends \Exception
+{
+    protected $statusCode;
+
+    public function __construct($message, $statusCode)
+    {
+        parent::__construct($message);
+        $this->statusCode = $statusCode;
+    }
+
+    public function getStatusCode()
+    {
+        return $this->statusCode;
+    }
+}

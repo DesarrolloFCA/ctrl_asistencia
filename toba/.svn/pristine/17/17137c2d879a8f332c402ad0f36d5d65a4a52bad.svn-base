@@ -1,0 +1,70 @@
+{
+    "title": "BienServicio",
+    "type": "object",
+    "properties": {
+        "id_bien_servicio_tipo": {
+            "type": "string",
+            "maxLength": 1
+        },
+        "id_catalogo_servicio_padre": {
+            "type": ["object","null"],
+            "$ref": "#\/definitions\/claveForanea"
+        },
+        "codigo": {
+            "type": "string",
+            "maxLength": 20
+        },
+        "codigo_completo": {
+            "type": ["string","null"],
+            "maxLength": 20
+        },
+        "nombre": {
+	    "type": "string",
+            "maxLength": 120
+        },
+        "nivel": {
+            "type": "integer"
+        },
+        "estado": {
+            "type": "string",
+            "maxLength": 2
+        }
+    },
+    "definitions": {
+        "claveForanea": {
+            "type": "object",
+            "properties": {
+                "id_arai": {
+                    "type": "integer"
+                },
+                "catalogo": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id_arai",
+                "catalogo"
+            ]
+        },
+        "claveForaneaNN": {
+            "type": "object",
+            "properties": {
+                "id_arai": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    }
+                },
+                "catalogo": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id_arai",
+                "catalogo"
+            ]
+        }
+    },
+    "additionalProperties": false,
+    "required": ["id_bien_servicio_tipo","codigo","nombre","nivel","estado"]
+}

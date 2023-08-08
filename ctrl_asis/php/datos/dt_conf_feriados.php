@@ -19,11 +19,12 @@ class dt_conf_feriados extends ctrl_asis_datos_tabla
 		}else {
 				$agru='Todos';
 		}		
-		$sql= "Select count(feriado_id) as resultado from reloj.conf_feriados
+		$sql= "Select feriado_id as resultado from reloj.conf_feriados
 		 where '$fecha' between feriado_fecha and feriado_fecha_fin
-		 and agrupamiento in ('$agru',NULL);";
+		 and agrupamiento in ('$agru',NULL,'Todos');";
+
 		$res = toba::db('ctrl_asis')->consultar_fila($sql);
-		
+		//ei_arbol ($sql);
 		return $res['resultado'];
 	
 	}
@@ -77,7 +78,7 @@ class dt_conf_feriados extends ctrl_asis_datos_tabla
 	}
 	function dia_feriado($dia){
 		$sql = "SELECT agrupamiento from reloj.conf_feriados
-				Where feriado_fecha =".quote($dia);
+				Where '$dia' between feriado_fecha_fin and feriado_fecha";
 		$feriado=toba::db('ctrl_asis')->consultar_fila($sql);
 		if(isset($feriado)){
 			return $feriado['agrupamiento'];
@@ -88,7 +89,47 @@ class dt_conf_feriados extends ctrl_asis_datos_tabla
 				
 	}
 	
+	function suma_feriados($filtro=array())	{
+		$where = array();
+		if (isset($filtro['feriado'])) {
+			$where[] = "t_cf.feriado ILIKE ".quote("%{$filtro['feriado']}%");
+		}
+		if (isset($filtro['feriado_fecha'])) {
+			$where[] = "t_cf.feriado_fecha = ".quote($filtro['feriado_fecha']);
+		}
+		if (isset($filtro['fecha_desde'])) {
+				list($y,$m,$d)=explode("-",$filtro['fecha_desde']); //2011-03-31
+				$fecha_desde = $y."-".$m."-".$d;
+				$where[] = "t_cf.feriado_fecha >= ".quote($fecha_desde);
+		}
+		if (isset($filtro['fecha_hasta'])) {
+				list($y,$m,$d)=explode("-",$filtro['fecha_hasta']); //2011-03-31
+				
+				$fecha_hasta = $y."-".$m."-".$d." 23:59:59";
+				$where[] = "t_cf.feriado_fecha <= ".quote($fecha_hasta);
+		}
+
 		
+		$sql = "SELECT
+			
+			(t_cf.feriado_fecha_fin - t_cf.feriado_fecha) + 1 dias_feriados ,t_cf.agrupamiento as agrupamiento 
+		FROM
+			conf_feriados as t_cf
+		ORDER BY t_cf.feriado_fecha DESC";
+
+		if (count($where)>0) {
+			$sql = sql_concatenar_where($sql, $where);
+		}
+		
+		$feriado= toba::db('ctrl_asis')->consultar($sql);
+		$lim=count($feriado);
+		
+		$total_dias= 0;
+		for ($i=0;$i<$lim;$i++){
+			$total_dias = $total_dias + $feriado[$i]['dias_feriados'];
+		}
+		return $total_dias;
+	}	
 
 }
 ?>

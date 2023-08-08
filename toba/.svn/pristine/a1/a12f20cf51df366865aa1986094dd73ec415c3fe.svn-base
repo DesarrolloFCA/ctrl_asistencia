@@ -1,0 +1,58 @@
+{
+    "title": "Zona",
+    "type": "object",
+    "properties": {
+        "nombre": {
+            "type": "string",
+            "maxLength": 255
+        },
+        "provincia": {
+            "type": "object",
+            "$ref": "#\/definitions\/claveForaneaNN"
+        },
+        "pais": {
+            "type": "object",
+            "$ref": "#\/definitions\/claveForanea"
+        }
+    },
+    "definitions": {
+        "claveForanea": {
+            "type": "object",
+            "properties": {
+                "id_arai": {
+                    "type": "integer"
+                },
+                "catalogo": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id_arai",
+                "catalogo"
+            ]
+        },
+        "claveForaneaNN": {
+            "type": "object",
+            "properties": {
+                "id_arai": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    }
+                },
+                "catalogo": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id_arai",
+                "catalogo"
+            ]
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "nombre",
+        "pais"
+    ]
+}

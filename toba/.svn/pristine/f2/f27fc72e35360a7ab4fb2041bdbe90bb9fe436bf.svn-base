@@ -1,0 +1,274 @@
+Consumo de la librería:
+
+Agregar en el archivo composer.json de la aplicación cliente
+
+	"repositories": 
+	[
+	{
+	    "type": "composer",
+	    "url": "https://satis.siu.edu.ar"
+	}
+	],
+	"require": {
+		"siu/arai-cli": "v1.0"
+	}
+
+Dentro de la ruta /vendor/siu/arai-cli/src/SIU/AraiCli se encuentra el archivo Factory.php donde se debe configurar
+
+	$container['arai-catalogos-path-logs'] = '/../../../logs/arai-catalogos-cli.log'; //PATH Y ARCHIVO DONDE SE ALMACENAN LOGS
+	$container['arai-catalogos-logger'] = function ($c) {
+	    $log = new Logger('arai-catalogos-cli');
+	    $streamHandler = new StreamHandler(__DIR__ . $c['arai-catalogos-path-logs'], Logger::NOTICE, false);
+	    $log->pushHandler($streamHandler);
+	    return $log;
+	};
+	$container['arai-catalogos-json-schema-path'] = '/../../../../../res/catalogos/schemas/'; //PATH DONDE SE ENCUENTRAN LOS JSON SCHEMAS VALIDATORS
+	$container['arai-catalogos-config-file'] = '/../../../res/catalogos/config/config.json'; //PATH Y ARCHIVO JSON DE CONFIGURACION
+	$container['arai-catalogos-config'] = function ($c) {
+	    $config = json_decode(file_get_contents(__DIR__ . $c['arai-catalogos-config-file']), true);
+	    return $config;
+	};
+
+
+Cambios en la base: Se agregan tres nuevos campos a las tablas que pasan a convertirse en catálogos comunes, revisión que guarda el número de revisión asociado, id_arai que guarda el id global, y sincronizar es un flag que indica si ese registro debe ser sincronizado (para aquellos catálogos que cuenten con sincronización parcial de datos).
+
+Para el catálogo Rubro el sql aplicado sería:
+
+	ALTER TABLE anx_rubros
+	    ADD revision integer;
+
+	ALTER TABLE anx_rubros
+	    ADD id_arai integer;
+
+	ALTER TABLE anx_rubros
+	    ADD sincronizar char(1) DEFAULT 'N';
+
+
+Consumo de la librería en aplicación que utiliza SIU Toba
+https://www.lucidchart.com/documents/embeddedchart/48e3dbb6-41e9-4b22-9487-17b4edb447de (Link a grafico)
+
+Copiar el archivo cliente.ini en /{proyecto}/vendor/siu-toba/framework/instalacion/i_{instancia}/p_{proyecto}/rest/arai-catalogos con el contenido
+
+	[conexion]
+	;Recuerde dejar una barra (/) al finalizar la URL
+	to = "URL SERVIDOR"
+	auth_tipo="basic"
+	auth_usuario="USUARIO"
+	auth_password="CLAVE"
+
+
+En contexto_ejecucion_[proyecto].php agregar el código siguiente, esto complementa el contenedor que utiliza la librería:
+
+	$container = \SIU\AraiCli\Factory::getContainer();
+
+//Configurar el cliente guzzle, la configuración la toma del archivo cliente.ini 
+ubicado en /{proyecto}/vendor/siu-toba/framework/instalacion/i__{instancia}/p__{proyecto}/rest/arai-catalogos
+
+	$container['arai-catalogos-cliente'] = function ($c) {
+		    $cliente = toba::servicio_web_rest('arai-catalogos');
+		    return $cliente->guzzle();
+		   };
+
+//Define el encoding a utilizar
+	$container['arai-catalogos-encoding'] = 'LATIN1';
+	$container['arai-catalogos-namespace'] = 'SIU\AraiCli\Services\AraiCatalogos';
+	//Configuración general de los catálogos que utiliza la aplicación
+	$container['arai-catalogos-lista'] = Array (
+	'catalogos' => [
+	    'rubro' => Array(
+	    'columnas' => ["descripcion"], //Columnas que componen el catalogo
+	    'lk' => ["descripcion"], //Clave Lógica
+	    'fk' => null,  //Foreigns keys
+	    'id_componente_dt' => ID_DATOS_TABLA_DE_ANX_RUBROS,  //Id del datos tabla que maneja el catalogo (por el momento solo permite uno)
+	    'tabla' => 'anx_rubros',  //Nombre de la tabla que maneja el catalogo (por el momento solo permite una)
+	    'ultima_revision' => call_user_func('sincronizador_arai_cli::getUltimaRevision', 'anx_rubros')
+	    ),
+	    'tipoDocumento' => Array(
+	    'columnas' => ["tipo_de_documentacion","descripcion","requiere_liquidacion","formato","imprime","reimprime","tipo_documentacion"],
+	    'lk' => ["tipo_de_documentacion"], //Clave Lógica
+	    'fk' => null,
+	    'id_componente_dt' => ID_DATOS_TABLA_DE_SAU_NO_DOCUMENTACION_TIPOS,
+	    'tabla' => 'sau_no_documentacion_tipos',
+	'subset' => [array("campo"=>"tipo_documentacion", "operador"=>"=", "valor"=>"'D'")], //esto sincroniza solo los registros que cumplen con esa condición
+	    'ultima_revision' => call_user_func('sincronizador_arai_cli::getUltimaRevision', 'sau_no_documentacion_tipos')
+	    ),
+	    'zona' => Array(
+	    'columnas' => ["pais","nombre"],
+	    'lk' => null, //Clave Lógica
+	    'fk' => array("pais"=>"pais"),
+	    'id_componente_dt' =>ID_DATOS_TABLA_DE_ANX_ZONAS,
+	    'tabla' => 'anx_zonas',
+	    'ultima_revision' => call_user_func('sincronizador_arai_cli::getUltimaRevision', 'anx_zonas')
+	    )
+	]);
+
+A continuación se muestra el consumo en un ABM (del catalogo Rubro del sistema SIU Pilaga), se edita el CI de la operación, que en este caso se reutiliza para la mayoría de los ABMs (ci_abm_filtro.php):
+Se fuerza una sincronización con el servidor cada vez que se carga la operación de la siguiente forma:
+
+	function conf() {   
+	    $arai_cli = new sincronizador_arai_cli($this->catalogo, $this->get_tabla());
+	    $this->s__clase_catalogo = $arai_cli->getClaseCatalogo();
+	    $this->s__tabla_catalogo = $arai_cli->getTablaCatalogo();
+	    $this->s__encabezado = $arai_cli->getEncabezado();
+	    $arai_cli->sincronizacion(true);
+	}
+	Código que gestiona el alta:
+	function evt__formulario__alta($datos) {
+	    $arai_cli_lib = new $this->s__clase_catalogo($this->s__encabezado, $this->catalogo);
+	    try {
+	    $this->verifica_duplicados($datos);
+	    $respuesta = $arai_cli_lib->setDatos($datos, 'A', $datos["id_arai"]);
+	    //El alta local se realiza para guardar campos que pueden no estar siendo guardados en el catálogo central, al sincronizar se termina de 		    actualizar la revisión
+	    if (isset($respuesta["idArai"])) {
+		$datos["id_arai"] = $respuesta["idArai"];
+		self::evt__formulario__alta_local($datos);
+	    }
+	    } catch (toba_error $e) {
+	    throw $e;
+	    } catch (Exception $e) {
+	    throw new excepcion_pilaga($e);
+	    }
+	}
+
+	function verifica_duplicados($datos) {
+	    $tabla = $this->get_tabla();
+	    $arai_cli_lib = new $this->s__clase_catalogo($this->s__encabezado, $this->catalogo);
+	    $claves = $arai_cli_lib->getColumnasLK();
+
+	    foreach ($claves as $clave) {
+		$r[$clave] = $datos[$clave];
+	    }
+
+	    $dao = "\$datos_tabla = $this->clase::$this->metodo(null);";
+	    eval($dao);
+	    $tabla->cargar_con_datos($datos_tabla);
+	    $id = $tabla->get_id_fila_condicion($r);
+
+	    if (count($id)>0) {
+		throw new excepcion_pilaga("Se intenta dar de alta un registro con una clave que ya existe. Verifique los datos ingresados.");
+	    }
+	}
+
+	protected function get_tabla() {
+		return $this->dep('datos');
+	}
+
+Modificación:
+
+	function evt__formulario__modificacion($datos) {
+	    //Le inyecto la revision general del catalogo
+	    $datos["revision"] = sincronizador_arai_cli::getUltimaRevision($this->s__tabla_catalogo);
+
+	    $arai_cli_lib = new $this->s__clase_catalogo($this->s__encabezado, $this->catalogo);
+
+	    try {
+		$respuesta = $arai_cli_lib->setDatos($datos, 'M', $datos["id_arai"]);
+	    //El modificación local se realiza para guardar campos que pueden no estar siendo guardados en el catálogo central, al sincronizar se   			termina de actualizar la revisión
+	    if (isset($respuesta["idArai"])) {
+		$datos["id_arai"] = $respuesta["idArai"];
+		self::evt__formulario__modificacion_local($datos);
+	    }
+	    } catch (toba_error $e) {
+		throw $e;
+	    } catch (Exception $e) {
+	    throw new excepcion_pilaga($e->getMessage());
+	    }
+	}
+
+Baja:
+
+	function evt__formulario__baja($seleccion = null) {     
+	    if (!is_null($seleccion))
+		$this->s__seleccion = $seleccion;
+
+	    //Le inyecto la revision general del catalogo
+	    $datos["revision"] = sincronizador_arai_cli::getUltimaRevision($this->s__tabla_catalogo);
+
+	    $arai_cli_lib = new $this->s__clase_catalogo($this->s__encabezado, $this->catalogo);        
+
+	    try {       
+		$respuesta = $arai_cli_lib->setDatos(null, 'B', $this->s__seleccion["id_arai"]);
+	    } catch (toba_error $e) {
+		throw $e;
+	    } catch (Exception $e) {
+		throw new excepcion_pilaga($e);
+	    }
+	}
+
+La clase sincronizador_arai_cli es el nexo entre la aplicación cliente y la librería arai-catalogos-cli
+Comandos administrativos:
+Existen dos comandos (actualmente se pueden ver en Pilaga y Diaguita): sincronizacion (ej: ./pilaga.sh arai sincronizacion) y sincronizacion_inicial (ej: ./pilaga.sh arai sincronizacion_inicial)
+Ejemplo
+
+    /**
+    * Realiza la sincronización inicial (libreria arai catalogos)   
+    */
+    function opcion__arai_cat_sinc_inicial($parametros)
+    {
+        ini_set('memory_limit', '512M');
+
+        if (isset($parametros["-i"])) {
+            $instancia = $parametros["-i"];
+        } else {
+            $instancia = apex_pa_instancia;
+        }
+        if (isset($parametros["-p"])) {
+            $proyecto = $parametros["-p"];
+        } else {
+            $proyecto = apex_pa_proyecto;
+        }
+        if (isset($parametros["-c"])) {
+            $catalogo = $parametros["-c"];
+        } else {
+            throw new toba_error("Es necesario definir un Catalogo. Utilice el modificador '-c'.");
+        }
+
+        // Iniciar contexto de pilaga
+        toba::nucleo()->iniciar_contexto_desde_consola($instancia, $proyecto);
+        $this->sincronizacion(true, $catalogo);
+    }
+
+    function sincronizacion($inicial, $catalogo) {
+        ini_set('memory_limit', '512M');
+
+        $formateo_consola = new formateo_consola();
+        $container = \SIU\AraiCli\Factory::getContainer();
+
+        if (!isset($container['arai-catalogos-lista'])) {
+        $display->mensaje("La aplicación no tiene activo el parámetro 'aplicar_sincronizacion_arai'\nDebe ponerlo en Si para poder utilizar este comando.", true);
+        return false;
+        }
+
+        echo $formateo_consola->formateo_titulo("Arai Catálogos - Sincronización " . (($inicial) ? 'inicial. ' : '. ') . "Catálogo: $catalogo", true);
+
+        if (!isset($container['arai-catalogos-lista']['catalogos'][$catalogo])) {
+        echo $formateo_consola->formateo_titulo("El catálogo $catalogo no se encuentra definido en la aplicación, verifique el nombre ingresado.", true);
+        return false;
+        }
+
+        $id_datos_tabla = $container['arai-catalogos-lista']['catalogos'][$catalogo]['id_componente_dt'];
+        $datos_tabla = toba::componente_por_id($id_datos_tabla);
+        $tabla = $container['arai-catalogos-lista']['catalogos'][$catalogo]['tabla'];
+        $namespace = $container['arai-catalogos-namespace'];
+
+        $encabezado = array();
+        sincronizador_arai_cli::setDatosEncabezadoApp($encabezado, $tabla);
+
+        if (class_exists($namespace . '\\' . $catalogo))
+        $clase_catalogo = $namespace . '\\' . $catalogo;
+        else
+        $clase_catalogo = $namespace . '\AraiCatalogos';        
+
+        $arai_cli = new sincronizador_arai_cli($catalogo, $clase_catalogo, $encabezado, $tabla, $datos_tabla);
+        $arai_cli->sincronizacion($inicial, true);
+
+        echo $formateo_consola->formateo_titulo("La sincronización finalizó con éxito!", true);
+    }
+
+El proyecto SIU Pilaga que ya se encuentra integrado con arai-catalogos está en
+https://repositorio.siu.edu.ar/svn/pilaga/trunk/
+El proyecto SIU Diaguita que ya se encuentra integrado con arai-catalogos está en
+https://repositorio.siu.edu.ar/svn/diaguita/trunk_versiones/catalogos
+
+En https://gitlab.siu.edu.ar/siu-arai/arai-cli/wikis/arai-catalogos-cli-setup se encuentran los fuentes de ejemplo (sincronizador_arai_cli.php y formateo_consola.php) para poder utilizar la librería desde proyectos que no utilizan el framework SIU TOBA.
+

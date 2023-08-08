@@ -1,0 +1,51 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: andres
+ * Date: 24/09/15
+ * Time: 18:46
+ */
+
+namespace SIU\AraiCli\Services\Registry;
+
+use SIU\AraiJsonParser\Feature\Consumption;
+use SIU\AraiJsonParser\Feature\Provision;
+
+interface HooksInterface
+{
+    /**
+     * Se ejecuta antes de enviar una feature al registry. En esta ventana se deben configurar las features para incluir
+     * los datos dependientes de la instalación.
+     * @param Provision $feature una feature sin información de instalación, por ej: url.
+     */
+    public function preProvide(Provision $feature);
+
+    /**
+     * Se ejecuta después de que se registra una provisión. Todos los consumidores están en $f->getConsumers()
+     * @param Provision $feature
+     */
+    public function postProvide(Provision $feature);
+
+    /**
+     * Se ejecuta antes de enviar una feature para consumo al registry.
+     * @param Consumption $feature
+     */
+    public function preConsume(Consumption $feature);
+
+    /**
+     * Se ejecuta cuando vuelve una feature del registry con los datos para su consumo. Este hook es utilizado para
+     * configurar el sistema a partir de la información en registry.
+     * @param Consumption $feature
+     */
+    public function postConsume(Consumption $feature);
+
+    /**
+     * Se ejecuta luego de hacer un add
+     */
+    public function postAdd();
+
+    /**
+     * Se ejecuta luego de hacer un sync
+     */
+    public function postSync();
+}

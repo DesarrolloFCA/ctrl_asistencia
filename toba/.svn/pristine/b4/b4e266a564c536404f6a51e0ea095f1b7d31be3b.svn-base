@@ -1,0 +1,36 @@
+{
+	"title": "TipoDocumento",
+	"type": "object",
+	"properties": {		
+		"tipo_de_documentacion": {
+			"type": "string",
+			"maxLength": 4
+		},
+		"descripcion": {
+			"type": "string",
+			"maxLength": 40
+		},
+		"requiere_liquidacion": {
+			"type": "string",
+			"maxLength": 1
+		},
+		"formato": {
+			"type": ["string","null"],
+			"maxLength": 20
+		},
+		"imprime": {
+			"type": ["string","null"],
+			"maxLength": 1
+		},
+		"reimprime": {
+			"type": ["string","null"],
+			"maxLength": 1
+		},
+		"tipo_documentacion": {
+			"type": "string",
+			"maxLength": 2
+		}
+	},
+	"additionalProperties": false,
+	"required": ["tipo_de_documentacion"]
+}

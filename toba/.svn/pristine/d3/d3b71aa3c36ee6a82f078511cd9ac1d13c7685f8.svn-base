@@ -1,0 +1,149 @@
+{
+  "$schema": "http://arai/proveedores/schema#",
+  "id": "http://arai/proveedores",
+  "title": "Proveedores",
+  "type": "object",
+  "properties": {
+    "persona": {
+      "id": "http://arai/persona",
+      "type": "integer"
+    },
+    "nacionalidad": {
+      "id": "http://arai/nacionalidad",
+      "type": "integer"
+    },
+    "fisica_o_juridica": {
+      "id": "http://arai/fisica_o_juridica",
+	  "maxLength": 1,
+      "type": "string"
+    },
+    "razon_social": {
+      "id": "http://arai/razon_social",
+	  "maxLength": 120,
+      "type": "string"
+    },
+    "nombre_fantasia": {
+      "id": "http://arai/nombre_fantasia",
+	  "maxLength": 120,
+      "type": "string"
+    },
+    "sexo": {
+      "id": "http://arai/sexo",
+	  "maxLength": 1,
+      "type": "string"
+    },
+    "email": {
+      "id": "http://arai/email",
+	  "maxLength": 40,
+      "type": "string"
+    },
+    "cbu": {
+      "id": "http://arai/cbu",
+      "maxLength": 22,
+	  "type": "string"	  
+    },
+    "estado": {
+      "id": "http://arai/estado",
+	  "maxLength": 2,
+      "type": "string"
+    },
+    "tipo_persona": {
+      "id": "http://arai/tipo_persona",	  
+      "type": "integer"
+    },
+    "url": {
+      "id": "http://arai/url",
+	  "maxLength": 255,
+      "type": "string"
+    },
+    "tel_cel": {
+      "id": "http://arai/tel_cel",
+	  "maxLength": 20,
+      "type": "string"
+    },
+    "rubros": {
+      "id": "http://arai/rubros",
+      "type": "array",
+      "items": {
+        "id": "http://arai/rubros/0",
+        "type": "object",
+        "properties": {
+          "rubro": {
+            "id": "http://arai/rubros/0/rubro",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "documentos": {
+      "id": "http://arai/documentos",
+      "type": "array",
+      "items": {
+        "id": "http://arai/documentos/0",
+        "type": "object",
+        "properties": {
+          "numero": {
+            "id": "http://arai/documentos/0/numero",
+            "maxLength": 20,
+            "type": "string"
+          },
+          "tipo_doc": {
+            "id": "http://arai/documentos/0/tipo_doc",
+            "maxLength": 20,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "domicilios": {
+      "id": "http://arai/domicilios",
+      "type": "array",
+      "items": {
+        "id": "http://arai/domicilios/0",
+        "type": "object",
+        "properties": {
+          "rol": {
+            "id": "http://arai/domicilios/0/rol",
+            "maxLength": 8,
+            "type": "string"
+          },
+          "domicilio": {
+            "id": "http://arai/domicilios/0/domicilio",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "proveedor": {
+      "id": "http://arai/proveedor",
+      "type": "object",
+      "properties": {
+          "nombre": {
+            "id": "http://arai/proveedor/0/nombre",
+            "maxLength": 120,
+            "type": "string"
+          },
+          "tipo_inscripcion": {
+            "id": "http://arai/proveedor/0/tipo_inscripcion",
+            "maxLength": 1,
+            "type": "string"
+          },
+          "fecha_inscripcion": {
+            "id": "http://arai/proveedor/0/fecha_inscripcion",			
+            "type": "datetime"
+          },
+          "estado": {
+            "id": "http://arai/proveedor/0/estado",
+            "maxLength": 2,
+            "type": "string"
+          },
+	  "required": ["estado"]
+      }
+    },
+    "persona_arai": {
+      "id": "http://arai/persona_arai",
+      "type": "integer"
+    }
+  },
+  "required": ["persona","nombre","estado","persona_arai"]
+}

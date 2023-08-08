@@ -1,0 +1,139 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: fbohn
+ * Date: 28/03/16
+ * Time: 17:54
+ */
+namespace SIU\AraiJsonMigrator;
+
+use SIU\AraiJsonMigrator\Entities\Account;
+use SIU\AraiJsonMigrator\Entities\Person;
+
+class AraiMigrator
+{
+    protected $name, $description, $mantainer, $mantainerEmail;
+
+    /**
+     * @var Person[]
+     */
+    protected $people;
+
+    /**
+     * @var Account[]
+     */
+    protected $accounts;
+
+    public function __construct($name, $description, $mantainer='', $mantainerEmail='')
+    {
+        $this->name = $name;
+        $this->description = $description;
+        $this->mantainer = $mantainer;
+        $this->mantainerEmail = $mantainerEmail;
+        $this->people = [];
+        $this->accounts = [];
+    }
+
+    /**
+     * @return string el nombre del migrador
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string la descripción del migrador
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMantainer()
+    {
+        return $this->mantainer;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMantainerEmail()
+    {
+        return $this->mantainerEmail;
+    }
+
+    /**
+     * @param Person $person
+     * Agrega una persona a la lista de personas
+     */
+    public function addPerson(Person $person)
+    {
+        $this->people[] = $person;
+    }
+
+    /**
+     * @return Person[] un arreglo de personas
+     */
+    public function getPeopleList()
+    {
+        return $this->people;
+    }
+
+    /**
+     * @param Account $account
+     * Agrega una cuenta a la lista de cuentas
+     */
+    public function addAccount(Account $account)
+    {
+        $this->accounts[] = $account;
+    }
+
+    /**
+     * @return Account[] un arreglo de cuentas
+     */
+    public function getAccountsList()
+    {
+        return $this->accounts;
+    }
+
+    /**
+     * @return array de información general del paquete. Descripción y data de los mantainers
+     */
+    public function getHeaderAsArray()
+    {
+        $rs = array();
+        $rs['description'] = $this->getDescription();
+        $rs['mantainer'] = $this->getMantainer();
+        $rs['mantainer-email'] = $this->getMantainerEmail();
+
+        return $rs;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        $rs = array();
+        $rs['name'] = $this->getName();
+        $rs['description'] = $this->getDescription();
+        $rs['mantainer'] = $this->getMantainer();
+        $rs['mantainer-email'] = $this->getMantainerEmail();
+        $rs['people'] = array();
+        /* @var Person as $person */
+        foreach ($this->people as $person) {
+            $rs['people'][] = $person->toArray();
+        }
+        $rs['accounts'] = array();
+        /* @var Account $account */
+        foreach ($this->accounts as $account) {
+            $rs['accounts'][] = $account->toArray();
+        }
+
+        return $rs;
+    }
+}

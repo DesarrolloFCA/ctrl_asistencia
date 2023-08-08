@@ -1,0 +1,12 @@
+{
+	"title": "Rubros",
+	"type": "object",
+	"properties": {
+		"descripcion": {
+			"type": "string",
+			"maxLength": 255
+		}
+	},
+	"additionalProperties": false,
+	"required": ["descripcion"]
+}

@@ -1,0 +1,77 @@
+{
+  "name": "ConflictosMigracion",
+  "description": "Conflictos en la migracion de usuarios de Mapuche",
+  "mantainer": "pepe",
+  "mantainer-email": "pepe@mail.com",
+  "conflicts": [
+    {
+      "uniqueIdentifier": "jperez",
+      "attributes": [
+        {
+          "attribute": "nombre",
+          "appValues": [
+            {
+              "appUniqueId": "siu-arai-usuarios_1.siu-arai-usuarios-gestion",
+              "value": "Juan"
+            },
+            {
+              "appUniqueId": "siu-arai-usuarios_1.siu-arai-usuarios-gestion1",
+              "value": "Juan Manuel"
+            },
+            {
+              "appUniqueId": "siu-arai-usuarios_1.siu-arai-usuarios-gestion2",
+              "value": "Juan M"
+            }
+          ]
+        },
+        {
+          "attribute": "cn",
+          "appValues": [
+            {
+              "appUniqueId": "siu-arai-usuarios_1.siu-arai-usuarios-gestion",
+              "value": "Juan"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "uniqueIdentifier": "fbohn",
+      "attributes": [
+        {
+          "attribute": "apellido",
+          "appValues": [
+            {
+              "appUniqueId": "siu-arai-usuarios_1.siu-arai-usuarios-gestion",
+              "value": "Bohn"
+            },
+            {
+              "appUniqueId": "siu-arai-usuarios_1.siu-arai-usuarios-gestion1",
+              "value": "Bhon"
+            },
+            {
+              "appUniqueId": "siu-arai-usuarios_1.siu-arai-usuarios-gestion2",
+              "value": "Bon"
+            },
+            {
+              "appName": "Arai-Usuarios",
+              "value": "Bon1"
+            },
+            {
+              "value": "Bon2"
+            }
+          ]
+        },
+        {
+          "attribute": "cn",
+          "appValues": [
+            {
+              "appUniqueId": "siu-arai-usuarios_1.siu-arai-usuarios-gestion",
+              "value": "Juan"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+# pack-refs with: peeled fully-peeled 
+24327d46361f900866ecd69f28ed56e89f016ddc refs/remotes/origin/arai-catalogos
+5598d5231c59732d1b07763bd8fb6bda0c5d1141 refs/remotes/origin/arai-catalogos-cli
+21d9c261e294b21262b44b2b02cea728da0b4862 refs/remotes/origin/develop
+62b6a3d5bde60094e6844423d7c9ae3787cdb253 refs/remotes/origin/master
+48b03c5f4d96ce1b8ffdfbd18fc4bbb22b494e7b refs/remotes/origin/release-v1.0-alpha
+c68da4065b8deacd4a67b4fb0cb6d520e341a3fb refs/tags/v1.0
+48b03c5f4d96ce1b8ffdfbd18fc4bbb22b494e7b refs/tags/v1.0-alpha
+f43db305b0ad76f406821d060bf7002121d60d0e refs/tags/v1.1.0
+^f9d386fe59895aa32fe742aab70e2e484a35aad0
+61b6812a69cff829c993a80e81894449df0ec7ad refs/tags/v1.1.1
+^0d25e77cc4c26e62a46e8294d99df548c621f069
+99fd17e5060c1c34d423f5b9b9c95a66cf135f0f refs/tags/v1.1.2
+^f26a56fe7af2c82497535c2fdb6e842d2d6bc5d5
+b2aa28287747433ee05fdda3989e807b727628c1 refs/tags/v1.1.3
+^c14c1d3e0de103c6ec7d7e8947649855acbad46f
+9db8d0852a4274c6737f9377a9fa6faf54b1fd2e refs/tags/v1.1.4
+^0aeb2fcd385b0a944059fbcc42c5155a3a371b58

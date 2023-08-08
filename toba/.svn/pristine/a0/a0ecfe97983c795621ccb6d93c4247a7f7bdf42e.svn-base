@@ -1,0 +1,46 @@
+# SIU-ARAI Cli
+Librería cliente de los componentes ARAI
+
+## Instalacion
+Incluir el consumo en el archivo **composer.json** del proyecto
+
+Para ello compruebe que tiene agregado el servidor satis de SIU
+
+```javascript
+{
+  "repositories": [{
+    "type": "composer",
+    "url": "https://satis.siu.edu.ar"
+  }],
+}
+```
+
+Y ejecutar el comando:
+
+```
+composer require siu/arai-cli:dev-master
+```
+
+ Agregar al svn:ignore (o .gitignore) el archivo `arai.lock` en la raiz del proyecto
+
+## Uso como comando
+La librería tiene un comando llamado `arai-cli`, para ejecutarlo:
+
+```
+vendor/bin/arai-cli
+```
+
+## Variables de entorno relevantes
+ * **ARAI_REGISTRY_USER**: **Obligatoria si se utiliza Registry**. El usuario de registry
+ * **ARAI_REGISTRY_PASS**: **Obligatoria si se utiliza Registry**. El password del usuario registry
+ * **ARAICLI_NO_INTERACTION**: El comando será no interactivo.
+ * **ARAICLI_ENV**: Puede ser ***prod*** o ***dev***. Si es ***dev*** se activa el debug de php.
+ 
+
+## Ejemplo de uso de arai-catalogos-cli
+
+Ver documentación en **http://documentacion.siu.edu.ar/wiki/SIU-Arai/catalogos-cliente**
+
+## Cambios por versión
+
+Ver el [detalle de cambios](CHANGELOG.md) por versión, con la corrección de errores y mejoras.

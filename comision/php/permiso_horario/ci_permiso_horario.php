@@ -14,7 +14,8 @@ class ci_permiso_horario extends comision_ci
 		$anio= date('Y');
 		$legajo = $datos['legajo'];
 		$escalafon = $this -> dep('mapuche')->get_legajo_escalafon($legajo);
-
+		$agente= $this -> dep('mapuche')->get_legajo_todos($legajo); 
+		$datos['descripcion']= $agente[0]['descripcion'];
 		$j = count($escalafon);
 		 for ($i=0; $i<=$j; $i++){
 		 	if ($escalafon [$i]['escalafon'] == 'NODO'){
@@ -63,21 +64,22 @@ class ci_permiso_horario extends comision_ci
 				$datos['superior']=$correo_sup[0]['descripcion'];
 			}
 			//ei_arbol ($datos);
-
+			agente= $this -> dep('mapuche')->get_legajo_todos($legajo); 
+					$datos['descripcion']= $agente[0]['descripcion'];
 			$this->s__datos = $datos;
 			if (!empty ($datos['legajo'])){
-			$this->enviar_correos($correo_agente[0]['email']);
+			$this->enviar_correos($datos['agente']);
 
 		
 			}
-		toba::notificacion()->agregar('Su pedido de Permiso Horario sera tramitado a la brevedad', 'info');
+			toba::notificacion()->agregar('Su pedido de Permiso Horario sera tramitado a la brevedad', 'info');
 
 		} else 
 		{
 			toba::notificacion()->agregar('Ud. ha excedido la cantidad de permisos excepcionales que se otorgan por a&ntilde;o', 'info');
 		}	
 			if (!empty ($datos['leg_sup'])){
-				$this->enviar_correos($correo_sup[0]['email']);
+				$this->enviar_correos($datos['superior']);
 			}
 		} else {
 			toba::notificacion()->agregar('Esta licencia es aplicable solamente a Personal de Apoyo Acad&eacute;mico', 'info');
@@ -95,7 +97,7 @@ class ci_permiso_horario extends comision_ci
 				$datos =$this-> s__datos;   
 				 
 				
-//ei_arbol ($this->s__datos);                
+//ei_arbol ($correo);                
 		$mail = new phpmailer();
 		$mail->IsSMTP();
 //Esto es para activar el modo depuración. En entorno de pruebas lo mejor es 2, en producción siempre 0
@@ -123,7 +125,7 @@ $mail->SetFrom('formularios_asistencia@fca.uncu.edu.ar', 'Formulario Personal');
 
 //$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
 //Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)
-$mail -> AddAddress($correo, 'Tester');
+$mail -> AddAddress($correo, $datos['descripcion']);
 //$mail->AddAddress($correo, 'El Destinatario'); //Descomentar linea cuando pase a produccion
 //Definimos el tema del email
 $mail->Subject = 'Formulario Permiso Horario';
@@ -135,7 +137,7 @@ $mail->IsHTML(true); //el mail contiene html
 	$fecha_fin =date('d/m/Y',strtotime($datos['fecha_fin']));
 	
 	$body = '<table>
-						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a la <b>'.$datos['n_catedra'].'</b>.<br/>
+						El/la agente  <b>'. $datos['descripcion'].'</b> perteneciente a la <b>'.$datos['n_catedra'].'</b>.<br/>
 						Solicita <b>permiso horario</b>  para el d&iacute;a '.$fecha.' a partir de la hora ' .$datos['horario_incio'].' hasta la hora '.$datos['horario_fin'].'<br/> 
 						Motivo de la solicitud: '.$datos['razon'].'<br/>
 						Observaciones: ' .$datos['observaciones']. ' -

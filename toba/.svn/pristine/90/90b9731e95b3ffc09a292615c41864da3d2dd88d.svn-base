@@ -1,0 +1,161 @@
+<?php
+use SIU\AraiJsonParser\Feature\Feature;
+use SIU\AraiJsonParser\Version\VersionParser;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: fbohn
+ * Date: 28/03/16
+ * Time: 17:24
+ */
+use SIU\AraiJsonMigrator\Util\Documento;
+use SIU\AraiJsonMigrator\Entities\Person;
+use SIU\AraiJsonMigrator\Entities\Account;
+use SIU\AraiJsonMigrator\Util\AppValue;
+use SIU\AraiJsonMigrator\Entities\Attribute;
+use SIU\AraiJsonMigrator\Entities\Conflict;
+
+class EntityTest extends PHPUnit_Framework_TestCase
+{
+    function testEntity()
+    {
+        $tipo = 'DNI';
+        $numero = '32456712';
+
+        /* @var Documento $documento */
+        $documento = new Documento($tipo, $numero);
+
+        $givenName = 'Federico';
+        $sn = 'Bohn';
+        $cn = 'Fede Bohn';
+        $mail = 'fbohn@siu.edu.ar';
+        $bloqueada = '0';
+        $genero = 'M';
+        $employeeNumber = '1234';
+        $extra = array('employeeNumberSIU' => '4321');
+
+        /* @var Person $persona */
+        $persona = new Person();
+        $persona->setGivenName($givenName);
+        $persona->setSn($sn);
+        $persona->setCn($cn);
+        $persona->setMail($mail);
+        $persona->setBloqueada($bloqueada);
+        $persona->setGenero($genero);
+        $persona->setDocumento($documento);
+        $persona->setEmployeeNumber($employeeNumber);
+        $persona->setExtra($extra);
+
+        $uid = 'fede';
+        $appUniqueId = 'siu-arai-usuarios_1.siu-arai-usuarios-gestion';
+        $appName = 'SIU-Pilaga';
+        $uniqueIdentifier = 'fbohn';
+        $password = 'hgrfdetg351.fg.42';
+        $passwordAlgorithm = 'crypt';
+
+        /* @var Account $cuenta */
+        $cuenta = new Account();
+        $cuenta->setUid($uid);
+        $cuenta->setAppUniqueId($appUniqueId);
+        $cuenta->setAppName($appName);
+        $cuenta->setUniqueIdentifier($uniqueIdentifier);
+        $cuenta->setPassword($password);
+        $cuenta->setPasswordAlgorithm($passwordAlgorithm);
+        $cuenta->setPerson($persona);
+
+        $this->assertEquals([
+            'uid' => $uid,
+            'appUniqueId' => $appUniqueId,
+            'appName' => $appName,
+            'uniqueIdentifier' => $uniqueIdentifier,
+            'password' => $password,
+            'passwordAlgorithm' => $passwordAlgorithm,
+            'person' => [
+                'givenName' => $givenName,
+                'sn' => $sn,
+                'cn' => $cn,
+                'mail' => $mail,
+                'bloqueada' => $bloqueada,
+                'employeeNumber' => $employeeNumber,
+                'genero' => $genero,
+                'extra' => $extra,
+                'documento' => [
+                    'tipo' => $tipo,
+                    'numero' => $numero
+                ]
+            ]
+        ], $cuenta->toArray());
+
+    }
+
+    function testEntityConflict()
+    {
+        $appUniqueId_1 = 'siu-arai-usuarios_1.siu-arai-usuarios-gestion';
+        $value_1 = 'Juan';
+
+        $appUniqueId_2 = 'siu-arai-usuarios_1.siu-arai-usuarios-gestion_2';
+        $value_2 = 'Juan Manuel';
+
+        /* @var AppValue $appValue_1, $appValue_2 */
+        $appValue_1 = new AppValue();
+        $appValue_1->setAppUniqueId($appUniqueId_1);
+        $appValue_1->setValue($value_1);
+        $appValue_2 = new AppValue();
+        $appValue_2->setAppUniqueId($appUniqueId_2);
+        $appValue_2->setValue($value_2);
+
+        $atributo_1 = 'nombre';
+        $atributo_2 = 'cn';
+
+        /* @var Attribute $attribute_1, $attribute_2 */
+        $attribute_1 = new Attribute();
+        $attribute_1->setAttribute($atributo_1);
+        $attribute_1->addAppValue($appValue_1);
+        $attribute_1->addAppValue($appValue_2);
+        $attribute_2 = new Attribute();
+        $attribute_2->setAttribute($atributo_2);
+        $attribute_2->addAppValue($appValue_1);
+        $attribute_2->addAppValue($appValue_2);
+
+        $uniqueIdentifier = 'jperez';
+
+        /* @var Conflict $conflict */
+        $conflict = new Conflict();
+        $conflict->setUniqueIdentifier($uniqueIdentifier);
+        $conflict->addAttribute($attribute_1);
+        $conflict->addAttribute($attribute_2);
+
+        $this->assertEquals([
+            'uniqueIdentifier' => $uniqueIdentifier,
+            'attributes' => [
+                [
+                    'attribute' => $atributo_1,
+                    'appValues' => [
+                        [
+                            'appUniqueId' => $appUniqueId_1,
+                            'value' => $value_1
+                        ],
+                        [
+                            'appUniqueId' => $appUniqueId_2,
+                            'value' => $value_2
+                        ]
+                    ]
+                ],
+                [
+                    'attribute' => $atributo_2,
+                    'appValues' => [
+                        [
+                            'appUniqueId' => $appUniqueId_1,
+                            'value' => $value_1
+                        ],
+                        [
+                            'appUniqueId' => $appUniqueId_2,
+                            'value' => $value_2
+                        ]
+                    ]
+                ]
+            ]
+        ], $conflict->toArray());
+
+    }
+}

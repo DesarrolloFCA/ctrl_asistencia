@@ -1,0 +1,104 @@
+<?php
+use SIU\AraiJsonParser\Feature\Feature;
+use SIU\AraiJsonParser\Version\VersionParser;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: andres
+ * Date: 28/09/15
+ * Time: 17:24
+ */
+class FeatureTest extends PHPUnit_Framework_TestCase
+{
+    function testToArrayConsumption()
+    {
+        /** @var Feature $consumption */
+        $consumption = new \SIU\AraiJsonParser\Feature\Consumption(new \SIU\AraiJsonParser\Feature\Extension\Api());
+
+        $name = 'api:feature';
+        $description = 'descripcion';
+        $parser = new VersionParser();
+        $version = $parser->parseConstraint("1.0.0");
+        $status = 'missing';
+        $onMissing = 'fail';
+        $alias = 'alias';
+        $endpoint = "http://toba.com";
+        $instance = "nombre-instancia";
+        $options = ['opcion_1'=>'valor_1'];
+        $addOptionKey = 'opcion_2';
+        $addOptionValue = 'valor_2';
+        $rawJson = "no se testea esto, por eso no soy un json";
+        $consumption
+            ->setName($name)
+            ->setDescription($description)
+            ->setVersion($version)
+            ->setStatus($status)
+            ->setOnMissing($onMissing)
+            ->setAlias($alias)
+            ->setEndpoint($endpoint)
+            ->setInstance($instance)
+            ->setOptions($options)
+            ->addOption($addOptionKey, $addOptionValue)
+            ->setRawJson($rawJson)
+        ;
+
+        $this->assertEquals([
+            'name' => $name,
+            'description' => $description,
+            'version' => '1.0.0',
+            'status' => $status,
+            'on-missing' => $onMissing,
+            'alias' => $alias,
+            'endpoint' => $endpoint,
+            'instance' => $instance,
+            'options' => array_merge($options, [$addOptionKey => $addOptionValue])
+        ], $consumption->toArray());
+    }
+
+    function testSSLAuthApi()
+    {
+        $ext = new \SIU\AraiJsonParser\Feature\Extension\Api();
+        $auth = [
+            [
+                'type' => 'ssl',
+                'credentials' => ['cert' => 'the cert']
+            ]
+        ];
+        $ext->setAuth($auth);
+
+        /** @var Feature $consumption */
+        $consumption = new \SIU\AraiJsonParser\Feature\Consumption($ext);
+
+        $name = 'api:feature';
+        $description = 'descripcion';
+        $parser = new VersionParser();
+        $version = $parser->parseConstraint("1.0.0");
+        $status = 'missing';
+        $onMissing = 'fail';
+        $alias = 'alias';
+        $endpoint = "http://toba.com";
+        $instance = "nombre-instancia";
+        $options = ['opcion_1'=>'valor_1'];
+        $addOptionKey = 'opcion_2';
+        $addOptionValue = 'valor_2';
+        $rawJson = "no se testea esto, por eso no soy un json";
+
+        $consumption
+            ->setName($name)
+            ->setDescription($description)
+            ->setVersion($version)
+            ->setStatus($status)
+            ->setOnMissing($onMissing)
+            ->setAlias($alias)
+            ->setEndpoint($endpoint)
+            ->setInstance($instance)
+            ->setOptions($options)
+            ->addOption($addOptionKey, $addOptionValue)
+            ->setRawJson($rawJson)
+        ;
+
+        $array = $consumption->toArray();
+        $this->assertEquals($array['auth'][0]['type'], 'ssl');
+        $this->assertEquals($array['auth'][0]['credentials']['cert'], 'the cert');
+    }
+}

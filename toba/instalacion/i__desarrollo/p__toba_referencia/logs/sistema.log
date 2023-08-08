@@ -1,0 +1,663 @@
+-o-o-o-o-o-
+Fecha: 13-07-2020 04:38:28
+Operacion: Inicio
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_referencia/2.7/?ai=toba_referencia&tcm=previsualizacion&tm=1
+Referrer: http://localhost/toba_editor/2.7/aplicacion.php?ah=st5f0bc911939706.77372766&ai=toba_editor%7C%7C1000241
+Host: ::1
+==========
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[DEBUG][toba] Cargando USUARIO 'toba' en el proyecto 'toba_referencia'
+[DEBUG][toba] Crear SESION '14' en el proyecto 'toba_referencia'
+[DEBUG][toba] Se creo la SESION [usuario: toba ]
+[DEBUG][toba_referencia] INSTALACION "C:/proyectos/toba/instalacion"
+[DEBUG][toba_referencia] Parametros instancia desarrollo: array (
+  'base' => 'toba_2_7',
+  'proyectos' => 'toba_editor, toba_referencia, toba_usuarios, cit_digesto, personal',
+  'tipo' => 'normal',
+  'toba_editor' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_editor',
+    'url' => '/toba_editor/2.7',
+  ),
+  'toba_referencia' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_referencia',
+    'url' => '/toba_referencia/2.7',
+  ),
+  'toba_usuarios' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_usuarios',
+    'url' => '/toba_usuarios/2.7',
+  ),
+  'cit_digesto' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/cit_digesto',
+    'url' => '/cit_digesto/1.0',
+  ),
+  'personal' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/personal',
+    'url' => '',
+  ),
+)
+[DEBUG][toba_referencia] INSTANCIA "desarrollo"
+[DEBUG][toba_referencia] Conectando a base 'toba_2_7'
+[DEBUG][toba_referencia] Parametros de conexion: array (
+  'motor' => 'postgres7',
+  'profile' => 'localhost',
+  'usuario' => 'postgres',
+  'clave' => 'postgres',
+  'base' => 'toba_2_7',
+  'puerto' => '5432',
+  'encoding' => 'LATIN1',
+  'schema' => 'desarrollo',
+)
+[DEBUG][toba_referencia] PROYECTO "toba_referencia"
+[DEBUG][toba_referencia] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba] Se cambia el ítem solicitado a =>array (
+  0 => 'toba_referencia',
+  1 => '3294',
+)
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[DEBUG][toba_referencia] PROYECTO "toba_referencia"
+[DEBUG][toba_referencia] (
+				SELECT 	amo.padre,
+							amo.carpeta,
+							amo.proyecto,
+							amo.item,
+							amo.descripcion as nombre,
+							ai.orden as 		orden,
+							ai.imagen,
+							ai.imagen_recurso_origen,
+							amo.padre = '1000218' as es_primer_nivel
+				   FROM 
+							apex_usuario_grupo_acc auga
+						JOIN apex_menu_operaciones amo ON (auga.menu_usuario = amo.menu_id AND auga.proyecto = amo.proyecto)
+						JOIN apex_usuario_grupo_acc_item augai ON (auga.proyecto = augai.proyecto AND auga.usuario_grupo_acc = augai.usuario_grupo_acc AND augai.item = amo.item)
+						JOIN apex_item ai ON (augai.item = ai.item AND augai.proyecto = ai.proyecto)	
+				  WHERE (ai.menu = 1)
+					AND ai.item != ai.padre
+					AND	(auga.usuario_grupo_acc IN ('admin') OR ai.publico = 1)
+					AND	(amo.proyecto = 'toba_referencia')
+					AND auga.menu_usuario IS NOT NULL
+			UNION
+				SELECT 	ai.padre,
+						ai.carpeta,
+						ai.proyecto,
+						ai.item,
+						ai.nombre as nombre,
+						ai.orden as 		orden,
+						ai.imagen,
+						ai.imagen_recurso_origen,
+						ai.padre = '1000218' as es_primer_nivel
+				FROM 
+						apex_usuario_grupo_acc auga
+					JOIN apex_usuario_grupo_acc_item augai ON (auga.proyecto = augai.proyecto AND auga.usuario_grupo_acc = augai.usuario_grupo_acc)
+					JOIN apex_item ai ON (augai.item = ai.item AND augai.proyecto = ai.proyecto)	
+				WHERE auga.menu_usuario is null
+					AND (ai.menu = 1)
+					AND ai.item != ai.padre
+					AND	(auga.usuario_grupo_acc IN ('admin') OR ai.publico = 1)
+					AND	(ai.proyecto = 'toba_referencia')
+			) ORDER BY 1, 6
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[DEBUG][toba] componente(30000025): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(30000025): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(30000025): Pantalla de servicio: 'pant_inicial'
+[INFO][toba] componente(30000025): [ callback ] 'conf__pant_inicial' no fue atrapado
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+
+-o-o-o-o-o-
+Fecha: 13-07-2020 04:38:44
+Operacion: Inicio
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_referencia/2.7/aplicacion.php?tm=1&tcm=previsualizacion&ai=toba_referencia||3294
+Referrer: http://localhost/toba_referencia/2.7/?ai=toba_referencia&tcm=previsualizacion&tm=1
+Host: ::1
+==========
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[DEBUG][toba_referencia] INSTALACION "C:/proyectos/toba/instalacion"
+[DEBUG][toba_referencia] Parametros instancia desarrollo: array (
+  'base' => 'toba_2_7',
+  'proyectos' => 'toba_editor, toba_referencia, toba_usuarios, cit_digesto, personal',
+  'tipo' => 'normal',
+  'toba_editor' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_editor',
+    'url' => '/toba_editor/2.7',
+  ),
+  'toba_referencia' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_referencia',
+    'url' => '/toba_referencia/2.7',
+  ),
+  'toba_usuarios' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_usuarios',
+    'url' => '/toba_usuarios/2.7',
+  ),
+  'cit_digesto' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/cit_digesto',
+    'url' => '/cit_digesto/1.0',
+  ),
+  'personal' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/personal',
+    'url' => '',
+  ),
+)
+[DEBUG][toba_referencia] INSTANCIA "desarrollo"
+[DEBUG][toba_referencia] Conectando a base 'toba_2_7'
+[DEBUG][toba_referencia] Parametros de conexion: array (
+  'motor' => 'postgres7',
+  'profile' => 'localhost',
+  'usuario' => 'postgres',
+  'clave' => 'postgres',
+  'base' => 'toba_2_7',
+  'puerto' => '5432',
+  'encoding' => 'LATIN1',
+  'schema' => 'desarrollo',
+)
+[DEBUG][toba_referencia] PROYECTO "toba_referencia"
+[DEBUG][toba_referencia] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba_referencia] PROYECTO "toba_referencia"
+[DEBUG][toba_referencia] (
+				SELECT 	amo.padre,
+							amo.carpeta,
+							amo.proyecto,
+							amo.item,
+							amo.descripcion as nombre,
+							ai.orden as 		orden,
+							ai.imagen,
+							ai.imagen_recurso_origen,
+							amo.padre = '1000218' as es_primer_nivel
+				   FROM 
+							apex_usuario_grupo_acc auga
+						JOIN apex_menu_operaciones amo ON (auga.menu_usuario = amo.menu_id AND auga.proyecto = amo.proyecto)
+						JOIN apex_usuario_grupo_acc_item augai ON (auga.proyecto = augai.proyecto AND auga.usuario_grupo_acc = augai.usuario_grupo_acc AND augai.item = amo.item)
+						JOIN apex_item ai ON (augai.item = ai.item AND augai.proyecto = ai.proyecto)	
+				  WHERE (ai.menu = 1)
+					AND ai.item != ai.padre
+					AND	(auga.usuario_grupo_acc IN ('admin') OR ai.publico = 1)
+					AND	(amo.proyecto = 'toba_referencia')
+					AND auga.menu_usuario IS NOT NULL
+			UNION
+				SELECT 	ai.padre,
+						ai.carpeta,
+						ai.proyecto,
+						ai.item,
+						ai.nombre as nombre,
+						ai.orden as 		orden,
+						ai.imagen,
+						ai.imagen_recurso_origen,
+						ai.padre = '1000218' as es_primer_nivel
+				FROM 
+						apex_usuario_grupo_acc auga
+					JOIN apex_usuario_grupo_acc_item augai ON (auga.proyecto = augai.proyecto AND auga.usuario_grupo_acc = augai.usuario_grupo_acc)
+					JOIN apex_item ai ON (augai.item = ai.item AND augai.proyecto = ai.proyecto)	
+				WHERE auga.menu_usuario is null
+					AND (ai.menu = 1)
+					AND ai.item != ai.padre
+					AND	(auga.usuario_grupo_acc IN ('admin') OR ai.publico = 1)
+					AND	(ai.proyecto = 'toba_referencia')
+			) ORDER BY 1, 6
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[DEBUG][toba] componente(30000025): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(30000025): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(30000025): Pantalla de servicio: 'pant_inicial'
+[INFO][toba] componente(30000025): [ callback ] 'conf__pant_inicial' no fue atrapado
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+
+-o-o-o-o-o-
+Fecha: 13-07-2020 04:38:53
+Operacion: Este item antes se llamaba ABM de Juegos, pero yo lo cambie en runtime!
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_referencia/2.7/aplicacion.php?tm=1&tcm=previsualizacion&ai=toba_referencia||2654
+Referrer: http://localhost/toba_referencia/2.7/aplicacion.php?tm=1&tcm=previsualizacion&ai=toba_referencia||3294
+Host: ::1
+==========
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[DEBUG][toba_referencia] INSTALACION "C:/proyectos/toba/instalacion"
+[DEBUG][toba_referencia] Parametros instancia desarrollo: array (
+  'base' => 'toba_2_7',
+  'proyectos' => 'toba_editor, toba_referencia, toba_usuarios, cit_digesto, personal',
+  'tipo' => 'normal',
+  'toba_editor' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_editor',
+    'url' => '/toba_editor/2.7',
+  ),
+  'toba_referencia' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_referencia',
+    'url' => '/toba_referencia/2.7',
+  ),
+  'toba_usuarios' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_usuarios',
+    'url' => '/toba_usuarios/2.7',
+  ),
+  'cit_digesto' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/cit_digesto',
+    'url' => '/cit_digesto/1.0',
+  ),
+  'personal' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/personal',
+    'url' => '',
+  ),
+)
+[DEBUG][toba_referencia] INSTANCIA "desarrollo"
+[DEBUG][toba_referencia] Conectando a base 'toba_2_7'
+[DEBUG][toba_referencia] Parametros de conexion: array (
+  'motor' => 'postgres7',
+  'profile' => 'localhost',
+  'usuario' => 'postgres',
+  'clave' => 'postgres',
+  'base' => 'toba_2_7',
+  'puerto' => '5432',
+  'encoding' => 'LATIN1',
+  'schema' => 'desarrollo',
+)
+[DEBUG][toba_referencia] PROYECTO "toba_referencia"
+[DEBUG][toba_referencia] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba_referencia] PROYECTO "toba_referencia"
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[INFO][toba_referencia] PUNTO MONTAJE: se cargó la clase operaciones_simples/abm_juegos/ci_abm_juegos.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_referencia/php
+[DEBUG][toba] componente(1721): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(1721): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba_referencia] (
+				SELECT 	amo.padre,
+							amo.carpeta,
+							amo.proyecto,
+							amo.item,
+							amo.descripcion as nombre,
+							ai.orden as 		orden,
+							ai.imagen,
+							ai.imagen_recurso_origen,
+							amo.padre = '1000218' as es_primer_nivel
+				   FROM 
+							apex_usuario_grupo_acc auga
+						JOIN apex_menu_operaciones amo ON (auga.menu_usuario = amo.menu_id AND auga.proyecto = amo.proyecto)
+						JOIN apex_usuario_grupo_acc_item augai ON (auga.proyecto = augai.proyecto AND auga.usuario_grupo_acc = augai.usuario_grupo_acc AND augai.item = amo.item)
+						JOIN apex_item ai ON (augai.item = ai.item AND augai.proyecto = ai.proyecto)	
+				  WHERE (ai.menu = 1)
+					AND ai.item != ai.padre
+					AND	(auga.usuario_grupo_acc IN ('admin') OR ai.publico = 1)
+					AND	(amo.proyecto = 'toba_referencia')
+					AND auga.menu_usuario IS NOT NULL
+			UNION
+				SELECT 	ai.padre,
+						ai.carpeta,
+						ai.proyecto,
+						ai.item,
+						ai.nombre as nombre,
+						ai.orden as 		orden,
+						ai.imagen,
+						ai.imagen_recurso_origen,
+						ai.padre = '1000218' as es_primer_nivel
+				FROM 
+						apex_usuario_grupo_acc auga
+					JOIN apex_usuario_grupo_acc_item augai ON (auga.proyecto = augai.proyecto AND auga.usuario_grupo_acc = augai.usuario_grupo_acc)
+					JOIN apex_item ai ON (augai.item = ai.item AND augai.proyecto = ai.proyecto)	
+				WHERE auga.menu_usuario is null
+					AND (ai.menu = 1)
+					AND ai.item != ai.padre
+					AND	(auga.usuario_grupo_acc IN ('admin') OR ai.publico = 1)
+					AND	(ai.proyecto = 'toba_referencia')
+			) ORDER BY 1, 6
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(1721): Pantalla de servicio: 'Juegos'
+[INFO][toba] componente(1721): [ callback ] 'conf__Juegos' no fue atrapado
+[DEBUG][toba] componente(1721): [ callback ] 'conf__cuadro'
+[DEBUG][toba] componente(1721): [ callback ] 'conf__formulario'
+[DEBUG][toba] Se filtro el evento: baja
+[DEBUG][toba] Se filtro el evento: modificacion
+[DEBUG][toba] Se filtro el evento: cancelar
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+
+-o-o-o-o-o-
+Fecha: 13-07-2020 04:39:08
+Operacion: Este item antes se llamaba ABM de Juegos, pero yo lo cambie en runtime!
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_referencia/2.7/aplicacion.php?tm=1&tcm=previsualizacion&ai=toba_referencia||2654
+Referrer: http://localhost/toba_referencia/2.7/aplicacion.php?tm=1&tcm=previsualizacion&ai=toba_referencia||2654
+Host: ::1
+==========
+[INFO][toba] Se detecto acceso desde el menu. Se limpia la memoria de la operacion
+[DEBUG][toba_referencia] INSTALACION "C:/proyectos/toba/instalacion"
+[DEBUG][toba_referencia] Parametros instancia desarrollo: array (
+  'base' => 'toba_2_7',
+  'proyectos' => 'toba_editor, toba_referencia, toba_usuarios, cit_digesto, personal',
+  'tipo' => 'normal',
+  'toba_editor' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_editor',
+    'url' => '/toba_editor/2.7',
+  ),
+  'toba_referencia' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_referencia',
+    'url' => '/toba_referencia/2.7',
+  ),
+  'toba_usuarios' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_usuarios',
+    'url' => '/toba_usuarios/2.7',
+  ),
+  'cit_digesto' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/cit_digesto',
+    'url' => '/cit_digesto/1.0',
+  ),
+  'personal' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/personal',
+    'url' => '',
+  ),
+)
+[DEBUG][toba_referencia] INSTANCIA "desarrollo"
+[DEBUG][toba_referencia] Conectando a base 'toba_2_7'
+[DEBUG][toba_referencia] Parametros de conexion: array (
+  'motor' => 'postgres7',
+  'profile' => 'localhost',
+  'usuario' => 'postgres',
+  'clave' => 'postgres',
+  'base' => 'toba_2_7',
+  'puerto' => '5432',
+  'encoding' => 'LATIN1',
+  'schema' => 'desarrollo',
+)
+[DEBUG][toba_referencia] PROYECTO "toba_referencia"
+[DEBUG][toba_referencia] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba_referencia] PROYECTO "toba_referencia"
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[INFO][toba_referencia] PUNTO MONTAJE: se cargó la clase operaciones_simples/abm_juegos/ci_abm_juegos.php del punto de montaje proyecto. El path del mismo es C:\proyectos\toba/proyectos/toba_referencia/php
+[DEBUG][toba] componente(1721): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(1721): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba_referencia] (
+				SELECT 	amo.padre,
+							amo.carpeta,
+							amo.proyecto,
+							amo.item,
+							amo.descripcion as nombre,
+							ai.orden as 		orden,
+							ai.imagen,
+							ai.imagen_recurso_origen,
+							amo.padre = '1000218' as es_primer_nivel
+				   FROM 
+							apex_usuario_grupo_acc auga
+						JOIN apex_menu_operaciones amo ON (auga.menu_usuario = amo.menu_id AND auga.proyecto = amo.proyecto)
+						JOIN apex_usuario_grupo_acc_item augai ON (auga.proyecto = augai.proyecto AND auga.usuario_grupo_acc = augai.usuario_grupo_acc AND augai.item = amo.item)
+						JOIN apex_item ai ON (augai.item = ai.item AND augai.proyecto = ai.proyecto)	
+				  WHERE (ai.menu = 1)
+					AND ai.item != ai.padre
+					AND	(auga.usuario_grupo_acc IN ('admin') OR ai.publico = 1)
+					AND	(amo.proyecto = 'toba_referencia')
+					AND auga.menu_usuario IS NOT NULL
+			UNION
+				SELECT 	ai.padre,
+						ai.carpeta,
+						ai.proyecto,
+						ai.item,
+						ai.nombre as nombre,
+						ai.orden as 		orden,
+						ai.imagen,
+						ai.imagen_recurso_origen,
+						ai.padre = '1000218' as es_primer_nivel
+				FROM 
+						apex_usuario_grupo_acc auga
+					JOIN apex_usuario_grupo_acc_item augai ON (auga.proyecto = augai.proyecto AND auga.usuario_grupo_acc = augai.usuario_grupo_acc)
+					JOIN apex_item ai ON (augai.item = ai.item AND augai.proyecto = ai.proyecto)	
+				WHERE auga.menu_usuario is null
+					AND (ai.menu = 1)
+					AND ai.item != ai.padre
+					AND	(auga.usuario_grupo_acc IN ('admin') OR ai.publico = 1)
+					AND	(ai.proyecto = 'toba_referencia')
+			) ORDER BY 1, 6
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(1721): Pantalla de servicio: 'Juegos'
+[INFO][toba] componente(1721): [ callback ] 'conf__Juegos' no fue atrapado
+[DEBUG][toba] componente(1721): [ callback ] 'conf__cuadro'
+[DEBUG][toba] componente(1721): [ callback ] 'conf__formulario'
+[DEBUG][toba] Se filtro el evento: baja
+[DEBUG][toba] Se filtro el evento: modificacion
+[DEBUG][toba] Se filtro el evento: cancelar
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+
+-o-o-o-o-o-
+Fecha: 13-07-2020 04:39:14
+Operacion: Inicio
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_referencia/2.7/
+Referrer: http://localhost/toba_referencia/2.7/aplicacion.php?tm=1&tcm=previsualizacion&ai=toba_referencia||2654
+Host: ::1
+==========
+[DEBUG][toba_referencia] INSTALACION "C:/proyectos/toba/instalacion"
+[DEBUG][toba_referencia] Parametros instancia desarrollo: array (
+  'base' => 'toba_2_7',
+  'proyectos' => 'toba_editor, toba_referencia, toba_usuarios, cit_digesto, personal',
+  'tipo' => 'normal',
+  'toba_editor' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_editor',
+    'url' => '/toba_editor/2.7',
+  ),
+  'toba_referencia' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_referencia',
+    'url' => '/toba_referencia/2.7',
+  ),
+  'toba_usuarios' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_usuarios',
+    'url' => '/toba_usuarios/2.7',
+  ),
+  'cit_digesto' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/cit_digesto',
+    'url' => '/cit_digesto/1.0',
+  ),
+  'personal' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/personal',
+    'url' => '',
+  ),
+)
+[DEBUG][toba_referencia] INSTANCIA "desarrollo"
+[DEBUG][toba_referencia] Conectando a base 'toba_2_7'
+[DEBUG][toba_referencia] Parametros de conexion: array (
+  'motor' => 'postgres7',
+  'profile' => 'localhost',
+  'usuario' => 'postgres',
+  'clave' => 'postgres',
+  'base' => 'toba_2_7',
+  'puerto' => '5432',
+  'encoding' => 'LATIN1',
+  'schema' => 'desarrollo',
+)
+[DEBUG][toba_referencia] PROYECTO "toba_referencia"
+[DEBUG][toba_referencia] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba] Se cambia el ítem solicitado a =>array (
+  0 => 'toba_referencia',
+  1 => '3294',
+)
+[DEBUG][toba_referencia] PROYECTO "toba_referencia"
+[DEBUG][toba_referencia] (
+				SELECT 	amo.padre,
+							amo.carpeta,
+							amo.proyecto,
+							amo.item,
+							amo.descripcion as nombre,
+							ai.orden as 		orden,
+							ai.imagen,
+							ai.imagen_recurso_origen,
+							amo.padre = '1000218' as es_primer_nivel
+				   FROM 
+							apex_usuario_grupo_acc auga
+						JOIN apex_menu_operaciones amo ON (auga.menu_usuario = amo.menu_id AND auga.proyecto = amo.proyecto)
+						JOIN apex_usuario_grupo_acc_item augai ON (auga.proyecto = augai.proyecto AND auga.usuario_grupo_acc = augai.usuario_grupo_acc AND augai.item = amo.item)
+						JOIN apex_item ai ON (augai.item = ai.item AND augai.proyecto = ai.proyecto)	
+				  WHERE (ai.menu = 1)
+					AND ai.item != ai.padre
+					AND	(auga.usuario_grupo_acc IN ('admin') OR ai.publico = 1)
+					AND	(amo.proyecto = 'toba_referencia')
+					AND auga.menu_usuario IS NOT NULL
+			UNION
+				SELECT 	ai.padre,
+						ai.carpeta,
+						ai.proyecto,
+						ai.item,
+						ai.nombre as nombre,
+						ai.orden as 		orden,
+						ai.imagen,
+						ai.imagen_recurso_origen,
+						ai.padre = '1000218' as es_primer_nivel
+				FROM 
+						apex_usuario_grupo_acc auga
+					JOIN apex_usuario_grupo_acc_item augai ON (auga.proyecto = augai.proyecto AND auga.usuario_grupo_acc = augai.usuario_grupo_acc)
+					JOIN apex_item ai ON (augai.item = ai.item AND augai.proyecto = ai.proyecto)	
+				WHERE auga.menu_usuario is null
+					AND (ai.menu = 1)
+					AND ai.item != ai.padre
+					AND	(auga.usuario_grupo_acc IN ('admin') OR ai.publico = 1)
+					AND	(ai.proyecto = 'toba_referencia')
+			) ORDER BY 1, 6
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[DEBUG][toba] componente(30000025): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(30000025): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(30000025): Pantalla de servicio: 'pant_inicial'
+[INFO][toba] componente(30000025): [ callback ] 'conf__pant_inicial' no fue atrapado
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+
+-o-o-o-o-o-
+Fecha: 13-07-2020 04:39:16
+Operacion: Inicio
+Usuario: toba
+Version-PHP: 5.6.3
+Servidor: localhost
+URI: /toba_referencia/2.7/
+Referrer: http://localhost/toba_referencia/2.7/
+Host: ::1
+==========
+[INFO][toba] Se detecto cambio de operación. Se limpia la memoria de la operacion
+[DEBUG][toba_referencia] INSTALACION "C:/proyectos/toba/instalacion"
+[DEBUG][toba_referencia] Parametros instancia desarrollo: array (
+  'base' => 'toba_2_7',
+  'proyectos' => 'toba_editor, toba_referencia, toba_usuarios, cit_digesto, personal',
+  'tipo' => 'normal',
+  'toba_editor' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_editor',
+    'url' => '/toba_editor/2.7',
+  ),
+  'toba_referencia' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_referencia',
+    'url' => '/toba_referencia/2.7',
+  ),
+  'toba_usuarios' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/toba_usuarios',
+    'url' => '/toba_usuarios/2.7',
+  ),
+  'cit_digesto' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/cit_digesto',
+    'url' => '/cit_digesto/1.0',
+  ),
+  'personal' => 
+  array (
+    'path' => 'C:\\proyectos\\toba/proyectos/personal',
+    'url' => '',
+  ),
+)
+[DEBUG][toba_referencia] INSTANCIA "desarrollo"
+[DEBUG][toba_referencia] Conectando a base 'toba_2_7'
+[DEBUG][toba_referencia] Parametros de conexion: array (
+  'motor' => 'postgres7',
+  'profile' => 'localhost',
+  'usuario' => 'postgres',
+  'clave' => 'postgres',
+  'base' => 'toba_2_7',
+  'puerto' => '5432',
+  'encoding' => 'LATIN1',
+  'schema' => 'desarrollo',
+)
+[DEBUG][toba_referencia] PROYECTO "toba_referencia"
+[DEBUG][toba_referencia] PUNTO DE MONTAJE: se cargó exitosamente el autoload del punto de montaje proyecto
+[DEBUG][toba] Se cambia el ítem solicitado a =>array (
+  0 => 'toba_referencia',
+  1 => '3294',
+)
+[DEBUG][toba_referencia] PROYECTO "toba_referencia"
+[DEBUG][toba_referencia] (
+				SELECT 	amo.padre,
+							amo.carpeta,
+							amo.proyecto,
+							amo.item,
+							amo.descripcion as nombre,
+							ai.orden as 		orden,
+							ai.imagen,
+							ai.imagen_recurso_origen,
+							amo.padre = '1000218' as es_primer_nivel
+				   FROM 
+							apex_usuario_grupo_acc auga
+						JOIN apex_menu_operaciones amo ON (auga.menu_usuario = amo.menu_id AND auga.proyecto = amo.proyecto)
+						JOIN apex_usuario_grupo_acc_item augai ON (auga.proyecto = augai.proyecto AND auga.usuario_grupo_acc = augai.usuario_grupo_acc AND augai.item = amo.item)
+						JOIN apex_item ai ON (augai.item = ai.item AND augai.proyecto = ai.proyecto)	
+				  WHERE (ai.menu = 1)
+					AND ai.item != ai.padre
+					AND	(auga.usuario_grupo_acc IN ('admin') OR ai.publico = 1)
+					AND	(amo.proyecto = 'toba_referencia')
+					AND auga.menu_usuario IS NOT NULL
+			UNION
+				SELECT 	ai.padre,
+						ai.carpeta,
+						ai.proyecto,
+						ai.item,
+						ai.nombre as nombre,
+						ai.orden as 		orden,
+						ai.imagen,
+						ai.imagen_recurso_origen,
+						ai.padre = '1000218' as es_primer_nivel
+				FROM 
+						apex_usuario_grupo_acc auga
+					JOIN apex_usuario_grupo_acc_item augai ON (auga.proyecto = augai.proyecto AND auga.usuario_grupo_acc = augai.usuario_grupo_acc)
+					JOIN apex_item ai ON (augai.item = ai.item AND augai.proyecto = ai.proyecto)	
+				WHERE auga.menu_usuario is null
+					AND (ai.menu = 1)
+					AND ai.item != ai.padre
+					AND	(auga.usuario_grupo_acc IN ('admin') OR ai.publico = 1)
+					AND	(ai.proyecto = 'toba_referencia')
+			) ORDER BY 1, 6
+[DEBUG][toba] [SECCION] Iniciando componentes...
+[DEBUG][toba] componente(30000025): [callback][ ini__operacion ]
+[DEBUG][toba] [SECCION] Procesando eventos...
+[INFO][toba] componente(30000025): No hay señales de un servicio anterior, no se atrapan eventos
+[DEBUG][toba] [SECCION] Configurando dependencias para responder al servicio...
+[DEBUG][toba] componente(30000025): Pantalla de servicio: 'pant_inicial'
+[INFO][toba] componente(30000025): [ callback ] 'conf__pant_inicial' no fue atrapado
+[DEBUG][toba] [SECCION] Respondiendo al servicio__generar_html...
+

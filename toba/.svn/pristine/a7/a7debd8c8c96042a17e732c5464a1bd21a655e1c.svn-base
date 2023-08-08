@@ -1,0 +1,237 @@
+<?php
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: fbohn
+ * Date: 28/03/16
+ * Time: 18:08
+ */
+
+use SIU\AraiJsonMigrator\AraiMigrator;
+use SIU\AraiJsonMigrator\Entities\Person;
+use SIU\AraiJsonMigrator\Entities\Account;
+use SIU\AraiJsonMigrator\Util\Documento;
+
+class AraiMigratorTest extends PHPUnit_Framework_TestCase
+{
+
+    /**
+     * @return AraiMigrator
+     */
+    public function testCreateMigrator()
+    {
+        $name = 'MigracionMapuche';
+        $description = 'Migracion de los usuarios de Mapuche';
+        $mantainer = 'Federico';
+        $mantainerEmail = 'fbohn@siu.edu.ar';
+
+        /* @var AraiMigrator $araiMigrator */
+        $araiMigrator = new AraiMigrator($name, $description, $mantainer, $mantainerEmail);
+
+        $this->assertEquals($name, $araiMigrator->getName());
+        $this->assertEquals([
+            'description' => $description,
+            'mantainer' => $mantainer,
+            'mantainer-email' => $mantainerEmail,
+            ],
+            $araiMigrator->getHeaderAsArray()
+        );
+
+        return $araiMigrator;
+    }
+
+
+    /**
+     * @depends testCreateMigrator
+     * @param AraiMigrator $araiMigrator
+     * @return AraiMigrator
+     */
+    public function testAddPerson(AraiMigrator $araiMigrator)
+    {
+        $tipo = 'DNI';
+        $numero = '32456712';
+
+        /* @var Documento $documento */
+        $documento = new Documento($tipo, $numero);
+
+        $givenName = 'Federico';
+        $sn = 'Bohn';
+        $cn = 'Fede Bohn';
+        $mail = 'fbohn@siu.edu.ar';
+        $grupos = ['devs'];
+        $bloqueada = '0';
+        $genero = 'M';
+        $employeeNumber = '1234';
+        $extra = array('employeeNumberSIU' => '4321');
+
+        /* @var Person $persona */
+        $persona = new Person();
+        $persona->setGivenName($givenName);
+        $persona->setSn($sn);
+        $persona->setCn($cn);
+        $persona->setGrupos($grupos);
+        $persona->setMail($mail);
+        $persona->setBloqueada($bloqueada);
+        $persona->setGenero($genero);
+        $persona->setDocumento($documento);
+        $persona->setEmployeeNumber($employeeNumber);
+        $persona->setExtra($extra);
+
+        $araiMigrator->addPerson($persona);
+
+        /* @var Person[] $personas */
+        $personas = $araiMigrator->getPeopleList();
+
+        $this->assertEquals([
+                'givenName' => $givenName,
+                'sn' => $sn,
+                'cn' => $cn,
+                'grupos' => $grupos,
+                'mail' => $mail,
+                'bloqueada' => $bloqueada,
+                'employeeNumber' => $employeeNumber,
+                'genero' => $genero,
+                'extra' => $extra,
+                'documento' => [
+                    'tipo' => $tipo,
+                    'numero' => $numero
+                ]
+            ],
+            $personas[0]->toArray()
+        );
+
+        return $araiMigrator;
+    }
+
+    /**
+     * @depends testAddPerson
+     * @param AraiMigrator $araiMigrator
+     * @return AraiMigrator
+     */
+    public function testAddAccount(AraiMigrator $araiMigrator)
+    {
+        /* @var Person[] $personas */
+        $personas = $araiMigrator->getPeopleList();
+
+        /* @var Documento $documento */
+        $documento = $personas[0]->getDocumento();
+
+        $uid = 'fede';
+        $appUniqueId = 'siu-arai-usuarios_1.siu-arai-usuarios-gestion';
+        $appName = 'SIU-Pilaga';
+        $uniqueIdentifier = 'fbohn';
+        $password = 'hgrfdetg351.fg.42';
+        $passwordAlgorithm = 'crypt';
+
+        /* @var Account $cuenta */
+        $cuenta = new Account();
+        $cuenta->setUid($uid);
+        $cuenta->setAppUniqueId($appUniqueId);
+        $cuenta->setAppName($appName);
+        $cuenta->setUniqueIdentifier($uniqueIdentifier);
+        $cuenta->setPassword($password);
+        $cuenta->setPasswordAlgorithm($passwordAlgorithm);
+        $cuenta->setPerson($personas[0]);
+
+        $araiMigrator->addAccount($cuenta);
+
+        /* @var Account[] $cuentas */
+        $cuentas = $araiMigrator->getAccountsList();
+
+        $this->assertEquals([
+            'uid' => $uid,
+            'appUniqueId' => $appUniqueId,
+            'appName' => $appName,
+            'uniqueIdentifier' => $uniqueIdentifier,
+            'password' => $password,
+            'passwordAlgorithm' => $passwordAlgorithm,
+            'person' => [
+                'givenName' => $personas[0]->getGivenName(),
+                'sn' => $personas[0]->getSn(),
+                'cn' => $personas[0]->getCn(),
+                'mail' => $personas[0]->getMail(),
+                'grupos' => $personas[0]->getGrupos(),
+                'bloqueada' => $personas[0]->getBloqueada(),
+                'employeeNumber' => $personas[0]->getEmployeeNumber(),
+                'genero' => $personas[0]->getGenero(),
+                'extra' => $personas[0]->getExtra(),
+                'documento' => [
+                    'tipo' => $documento->getType(),
+                    'numero' => $documento->getNumber()
+                ]
+            ]
+        ], $cuentas[0]->toArray());
+
+        return $araiMigrator;
+    }
+
+    /**
+     * @depends testAddPerson
+     * @param AraiMigrator $araiMigrator
+     * @return AraiMigrator
+     */
+    public function testToArray(AraiMigrator $araiMigrator)
+    {
+        /* @var Person[] $personas */
+        $personas = $araiMigrator->getPeopleList();
+
+        /* @var Documento $documento */
+        $documento = $personas[0]->getDocumento();
+
+        /* @var Account[] $cuentas */
+        $cuentas = $araiMigrator->getAccountsList();
+
+        $this->assertEquals([
+            'name' => $araiMigrator->getName(),
+            'description' => $araiMigrator->getDescription(),
+            'mantainer' => $araiMigrator->getMantainer(),
+            'mantainer-email' => $araiMigrator->getMantainerEmail(),
+            'people' => [
+                [
+                    'givenName' => $personas[0]->getGivenName(),
+                    'sn' => $personas[0]->getSn(),
+                    'cn' => $personas[0]->getCn(),
+                    'mail' => $personas[0]->getMail(),
+                    'grupos' => $personas[0]->getGrupos(),
+                    'bloqueada' => $personas[0]->getBloqueada(),
+                    'employeeNumber' => $personas[0]->getEmployeeNumber(),
+                    'genero' => $personas[0]->getGenero(),
+                    'extra' => $personas[0]->getExtra(),
+                    'documento' => [
+                        'tipo' => $documento->getType(),
+                        'numero' => $documento->getNumber()
+                    ]
+                ]
+            ],
+            'accounts' => [
+                [
+                    'uid' => $cuentas[0]->getUid(),
+                    'appUniqueId' => $cuentas[0]->getAppUniqueId(),
+                    'appName' => $cuentas[0]->getAppName(),
+                    'uniqueIdentifier' => $cuentas[0]->getUniqueIdentifier(),
+                    'password' => $cuentas[0]->getPassword(),
+                    'passwordAlgorithm' => $cuentas[0]->getPasswordAlgorithm(),
+                    'person' => [
+                        'givenName' => $personas[0]->getGivenName(),
+                        'sn' => $personas[0]->getSn(),
+                        'cn' => $personas[0]->getCn(),
+                        'mail' => $personas[0]->getMail(),
+                        'grupos' => $personas[0]->getGrupos(),
+                        'bloqueada' => $personas[0]->getBloqueada(),
+                        'employeeNumber' => $personas[0]->getEmployeeNumber(),
+                        'genero' => $personas[0]->getGenero(),
+                        'extra' => $personas[0]->getExtra(),
+                        'documento' => [
+                            'tipo' => $documento->getType(),
+                            'numero' => $documento->getNumber()
+                        ]
+                    ]
+                ]
+            ]
+        ],
+        $araiMigrator->toArray());
+
+        return $araiMigrator;
+    }
+
+}

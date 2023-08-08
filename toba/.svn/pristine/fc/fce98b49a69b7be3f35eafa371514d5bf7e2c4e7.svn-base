@@ -1,0 +1,250 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Migration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "name", "description", "mantainer", "mantainer-email" ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]*$",
+      "minLegth": 1,
+      "description": "Application name, including 'vendor-name/' prefix."
+    },
+    "description": {
+      "type": "string",
+      "minLegth": 1,
+      "description": "Short application description."
+    },
+    "mantainer": {
+      "type": "string",
+      "description": "Mantainers name."
+    },
+    "mantainer-email": {
+      "type": "string",
+      "description": "Mantainers email."
+    },
+    "people": {
+      "type": "array",
+      "description": "Attribute list for the person that the application requires to run.",
+      "items": {
+        "type": "object",
+        "required": [
+          "givenName",
+          "sn",
+          "cn",
+          "bloqueada"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "givenName": {
+            "type": "string",
+            "minLegth": 1,
+            "description": "RFC2256: first name(s) for which the person is known by"
+          },
+          "sn": {
+            "type": "string",
+            "minLegth": 1,
+            "description": "RFC2256: last (family) name(s) for which the person is known by"
+          },
+          "cn": {
+            "type": "string",
+            "minLegth": 1,
+            "description": "RFC4519: common name(s) for which the person is known by"
+          },
+          "mail": {
+            "type": "string",
+            "description": "Email for the person"
+          },
+          "grupos": {
+            "type": "array",
+            "description": "Groups the person is member of",
+            "items": {
+              "type": "string",
+              "description": "The name of the group"
+            }
+          },
+          "documento": {
+            "type": "object",
+            "description": "Document for the person",
+            "required": [
+              "tipo",
+              "numero"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "tipo": {
+                "type": "string",
+                "pattern": "^DNI|LC|LE|Pasaporte|Cédula$",
+                "minLegth": 1,
+                "description": "Document type for the people"
+              },
+              "numero": {
+                "type": "string",
+                "pattern": "^[0-9\\-a-zA-Z]*$",
+                "minLegth": 1,
+                "description": "Document number for the people"
+              }
+            }
+          },
+          "genero": {
+            "type": "string",
+            "pattern": "^F|M$",
+            "minLegth": 1,
+            "maxLegth": 1,
+            "description": "gender for the person"
+          },
+          "bloqueada": {
+            "type": "string",
+            "pattern": "^0|1$",
+            "minLegth": 1,
+            "maxLegth": 1,
+            "description": "The person is blocked up"
+          },
+          "employeeNumber": {
+            "type": "string",
+            "pattern": "^[0-9]*$",
+            "minLegth": 1,
+            "description": "Employee number for the people"
+          },
+          "extra": {
+            "type": "object",
+            "description": "Extra attributes specific for the person",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+    "accounts": {
+      "type": "array",
+      "description": "Attibute list for the person account that the application requires to run.",
+      "items": {
+        "type": "object",
+        "required": [
+          "uid",
+          "person"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "uid": {
+            "type": "string",
+            "minLegth": 1,
+            "description": "User account identifier."
+          },
+          "appUniqueId": {
+            "type": "string",
+            "minLegth": 1,
+            "description": "Application identifier."
+          },
+          "appName": {
+            "type": "string",
+            "minLegth": 1,
+            "description": "Application name."
+          },
+          "uniqueIdentifier": {
+            "type": "string",
+            "minLegth": 1,
+            "description": "RFC1274: unique identifer"
+          },
+          "password": {
+            "type": "string",
+            "minLegth": 1,
+            "description": "Password for the user"
+          },
+          "passwordAlgorithm": {
+            "type": "string",
+            "minLegth": 1,
+            "description": "Password algorithm for the user"
+          },
+          "person": {
+            "type": "object",
+            "required": [
+              "givenName",
+              "sn",
+              "cn",
+              "bloqueada"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "givenName": {
+                "type": "string",
+                "minLegth": 1,
+                "description": "RFC2256: first name(s) for which the person is known by"
+              },
+              "sn": {
+                "type": "string",
+                "minLegth": 1,
+                "description": "RFC2256: last (family) name(s) for which the person is known by"
+              },
+              "cn": {
+                "type": "string",
+                "minLegth": 1,
+                "description": "RFC4519: common name(s) for which the person is known by"
+              },
+              "mail": {
+                "type": "string",
+                "description": "Email for the person"
+              },
+              "grupos": {
+                "type": "array",
+                "description": "Groups the person is member of",
+                "items": {
+                  "type": "string",
+                  "description": "The name of the group"
+                }
+              },
+              "documento": {
+                "type": "object",
+                "description": "Document for the person",
+                "required": [
+                  "tipo",
+                  "numero"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "tipo": {
+                    "type": "string",
+                    "pattern": "^DNI|LC|LE|Pasaporte|Cédula$",
+                    "minLegth": 1,
+                    "description": "Document type for the people"
+                  },
+                  "numero": {
+                    "type": "string",
+                    "pattern": "^[0-9\\-a-zA-Z]*$",
+                    "minLegth": 1,
+                    "description": "Document number for the people"
+                  }
+                }
+              },
+              "genero": {
+                "type": "string",
+                "pattern": "^F|M$",
+                "minLegth": 1,
+                "maxLegth": 1,
+                "description": "gender for the person"
+              },
+              "bloqueada": {
+                "type": "string",
+                "pattern": "^0|1$",
+                "minLegth": 1,
+                "maxLegth": 1,
+                "description": "The person is blocked up"
+              },
+              "employeeNumber": {
+                "type": "string",
+                "pattern": "^[0-9]*$",
+                "minLegth": 1,
+                "description": "Employee number for the people"
+              },
+              "extra": {
+                "type": "object",
+                "description": "Extra attributes specific for the person",
+                "additionalProperties": true
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,110 @@
+<img src="https://gitlab.siu.edu.ar/ci/projects/1/status.png?ref=master">
+# Arai JSON Migrator
+Esta pequeña librería implementa el migrador de los usuarios mediante archivos JSON que se utilizan
+como base de interoperabilidad para la nueva arquitectura del SIU.
+
+## Schema
+Se define el schema de el archivo JSON, que se encuentra en el path `schema/arai-migrator-schema.json`.
+
+## Incorporación dentro de otros proyectos
+Para utilizar esta librería dentro de algún proyecto se debe incluir a través de
+Composer. Por el momento se debe agregar un repositorio al archivo `composer.json`:
+
+```json
+{
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://satis.siu.edu.ar"
+    }
+  ],
+}
+```
+
+y luego hacer el require
+
+```bash
+composer require siu/arai-json-migrador:dev-master
+```
+
+## Uso
+Una vez incluída la librería, se maneja a través de la clase `SIU\AraiJsonMigrador\AraiMigradorManager`.
+
+### Parsear un archivo o string existente
+
+Parseando un archivo:
+```php
+$path = "/path/a/migration.json";
+$manager = new AraiMigratorManager();
+/**
+ * @var AraiMigrator
+ */
+$jsonData = $manager->load($path);
+```
+
+Parseando un string:
+```php
+$jsonString = '<ingrese json generado dinámicamente aquí>';
+$manager = new AraiMigratorManager();
+/**
+ * @var AraiMigrator
+ */
+$jsonData = $manager->loadFromString($jsonString);
+```
+
+### Almacenando un JSON en un archivo
+```php
+$pathSave = "/path/a/migration-save.json";
+$jsonString = '<ingrese json generado dinámicamente aquí>';
+$manager = new AraiMigratorManager();
+/**
+ * @var AraiMigrator
+ */
+$jsonData = $manager->loadFromString($jsonString);
+$manager->save($pathSave, $jsonData);
+```
+
+### Obtener información de un archivo JSON
+La información se maneja a través de la clase `AraiMigrator` que contiene métodos para
+hacer queries.
+
+## Conflictos
+Los conflictos se manejan a través de la clase `SIU\AraiJsonMigrador\AraiConflictManager`.
+
+### Parsear un archivo o string existente
+
+Parseando un archivo:
+```php
+$path = "/path/a/conflict.json";
+$manager = new AraiConflictManager();
+/**
+ * @var AraiConflict
+ */
+$jsonData = $manager->load($path);
+```
+
+Parseando un string:
+```php
+$jsonString = '<ingrese json generado dinámicamente aquí>';
+$manager = new AraiConflictManager();
+/**
+ * @var AraiConflict
+ */
+$jsonData = $manager->loadFromString($jsonString);
+```
+
+### Almacenando un JSON en un archivo
+```php
+$pathSave = "/path/a/conflict-save.json";
+$jsonString = '<ingrese json generado dinámicamente aquí>';
+$manager = new AraiConflictManager();
+/**
+ * @var AraiConflict
+ */
+$jsonData = $manager->loadFromString($jsonString);
+$manager->save($pathSave, $jsonData);
+```
+
+### Obtener información de un archivo JSON de conflictos
+La información se maneja a través de la clase `AraiConflict` que contiene métodos para
+hacer queries.

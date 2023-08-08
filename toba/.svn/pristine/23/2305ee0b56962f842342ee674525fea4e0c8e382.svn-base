@@ -1,0 +1,20 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: ablanco
+ * Date: 18/06/15
+ * Time: 17:44
+ */
+
+namespace SIU\AraiJsonParser\Util;
+
+
+class Util
+{
+    static public function writeIfNotEmpty(&$rs, $key, $value)
+    {
+        if (!empty($value)) {
+            $rs[$key] = $value;
+        }
+    }
+}

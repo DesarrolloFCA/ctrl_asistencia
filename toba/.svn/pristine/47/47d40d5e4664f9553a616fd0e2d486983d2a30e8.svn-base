@@ -1,0 +1,19 @@
+<?php
+
+/** 
+ * User: lramirez
+ * Date: 07/10/15
+ */
+namespace SIU\AraiCli\Services\AraiCatalogosRubros;
+
+use SIU\AraiCli\Services\AraiCatalogos\AraiCatalogos;
+
+class AraiCatalogosRubros extends AraiCatalogos
+{
+    
+    public function setDatos($encabezado, $datos, $catalogo, $operacion)
+    {
+        //TODO: Validaciones concretas del catalogo rubros
+        parent::setDatos($encabezado, $datos, $catalogo, $operacion);
+    }
+}

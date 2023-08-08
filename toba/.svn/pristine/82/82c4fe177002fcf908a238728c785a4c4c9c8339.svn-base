@@ -1,0 +1,48 @@
+{
+  "name": "siu/arai-usuarios",
+  "description": "SIU-Arai Usuarios",
+  "hash": "ASDJLKASTJ4903J4F0394J3",
+  "mantainer": "pepe",
+  "mantainer-email": "pepe@mail.com",
+  "scripts": {
+    "hooks": "SIU\\Nombre\\de\\clase"
+  },
+  "arai-remote": {
+    "url": "https://arai.com",
+    "instance-name": "siu/arai-usuarios_1",
+    "token": "GJ045J3G0W94J094J",
+    "last-sync": "2015-09-30T16:56:34-0300"
+  },
+  "consume": [
+    {
+      "name": "service:siu/rdi",
+      "version": ">=0.2",
+      "on-missing": "fail",
+      "status": "exists"
+    }, {
+      "name": "service:siu/sso-saml-sp"
+    }
+  ],
+
+  "provide": [
+    {
+      "name": "api:siu/usuarios",
+      "version": "0.1.0"
+    }, {
+      "name": "service:siu/sso-saml-idp",
+      "version": "0.2.0"
+    }, {
+      "name": "app:siu/arai-usuarios-gestion",
+      "alias": "Usuarios",
+      "description": "Gestión de usuarios (Backend)",
+      "version": "0.3.0"
+    }, {
+      "name": "app:siu/arai-usuarios-autogestion",
+      "alias": "Mis datos",
+      "description": "Gestión de mis datos personales",
+      "version": "0.1.0",
+      "icon": "./icon.png"
+    }
+  ]
+
+}

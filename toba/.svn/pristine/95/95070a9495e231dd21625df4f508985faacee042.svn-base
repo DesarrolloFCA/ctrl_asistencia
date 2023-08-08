@@ -1,0 +1,217 @@
+<?php
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: andres
+ * Date: 23/09/15
+ * Time: 14:53.
+ */
+namespace SIU\AraiCli\Services\Registry;
+
+use SIU\AraiCli\Config;
+use SIU\AraiJsonParser\AraiJsonManager;
+use SIU\AraiJsonParser\AraiPackage;
+
+class AraiJsonUtil
+{
+    /**
+     * @var Config
+     */
+    protected $config;
+
+    /**
+     * @var AraiJsonManager
+     */
+    protected $jsonManager;
+
+    public function __construct(Config $config, AraiJsonManager $jsonManager)
+    {
+        $this->config = $config;
+        $this->jsonManager = $jsonManager;
+    }
+    public function removeAraiLock()
+    {
+        unlink($this->getAraiLockPath());
+    }
+
+    /**
+     * Devuelve el contenido de arai.json.
+     *
+     * @return string
+     *
+     * @throws AraiJsonException
+     */
+    protected function getAraiJsonFileContents()
+    {
+        $path = $this->getAraiJsonPath();
+        if (!file_exists($path)) {
+            throw new AraiJsonException("El archivo '$path' no existe");
+        }
+
+        $contents = file_get_contents($path, true);
+
+        //Valida que sea un JSON valido
+        json_decode($contents, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new AraiJsonException("Error al parsear el archivo '$path': ".json_last_error_msg().'. Chequear sintaxis en http://jsonlint.com');
+        }
+
+        //retorna en crudo
+        return $contents;
+    }
+
+    public function getJsonForSync()
+    {
+        $p = $this->parseLockFile();
+        // Se pisan los datos que tienen que salir si o si desde el .lock
+        $contents = json_decode($this->getAraiJsonFileContents(), true);
+        $contents['name'] = $p->getName();
+        $contents['mantainer'] = $p->getMantainer();
+        $contents['mantainer-email'] = $p->getMantainerEmail();
+        $contents['arai-remote']['url'] = $p->getAraiRemoteUrl();
+        $contents['arai-remote']['instance-name'] = $p->getAraiRemoteInstanceName();
+        $contents['arai-remote']['token'] = $p->getAraiRemoteToken();
+
+        $this->decorateJsonContents($contents);
+        
+        return json_encode($contents);
+    }
+
+    /**
+     * Obtiene la información del arai.json y le suma la información del mantainer pasada por parámetro y ejecuta el script
+     * de presincronización sobre las features
+     * @param string $mantainer
+     * @param string $mantainerEmail
+     * @param string $instanceName
+     * @return string json con información de mantenedor, para ser usado en la etápa de registro
+     * @throws \Exception
+     */
+    public function getAraiJsonContentsWithExtraData($mantainer, $mantainerEmail, $instanceName)
+    {
+        $contents = json_decode($this->getAraiJsonFileContents(), true);
+
+        $contents['mantainer'] = $mantainer;
+        $contents['mantainer-email'] = $mantainerEmail;
+        if (!is_null($instanceName)) {
+            $contents['arai-remote']['instance-name'] = $instanceName;
+        }
+
+        $this->decorateJsonContents($contents);
+
+        return json_encode($contents, 448);
+    }
+
+    /**
+     * Ejecuta los hooks pre provide y consume y carga los íconos de los provide de tipo app
+     */
+    protected function decorateJsonContents(&$contents)
+    {
+        foreach (array_keys($contents['provide']) as $key) {
+            $f = $this->jsonManager->createProvision($contents['provide'][$key]);
+            if ($f->getType() != 'app' || empty($f->getIcon()) ) {
+                continue;
+            }
+
+            $relPath = $this->config->get('base-dir').'/'.$f->getIcon();
+            $path = realpath($relPath);
+            if ($path === false) {
+                throw new \Exception("El path especificado para el ícono '$relPath' no es válido");
+            }
+            $f->setIconBase64(base64_encode(file_get_contents($path)));
+            $contents['provide'][$key] = $f->toArray();
+        }
+
+        $this->runHooks($contents);
+    }
+
+    protected function runHooks(&$contents)
+    {
+        if (! isset($contents['scripts']['hooks'])) {
+            throw new \Exception("No se definió la entrada [scripts][hooks] en arai.json. Es un string con el nombre de una clase que implementa la interfaz SIU\\AraiCli\\Services\\Registry\\HooksInterface");
+        } else if (! class_exists($contents['scripts']['hooks'])) {
+            $clase = $contents['scripts']['hooks'];
+            throw new \Exception("La clase '$clase' no existe.");
+        }
+
+        /** @var HooksInterface $hooksScript */
+        $hooksScript = new $contents['scripts']['hooks'];
+
+        if (!empty($contents['provide']) && count($contents['provide']) > 0) {
+            foreach (array_keys($contents['provide']) as $key) {
+                $f = $this->jsonManager->createProvision($contents['provide'][$key]);
+                $hooksScript->preProvide($f);
+                $contents['provide'][$key] = $f->toArray();
+            }
+        }
+
+        if (!empty($contents['consume']) && count($contents['consume']) > 0) {
+            foreach (array_keys($contents['consume']) as $key) {
+                $f = $this->jsonManager->createConsumption($contents['consume'][$key]);
+                $hooksScript->preConsume($f);
+                $contents['consume'][$key] = $f->toArray();
+            }
+        }
+    }
+
+    /**
+     * @return \SIU\AraiJsonParser\AraiPackage
+     */
+    public function parseLockFile()
+    {
+        return $this->jsonManager->load($this->getAraiLockPath());
+    }
+
+    /**
+     * Calcula el hash md5 del archivo arai.json.
+     *
+     * @return string
+     */
+    public function calculateHash()
+    {
+        return md5_file($this->getAraiJsonPath());
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasValidHash()
+    {
+        if (!$this->lockFileExists()) {
+            return false;
+        }
+
+        return $this->calculateHash() === $this->parseLockFile()->getHash();
+    }
+
+    /**
+     * @param AraiPackage $package
+     * @param bool        $writeHash si es true se actualiza la propiedad hash del json
+     */
+    public function writeAraiLock($package, $writeHash = true)
+    {
+        if ($writeHash) {
+            $package->setHash($this->calculateHash());
+        }
+
+        file_put_contents($this->getAraiLockPath(), $this->jsonManager->encodeJson($package));
+    }
+
+    /**
+     * @return bool
+     */
+    public function lockFileExists()
+    {
+        return file_exists($this->getAraiLockPath());
+    }
+
+    protected function getAraiJsonPath()
+    {
+        return $this->config->get('base-dir').'/'.$this->config->get('arai-file-name');
+    }
+
+    public function getAraiLockPath()
+    {
+        $lockFileName = basename($this->config->get('arai-file-name'), '.json').'.lock';
+        return $this->config->get('base-dir').'/'.$lockFileName;
+    }
+}

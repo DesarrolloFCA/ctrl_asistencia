@@ -1,0 +1,20 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: fbohn
+ * Date: 28/03/16
+ * Time: 17:44
+ */
+
+namespace SIU\AraiJsonMigrator\Util;
+
+
+class Util
+{
+    static public function writeIfNotEmpty(&$rs, $key, $value)
+    {
+        if (!empty($value)) {
+            $rs[$key] = $value;
+        }
+    }
+}

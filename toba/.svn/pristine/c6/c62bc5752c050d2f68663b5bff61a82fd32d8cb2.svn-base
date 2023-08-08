@@ -1,0 +1,107 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: andres
+ * Date: 01/10/15
+ * Time: 16:53
+ */
+
+namespace SIU\AraiJsonParser\Feature;
+
+
+use SIU\AraiJsonParser\Feature\Extension\TypeExtension;
+use SIU\AraiJsonParser\Util\Util;
+
+class Provision extends Feature
+{
+    public function __construct(TypeExtension $typeExtension)
+    {
+        parent::__construct($typeExtension);
+        $this->consumers = [];
+        $this->iconBase64 = '';
+    }
+
+    /**
+     * @var Consumption[]
+     */
+    protected $consumers;
+
+    public function addConsumer(Consumption $consumer)
+    {
+        $this->consumers[] = $consumer;
+    }
+
+    /**
+     * @return Consumption[]
+     */
+    public function getConsumers()
+    {
+        return $this->consumers;
+    }
+
+    /**
+     * @var string
+     */
+    protected $iconBase64;
+
+    /**
+     * @param string $iconBase64
+     * @return Provision
+     */
+    public function setIconBase64($iconBase64)
+    {
+        $this->iconBase64 = $iconBase64;
+        return $this;
+    }
+
+    public function getIconBase64()
+    {
+        return $this->iconBase64;
+    }
+
+    /**
+     * @var string
+     */
+    protected $icon;
+
+    /**
+     * @return string el path del icono. Si no existe devuelve  el string vacío
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * @param string $icon
+     * @return Feature
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+        return $this;
+    }
+
+
+    public function toArray()
+    {
+        $rs = $this->toArrayWithoutConsumers();
+
+        if (!empty($this->consumers)) {
+            $rs['consumers'] = [];
+            foreach ($this->consumers as $consumer) {
+                $rs['consumers'][] = $consumer->toArrayWithoutProviders();
+            }
+        }
+
+        return $rs;
+    }
+
+    public function toArrayWithoutConsumers()
+    {
+        $rs = parent::toArray();
+        Util::writeIfNotEmpty($rs, 'icon', $this->getIcon());
+        Util::writeIfNotEmpty($rs, 'icon-base-64', $this->getIconBase64());
+        return $rs;
+    }
+}

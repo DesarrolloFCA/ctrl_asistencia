@@ -1,0 +1,108 @@
+=== 2.7.1 ===
+ * Soporte para una instalacion Docker de Toba, lista para crear o cargar un proyecto 
+ * Soporte para descarga via Composer (paquete siu-toba/framework)
+ 
+=== 2.7.2 ===
+ * Onelogin:
+  * Bug: se deja un entityID unico por instalacion (/aliastoba/default-sp)
+  * Mejora: se recuerda la URL desde donde se quizo acceder al sistema
+  * Bug: se corrige faltante para procesar los pedidos SLO
+  * Bug: se decodifica correctamente el encoding de los atributos de usuario
+ * Se agrega parametro para especificar el nombre del usuario administrador durante la instalacion
+ * Al incluir a toba via composer, se puede acceder directamente al comando `vendor/bin/toba`
+ * Se agrega posibilidad de fijar URL del alias durante la carga del proyecto
+ * Se agrega posibilidad de fijar nombre de bd durante el comando instalar del proyecto
+ * Se mueve el archivo de carga del entorno dentro de la carpeta de instalacion
+ * Mejoras al esquema anti-csrf
+ * Modificacion al login de toba_editor para su uso con metodos de autenticacion centralizados
+ * Se agrega la posibilidad de hacer la instalacion del framework completamente no interactiva
+ * Se puede especificar el directorio destino durante la creacion del proyecto
+ * Agregado de libreria js-app-launcher
+ * Se generan los ini de los clientes rest al cargar el proyecto
+ * Se corrige el mecanismo de empaquetado de proyectos para que tome en cuenta una instalacion por composer
+ * Bugfix en los asistentes del editor, ahora extienden bien las clases en un proyecto personalizado
+ * Se actualiza la libreria REST y los ejemplos de toba_referencia
+ * Se agrega soporte para vincular usuarios via ARAI
+ * Se modifica la edicion de dimensiones para que pueda seleccionar tablas en fuentes multiesquema
+ * Se corrige bug en las restricciones funcionales que fallaban con una excepcion en tiempo de eventos
+ * Se cambia la clase Number_words para que funcione con php 5.4
+ * Se corrige en toba_ei_arbol bug que podria permitir xss
+
+=== 2.7.3 ===
+ * Se permite crear api's rest en la carpeta de personalizacion
+ * Actualizacion del lanzador js-app-launcher
+ * Fix en ei_cuadro se blanquean columnas pertenecientes a vinculos cuando no existe evento asociado
+ * Se cambia el namespace Siu por SIU.
+ * Se permite lanzar casos de test via consola que se encuentren en la personalizacion
+ * Se mejora el soporte de la vinculacion de usuarios via ARAI
+ * Se agrega archivo web_server.ini en la carpeta de instalacion para configurar aquellas detras de un proxy
+ * Correccion en operacion de recordatorio de pwd
+ * Fix en ML, el boton agregar no respetaba el parametro de visualizacion cuando estaba en la botonera abajo
+ * Se agrega la posibilidad de autenticacion via certificados x509 en WS REST
+ * Se modifican los hooks de ARAI para que se autoconfiguren los WS con SSL en Toba
+ * Fix en opciones del combo para IE
+
+=== 2.7.4 ===
+ * Se hace desatendido el comando editar_acceso
+ 
+=== 2.7.5 === 
+ * Se corrige notice en get_cambios_fila en un alta
+ * Se agrega token anti-csrf a toba_ei_firma
+ * Actualizacion de librerias en la carpeta vendor
+ * Bugfix a la carga de perfiles en modo produccion cuando hay membresias
+ * Mejora al esquema de proteccion contra XSS
+ * Mejora al logger, si el nivel no es debug elimina los parametros de la traza
+ 
+=== 2.7.6 ===  
+ * Actualizacion de toba_referencia y toba_usuarios para uso del nuevo mecanismo de escapeo
+ * En toba_usuarios al visualizar los logs de datos se pueden seleccionar los distintos schemas que tiene una fuente
+ * Fix toba_editor al intentar crear un ci/cn desde la operacion de edicion del item
+ * Se agrega la celda de memoria a los datos que se envian para armar el prefijo del vinculo en JS
+ * Se agrega un tipo de parametro nuevo en toba_vista_jasperreports para poder fijar el locale
+ * En el comando de creacion del proyecto se puede pasar un directorio destino
+ * Fix a toba_editor para que no permita crear datos_tabla sin especificar la misma
+ * Fix a toba_editor al crear auditoria si habia renombre de tabla se rompia
+ * Se agrega funcion para decodificar los strings en JS
+ * Fix al colocar la tecla de acceso en los botones con tags de formato
+ * Se agrega al comando de instalacion la posibilidad de especificar alias para toba y schema para la base toba
+ 
+=== 2.7.7 ===
+ * Bugfix a toba_js permite tener mas de un punto de acceso para el proyecto
+ * La clase toba_cliente_rdi permite agregar servicios via proyecto.ini
+ * Fix typo en el selector de archivos de toba_editor
+ * Fix a ER que controla estilos CSS aplicables a EVT
+ * Fix a vulnerabilidad de path disclosure en  toba_constructor y toba_escapador
+ * Fix en clonador de objetos, disparaba por error control de zona
+ * Agregado en toba_db metodo para resetear info de debug
+ 
+=== 2.7.8 === 
+ * Se actualiza RDILib
+ * Se suma el paquete  siu/arai-cli a composer.json y se actualiza la carpeta vendor
+ * Se agrega control sobre la definicion de la constante TOBA_DIR
+
+=== 2.7.9 ===
+ * Bugfix en la clase toba_logger_rdi
+ * Se agrega mensaje puntual por desborde del post al subir archivos
+ * Se agrega siu/arai-json-migrator via composer
+ * La autenticacion via saml_onelogin permite manejar varios SP via configuracion
+ * Se agrega la posibilidad de cambiar el placeholder de un ef en runtime
+ * Se actualiza el paquete siu-toba/rest y la carpeta vendor
+
+=== 2.7.10 ===
+ * Se agrega el motivo del error al mensaje de log de la autenticacion saml_onelogin
+ * Bugfix en toba_ei_cuadro, la validacion de la estructura ahora contempla la existencia de valores nulos
+ * Se hacen publicos dos metodos de la clase toba_parametros
+ * Se modifica toba_usuarios para que loguee correctamente el usuario de auditoria (requiere definir fuente en bases.ini)
+ 
+=== 2.7.11 ===
+ * Se fuerza la eliminacion de triggers en la actualizacion de auditoria
+ * Bugfix en toba_editor, el asignador de objetos lanzaba un notice
+
+=== 2.7.12 ===
+ * Bugfix en toba_vinculador, se arma correctamente el primer parametro
+ * Se modifica el scope del metodo toba_auditoria_tablas_postgres::set_estado_activacion_triggers
+ * Se agrega el metodo toba_auditoria_tablas_postgres::get_tablas_triggers_desactivados
+ * Bugfix al recuperar un parametro desde la instancia
+ * Se corrige fatal al intentar modificar los permisos de directorios recursivamente
+
+=== 2.7.13 ===

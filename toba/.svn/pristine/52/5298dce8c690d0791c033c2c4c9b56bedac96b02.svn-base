@@ -1,0 +1,9 @@
+{
+  "name": "siu/arai-usuarios",
+  "description": "SIU-Arai Usuarios",
+  "mantainer": "pepe",
+  "mantainer-email": "pepe@mail.com",
+  "scripts": {
+    "hooks": "SIU\\Nombre\\de\\clase"
+  }
+}

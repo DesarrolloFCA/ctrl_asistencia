@@ -1,0 +1,53 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: ablanco
+ * Date: 17/06/15
+ * Time: 16:40
+ */
+
+use SIU\AraiJsonParser\AraiJsonManager;
+
+class AraiJsonManagerTest extends PHPUnit_Framework_TestCase
+{
+
+    public function testLoadFromFile()
+    {
+        $manager = new AraiJsonManager();
+        $data = $manager->load(__DIR__.'/fixtures/arai-minimal-correct.json');
+        $this->assertTrue($data->getName() === "siu/arai-usuarios");
+        $this->assertTrue($data->getDescription() === "SIU-Arai Usuarios");
+        $this->assertTrue(count($data->getConsumeList()) === 0);
+        $this->assertTrue(count($data->getProvideList()) === 0);
+    }
+
+    public function testComplexJsonLoad()
+    {
+        $manager = new AraiJsonManager();
+        $data = $manager->load(__DIR__.'/fixtures/arai-correct.json');
+        $this->assertTrue($data->getName() === "siu/arai-usuarios");
+        $this->assertTrue($data->getDescription() === "SIU-Arai Usuarios");
+        $this->assertTrue(count($data->getConsumeList()) === 3);
+        $this->assertTrue(count($data->getProvideList()) === 4);
+
+        $requiredTypes = array('service', 'service');
+        for ($i = 0; $i < count($requiredTypes); ++$i) {
+            $this->assertEquals($requiredTypes[$i], $data->getConsumeList()[$i]->getType());
+        }
+
+        $providedTypes = array('api', 'service', 'app', 'app');
+        for ($i = 0; $i < count($providedTypes); ++$i) {
+            $this->assertEquals($providedTypes[$i], $data->getProvideList()[$i]->getType());
+        }
+
+        $this->assertNotEmpty($data->getProvideList()[0]->getAuth());
+    }
+
+    public function testEncodeJson()
+    {
+        $manager = new AraiJsonManager();
+        $data = $manager->load(__DIR__.'/fixtures/arai-correct.json');
+        $jsonString = $manager->encodeJson($data);
+        $this->assertJsonStringEqualsJsonFile(__DIR__.'/fixtures/arai-correct.json', $jsonString);
+    }
+}

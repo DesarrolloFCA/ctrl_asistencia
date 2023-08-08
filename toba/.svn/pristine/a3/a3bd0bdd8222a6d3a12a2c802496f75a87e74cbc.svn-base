@@ -1,0 +1,227 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: fbohn
+ * Date: 28/03/16
+ * Time: 16:53
+ */
+
+namespace SIU\AraiJsonMigrator\Entities;
+
+use SIU\AraiJsonMigrator\Util\Util;
+use SIU\AraiJsonMigrator\Util\Documento;
+
+class Person extends Entity
+{
+
+    protected $givenName;
+    protected $sn;
+    protected $cn;
+    protected $mail;
+    protected $grupos;
+    protected $bloqueada;
+    protected $employeeNumber;
+    protected $genero;
+    protected $extra;
+    /* @var Documento $documento */
+    protected $documento;
+
+
+    /**
+     *
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->givenName = null;
+        $this->sn = null;
+        $this->cn = null;
+        $this->mail = null;
+        $this->grupos = null;
+        $this->bloqueada = null;
+        $this->employeeNumber = null;
+        $this->genero = null;
+        $this->extra = null;
+        $this->documento = null;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGivenName()
+    {
+        return $this->givenName;
+    }
+
+    /**
+     * @param mixed $givenName
+     */
+    public function setGivenName($givenName)
+    {
+        $this->givenName = $givenName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSn()
+    {
+        return $this->sn;
+    }
+
+    /**
+     * @param mixed $sn
+     */
+    public function setSn($sn)
+    {
+        $this->sn = $sn;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMail()
+    {
+        return $this->mail;
+    }
+
+    /**
+     * @param mixed $mail
+     */
+    public function setMail($mail)
+    {
+        $this->mail = $mail;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGrupos()
+    {
+        return $this->grupos;
+    }
+
+    public function setGrupos($grupos)
+    {
+        $this->grupos = $grupos;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCn()
+    {
+        return $this->cn;
+    }
+
+    /**
+     * @param mixed $cn
+     */
+    public function setCn($cn)
+    {
+        $this->cn = $cn;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBloqueada()
+    {
+        return $this->bloqueada;
+    }
+
+    /**
+     * @param mixed $bloqueada
+     */
+    public function setBloqueada($bloqueada)
+    {
+        $this->bloqueada = $bloqueada;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmployeeNumber()
+    {
+        return $this->employeeNumber;
+    }
+
+    /**
+     * @param mixed $employeeNumber
+     */
+    public function setEmployeeNumber($employeeNumber)
+    {
+        $this->employeeNumber = $employeeNumber;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGenero()
+    {
+        return $this->genero;
+    }
+
+    /**
+     * @param mixed $genero
+     */
+    public function setGenero($genero)
+    {
+        $this->genero = $genero;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExtra()
+    {
+        return $this->extra;
+    }
+
+    /**
+     * @param mixed $extra
+     */
+    public function setExtra($extra)
+    {
+        $this->extra = $extra;
+    }
+
+    /**
+     * @return Documento
+     */
+    public function getDocumento()
+    {
+        return $this->documento;
+    }
+
+    /**
+     * @param Documento $documento
+     */
+    public function setDocumento($documento)
+    {
+        $this->documento = $documento;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        $rs = parent::toArray();
+        Util::writeIfNotEmpty($rs, 'givenName', $this->getGivenName());
+        Util::writeIfNotEmpty($rs, 'sn', $this->getSn());
+        Util::writeIfNotEmpty($rs, 'cn', $this->getCn());
+        Util::writeIfNotEmpty($rs, 'grupos', $this->getGrupos());
+        Util::writeIfNotEmpty($rs, 'mail', $this->getMail());
+        $rs['bloqueada'] = $this->getBloqueada();
+        Util::writeIfNotEmpty($rs, 'employeeNumber', $this->getEmployeeNumber());
+        Util::writeIfNotEmpty($rs, 'genero', $this->getGenero());
+        Util::writeIfNotEmpty($rs, 'extra', $this->getExtra());
+        /* @var Documento $documento */
+        $documento = $this->getDocumento();
+        if (isset($documento)) {
+            Util::writeIfNotEmpty($rs, 'documento', $documento->toArray());
+        }
+        return $rs;
+    }
+}

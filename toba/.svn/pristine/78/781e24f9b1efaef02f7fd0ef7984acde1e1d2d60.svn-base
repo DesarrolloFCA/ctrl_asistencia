@@ -1,0 +1,23 @@
+{
+  "name": "siu/arai-json-migrator",
+  "description": "Utilidades para exportar e importar usuarios en Araí mediante un archivo JSON",
+  "type": "project",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://satis.siu.edu.ar"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0",
+    "siu/json-util": "~1.0"
+  },
+  "authors": [{
+    "name": "Federico Bohn",
+    "email": "fbohn@siu.edu.ar"
+  }],
+
+  "autoload": {
+    "psr-4": { "": "src" }
+  }
+}

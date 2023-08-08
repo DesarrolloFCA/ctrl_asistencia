@@ -1,0 +1,27 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: andres
+ * Date: 01/10/15
+ * Time: 16:35
+ */
+
+namespace SIU\AraiJsonParser\Feature\Extension;
+
+
+abstract class TypeExtension
+{
+    /**
+     * @return string
+     */
+    abstract public function getName();
+
+    /**
+     * Retorna un arreglo que se va a agregar a la feature que contiene esta extensión
+     * @return array
+     */
+    public function getParams()
+    {
+        return [];
+    }
+}

@@ -1,0 +1,36 @@
+"definitions": {
+	"encabezado": {
+		"properties": {
+			"version_aplicacion": {
+				"type": "string",
+				"maxLength": 50
+			},
+			"version_cliente_arai_catalogos": {
+				"type": "string",
+				"maxLength": 50
+			},
+			"version_catalogo": {
+				"type": "integer",
+				"minimum": 0
+			},
+			"usuario_aplicacion": {
+				"type": "string",
+				"maxLength": 50
+			},
+			"usuario_rest": {
+				"type": "string",
+				"maxLength": 50
+			},
+			"revision": {
+				"type": "integer",
+				"minimum": 0
+			},
+			"url_from": {
+				"type": "string",
+				"maxLength": 255
+			}
+		},
+		"required": [ "version_aplicacion", "version_cliente_arai_catalogos", "version_catalogo" ],
+		"additionalProperties": false
+	}
+}

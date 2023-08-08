@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: ablanco
+ * Date: 22/06/15
+ * Time: 17:48.
+ */
+namespace SIU\AraiCli;
+
+
+use SIU\AraiCli\Services\Registry\Registry;
+
+class AraiCli
+{
+    public function __construct()
+    {
+    }
+
+    /**
+     * @return Registry
+     */
+    public static function getRegistryService()
+    {
+        $c = Factory::getContainer();
+        return $c['arai-registry'];
+    }
+}
