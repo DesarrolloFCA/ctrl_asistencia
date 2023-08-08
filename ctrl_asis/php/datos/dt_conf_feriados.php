@@ -24,7 +24,7 @@ class dt_conf_feriados extends ctrl_asis_datos_tabla
 		 and agrupamiento in ('$agru',NULL,'Todos');";
 
 		$res = toba::db('ctrl_asis')->consultar_fila($sql);
-		ei_arbol ($sql);
+		//ei_arbol ($sql);
 		return $res['resultado'];
 	
 	}
