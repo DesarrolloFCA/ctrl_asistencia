@@ -213,22 +213,23 @@ class ci_articulo extends comision_ci
 								}
 
 							if ($parte[0]['dias_restantes'] == null ) {
-								$parte[0]['dias_restantes'] = 0;
+								$parte[0]['dias_restantes'] = 2;
 							}
 
-							$temp[0]['dias_restantes'] = $parte[0]['dias_restantes']+ $dias_tomados + $dias;    
+							$temp[0]['dias_restantes'] = $parte[0]['dias_restantes']- $dias_tomados - $dias;    
 							//ei_arbol($temp);                        
-								if(!is_null($temp)&&($temp[0]['dias_restantes'] > 0 && $temp[0]['dias_restantes']<=2 )){
+								if(!is_null($temp)&&($temp[0]['dias_restantes'] >= 0 && $temp[0]['dias_restantes']<= 2 )){
 									$sql="SELECT -SUM(dias) +6 dias_restantes 
 									FROM reloj.parte
 									WHERE legajo = $legajo
 									AND id_motivo = 30
+									AND extract (month from fecha_inicio_licencia)=$m
 									AND  DATE_PART('year', fecha_inicio_licencia) = $y";
 									$temp = toba::db('comision')->consultar($sql);    
 									$bandera = false;
 
 									//ei_arbol($temp);
-									if (is_null($temp[0]['dias_restantes'])|| ($temp[0]['dias_restantes'] >= 0 && $temp[0]['dias_restantes']<=2 )){
+									if (is_null($temp[0]['dias_restantes'])|| ($temp[0]['dias_restantes'] >= 0 && $temp[0]['dias_restantes']<=6 )){
 										$agente [$i]['articulo'] = 40;
 									$bandera= true;
 									//ei_arbol($agente);
@@ -683,7 +684,7 @@ class ci_articulo extends comision_ci
 				$fechaentera1 =strtotime($fecha_inicio_licencia);
 			$fecha = date_create(date("Y-m-d",$fechaentera1)); 
 		//$fecha=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] ) );
-		
+		//ei_arbol($agente);
 			$fecha_inicio =$fecha ->format("Y-m-d");
 			$dias = $dias - 1;
 			$dias_to= $dias. ' days';
@@ -833,7 +834,7 @@ class ci_articulo extends comision_ci
 					$sql= "SELECT email from reloj.agentes_mail
 					where legajo=$superior";
 					$correo = toba::db('comision')->consultar($sql);
-					//$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
+					$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
 
 
 					}
