@@ -122,7 +122,7 @@ class comision extends toba_ci
 
 				$datos =$this-> s__datos;    
 				
-//ei_arbol ($this->s__datos);                
+//ei_arbol ($correo);                
 		$mail = new phpmailer();
 		$mail->IsSMTP();
 //Esto es para activar el modo depuración. En entorno de pruebas lo mejor es 2, en producción siempre 0
@@ -164,22 +164,19 @@ $mail->IsHTML(true); //el mail contiene html
 	$body = '<table>
 						El/la agente  <b>'. $datos['descripcion'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
 						Solicita <b>Comision de Servicio</b> a realizarse el dia '.$fecha.' hasta el dia ' .$fecha_fin. '
-						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].' hasta la hora '.$datos['horario_fin'].' con el siguiente motivo de: '.$datos['motivo'].' observaciones: ' .$datos['observaciones']. '
+						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].' hasta la hora '.$datos['horario_fin'].' con el siguiente motivo de: '.$datos['motivo'].'  observaciones: ' .$datos['observaciones']. '
 											
-			</table>'; //date("d/m/y",$fecha)
+			</table>'; 
 $mail->Body = $body;
+//ei_arbol($body);
 //Enviamos el correo
  
-if(!$mail->Send()) {
+	if(!$mail->Send()) {
 	echo "Error: " . $mail->ErrorInfo;
-} else {
+	} else {
 	echo "Enviado!";
-}
-	
-
-	
-		
 	}
+}
 	function enviar_correos_sup($correo)
 	{
 		require_once('3ros/phpmailer/class.phpmailer.php');
@@ -213,18 +210,19 @@ $mail->SetFrom('formularios_asistencia@fca.uncu.edu.ar', 'Formulario Personal');
 
 //$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
 //Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)
-$mail -> AddAddress($correo, 'Tester');
+$mail -> AddAddress($correo, 'Superior');
 //$mail->AddAddress($correo, 'El Destinatario'); //Descomentar linea cuando pase a produccion
 //Definimos el tema del email
-$mail->Subject = 'Formulario Comision de Servicio- Agente';
+$mail->Subject = 'Formulario Comision de Servicio - Agente';
 //Para enviar un correo formateado en HTML lo cargamos con la siguiente función. Si no, puedes meterle directamente una cadena de texto.
 //$mail->MsgHTML(file_get_contents('correomaquetado.html'), dirname(ruta_al_archivo));
 //Y por si nos bloquean el contenido HTML (algunos correos lo hacen por seguridad) una versión alternativa en texto plano (también será válida para lectores de pantalla)
 $mail->IsHTML(true); //el mail contiene html
 	$fecha=date('d/m/Y',strtotime($datos['fecha']) );
+	$fecha_fin =date('d/m/Y',strtotime($datos['fecha_fin']));
 	
 	$body = '<table>
-						El/la agente  <b>'. $datos['agente'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
+						El/la agente  <b>'. $datos['descripcion'] .'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
 						Solicita <b>Comision de Servicio</b> con motivo de '.$datos['motivo'].' a realizarse el dia '.$fecha.' hasta el dia' .$fecha_fin. '
 						en ' .$datos['lugar']. ' a partir de la hora ' .$datos['horario'].' hasta la hora '.$datos['horario_fin'].'. Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '</br>
 						En caso de rechazar la solicitud del agente, debera enviar un correo a la siguiente direccion: asistencia@fca.uncu.edu.ar </br>

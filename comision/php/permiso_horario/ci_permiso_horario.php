@@ -64,7 +64,7 @@ class ci_permiso_horario extends comision_ci
 				$datos['superior']=$correo_sup[0]['descripcion'];
 			}
 			//ei_arbol ($datos);
-			agente= $this -> dep('mapuche')->get_legajo_todos($legajo); 
+			$agente= $this -> dep('mapuche')->get_legajo_todos($legajo); 
 					$datos['descripcion']= $agente[0]['descripcion'];
 			$this->s__datos = $datos;
 			if (!empty ($datos['legajo'])){
