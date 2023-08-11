@@ -1015,7 +1015,7 @@ function enviar_correos_sup($correo,$destino)
 	$hasta=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] . "+ " .$datos['dias']. " days") );
 	
             
-   ei_arbol($datos);   
+   //ei_arbol($datos);   
 		$mail = new phpmailer();
 		$mail->IsSMTP();
 //Esto es para activar el modo depuración. En entorno de pruebas lo mejor es 2, en producción siempre 0
