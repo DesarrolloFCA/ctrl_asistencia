@@ -174,7 +174,7 @@ class ci_articulo extends comision_ci
 		for ($i=0; $i < $cant; $i++)
 		{ 
 			
-			if ($agente [$i]['escalafon'] == 'NODO'){
+			if ($agente [$i]['escalafon'] == 'NODO'){ //No docente
 				
 				
 				
@@ -192,7 +192,7 @@ class ci_articulo extends comision_ci
 							and DATE_PART('year', fecha_inicio_licencia) = $anio";
 							$parte = toba::db('comision')->consultar($sql);
 							//ei_arbol($parte);
-							$sql = "SELECT fecha_inicio, fecha_fin
+							$sql = "SELECT fecha_fin - fecha_inicio +1 dias_no_pasados
 								FROM reloj.inasistencias
 								Where legajo = $legajo AND id_motivo=30 AND extract (month from fecha_inicio)=$m And extract(year from fecha_inicio) = $anio";
 
@@ -201,14 +201,15 @@ class ci_articulo extends comision_ci
 								$lim = count($pendiente);
 								$dias_tomados = 0;
 								for ($i=0; $i<$lim; $i++){
-									$fecha_inicio = $pendiente[$i]['fecha_inicio'];
+									$dias_tomados = $pendientes[$i]['dias_no_pasados']+$dias_tomados  ;
+								/*	$fecha_inicio = $pendiente[$i]['fecha_inicio'];
 										$fechaentera1 =strtotime($fecha_inicio);
 								$fecha_inicio = date_create(date("Y-m-d",$fechaentera1)); 
 								$fecha_fin = $pendiente[$i]['fecha_fin'];
 										$fechaentera1 =strtotime($fecha_fin);
 								$fecha_fin = date_create(date("Y-m-d",$fechaentera1)); 
 								$diferencia = date_diff($fecha_inicio , $fecha_fin);
-								$dias_tomados = $dias_tomados + $diferencia;
+								$dias_tomados = $dias_tomados + $diferencia;*/
 								//ei_arbol($dias_tomados);
 								}
 
@@ -230,7 +231,10 @@ class ci_articulo extends comision_ci
 
 									//ei_arbol($temp);
 									if (is_null($temp[0]['dias_restantes'])|| ($temp[0]['dias_restantes'] >= 0 && $temp[0]['dias_restantes']<=6 )){
+										$lim = count($agente);
+									for ($i = 0; $i<$lim; $i++){
 										$agente [$i]['articulo'] = 40;
+									}
 									$bandera= true;
 									//ei_arbol($agente);
 
@@ -465,8 +469,8 @@ class ci_articulo extends comision_ci
 				
 
 			} else {
-				
-				if ($id_motivo == 30) {
+				// Docentes
+				if ($id_motivo == 30) { //Rezones particulares
 						//ei_arbol($i);
 						if (date("Y") == $anio){
 							if ($dias <= 2){
@@ -489,6 +493,7 @@ class ci_articulo extends comision_ci
 							$pendiente = toba::db('comision')->consultar($sql);
 								$lim = count($pendiente);
 								$dias_tomados = 0;
+							//ei_arbol($pendiente);	
 								for ($i=0; $i<$lim; $i++){
 								$dias_tomados = $dias_tomados + $pendiente[$i]['dias_rp'];
 									
@@ -506,7 +511,10 @@ class ci_articulo extends comision_ci
 									$temp = toba::db('comision')->consultar($sql);    
 									//ei_arbol($temp);
 									if (is_null($temp[0]['dias_restantes'])|| ($temp[0]['dias_restantes'] >= 0 && $temp[0]['dias_restantes']<=2 )){
+									$lim = count($agente);
+									for ($i = 0; $i<$lim; $i++){	
 										$agente [$i]['articulo'] = 57;
+									}
 									$bandera= true;
 									//ei_arbol($agente);
 
@@ -1015,7 +1023,7 @@ function enviar_correos_sup($correo,$destino)
 	$hasta=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] . "+ " .$datos['dias']. " days") );
 	
             
-   ei_arbol($datos);   
+  // ei_arbol($datos);   
 		$mail = new phpmailer();
 		$mail->IsSMTP();
 //Esto es para activar el modo depuración. En entorno de pruebas lo mejor es 2, en producción siempre 0

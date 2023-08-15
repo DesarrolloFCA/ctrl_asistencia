@@ -84,8 +84,8 @@ class ci_vacaciones extends ctrl_asis_ci
 					$hoy=date_create(date("Y-m-d",strtotime($fecha_fin)));
 					//$dia = $february->diff($january);
 					$dia = date_diff($fecha_inicio , $hoy);
-					$dias = $dia->format('%a');
-					//ei_arbol($dias);
+					$dias = $dia->format('%a') + 1;
+					ei_arbol($dias);
 					$fecha_ini=$datos[$i]['fecha_inicio'];
 					
 					
@@ -106,7 +106,7 @@ class ci_vacaciones extends ctrl_asis_ci
 							apellido, nombre, estado_civil, observaciones, id_decreto, id_motivo,  tipo_sexo,usuario_cierre,fecha_cierre)
 						VALUES ($legajo, $edad, '$fecha_alta', $usuario_alta, '$estado', '$fecha_ini', $dias, '04', '$domicilio', '$localidad', '$agrupamiento', 
 						'$fecha_nacimiento','$apellido', '$nombre',    '$estado_civil', '$observaciones', $id_decreto, $id_motivo,'$tipo_sexo','$usuario_cierre','$fecha_cierre');";
-					}	
+					}    
 				toba::db('ctrl_asis')->ejecutar($sql);
 				
 				
@@ -236,7 +236,7 @@ $mail->IsHTML(true); //el mail contiene html*/
 
 	if ($aprobado == 1) {
 		if ($datos['id_motivo'] == 30) {
-		$mail->Subject = 'Solicitud de Razones Particulares';	
+		$mail->Subject = 'Solicitud de Razones Particulares';    
 		//$motivo = 'Razones Particulares con gose de haberes';
 			$body = '<table>
 						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
@@ -252,7 +252,7 @@ $mail->IsHTML(true); //el mail contiene html*/
 			$mail->Subject = 'Solicitud de vacaciones';
 			$body = '<table>
 						Sr/a <b>'.$datos['nombre'].' '.$datos['apellido'].'</b>:
-						Su solicitud de vacaciones correspondiente al a&ntilde;o '.$datos['anio']. ' ha sido otorgada la cual sera efectiva entre '.$fecha.' y debe reintegrarse el dia '. $hasta.' .<br/>
+						Su solicitud de vacaciones correspondiente al año '.$datos['anio']. ' ha sido otorgada la cual sera efectiva entre '.$fecha.' y debe reintegrarse el dia '. $hasta.' .<br/>
 						Esperamos que disfrute sus vacaciones                                            
 			</table>';
 		}
@@ -260,7 +260,7 @@ $mail->IsHTML(true); //el mail contiene html*/
 		
 		if ($datos['id_motivo'] == 30) {
 		//$motivo = 'Razones Particulares con gose de haberes';
-			$mail->Subject = 'Solicitud de Razones Particulares';	
+			$mail->Subject = 'Solicitud de Razones Particulares';    
 			$body = '<table>
 						El/la agente  <b>'.$datos['agente_ayn'].'</b> perteneciente a la catedra/oficina/ direccion <b>'.$datos['catedra'].'</b>.<br/>
 						La Solicitud de Justificacion de Inasistencia por Razones Particulares a partir del dia '.$fecha.' hasta '.$hasta. 'ha sido <b>rechazada</b>.
@@ -275,7 +275,7 @@ $mail->IsHTML(true); //el mail contiene html*/
 			$mail->Subject = 'Solicitud de vacaciones';
 			$body = '<table>
 						Sr/a <b>'.$datos['nombre'].' '.$datos['apellido'].'</b>:
-						Su solicitud de vacaciones correspondiente al a&ntilde;o '.$datos['anio']. 'ha sido rechazada de acuerdo a las siguientes observaciones '.$datos['observaciones'].'.
+						Su solicitud de vacaciones correspondiente al año '.$datos['anio']. 'ha sido rechazada de acuerdo a las siguientes observaciones '.$datos['observaciones'].'.
 			</table>';
 		}
 

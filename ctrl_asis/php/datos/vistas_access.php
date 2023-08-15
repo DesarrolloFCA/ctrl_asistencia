@@ -1008,7 +1008,7 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 		$id_parte_sanidad = toba::tabla('parte')->tiene_parte_sanidad($agente['legajo'], $dia);
 		$info_complementaria = toba::tabla('info_complementaria')->tiene_info_complementaria($agente['legajo'], $dia);                  
 		$hay_feriado= toba::tabla('conf_feriados')->dia_feriado($dia);
-		//ei_arbol($hay_feriado);
+		//ei_arbol($id_parte);
 
 		if($id_parte_sanidad > 0){  
 			
@@ -1039,7 +1039,7 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 			$agentes[$key]['partes']++; 
 
 			$parte = toba::tabla('parte')->get_parte($id_parte);
-
+			//ei_arbol($parte);
 			if($parte['id_motivo'] == 28){ // Permisos excepcionales, muestra las marcas pero no las cuenta
 
 				//---------------------------------------------------------------
@@ -1049,6 +1049,7 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 				$filtro_marca['fecha']       = $dia;                                    
 
 				$marcas = $this->get_marcas($filtro_marca);
+				ei_arbol($marcas);
 				if(count($marcas)>0){
 					
 					#$contador_marcas++;
