@@ -60,6 +60,7 @@ class dt_parte extends toba_datos_tabla
 		if (count($where)>0) {
 			$sql = sql_concatenar_where($sql, $where);
 		}
+
 		return toba::db('ctrl_asis')->consultar($sql);
 	}
 
@@ -172,7 +173,7 @@ class dt_parte extends toba_datos_tabla
 
 
 	function tiene_parte($legajo, $dia){
- //ei_arbol ($dia);
+ //ei_arbol ($dia,$legajo);
 		$where = array();
 
 		$where[] = "t_p.estado = 'C'";
@@ -193,7 +194,7 @@ class dt_parte extends toba_datos_tabla
 		if (count($where)>0) {
 			$sql = sql_concatenar_where($sql, $where);
 		}
-
+		//ei_arbol($sql);
 		$datos = toba::db('ctrl_asis')->consultar($sql);
 		
 		
