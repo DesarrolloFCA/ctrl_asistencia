@@ -41,6 +41,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 	function evt__filtro__filtrar($datos)
 	{
 		$this->s__datos_filtro = $datos;
+		
 	}
 
 	function evt__filtro__cancelar()
@@ -128,7 +129,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 			//---------------------------------------------------------------------------------------------------
 			}
 
-			
+			//ei_arbol ($agentes);
 
 			$filtro['fecha_desde'] = $this->s__datos_filtro['fecha_desde'];
 			$filtro['fecha_hasta'] = $this->s__datos_filtro['fecha_hasta'];

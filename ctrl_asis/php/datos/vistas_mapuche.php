@@ -4,6 +4,7 @@ class vistas_mapuche extends toba_datos_relacion
  
     static function get_total_agentes_control_asistencia($filtro, $limit='', $offset='')
     {
+      
         $where = array();
 
 		//$filtro['cod_depcia'] = 4;
@@ -34,6 +35,7 @@ class vistas_mapuche extends toba_datos_relacion
                         AND fecha_inicio <= '".date("Y-m-d")."' 
                         AND fecha_fin is null";
                 $legajos1 =  toba::db('ctrl_asis')->consultar($sql); 
+
                 if (count($legajos1)>0) {
                     foreach($legajos1 as $k=> $legajo){
                         if($k==0){
@@ -53,6 +55,7 @@ class vistas_mapuche extends toba_datos_relacion
                         AND fecha_inicio <= '".date("Y-m-d")."' 
                         AND fecha_fin is null";
                 $legajos2 =  toba::db('ctrl_asis')->consultar($sql); 
+                
                 if (count($legajos2)>0) {
                     foreach($legajos2 as $k=> $legajo){
                         if($k==0){
@@ -74,6 +77,7 @@ class vistas_mapuche extends toba_datos_relacion
                 $where[] = "cod_depcia = '".$filtro['cod_depcia']."'";
             }
         }
+       // ei_arbol($sql);
 
         if (isset($filtro['con_marcas']) and $filtro['con_marcas']==1) { 
 
@@ -332,6 +336,7 @@ class vistas_mapuche extends toba_datos_relacion
                 $where[] = "cod_depcia = '".$filtro['cod_depcia']."'";
             }
         }
+       
 
         if (isset($filtro['con_marcas']) and $filtro['con_marcas']==1) {
 		

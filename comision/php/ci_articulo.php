@@ -18,7 +18,7 @@ class ci_articulo extends comision_ci
 		$id_catedra = $datos['catedra'];
 		$anio=$datos['anio'];
 		$id_motivo = $datos['id_motivo'] ;
-		//ei_arbol($anio);
+		//ei_arbol($datos);
 		if ($datos['dias'] > 0) {
 			
 		
@@ -34,8 +34,10 @@ class ci_articulo extends comision_ci
 			
 			$sql = "SELECT nombre_catedra, id_departamento FROM reloj.catedras
 				WHERE id_catedra = $id_catedra";
+
 			$depto = toba::db('comision')->consultar($sql); 
-			if ($depto[0]['id_departamento']<10 or ($depto[0]['id_departamento'] == 12)){
+
+			if ($depto[0]['id_departamento']<10 or ($depto[0]['id_departamento'] == 12) or ($depto[0]['id_departamento'] == 11)){
 			$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fec_ingreso, t_l.estado_civil, 
 						t_l.caracter, t_l.categoria, t_l.agrupamiento, t_l.escalafon, 
 						t_l.fec_nacim as fecha_nacimiento, t_l.cuil,
@@ -69,7 +71,8 @@ class ci_articulo extends comision_ci
 			$sql = "SELECT nombre_catedra, id_departamento FROM reloj.catedras
 				WHERE id_catedra = $id_catedra";
 			$depto = toba::db('comision')->consultar($sql); 
-			if ($depto[0]['id_departamento']<10 or ($depto[0]['id_departamento'] == 12)){
+			//ei_arbol($depto);
+			if ($depto[0]['id_departamento']<10 or ($depto[0]['id_departamento'] == 12)or ($depto[0]['id_departamento'] == 11)){
 			$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fec_ingreso, t_l.estado_civil, 
 						t_l.caracter, t_l.categoria, t_l.agrupamiento, t_l.escalafon, 
 						t_l.fec_nacim as fecha_nacimiento, t_l.cuil,
@@ -471,7 +474,7 @@ class ci_articulo extends comision_ci
 			} else {
 				// Docentes
 				if ($id_motivo == 30) { //Rezones particulares
-						//ei_arbol($i);
+						//ei_arbol($id_motivo);
 						if (date("Y") == $anio){
 							if ($dias <= 2){
 							for ($j=0; $j < $cant; $j++){
@@ -819,7 +822,7 @@ class ci_articulo extends comision_ci
 					}
 
 					if(isset($datos['autoridad'])) {
-					//$correo_aut = $this->dep('mapuche')->get_legajos_email($datos['autoridad']);
+					$correo_aut = $this->dep('mapuche')->get_legajos_email($datos['autoridad']);
 					$correo_aut=$this->dep('datos')->tabla('agentes_mail')->get_correo($datos['autoridad']);
 					$datos['autoridad_ayn']=$correo_aut[0]['descripcion'];
 		
@@ -842,7 +845,7 @@ class ci_articulo extends comision_ci
 					$sql= "SELECT email from reloj.agentes_mail
 					where legajo=$superior";
 					$correo = toba::db('comision')->consultar($sql);
-					$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
+					//$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
 
 
 					}
