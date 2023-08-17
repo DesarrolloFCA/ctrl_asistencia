@@ -242,7 +242,7 @@ class ci_articulo extends comision_ci
 									//ei_arbol($agente);
 
 									}
-										if(!is_null($temp[0]['dias_restantes'])&&!($temp[0]['dias_restantes']> 0 &&$temp[0]['dias_restantes'] < 6) ){
+										if(!is_null($temp[0]['dias_restantes'])&&!($temp[0]['dias_restantes']< 0 &&$temp[0]['dias_restantes'] > 6) ){
 										toba::notificacion()->agregar('Ud ha excedido la cantidad anual de razones particulares este a&ntilde;o cuenta con '.$temp[0]['dias_restantes'] .' d&iacute;as', "info");
 										$bandera= false;
 										}    
@@ -522,7 +522,7 @@ class ci_articulo extends comision_ci
 									//ei_arbol($agente);
 
 									}
-									if(!is_null($temp[0]['dias_restantes'])&&!($temp[0]['dias_restantes']> 0 &&$temp[0]['dias_restantes'] < 6) ){
+									if(!is_null($temp[0]['dias_restantes'])&&!($temp[0]['dias_restantes']< 0 &&$temp[0]['dias_restantes'] > 6) ){
 									toba::notificacion()->agregar('Ud ha excedido la cantidad anual de razones particulares este a&ntilde;o cuenta con '.$temp[0]['dias_restantes'] .' d&iacute;as', "info");
 									} 
 								} else if($temp[0]['dias_restantes']<=0 || $temp[0]['dias_restantes']> 2 )
