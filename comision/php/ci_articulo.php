@@ -513,7 +513,7 @@ class ci_articulo extends comision_ci
 									AND  DATE_PART('year', fecha_inicio_licencia) = $y";
 									$temp = toba::db('comision')->consultar($sql);    
 									//ei_arbol($temp);
-									if (is_null($temp[0]['dias_restantes'])|| ($temp[0]['dias_restantes'] >= 0 && $temp[0]['dias_restantes']<=2 )){
+									if (is_null($temp[0]['dias_restantes'])|| ($temp[0]['dias_restantes'] >= 0 && $temp[0]['dias_restantes']<=6 )){
 									$lim = count($agente);
 									for ($i = 0; $i<$lim; $i++){	
 										$agente [$i]['articulo'] = 57;
