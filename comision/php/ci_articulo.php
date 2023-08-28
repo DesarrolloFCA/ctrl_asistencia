@@ -1189,7 +1189,10 @@ class ci_articulo extends comision_ci
 
 					toba::db('comision')->ejecutar($sql);
 
-					if ($id_motivo <> 30 or $id_motivo <> 57 or $id_motivo <> 35 ) {
+					if ($id_motivo <> 30){
+					  if ($id_motivo <> 57){
+
+					   	if($id_motivo <> 35 ) {
 
 						$sql = "SELECT id_inasistencia FROM reloj.inasistencias
 								WHERE legajo = $usuario_alta
@@ -1202,9 +1205,9 @@ class ci_articulo extends comision_ci
 						$archivo_nombre = $ruta.$id_inasistencia.$fecha_inicio.'.' .$ar_nombre_completo[1];
 						$datos['archivo'] = $archivo_nombre;
 						$datos = $this->procesar_archivo($datos);
-
-							
-						}
+						}	
+					 }		
+					}
 
 	
 		/////
@@ -1624,7 +1627,7 @@ if(!$mail->Send()) {
 }
 	function procesar_archivo($datos)
       {
-			ei_arbol ($datos);        
+			//ei_arbol ($datos);        
           // guardo la dirección y nombre del archivo temporal donde se cargó
           // la imagen.
           $archivo = $datos['certificado']['tmp_name'];
