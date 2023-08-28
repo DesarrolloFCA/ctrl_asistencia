@@ -411,8 +411,250 @@ class ci_articulo extends comision_ci
 								toba::notificacion()->agregar('Usted cuenta con  '.$dias_pendientes .' d&iacute;as, coloque una cantidad de d&iacute;as validos.', "info");
 							$bandera = false;    
 							}
-				// Adelanto de Vacaciones
-				}/* else if ($id_motivo == 55){
+
+				
+				}else if($id_motivo==12){ // Donación de Sangre
+					if ($dias==1) {
+						$agente[$i]['articulo'] = null;
+						$sql = "SELECT count(*) cant FROM reloj.parte 
+								where id_motivo = $id_motivo
+								and legajo = $legajo
+								and anio = $anio";
+						$tomo=toba::db('comision')->consultar($sql);
+						if ($tomo[0]['cant'] <= 0)	{
+
+							if ($datos['certificado'] <> null){
+								$agente[$i]['articulo'] = 33;
+								$agente[$i]['id_decreto'] = 4;
+								$bandera= true; 
+							} else {
+							toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+							$bandera = false;   
+							}
+						} else {
+							toba::notificacion()->agregar('Ya hizo uso de esta licencia el presente año', "info");
+							$bandera = false;  
+						}
+					} else {
+							toba::notificacion()->agregar('Solamente puede tomar un 1 día', "info");
+							$bandera = false;  
+					}
+					}else if($id_motivo==22){ // Actividades Deportivas
+					if ($dias >= 1 and $dias <=15 ) {
+						$agente[$i]['articulo'] = null;
+					$sql = "SELECT count(*) cant FROM reloj.parte 
+								where id_motivo = $id_motivo
+								and legajo = $legajo
+								and anio = $anio";
+						$tomo=toba::db('comision')->consultar($sql);
+						if ($tomo[0]['cant'] <= 15)	{
+						if ($datos['certificado'] <> null){
+							$agente[$i]['articulo'] = 38;
+							$agente[$i]['id_decreto'] = 4;
+							$bandera= true; 
+						} else {
+							toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+							$bandera = false;   
+						}
+					} else {
+							toba::notificacion()->agregar('Ya hizo uso de todas estas licencia el presente año', "info");
+							$bandera = false; 
+					}
+					} else {
+							toba::notificacion()->agregar('Solamente puede tomar hasta 15 días en el año', "info");
+							$bandera = false;  
+					}
+
+				} else if($id_motivo==49){ // Citación Judicial
+					
+						$agente[$i]['articulo'] = null;
+						if ($datos['certificado'] <> null){
+							$agente[$i]['articulo'] = 97;
+							$agente[$i]['id_decreto'] = 5;
+							$bandera= true; 
+						} else {
+							toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+							$bandera = false;   
+						}
+					
+
+				} else if($id_motivo==17){ // Fallecimiento de Conyúge y 1º grado
+						
+						$agente[$i]['articulo'] = null;
+						if ($datos['certificado'] <> null){
+							$dias = 10;
+							$datos['dias'] = $dias;
+							$agente[$i]['articulo'] = 29;
+							$agente[$i]['id_decreto'] = 4;
+							$bandera= true; 
+						} else {
+							toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+							$bandera = false;   
+						}
+					
+
+				} else if($id_motivo==16){ // Fallecimiento de Familiar Cosanguineo 2º
+						
+						$agente[$i]['articulo'] = null;
+						if ($datos['certificado'] <> null){
+							$dias = 5;
+							$datos['dias'] = $dias;
+							$agente[$i]['articulo'] = 31;
+							$agente[$i]['id_decreto'] = 4;
+							$bandera= true; 
+						} else {
+							toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+							$bandera = false;   
+						}
+					
+
+				} else if($id_motivo==18){ // Fallecimiento de pariente politico
+						
+						$agente[$i]['articulo'] = null;
+						if ($datos['certificado'] <> null){
+							$dias = 1;
+							$datos['dias'] = $dias;
+							$agente[$i]['articulo'] = 32;
+							$agente[$i]['id_decreto'] = 4;
+							$bandera= true; 
+						} else {
+							toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+							$bandera = false;   
+						}
+					
+
+				} else if($id_motivo==27){ //Nacimiento (Paternidad)
+					
+						$agente[$i]['articulo'] = null;
+						if ($agente [$i]['tipo_sexo'] == 'M') {
+							if ($datos['certificado'] <> null){
+								$dias = 15;
+								$agente[$i]['articulo'] = 26;
+								$agente[$i]['id_decreto'] = 4;
+								$bandera= true; 
+							} else {
+								toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+								$bandera = false;   
+							}
+						} else {
+							toba::notificacion()->agregar('Esta Licencia es por Paternidad', "info");
+							$bandera = false;   
+						}
+
+				}else if($id_motivo==36){ //Matrimonio
+					
+						$agente[$i]['articulo'] = null;
+							if ($datos['certificado'] <> null){
+								$dias = 10;
+								$agente[$i]['articulo'] = 28;
+								$agente[$i]['id_decreto'] = 4;
+								$bandera= true; 
+							} else {
+								toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+								$bandera = false;   
+							}
+						
+
+				} else if($id_motivo == 25){ //Matrimonio de un hijo/a
+					
+						$agente[$i]['articulo'] = null;
+							if ($datos['certificado'] <> null){
+								$dias = 2;
+								$agente[$i]['articulo'] = 27;
+								$agente[$i]['id_decreto'] = 4;
+								$bandera= true; 
+							} else {
+								toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+								$bandera = false;   
+							}
+						
+
+				} else if($id_motivo == 25){ //Adopcion (Maternidad)
+					
+						$agente[$i]['articulo'] = null;
+							if ($datos['certificado'] <> null){
+								$dias = 45;
+								$agente[$i]['articulo'] = 43;
+								$agente[$i]['id_decreto'] = 4;
+								$bandera= true; 
+							} else {
+								toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+								$bandera = false;   
+							}
+						
+
+				} 	
+				 else if($id_motivo == 59){ //Adopcion (Paternidad)
+					
+						$agente[$i]['articulo'] = null;
+							if ($datos['certificado'] <> null){
+								$dias = 15;
+								$agente[$i]['articulo'] = 25;
+								$agente[$i]['id_decreto'] = 4;
+								$bandera= true; 
+							} else {
+								toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+								$bandera = false;   
+							}
+						
+
+				}else if($id_motivo==14){ // Rendir examen Secundario
+					if ($dias >= 1 and $dias <=4 ) {
+						$agente[$i]['articulo'] = null;
+					$sql = "SELECT count(*) cant FROM reloj.parte 
+								where id_motivo = $id_motivo
+								and legajo = $legajo
+								and anio = $anio";
+						$tomo=toba::db('comision')->consultar($sql);
+						if ($tomo[0]['cant'] <= 20)	{
+						if ($datos['certificado'] <> null){
+							$agente[$i]['articulo'] = 34;
+							$agente[$i]['id_decreto'] = 4;
+							$bandera= true; 
+						} else {
+							toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+							$bandera = false;   
+						}
+					} else {
+							toba::notificacion()->agregar('Ya hizo uso de todas estas licencia el presente año', "info");
+							$bandera = false; 
+					}
+					} else {
+							toba::notificacion()->agregar('Solamente puede tomar como máximo 4 días por Certificado', "info");
+							$bandera = false;  
+					}
+
+				}else if($id_motivo==15){ // Rendir examen Universitario o posgrado
+					if ($dias >= 1 and $dias <=5 ) {
+						$agente[$i]['articulo'] = null;
+					$sql = "SELECT count(*) cant FROM reloj.parte 
+								where id_motivo = $id_motivo
+								and legajo = $legajo
+								and anio = $anio";
+						$tomo=toba::db('comision')->consultar($sql);
+						if ($tomo[0]['cant'] <= 24)	{
+						if ($datos['certificado'] <> null){
+							$agente[$i]['articulo'] = 35;
+							$agente[$i]['id_decreto'] = 4;
+							$bandera= true; 
+						} else {
+							toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+							$bandera = false;   
+						}
+					} else {
+							toba::notificacion()->agregar('Ya hizo uso de todas estas licencia el presente año', "info");
+							$bandera = false; 
+					}
+					} else {
+							toba::notificacion()->agregar('Solamente puede tomar como máximo 5 días por Certificado', "info");
+							$bandera = false;  
+					}
+
+				}
+
+
+					// Adelanto de Vacaciones
+				/* else if ($id_motivo == 55){
 					$agente[$i]['id_decreto'] = 4;
 					if ($anio != date("Y")) {
 						toba::notificacion()->agregar('Para pedir Adelanto de vacaciones recuerde colocar el a&ntildeo en curso', "info");
@@ -628,8 +870,206 @@ class ci_articulo extends comision_ci
 								toba::notificacion()->agregar('Usted cuenta con  '.$dias_pendientes .' d&iacute;as, coloque una cantidad de d&iacute;as validos.', "info");
 							$bandera = false;    
 							}
-				//adelanto de Vacaciones
-				} /*else if ($id_motivo == 55){
+				
+				}else if($id_motivo==12){ // Donación de Sangre
+					if ($dias==1) {
+						$agente[$i]['articulo'] = null;
+					$sql = "SELECT count(*) cant FROM reloj.parte 
+								where id_motivo = $id_motivo
+								and legajo = $legajo
+								and anio = $anio";
+						$tomo=toba::db('comision')->consultar($sql);
+						if ($tomo[0]['cant'] <= 12)	{
+						if ($datos['certificado'] <> null){
+							$agente[$i]['articulo'] = 89;
+							$agente[$i]['id_decreto'] = 8;
+							$bandera= true; 
+						} else {
+							toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+							$bandera = false;   
+						}
+					} else {
+							toba::notificacion()->agregar('Ya hizo uso de todas estas licencia el presente año', "info");
+							$bandera = false; 
+					}
+					} else {
+							toba::notificacion()->agregar('Solamente puede tomar un 1 día', "info");
+							$bandera = false;  
+					}
+
+				}else if($id_motivo==22){ // Actividades Deportivas
+					if ($dias >= 1 and $dias <=5 ) {
+						$agente[$i]['articulo'] = null;
+					$sql = "SELECT count(*) cant FROM reloj.parte 
+								where id_motivo = $id_motivo
+								and legajo = $legajo
+								and anio = $anio";
+						$tomo=toba::db('comision')->consultar($sql);
+						if ($tomo[0]['cant'] <= 5)	{
+						if ($datos['certificado'] <> null){
+							$agente[$i]['articulo'] = 83;
+							$agente[$i]['id_decreto'] = 8;
+							$bandera= true; 
+						} else {
+							toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+							$bandera = false;   
+						}
+					} else {
+							toba::notificacion()->agregar('Ya hizo uso de todas estas licencia el presente año', "info");
+							$bandera = false; 
+					}
+					} else {
+							toba::notificacion()->agregar('Solamente puede tomar hasta 5 días en el año', "info");
+							$bandera = false;  
+					}
+
+				}else if($id_motivo==49){ // Citación Judicial
+					
+						$agente[$i]['articulo'] = null;
+						if ($datos['certificado'] <> null){
+							$agente[$i]['articulo'] = 97;
+							$agente[$i]['id_decreto'] = 5;
+							$bandera= true; 
+						} else {
+							toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+							$bandera = false;   
+						}
+					
+
+				}else if($id_motivo==17){ // Fallecimiento de Conyúge y 1º grado
+						
+						$agente[$i]['articulo'] = null;
+						if ($datos['certificado'] <> null){
+							$dias = 7;
+							$datos['dias'] = $dias;
+							$agente[$i]['articulo'] = 86;
+							$agente[$i]['id_decreto'] = 8;
+							$bandera= true; 
+						} else {
+							toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+							$bandera = false;   
+						}
+					
+
+				} else if($id_motivo==16){ // Fallecimiento de Familiar Cosanguineo 2º
+						
+						$agente[$i]['articulo'] = null;
+						if ($datos['certificado'] <> null){
+							$dias = 5;
+							$datos['dias'] = $dias;
+							$agente[$i]['articulo'] = 87;
+							$agente[$i]['id_decreto'] = 8;
+							$bandera= true; 
+						} else {
+							toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+							$bandera = false;   
+						}
+					
+
+				} else if($id_motivo==27){ //Nacimiento (Paternidad)
+					
+						$agente[$i]['articulo'] = null;
+						if ($agente [$i]['tipo_sexo'] == 'M') {
+							if ($datos['certificado'] <> null){
+								$dias = 15;
+								$agente[$i]['articulo'] = 85;
+								$agente[$i]['id_decreto'] = 8;
+								$bandera= true; 
+							} else {
+								toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+								$bandera = false;   
+							}
+						} else {
+							toba::notificacion()->agregar('Esta Licencia es por Paternidad', "info");
+							$bandera = false;   
+						}
+
+				} else if($id_motivo==36){ //Matrimonio
+					
+						$agente[$i]['articulo'] = null;
+							if ($datos['certificado'] <> null){
+								$dias = 10;
+								$agente[$i]['articulo'] = 81;
+								$agente[$i]['id_decreto'] = 8;
+								$bandera= true; 
+							} else {
+								toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+								$bandera = false;   
+							}
+						
+
+				} else if($id_motivo==25){ //Matrimonio de un hijo/a
+					
+						$agente[$i]['articulo'] = null;
+							if ($datos['certificado'] <> null){
+								$dias = 2;
+								$agente[$i]['articulo'] = 82;
+								$agente[$i]['id_decreto'] = 8;
+								$bandera= true; 
+							} else {
+								toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+								$bandera = false;   
+							}
+						
+
+				} else if($id_motivo == 25){ //Adopcion (Maternidad)
+					
+						$agente[$i]['articulo'] = null;
+							if ($datos['certificado'] <> null){
+								$dias = 60;
+								$agente[$i]['articulo'] = 79;
+								$agente[$i]['id_decreto'] = 8;
+								$bandera= true; 
+							} else {
+								toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+								$bandera = false;   
+							}
+						
+
+				} 	
+				 else if($id_motivo == 59){ //Adopcion (Paternidad)
+					
+						$agente[$i]['articulo'] = null;
+							if ($datos['certificado'] <> null){
+								$dias = 15;
+								$agente[$i]['articulo'] = 44;
+								$agente[$i]['id_decreto'] = 2;
+								$bandera= true; 
+							} else {
+								toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+								$bandera = false;   
+							}
+						
+
+				} else if($id_motivo==15){ // Rendir examen Universitario o posgrado
+					if ($dias >= 1 and $dias <=5 ) {
+						$agente[$i]['articulo'] = null;
+					$sql = "SELECT count(*) cant FROM reloj.parte 
+								where id_motivo = $id_motivo
+								and legajo = $legajo
+								and anio = $anio";
+						$tomo=toba::db('comision')->consultar($sql);
+						if ($tomo[0]['cant'] <= 28)	{
+						if ($datos['certificado'] <> null){
+							$agente[$i]['articulo'] = 94;
+							$agente[$i]['id_decreto'] = 8;
+							$bandera= true; 
+						} else {
+							toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+							$bandera = false;   
+						}
+					} else {
+							toba::notificacion()->agregar('Ya hizo uso de todas estas licencia el presente año', "info");
+							$bandera = false; 
+					}
+					} else {
+							toba::notificacion()->agregar('Solamente puede tomar como máximo 5 días por Certificado', "info");
+							$bandera = false;  
+					}
+
+				} 	
+
+				 /*else if ($id_motivo == 55){ //adelanto de Vacaciones
 					$agente[$i]['id_decreto'] = 2;
 					if ($anio != date("Y")) {
 						toba::notificacion()->agregar('Para pedir Adelanto de vacaciones recuerde colocar el a&ntildeo en curso', "info");
@@ -675,10 +1115,6 @@ class ci_articulo extends comision_ci
 							}
 
 						}
-
-							
-
-
 
 					}
 
@@ -738,9 +1174,8 @@ class ci_articulo extends comision_ci
 							$sql= "INSERT INTO reloj.inasistencias( legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto, id_articulo)    VALUES ( $usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto, $articulo);";
 							} else 
 							{
-								$sql= "INSERT INTO reloj.inasistencias(	legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto)    VALUES ($usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto);";
+								$sql= "INSERT INTO reloj.inasistencias(	legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto,id_articulo)    VALUES ($usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto,$articulo);";
 							}
-
 
 
 /*
@@ -753,6 +1188,24 @@ class ci_articulo extends comision_ci
 	
 
 					toba::db('comision')->ejecutar($sql);
+
+					if ($id_motivo <> 30 or $id_motivo <> 57 or $id_motivo <> 35 ) {
+
+						$sql = "SELECT id_inasistencia FROM reloj.inasistencias
+								WHERE legajo = $usuario_alta
+								AND fecha_inicio = '$fecha_inicio'
+								AND id_motivo = $id_motivo ;";
+						$ina = toba::db('comision')->consultar($sql);
+						$id_inasistencia = $ina [0]['id_inasistencia'];
+						$ruta='C:/Toba/_proyectos/ctrl_asis/www/certificados/';
+						$ar_nombre_completo = explode('.', $datos['certificado']['name']);
+						$archivo_nombre = $ruta.$id_inasistencia.$fecha_inicio.'.' .$ar_nombre_completo[1];
+						$datos['archivo'] = $archivo_nombre;
+						$datos = $this->procesar_archivo($datos);
+
+							
+						}
+
 	
 		/////
 		//actualizacion o borrado de vacaciones restantes
@@ -845,7 +1298,7 @@ class ci_articulo extends comision_ci
 					$sql= "SELECT email from reloj.agentes_mail
 					where legajo=$superior";
 					$correo = toba::db('comision')->consultar($sql);
-					//$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
+					$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
 
 
 					}
@@ -906,7 +1359,7 @@ if ($datos['id_motivo'] == 30) {
 } 
 	$fecha=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] ) );
 
-	$hasta=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] . "+ " .$datos['dias']. " days") );
+	$hasta=date('d/m/Y',strtotime($datos['hasta']) );
 	
 
 if ($datos['dias_restantes'] <= 0){
@@ -996,6 +1449,55 @@ $mail->IsHTML(true); //el mail contiene html
 			<table/>';
 
 
+	} else {
+		$body = '<table>
+
+				El/la agente <b>'.$datos['descripcion'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
+				Justific&oacute;  la inasistencia  desde '.$fecha.' hasta '.$hasta.' presentando el certificado correspondiente a dicha acci&oacute;n.
+			<table/>';
+
+		switch ($datos ['id_motivo'] ){
+			case 12:
+				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Donaci&oacute;n de Sangre';
+				break;
+			case 22:
+				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Realización de Actividad Deportiva o Art&iacute;stica';
+				break;
+			case 49:
+				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Citaci&oacute;n de Sangre';
+				break;
+			case 17:
+				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Fallecimiento de Cony&uacute;ge o Pariente de Primer Grado';
+				break;
+			case 16:
+				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Fallecimiento de Pariente de Segundo Grado';
+				break;
+			case 18: 
+				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Fallecimiento de Pariente Pol&iacute;tico';
+				break;
+			case 27: 
+				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Nacimiento (Paternidad)';
+				break;	
+			case 36: 
+				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Matrimonio';
+				break;
+			case 25: 
+				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Matrimonio de hijo/a';
+				break;				
+			case 7: 
+				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Adopci&oacute;n (Maternidad)';
+				break;
+			case 59: 
+				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Adopci&oacute;n (Paternidad)';
+				break;	
+			case 14: 
+				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Exam&eacute;n de Nivel Medio';
+				break;		
+			case 15: 
+				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Exam&eacute;n de Nivel Superior';
+				break;			
+		}
+	
 	}
 
 
@@ -1023,7 +1525,7 @@ function enviar_correos_sup($correo,$destino)
 				$datos =$this-> s__datos;   
 				$fecha=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] ) );
 
-	$hasta=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] . "+ " .$datos['dias']. " days") );
+	$hasta=date('d/m/Y',strtotime($datos['hasta']) );
 	
            
 
@@ -1099,7 +1601,16 @@ $mail->IsHTML(true); //el mail contiene html
 			<table/>';
 
 
+	} else if ($datos ['id_motivo'] == 12){
+		$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Donacion de Sangre';
+		$body = '<table>
+
+				El/la agente <b>'.$datos['descripcion'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
+				Justific&oacute;  la inasistencia el dia '.$fecha.' presentando el certificado correspondiente a dicha acci&oacute;n.
+			<table/>';
+
 	}
+
 	
 	
 
@@ -1111,5 +1622,28 @@ if(!$mail->Send()) {
 	echo "Enviado!";
 }
 }
+	function procesar_archivo($datos)
+      {
+			ei_arbol ($datos);        
+          // guardo la dirección y nombre del archivo temporal donde se cargó
+          // la imagen.
+          $archivo = $datos['certificado']['tmp_name'];
+         
+          // formateo correctamente el campo archivo que se guarda en la base de
+          // datos
+        //  $datos['archivo'] = $archivo_nombre;
+         
+          // determino el directorio donde dejar el archivo definitivo
+                  
+          $dir_archivo = $ruta.$datos['archivo'];
+         
+          // copio el archivo temporal al directorio definitivo
+          move_uploaded_file($archivo, $dir_archivo);
+         
+          //$datos = $this->limpiar_datos($datos, 'archivo');
+         
+         return $datos;
+      }
+
 }
 ?>
