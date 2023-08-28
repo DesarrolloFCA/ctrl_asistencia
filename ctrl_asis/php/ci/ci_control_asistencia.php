@@ -236,36 +236,37 @@ class ci_control_asistencia extends ctrl_asis_ci
 				} */
 				switch ($todo[$i]['cant_horas']){
 					case 10 :  
-					//$horas_diarias= '01:24';
-					$requerido = '28:00';
+					$horas_diarias= '01:24';
+					//$requerido = '28:00';
 					$todo[$i]['dedicacion'] = 'SIMPLE';
 								break;	
 					case 20 : 
-					//$horas_diarias= '02:48';
-					$requerido = '56:00';			
+					$horas_diarias= '02:48';
+					//$requerido = '56:00';			
 					
 					$todo[$i]['dedicacion'] = 'SEMIEXCLUSIVA';
 								break;	
 					case 30 :
-					//$horas_diarias = '04:12';
-					$requerido = '84:00';
+					$horas_diarias = '04:12';
+					//$requerido = '84:00';
 							break;			
 					case 40:
-					$requerido = '112:00';
-					//$horas_diarias = '05:05';
+					//$requerido = '112:00';
+					$horas_diarias = '05:05';
 					$todo[$i]['dedicacion'] = 'EXCLUSIVA';
 						break;
 					case 35:
-					//$horas_diarias = '06:00';
-					$requerido = '120:24';
+					$horas_diarias = '06:00';
+					//$requerido = '120:24';
 					break;	
 
 				} 
 				}
-			//	ei_arbol($horas_diarias);
-				/*$tmp= 0;
+				//ei_arbol($horas_diarias);
+				$tmp= 0;
 						//ei_arbol($todo[$i]['laborables'] );
 						$dias_trab = $todo[$i]['laborables'] - $todo[$i]['justificados'];
+					//	ei_arbol($todo);
 						//ei_arbol($dias_trab);
 						// guardo horas diarias
 
@@ -290,7 +291,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 							$minutos = '0'.$minutos;
 						} 
 
-						$requerido = $horas .':'.$minutos;*/
+						$requerido = $horas .':'.$minutos;
 						//ei_arbol($requerido);
 						
 						$todo[$i]['horas_requeridas_prom']= $requerido;
