@@ -189,7 +189,7 @@ class ci_articulo extends comision_ci
 							$agente[$i]['id_decreto'] = 4;
 							
 
-							$sql = "SELECT -SUM(dias) dias_restantes 
+							$sql = "SELECT SUM(dias) dias_restantes 
 									FROM reloj.parte
 							WHERE legajo = $legajo    AND id_motivo = 30    AND  DATE_PART('month', fecha_inicio_licencia) = $m
 							and DATE_PART('year', fecha_inicio_licencia) = $anio";
@@ -221,8 +221,8 @@ class ci_articulo extends comision_ci
 							}
 
 							$temp[0]['dias_restantes'] = $parte[0]['dias_restantes']- $dias_tomados - $dias;    
-							//ei_arbol($temp);                        
-								if(!is_null($temp)&&($temp[0]['dias_restantes'] >= 0 && $temp[0]['dias_restantes']<= 2 )){
+							//ei_arbol($temp[0]['dias_restantes'] < 0);                        
+								if(!is_null($temp)&&($temp[0]['dias_restantes'] >= 0 && $temp[0]['dias_restantes'] <= 2 )){
 									$sql="SELECT -SUM(dias) +6 dias_restantes 
 									FROM reloj.parte
 									WHERE legajo = $legajo
@@ -233,20 +233,20 @@ class ci_articulo extends comision_ci
 									$bandera = false;
 
 									//ei_arbol($temp);
-									if (is_null($temp[0]['dias_restantes'])|| ($temp[0]['dias_restantes'] >= 0 && $temp[0]['dias_restantes']<=6 )){
+									if (is_null($temp[0]['dias_restantes'])|| ($temp[0]['dias_restantes'] >= 0  && $temp[0]['dias_restantes'] <= 6 )){
 										$lim = count($agente);
-									for ($i = 0; $i<$lim; $i++){
+										for ($i = 0; $i<$lim; $i++){
 										$agente [$i]['articulo'] = 40;
-									}
+										}
 									$bandera= true;
 									//ei_arbol($agente);
 
-									}
-										if(!is_null($temp[0]['dias_restantes'])&&!($temp[0]['dias_restantes']< 0 &&$temp[0]['dias_restantes'] > 6) ){
+									} else {
+										//if(!is_null($temp[0]['dias_restantes'])&&!($temp[0]['dias_restantes']< 0 &&$temp[0]['dias_restantes'] > 6) ){
 										toba::notificacion()->agregar('Ud ha excedido la cantidad anual de razones particulares este a&ntilde;o cuenta con '.$temp[0]['dias_restantes'] .' d&iacute;as', "info");
 										$bandera= false;
 										}    
-								} else if($temp[0]['dias_restantes']<=0 || $temp[0]['dias_restantes']> 2 )
+								} else 
 								{
 								
 								//ei_arbol($agente);    
@@ -263,11 +263,12 @@ class ci_articulo extends comision_ci
 
 								} 
 
-							} else
+							} 
+							/*else
 							{
 								toba::notificacion()->agregar('Ud ha excedido la cantidad de dias recuerde que las razones particulares son entre 1 y 2 d&iacute;as' , "info");
 								$bandera_nodo = false;    
-							}
+							}*/
 					//ei_arbol($agente);
 					} else {
 						toba::notificacion()->agregar('Introduzca el corriente a&ntilde;o. Gracias ', "info");
@@ -755,19 +756,18 @@ class ci_articulo extends comision_ci
 									AND  DATE_PART('year', fecha_inicio_licencia) = $y";
 									$temp = toba::db('comision')->consultar($sql);    
 									//ei_arbol($temp);
-									if (is_null($temp[0]['dias_restantes'])|| ($temp[0]['dias_restantes'] >= 0 && $temp[0]['dias_restantes']<=6 )){
-									$lim = count($agente);
-									for ($i = 0; $i<$lim; $i++){	
+										if (is_null($temp[0]['dias_restantes'])|| ($temp[0]['dias_restantes'] >= 0 && $temp[0]['dias_restantes']<=6 )){
+										$lim = count($agente);
+										for ($i = 0; $i<$lim; $i++){	
 										$agente [$i]['articulo'] = 57;
-									}
+										}
 									$bandera= true;
 									//ei_arbol($agente);
 
-									}
-									if(!is_null($temp[0]['dias_restantes'])&&!($temp[0]['dias_restantes']< 0 &&$temp[0]['dias_restantes'] > 6) ){
+									} else {
 									toba::notificacion()->agregar('Ud ha excedido la cantidad anual de razones particulares este a&ntilde;o cuenta con '.$temp[0]['dias_restantes'] .' d&iacute;as', "info");
 									} 
-								} else if($temp[0]['dias_restantes']<=0 || $temp[0]['dias_restantes']> 2 )
+								} else 
 								{
 								
 								//ei_arbol($agente);    
@@ -782,9 +782,10 @@ class ci_articulo extends comision_ci
 								}
 								
 								
-							} else {
+							} 
+							/*else {
 								toba::notificacion()->agregar('Ud ha excedido la cantidad de d&iacute;as recuerde que las razones particulares son entre 1 y 2 d&iacute;as' , "info");                                
-							}
+							}*/
 						} else {
 						toba::notificacion()->agregar('Introduzca el corriente a&ntildeo. Gracias ', "info");
 

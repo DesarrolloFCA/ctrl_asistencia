@@ -252,7 +252,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 							break;			
 					case 40:
 					//$requerido = '112:00';
-					$horas_diarias = '05:05';
+					$horas_diarias = '05:36';
 					$todo[$i]['dedicacion'] = 'EXCLUSIVA';
 						break;
 					case 35:
