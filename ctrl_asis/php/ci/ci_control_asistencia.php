@@ -264,7 +264,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 				}
 				//ei_arbol($horas_diarias);
 				$tmp= 0;
-						//ei_arbol($todo[$i]['laborables'] );
+						$dias_laborales = $todo[$i]['laborables'];
 						$dias_trab = $todo[$i]['laborables'] - $todo[$i]['justificados'];
 					//	ei_arbol($todo);
 						//ei_arbol($dias_trab);
@@ -275,11 +275,11 @@ class ci_control_asistencia extends ctrl_asis_ci
 
 						//Horas totales ideales trabajadas
 					//	ei_arbol($horas_min);
-						$horas= $dias_trab * $horas_min[0];
-						
+						//$horas= $dias_trab * $horas_min[0];
+						$horas= $dias_laborales * $horas_min[0];
 						// Calculos de minutos
-						$minutos = $dias_trab * $horas_min[1];
-
+						//$minutos = $dias_trab * $horas_min[1];
+						$minutos = $dias_laborales * $horas_min[1];
 						while ($minutos >= 60){
 							$minutos = $minutos - 60;
 							$tmp ++;
@@ -287,7 +287,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 
 						$horas = $horas + $tmp;
 						
-						if($minutos < 10) {
+						if($minutos < 10 or $minutos == 0) {
 							$minutos = '0'.$minutos;
 						} 
 
