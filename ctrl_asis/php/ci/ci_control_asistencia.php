@@ -262,7 +262,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 
 				} 
 				}
-				//ei_arbol($horas_diarias);
+				
 				$tmp= 0;
 						$dias_laborales = $todo[$i]['laborables'];
 						$dias_trab = $todo[$i]['laborables'] - $todo[$i]['justificados'];
@@ -296,9 +296,9 @@ class ci_control_asistencia extends ctrl_asis_ci
 						
 						$todo[$i]['horas_requeridas_prom']= $requerido;
 			}
-		//	ei_arbol($todo);
+			//ei_arbol($todo);
 			
-			for ($h=0; $h <= $registros; $h++)
+			/*for ($h=0; $h <= $registros; $h++)
 			{
 				
 				if ($h<>0) {
@@ -336,7 +336,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 
 						//unset($todo[$h]);
 					}
-					
+					//ei_arbol($todo);
 					// equivalencia dias
 
 					//$requerido = $todo [$k]['horas_requeridas_prom'] /5 ;
@@ -387,11 +387,11 @@ class ci_control_asistencia extends ctrl_asis_ci
 							$minutos = '0'.$minutos;
 						}
 						$requerido = $horas .':'.$minutos;
-						ei_arbol ($requerido);*/
+						ei_arbol ($requerido);
 					}
 				
 				}
-			}
+			}*/
 					
 			//	ei_arbol($todo);
 			$todos =	array_values($todo);		
