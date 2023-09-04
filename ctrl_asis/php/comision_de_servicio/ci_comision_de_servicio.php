@@ -69,7 +69,7 @@ class ci_comision_de_servicio extends ctrl_asis_ci
 		
 			$sql = "SELECT  *  FROM reloj.comision
 					WHERE pasada is null
-					--LIMIT 25
+					LIMIT 25
 					";
 			$listado = toba::db('ctrl_asis')->consultar($sql);		
 
