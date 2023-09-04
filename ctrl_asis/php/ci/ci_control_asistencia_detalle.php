@@ -164,7 +164,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
                 (int)((time()-$dias)/31556926 );
             }
           // $agente['ant'] = $antiguedad; 
-          //ei_arbol($agente);
+       
 
         //$dias= $datos['dias'];
        // $anio= $datos['anio'];*/
@@ -172,12 +172,11 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 
 
 
-			if(!empty($dato_antiguedad['fecha_ingreso'])){
-				$agente['fec_ingreso'] = $dato_antiguedad['fecha_ingreso'];
-			}
+			
 
 			//seteamos datos de vacaciones -----------------------------------------------
 			if(!empty($agente['fec_ingreso'])){
+			  
 				if ($escalafon == 'NODO') {
 					if ($antiguedad > 20){
 						$dias_totales = 40;
@@ -235,17 +234,19 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 
 				//$agente['dias_vac_tomadas']     = utf8_decode($dias_tomados.' dÃ­as');
 				//$dias_disponibles = toba::tabla('vacaciones_restantes')->get_vac_rest($legajo);
-				$slq="SELECT dias FROM reloj.vacaciones_restantes
-				where legajo =". $legajo.";";
+				$sql="SELECT dias FROM reloj.vacaciones_restantes
+				where legajo = $legajo ;";
 				
 				$dias_disponibles= toba::db('ctrl_asis')->consultar($sql);	
+				
 				if(isset($dias_disponibles)){
-					$dias_vac_disponibles= 0;
-				}else {
 					$dias_vac_disponibles= $dias_disponibles[0]['dias'];
+				}else {
+					
+					$dias_vac_disponibles= 0;
 				}
 				
-				$dias_vac_disponibles = $antiguedad['dias'] - $dias_tomados;
+				//$dias_vac_disponibles = $antiguedad['dias'] - $dias_tomados;
 				$agente['dias_vac_tomadas'] = utf8_decode($dias_vac_disponibles.' dÃ­as');
 
 			}             
