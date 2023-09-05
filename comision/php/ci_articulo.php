@@ -405,7 +405,7 @@ class ci_articulo extends comision_ci
 							//ei_arbol($resto);
 								if ($dias <= $dias_pendientes){
 									/*toba::notificacion()->agregar('Usted cuenta con  '.$dias_pendientes .' días pendientes del año'.$anio. ' coloque una cantidad de dias validos.', "info");*/
-							$agente[$i]['articulo'] = 55;
+							$agente[$i]['articulo'] = 106;
 							$bandera= true;    
 
 							} else {
@@ -851,7 +851,7 @@ class ci_articulo extends comision_ci
 				// VAcaciones pendientes docentes            
 				}else if ($id_motivo == 57){
 					$agente[$i]['articulo'] = null;
-					$agente[$i]['id_decreto'] = 2;
+					$agente[$i]['id_decreto'] = 8;
 					$datos['anio'] = $anio -1;
 							
 							//ei_arbol ($agente);
@@ -864,7 +864,7 @@ class ci_articulo extends comision_ci
 							//ei_arbol($resto);
 								if ($dias <= $dias_pendientes){
 									
-							$agente[$i]['articulo'] = 56;
+							$agente[$i]['articulo'] = 104;
 							$bandera= true;    
 							$datos ['dias_restantes'] = $dias_pendientes;
 							} else {
@@ -1150,10 +1150,14 @@ class ci_articulo extends comision_ci
 				$cod_depcia = '04';
 				$observaciones = $datos['observaciones'];
 				$id_motivo = $datos['id_motivo'] ;
-				$id_decreto = $agente[$i]['id_decreto'];
+				if (isset($agente[$i]['id_decreto'])){
+					$id_decreto = $agente[$i]['id_decreto'];
+				}
 				$datos['id_decreto'] = $id_decreto;
-				$articulo=$agente[$i]['articulo'];
-				$datos['articulo'] = $articulo;
+				if (isset($agente[$i]['articulo'])){
+					$articulo=$agente[$i]['articulo'];
+					$datos['articulo'] = $articulo;
+				}
 				$catedra=$datos['catedra'];
 				$anio=$datos['anio'];
 				$superior= $datos['superior'];
@@ -1163,7 +1167,7 @@ class ci_articulo extends comision_ci
 
 
 			
-	
+			//ei_arbol($agente);
 			if($datos['fecha_inicio_licencia']< '2022-12-26'){
 				toba::notificacion()->agregar('Ingrese una fecha mayor o igual al 26/12/2022', "info");
 			}else
@@ -1171,11 +1175,15 @@ class ci_articulo extends comision_ci
 			
 				if ($ya_tomo == 0){
 						if($bandera_nodo ){
-							if ($id_motivo != 30){
-							$sql= "INSERT INTO reloj.inasistencias( legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto, id_articulo)    VALUES ( $usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto, $articulo);";
+						//	ei_arbol($id_motivo.' motivo', $id_decreto. ' decreto', $articulo.' articulo');
+							if ($id_motivo = 30){
+								$sql= "INSERT INTO reloj.inasistencias(	legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto,id_articulo) VALUES ($usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto,$articulo);";
+							} else if ($id_motivo = 57){		
+							$sql= "INSERT INTO reloj.inasistencias(	legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto,id_articulo) VALUES ($usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto,$articulo);";
 							} else 
 							{
-								$sql= "INSERT INTO reloj.inasistencias(	legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto,id_articulo)    VALUES ($usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto,$articulo);";
+								$sql= "INSERT INTO reloj.inasistencias( legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto, id_articulo)    VALUES ( $usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto, $articulo);";
+
 							}
 
 
