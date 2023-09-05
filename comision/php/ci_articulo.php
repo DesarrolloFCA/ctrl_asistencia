@@ -1176,9 +1176,9 @@ class ci_articulo extends comision_ci
 				if ($ya_tomo == 0){
 						if($bandera_nodo ){
 						//	ei_arbol($id_motivo.' motivo', $id_decreto. ' decreto', $articulo.' articulo');
-							if ($id_motivo = 30){
+							if ($id_motivo == 30){
 								$sql= "INSERT INTO reloj.inasistencias(	legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto,id_articulo) VALUES ($usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto,$articulo);";
-							} else if ($id_motivo = 57){		
+							} else if ($id_motivo == 57){		
 							$sql= "INSERT INTO reloj.inasistencias(	legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto,id_articulo) VALUES ($usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto,$articulo);";
 							} else 
 							{
