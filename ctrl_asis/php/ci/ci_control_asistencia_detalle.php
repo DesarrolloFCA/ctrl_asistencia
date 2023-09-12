@@ -536,7 +536,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 				$agente['partes']++; 
 				
 				$parte = toba::tabla('parte')->get_parte($id_parte);
-				ei_arbol($parte );
+				//ei_arbol($parte );
 				if($parte['id_motivo'] == 28){ // Permisos excepcionales, muestra las marcas pero no las cuenta
 
 					//---------------------------------------------------------------
