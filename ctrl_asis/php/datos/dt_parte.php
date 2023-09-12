@@ -22,7 +22,7 @@ class dt_parte extends toba_datos_tabla
 		if (isset($filtro['nombre'])) {
 			$where[] = "nombre ILIKE ".quote("%{$filtro['nombre']}%");
 		}
-<<<<<<< HEAD
+
 		if (isset($filtro['legajo'])) {
 			$where[] = "legajo = $legajo ";
 		}
@@ -83,7 +83,7 @@ class dt_parte extends toba_datos_tabla
 			}
 		}
 		
-=======
+
 		if(isset($filtro['legajo'])){
 			$legajo =$filtro['legajo'];
 			$where[] = "legajo = $legajo";
@@ -93,7 +93,7 @@ class dt_parte extends toba_datos_tabla
 			$where[] = "id_parte = $id_parte";
 		}
 		//ei_arbol($filtro);
->>>>>>> migracion_mapuche
+
 		$sql = "SELECT
 			t_p.id_parte,
 			t_p.legajo,
@@ -138,11 +138,7 @@ class dt_parte extends toba_datos_tabla
 		if (count($where)>0) {
 			$sql = sql_concatenar_where($sql, $where);
 		}
-<<<<<<< HEAD
-		//ei_arbol($sql);
-=======
-		
->>>>>>> migracion_mapuche
+
 		return toba::db('ctrl_asis')->consultar($sql);
 	}
 
