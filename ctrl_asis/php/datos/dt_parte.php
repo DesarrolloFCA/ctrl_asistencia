@@ -22,6 +22,7 @@ class dt_parte extends toba_datos_tabla
 		if (isset($filtro['nombre'])) {
 			$where[] = "nombre ILIKE ".quote("%{$filtro['nombre']}%");
 		}
+
 		if (isset($filtro['legajo'])) {
 			$where[] = "legajo = $legajo ";
 		}
@@ -82,6 +83,17 @@ class dt_parte extends toba_datos_tabla
 			}
 		}
 		
+
+		if(isset($filtro['legajo'])){
+			$legajo =$filtro['legajo'];
+			$where[] = "legajo = $legajo";
+		}
+		if(isset($filtro['id_parte'])){
+			$id_parte =$filtro['id_parte'];
+			$where[] = "id_parte = $id_parte";
+		}
+		//ei_arbol($filtro);
+
 		$sql = "SELECT
 			t_p.id_parte,
 			t_p.legajo,
@@ -117,7 +129,8 @@ class dt_parte extends toba_datos_tabla
 			t_p.dias7,
 			t_p.dias8,
 			t_p.dias9,
-			t_p.id_parte_sanidad
+			t_p.id_parte_sanidad, t_m.descripcion motivo,
+			t_p.id_motivo
 		FROM
 			parte as t_p	LEFT OUTER JOIN decreto as t_d ON (t_p.id_decreto = t_d.id_decreto)
 			LEFT OUTER JOIN motivo as t_m ON (t_p.id_motivo = t_m.id_motivo)
@@ -125,12 +138,13 @@ class dt_parte extends toba_datos_tabla
 		if (count($where)>0) {
 			$sql = sql_concatenar_where($sql, $where);
 		}
-		//ei_arbol($sql);
+
 		return toba::db('ctrl_asis')->consultar($sql);
 	}
 
 
 	function get_parte($id_parte){
+		
 		$filtro['id_parte'] = $id_parte;
 		$datos = $this->get_listado($filtro);
 		return $datos[0];
@@ -250,8 +264,8 @@ class dt_parte extends toba_datos_tabla
 		$fecha_hasta = $dia." 23:59:59";
 		$where[] = "t_p.fecha_inicio_licencia <= ".quote($fecha_hasta);
 
-		$sql = "SELECT t_p.id_parte, t_p.legajo, t_p.fecha_inicio_licencia, t_p.dias
-				FROM parte as t_p    
+		$sql = "SELECT t_p.id_parte, t_p.legajo, t_p.fecha_inicio_licencia, t_p.dias,t_m.descripcion
+			FROM parte as t_p    
 			LEFT OUTER JOIN decreto as t_d ON (t_p.id_decreto = t_d.id_decreto)
 			LEFT OUTER JOIN articulo as t_a ON (t_p.id_articulo = t_a.id_articulo)
 			LEFT OUTER JOIN motivo as t_m ON (t_p.id_motivo = t_m.id_motivo)
