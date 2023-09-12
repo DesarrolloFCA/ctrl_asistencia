@@ -511,10 +511,11 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 		
 			$agente['laborables']++;
 							
-			$id_parte = toba::tabla('parte')->tiene_parte($agente['legajo'], $dia);    
+			$id_parte = toba::tabla('parte')->tiene_parte($agente['legajo'], $dia);  
+
 			$id_parte_sanidad = toba::tabla('parte')->tiene_parte_sanidad($agente['legajo'], $dia);
 			$info_complementaria = toba::tabla('info_complementaria')->tiene_info_complementaria($agente['legajo'], $dia);                    
-
+			ei_arbol($id_parte);
 			if($id_parte_sanidad > 0){  
 				
 				$agente['partes_sanidad']++; 
@@ -535,7 +536,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 				$agente['partes']++; 
 				
 				$parte = toba::tabla('parte')->get_parte($id_parte);
-
+				ei_arbol($parte );
 				if($parte['id_motivo'] == 28){ // Permisos excepcionales, muestra las marcas pero no las cuenta
 
 					//---------------------------------------------------------------
