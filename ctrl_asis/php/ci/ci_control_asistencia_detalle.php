@@ -47,6 +47,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 
 							--caracter,	categoria, agrupamiento, escalafon, cod_depcia,cuil, 
 					FROM uncu.legajo WHERE legajo = ".$claves_originales['legajo']."
+					and cod_depcia = '04'
 						
 						group by legajo, apellido, nombre, fec_nacim, dni, fec_ingreso, estado_civil 
 							 --categoria, agrupamiento, escalafon, cod_depcia, cuil
@@ -64,6 +65,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 						FROM uncu.legajo WHERE legajo = '".$claves_originales['legajo']."
 						'";*/
 			$agente =  toba::db('mapuche')->consultar_fila($sql); 
+			//ei_arbol($sql);
 			$horas_diarias= $agente['horas_diarias'];
 			$horas_esp = $this->dep('datos')->tabla('conf_jornada')->get_horas_diarias($claves_originales['legajo']);
 			
@@ -75,7 +77,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 					Where legajo =".$claves_originales['legajo'].
 					
 					";";
-		//ei_arbol($agente);
+		
 			$age = toba::db('mapuche')->consultar_fila($sql); 
 		/*	$cant_cargos = count($age); 
 			$bandera = 1;
@@ -516,7 +518,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 
 			$id_parte_sanidad = toba::tabla('parte')->tiene_parte_sanidad($agente['legajo'], $dia);
 			$info_complementaria = toba::tabla('info_complementaria')->tiene_info_complementaria($agente['legajo'], $dia);                    
-			ei_arbol($id_parte);
+			//ei_arbol($id_parte);
 			if($id_parte_sanidad > 0){  
 				
 				$agente['partes_sanidad']++; 
