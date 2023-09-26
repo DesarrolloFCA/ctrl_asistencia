@@ -7,7 +7,8 @@ class ci_vacaciones extends ctrl_asis_ci
 	function ini__operacion()
 	{
 		$sql = "SELECT * from reloj.inasistencias
-		where  estado ='A' 
+		where  estado ='A'
+		and id_motivo in (30,35,57) 
 		order by id_inasistencia";
 		//$this->dep('datos')->cargar();
 	}
@@ -18,6 +19,7 @@ class ci_vacaciones extends ctrl_asis_ci
 		$this->dep('datos')->resetear();
 		$sql = "SELECT * from reloj.inasistencias
 		where  estado ='A' 
+		and id_motivo in (30,35,57) 
 		order by id_inasistencia";
 		//$this->dep('datos')->cargar();
 	}
@@ -148,6 +150,7 @@ class ci_vacaciones extends ctrl_asis_ci
 					$sql = "SELECT * from reloj.inasistencias
 				where  estado ='A'
 				and id_catedra =$id_catedra 
+				and id_motivo in (30,35,57) 
 				and id_motivo = $id_motivo
 				order by id_inasistencia";
 				} else {
@@ -163,6 +166,7 @@ class ci_vacaciones extends ctrl_asis_ci
 					$id_motivo = $filtro['id_motivo']['valor'];
 					$sql = "SELECT * from reloj.inasistencias
 				where  estado ='A'
+				and id_motivo in (30,35,57) 
 				and id_motivo = $id_motivo
 				order by id_inasistencia";
 			} else {
@@ -171,6 +175,7 @@ class ci_vacaciones extends ctrl_asis_ci
 				order by id_inasistencia";
 			}
 		}    
+		//ei_arbol($sql);
 		$datos= toba::db('ctrl_asis')->consultar($sql);
 		$cant= count($datos);
 		for($i=0;$i<$cant;$i++){

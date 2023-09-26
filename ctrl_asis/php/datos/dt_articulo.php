@@ -43,6 +43,8 @@ class dt_articulo extends toba_datos_tabla
 
 
 
+
+
 	function get_articulo($id_articulo)
 	{
 		$sql = "SELECT id_articulo, id_decreto, descripcion, dias_disponibles FROM articulo WHERE id_articulo = '$id_articulo' ";
