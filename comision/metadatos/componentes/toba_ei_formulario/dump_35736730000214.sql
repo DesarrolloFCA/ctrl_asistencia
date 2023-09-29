@@ -1296,7 +1296,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	'15', --orden
 	'Certificado', --etiqueta
 	NULL, --etiqueta_estilo
-	NULL, --descripcion
+	'Subir archivo PDF', --descripcion
 	'0', --colapsado
 	'0', --desactivado
 	NULL, --estilo
@@ -1360,7 +1360,7 @@ INSERT INTO apex_objeto_ei_formulario_ef (objeto_ei_formulario_fila, objeto_ei_f
 	NULL, --selec_ancho
 	NULL, --selec_serializar
 	NULL, --selec_cant_columnas
-	'jpg,bmp,png,pdf,jpeg', --upload_extensiones
+	'pdf', --upload_extensiones
 	NULL, --punto_montaje
 	NULL  --placeholder
 );
