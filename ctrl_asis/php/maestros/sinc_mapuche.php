@@ -26,7 +26,7 @@
 			$apellido = $agentes_mapuche [$i]['apellido'];
 			$nombre = $agentes_mapuche [$i]['nombre'];
 			$fec_nacim = $agentes_mapuche [$i]['fec_nacim'];
-			$fecha_ingreso = $agentes_mapuche [$i]['fec_nacim'];
+			$fecha_ingreso = $agentes_mapuche [$i]['fec_ingreso'];
 			$dni = $agentes_mapuche [$i]['dni'];
 			$estado_civil= $agentes_mapuche [$i]['estado_civil'];
 			$caracter = $agentes_mapuche [$i]['caracter'];
