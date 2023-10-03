@@ -43,13 +43,14 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 									  when sum(cant_horas)/5 = 4  then '02:48'
 									  when sum(cant_horas)/5 = 2  then '01:24'
 									  end
-									  horas_diarias,fec_nacim, dni, fec_ingreso, estado_civil 
+									  horas_diarias,fec_nacim, dni, fecha_ingreso, estado_civil 
 
 							--caracter,	categoria, agrupamiento, escalafon, cod_depcia,cuil, 
-					FROM uncu.legajo WHERE legajo = ".$claves_originales['legajo']."
+				--	FROM uncu.legajo WHERE legajo =
+				FROM reloj.agentes WHERE legajo = ".$claves_originales['legajo']."
 					and cod_depcia = '04'
 						
-						group by legajo, apellido, nombre, fec_nacim, dni, fec_ingreso, estado_civil 
+						group by legajo, apellido, nombre, fec_nacim, dni, fecha_ingreso, estado_civil 
 							 --categoria, agrupamiento, escalafon, cod_depcia, cuil
 							 --, cant_horas";
 						
@@ -64,7 +65,8 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 
 						FROM uncu.legajo WHERE legajo = '".$claves_originales['legajo']."
 						'";*/
-			$agente =  toba::db('mapuche')->consultar_fila($sql); 
+			//$agente =  toba::db('mapuche')->consultar_fila($sql); 
+			$agente =  toba::db('ctrl_asis')->consultar_fila($sql); 			
 			//ei_arbol($sql);
 			$horas_diarias= $agente['horas_diarias'];
 			$horas_esp = $this->dep('datos')->tabla('conf_jornada')->get_horas_diarias($claves_originales['legajo']);
@@ -73,12 +75,14 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 			//ei_arbol($horas_esp);		
 					$horas_diarias = '0'.$horas_esp[0]['horas'].':00'; ///Horas especiales jornadas
 				}
-			$sql = "SELECT escalafon from legajo
+			$sql = "SELECT escalafon  from reloj.agentes
+			--from legajo
 					Where legajo =".$claves_originales['legajo'].
 					
 					";";
 		
-			$age = toba::db('mapuche')->consultar_fila($sql); 
+			//$age = toba::db('mapuche')->consultar_fila($sql); 
+			$age = toba::db('ctrl_asis')->consultar_fila($sql); 		
 		/*	$cant_cargos = count($age); 
 			$bandera = 1;
 			for ($i=0;$i<$cant_cargos;$i++){
@@ -139,9 +143,9 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 			/*$agente = toba::db('mapuche')->consultar($sql);          
 		$cant = count($agente);*/
 		$legajo=$agente['legajo'];
-		$sql = "SELECT MIN(fec_ingreso) fecha from uncu.legajo
+		$sql = "SELECT MIN(fecha_ingreso) fecha from reloj.agentes
 		where legajo = $legajo";
-		$fec_ingreso = toba::db('mapuche')->consultar($sql);
+		$fec_ingreso = toba::db('ctrl_asis')->consultar($sql);
 		$res = 	$fec_ingreso[0]['fecha'];
 		list($y,$m,$d)=explode("-",$res); //2011-03-31
                 $fecha = $d."-".$m."-".$y;

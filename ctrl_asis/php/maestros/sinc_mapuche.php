@@ -1,14 +1,37 @@
 <?php
-
+	$sql = "TRUNCATE TABLE reloj.agentes";
+	toba::db('ctrl_asis')->ejecutar($sql);
+	$sql = "SELECT legajo from reloj.adscripcion";
+	$adscripto = toba::db('ctrl_asis')->consultar($sql);
+	if (isset($adscripto)){
+		$lim = count($adscripto);
+		for ($i=0;$i<$lim;$i++){
+			$legajo = $adscripto[$i]['legajo'];
+			if ($i== 0 ){
+				$lis = "or legajo  in ( $legajo";
+			} else {
+				$lis =$lis.",$legajo";
+			}
+		}
+		$lis =$lis.")";	
+	}
 	$sql = "SELECT legajo, apellido, nombre, fec_nacim, fec_ingreso, dni, estado_civil, caracter, categoria,escalafon, agrupamiento, cod_depcia, cuil, mayor_dedicacion, funcion_critica, tipo_sexo, email, telefono, codc_dedic, cant_horas, subrogancia
 	FROM uncu.legajo
-	where cod_depcia = '04'
-	ORDER BY legajo, agrupamiento,cant_horas DESC";
+	where cod_depcia = '04'";
+	if (isset($lis)){
+		$sql = $sql . $lis ;
+	}
+	$sql = $sql . "ORDER BY legajo, agrupamiento,cant_horas DESC";
 	$agentes_mapuche = toba::db('mapuche')->consultar($sql);
 	//ei_arbol($agentes_mapuche);	
 	/*$sql = "SELECT * from reloj.agentes
 	ORDER BY legajo, agrupamiento,cant_horas DESC";
 	$agentes_local = toba::db('ctrl_asis')->consultar($sql);*/
+	
+	
+	
+
+
 	if (isset($agentes_local)){
 
 	}else{

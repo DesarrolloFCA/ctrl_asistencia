@@ -751,12 +751,12 @@ class vistas_mapuche extends toba_datos_relacion
 
             if (isset($legajo_incluir))*/
             $sql = "SELECT legajo, legajo||' - '||apellido||', '||nombre as descripcion 
-                    FROM uncu.legajo_todos
-                    WHERE legajo in ((Select legajo from uncu.legajo where cod_depcia = '04'))
-                    or legajo in (20738,30560)
+                    FROM reloj.agentes
+                    --WHERE legajo in ((Select legajo from reloj.agente where cod_depcia = '04'))
+                   -- or legajo in (20738,30560)
                     ORDER BY apellido, legajo ASC";
 
-            return toba::db('mapuche')->consultar($sql); 
+            return toba::db('ctrl_asis')->consultar($sql); 
 
         }
 
