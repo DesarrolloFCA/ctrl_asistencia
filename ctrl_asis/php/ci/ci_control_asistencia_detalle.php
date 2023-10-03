@@ -43,13 +43,13 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 									  when sum(cant_horas)/5 = 4  then '02:48'
 									  when sum(cant_horas)/5 = 2  then '01:24'
 									  end
-									  horas_diarias,fec_nacim, dni, fecha_ingreso, estado_civil 
+									  horas_diarias,fec_nacim, dni, fec_ingreso, estado_civil 
 
 							--caracter,	categoria, agrupamiento, escalafon, cod_depcia,cuil, 
-					FROM reloj.agentes WHERE legajo = ".$claves_originales['legajo']."
+					FROM uncu.legajo WHERE legajo = ".$claves_originales['legajo']."
 					--and cod_depcia = '04'
 						
-						group by legajo, apellido, nombre, fec_nacim, dni, fecha_ingreso, estado_civil 
+						group by legajo, apellido, nombre, fec_nacim, dni, fec_ingreso, estado_civil 
 							 --categoria, agrupamiento, escalafon, cod_depcia, cuil
 							 --, cant_horas";
 						
@@ -64,7 +64,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 
 						FROM uncu.legajo WHERE legajo = '".$claves_originales['legajo']."
 						'";*/
-			$agente =  toba::db('ctrl_asis')->consultar_fila($sql); 
+			$agente =  toba::db('mapuche')->consultar_fila($sql); 
 			//ei_arbol($sql);
 			$horas_diarias= $agente['horas_diarias'];
 			$horas_esp = $this->dep('datos')->tabla('conf_jornada')->get_horas_diarias($claves_originales['legajo']);
@@ -170,7 +170,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
             }
           // $agente['ant'] = $antiguedad; 
        
- ei_arbol($antiguedad);
+ //ei_arbol($antiguedad);
         //$dias= $datos['dias'];
        // $anio= $datos['anio'];*/
 			
@@ -178,9 +178,9 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 
 
 			
-
+            //	ei_arbol($agente);
 			//seteamos datos de vacaciones -----------------------------------------------
-			if(!empty($agente['fecha_ingreso'])){
+			if(!empty($agente['fec_ingreso'])){
 			  
 				if ($escalafon == 'NODO') {
 					if ($antiguedad > 20){
