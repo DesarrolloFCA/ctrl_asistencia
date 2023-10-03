@@ -33,7 +33,7 @@ class dt_catedra extends comision_datos_tabla
                     FROM reloj.legajos_autoridad 
                     WHERE legajo = $legajo";
        		$autoridad = toba::db('comision')->consultar ($sql);
-      		ei_arbol($autoridad);
+      	//	ei_arbol($autoridad);
       		 // return  $d;
 
 			return $autoridad;
