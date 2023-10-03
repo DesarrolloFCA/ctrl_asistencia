@@ -420,7 +420,7 @@ class ci_articulo extends comision_ci
 						$sql = "SELECT count(*) cant FROM reloj.parte 
 								where id_motivo = $id_motivo
 								and legajo = $legajo
-								and anio = $anio";
+								and Date_part('year',fecha_inicio_licencia) = $anio";
 						$tomo=toba::db('comision')->consultar($sql);
 						if ($tomo[0]['cant'] <= 0)	{
 
@@ -446,7 +446,7 @@ class ci_articulo extends comision_ci
 					$sql = "SELECT count(*) cant FROM reloj.parte 
 								where id_motivo = $id_motivo
 								and legajo = $legajo
-								and anio = $anio";
+								and Date_part('year',fecha_inicio_licencia) = $anio";
 						$tomo=toba::db('comision')->consultar($sql);
 						if ($tomo[0]['cant'] <= 15)	{
 						if ($datos['certificado'] <> null){
@@ -605,7 +605,7 @@ class ci_articulo extends comision_ci
 					$sql = "SELECT count(*) cant FROM reloj.parte 
 								where id_motivo = $id_motivo
 								and legajo = $legajo
-								and anio = $anio";
+								and Date_part('year',fecha_inicio_licencia) = $anio";
 						$tomo=toba::db('comision')->consultar($sql);
 						if ($tomo[0]['cant'] <= 20)	{
 						if ($datos['certificado'] <> null){
@@ -631,7 +631,7 @@ class ci_articulo extends comision_ci
 					$sql = "SELECT count(*) cant FROM reloj.parte 
 								where id_motivo = $id_motivo
 								and legajo = $legajo
-								and anio = $anio";
+								and Date_part('year',fecha_inicio_licencia) = $anio";
 						$tomo=toba::db('comision')->consultar($sql);
 						if ($tomo[0]['cant'] <= 24)	{
 						if ($datos['certificado'] <> null){
@@ -1209,7 +1209,7 @@ class ci_articulo extends comision_ci
 								AND id_motivo = $id_motivo ;";
 						$ina = toba::db('comision')->consultar($sql);
 						$id_inasistencia = $ina [0]['id_inasistencia'];
-						$ruta='C:/Toba/_proyectos/ctrl_asis/www/certificados/';
+						$ruta='C:/Toba/proyectos/ctrl_asis/www/certificados/';
 						$ar_nombre_completo = explode('.', $datos['certificado']['name']);
 						$archivo_nombre = $ruta.$id_inasistencia.$fecha_inicio.'.' .$ar_nombre_completo[1];
 						$datos['archivo'] = $archivo_nombre;
@@ -1467,46 +1467,46 @@ $mail->IsHTML(true); //el mail contiene html
 				El/la agente <b>'.$datos['descripcion'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
 				Justific&oacute;  la inasistencia  desde '.$fecha.' hasta '.$hasta.' presentando el certificado correspondiente a dicha acci&oacute;n.
 			<table/>';
-
+		
 		switch ($datos ['id_motivo'] ){
 			case 12:
-				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Donaci&oacute;n de Sangre';
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Donaci&oacute;n de Sangre';
 				break;
 			case 22:
-				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Realización de Actividad Deportiva o Art&iacute;stica';
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Realización de Actividad Deportiva o Art&iacute;stica';
 				break;
 			case 49:
-				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Citaci&oacute;n de Sangre';
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Citaci&oacute;n de Sangre';
 				break;
 			case 17:
-				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Fallecimiento de Cony&uacute;ge o Pariente de Primer Grado';
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Fallecimiento de Cony&uacute;ge o Pariente de Primer Grado';
 				break;
 			case 16:
-				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Fallecimiento de Pariente de Segundo Grado';
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Fallecimiento de Pariente de Segundo Grado';
 				break;
 			case 18: 
-				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Fallecimiento de Pariente Pol&iacute;tico';
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Fallecimiento de Pariente Pol&iacute;tico';
 				break;
 			case 27: 
-				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Nacimiento (Paternidad)';
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Nacimiento (Paternidad)';
 				break;	
 			case 36: 
-				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Matrimonio';
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Matrimonio';
 				break;
 			case 25: 
-				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Matrimonio de hijo/a';
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Matrimonio de hijo/a';
 				break;				
 			case 7: 
-				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Adopci&oacute;n (Maternidad)';
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Adopci&oacute;n (Maternidad)';
 				break;
 			case 59: 
-				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Adopci&oacute;n (Paternidad)';
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Adopci&oacute;n (Paternidad)';
 				break;	
 			case 14: 
-				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Exam&eacute;n de Nivel Medio';
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Exam&eacute;n de Nivel Medio';
 				break;		
 			case 15: 
-				$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Exam&eacute;n de Nivel Superior';
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Exam&eacute;n de Nivel Superior';
 				break;			
 		}
 	
@@ -1613,13 +1613,54 @@ $mail->IsHTML(true); //el mail contiene html
 			<table/>';
 
 
-	} else if ($datos ['id_motivo'] == 12){
+	} else {
 		$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Donacion de Sangre';
 		$body = '<table>
 
 				El/la agente <b>'.$datos['descripcion'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
 				Justific&oacute;  la inasistencia el dia '.$fecha.' presentando el certificado correspondiente a dicha acci&oacute;n.
 			<table/>';
+		switch ($datos ['id_motivo'] ){
+			case 12:
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Donaci&oacute;n de Sangre';
+				break;
+			case 22:
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Realización de Actividad Deportiva o Art&iacute;stica';
+				break;
+			case 49:
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Citaci&oacute;n de Sangre';
+				break;
+			case 17:
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Fallecimiento de Cony&uacute;ge o Pariente de Primer Grado';
+				break;
+			case 16:
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Fallecimiento de Pariente de Segundo Grado';
+				break;
+			case 18: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Fallecimiento de Pariente Pol&iacute;tico';
+				break;
+			case 27: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Nacimiento (Paternidad)';
+				break;	
+			case 36: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Matrimonio';
+				break;
+			case 25: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Matrimonio de hijo/a';
+				break;				
+			case 7: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Adopci&oacute;n (Maternidad)';
+				break;
+			case 59: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Adopci&oacute;n (Paternidad)';
+				break;	
+			case 14: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Exam&eacute;n de Nivel Medio';
+				break;		
+			case 15: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Exam&eacute;n de Nivel Superior';
+				break;			
+		}
 
 	}
 

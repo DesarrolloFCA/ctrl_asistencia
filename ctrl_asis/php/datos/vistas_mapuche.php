@@ -1181,13 +1181,14 @@ class vistas_mapuche extends toba_datos_relacion
     function get_datos_agente($filtro=array())
     {
         $where = array();
-        $nombre_tabla = "uncu.legajo";
+       
+        //$nombre_tabla = "uncu.legajo";
         if (isset($filtro['legajo'])) {
                 $where[] = "t_l.legajo = '".$filtro['legajo']."'";
         }
-        if (isset($filtro['cargos_todos']) && $filtro['cargos_todos'] == "1") {
+        //if (isset($filtro['cargos_todos']) && $filtro['cargos_todos'] == "1") {
                 $nombre_tabla = "uncu.legajo_cargos";
-        }
+        //}
 
         $sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fec_ingreso, t_l.estado_civil, 
                        t_l.caracter, t_l.categoria, t_l.agrupamiento, t_l.escalafon, 
@@ -1201,7 +1202,7 @@ class vistas_mapuche extends toba_datos_relacion
         if (count($where)>0) {
                 $sql = sql_concatenar_where($sql, $where);
         }
-
+       
         return toba::db('mapuche')->consultar($sql); 
     }
 
@@ -1229,6 +1230,7 @@ class vistas_mapuche extends toba_datos_relacion
         }
 
       static function get_legajos_jefes_fca ($legajo){
+        
         $sql = "SELECT  distinct legajo  as superior , apellido||', '||nombre as descripcion 
                     FROM uncu.legajo 
                     WHERE legajo = $legajo
