@@ -112,7 +112,9 @@ class ci_articulo extends comision_ci
 		} 
 		
 		$agente = toba::db('mapuche')->consultar($sql);          
+		if ($legajo = 26010){
 		$depto[0]['id_departamento']= $deptos ;
+		}
 		$cant = count($agente);
 		//ei_arbol($agente);
 		$sql = "SELECT MIN(fec_ingreso) fecha from uncu.legajo
