@@ -48,7 +48,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 							--caracter,	categoria, agrupamiento, escalafon, cod_depcia,cuil, 
 				--	FROM uncu.legajo WHERE legajo =
 				FROM reloj.agentes WHERE legajo = ".$claves_originales['legajo']."
-					and cod_depcia = '04'
+				--	and cod_depcia = '04'
 						
 						group by legajo, apellido, nombre, fec_nacim, dni, fecha_ingreso, estado_civil 
 							 --categoria, agrupamiento, escalafon, cod_depcia, cuil
@@ -179,11 +179,11 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 
 
 			if(!empty($dato_antiguedad['fecha_ingreso'])){
-				$agente['fec_ingreso'] = $dato_antiguedad['fecha_ingreso'];
+				$agente['fecha_ingreso'] = $dato_antiguedad['fecha_ingreso'];
 			}
 
 			//seteamos datos de vacaciones -----------------------------------------------
-			if(!empty($agente['fec_ingreso'])){
+			if(!empty($agente['fecha_ingreso'])){
 				if ($escalafon == 'NODO') {
 					if ($antiguedad > 20){
 						$dias_totales = 40;
