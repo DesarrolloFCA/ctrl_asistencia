@@ -443,10 +443,10 @@ class vistas_mapuche extends toba_datos_relacion
         }
         
         $sql = "SELECT legajo, apellido||', '||nombre||' ('||legajo||')' as descripcion, cuil
-                FROM uncu.legajo_todos $where
+                FROM reloj.agentes $where
                 ORDER BY legajo, apellido, nombre";
 
-        return toba::db('mapuche')->consultar($sql); 
+        return toba::db('comision')->consultar($sql); 
 
     }
 
@@ -700,10 +700,10 @@ class vistas_mapuche extends toba_datos_relacion
 
         static function get_edad($legajo, $cargos_todos=null)
         {
-            $nombre_tabla = self::get_nombre_tabla_legajos_por_estado_cargo($cargos_todos);
+            //$nombre_tabla = self::get_nombre_tabla_legajos_por_estado_cargo($cargos_todos);
             $sql = "SELECT legajo, fec_nacim as fecha_nacimiento
-                    FROM $nombre_tabla WHERE legajo = '$legajo'";
-            $res = toba::db('mapuche')->consultar_fila($sql); 
+                    FROM reloj.agentes WHERE legajo = '$legajo'";
+            $res = toba::db('comision')->consultar_fila($sql); 
             if(!empty($res['fecha_nacimiento'])){
                 list($y,$m,$d)=explode("-",$res['fecha_nacimiento']); //2011-03-31
                 $fecha = $d."-".$m."-".$y;
@@ -1148,12 +1148,12 @@ class vistas_mapuche extends toba_datos_relacion
 	 static function get_legajos_depencencia_fca()
 		{
             $sql = "SELECT legajo, legajo as descripcion 
-                    FROM uncu.legajo 
-                    WHERE cod_depcia = '04'
-                    or legajo in (20738,30560)
+                    FROM reloj.agentes
+                    --WHERE cod_depcia = '04'
+                    --or legajo in (20738,30560)
                     ORDER BY  legajo ASC";
 
-            return toba::db('mapuche')->consultar($sql); 
+            return toba::db('comision')->consultar($sql); 
         }	
     static function get_legajos_jefes_fca ($legajo){
         $sql = "SELECT  legajo  as superior , apellido||', '||nombre as descripcion 

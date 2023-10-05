@@ -1,6 +1,8 @@
 <?php
 	$sql = "TRUNCATE TABLE reloj.agentes";
 	toba::db('ctrl_asis')->ejecutar($sql);
+	$sql = "TRUNCATE TABLE reloj.domicilio";
+	toba::db('ctrl_asis')->ejecutar($sql);
 	$sql = "SELECT legajo from reloj.adscripcion";
 	$adscripto = toba::db('ctrl_asis')->consultar($sql);
 	if (isset($adscripto)){
@@ -18,18 +20,18 @@
 	$sql = "SELECT legajo, apellido, nombre, fec_nacim, fec_ingreso, dni, estado_civil, caracter, categoria,escalafon, agrupamiento, cod_depcia, cuil, mayor_dedicacion, funcion_critica, tipo_sexo, email, telefono, codc_dedic, cant_horas, subrogancia
 	FROM uncu.legajo
 	where cod_depcia = '04'";
+	$sql1 = "SELECT * FROM uncu.domicilio
+			where legajo in ((Select distinct legajo from uncu.legajo where cod_depcia = '04'))";
+
 	if (isset($lis)){
 		$sql = $sql . $lis ;
+		$sql1 = $sql1 . $lis ;
+
 	}
+
 	$sql = $sql . "ORDER BY legajo, agrupamiento,cant_horas DESC";
 	$agentes_mapuche = toba::db('mapuche')->consultar($sql);
-	//ei_arbol($agentes_mapuche);	
-	/*$sql = "SELECT * from reloj.agentes
-	ORDER BY legajo, agrupamiento,cant_horas DESC";
-	$agentes_local = toba::db('ctrl_asis')->consultar($sql);*/
-	
-	
-	
+	$agentes_domicilio = toba::db('mapuche')->consultar($sql1);
 
 
 	if (isset($agentes_local)){
@@ -77,6 +79,29 @@
 			toba::db('ctrl_asis')->ejecutar($sql);
 
 		}
+		$cant = count($agentes_domicilio);	
+		for ($j=0;$j<$cant;$j++){
+			$legajo = $agentes_domicilio[$j]['legajo'];
+			$pais = $agentes_domicilio[$j]['pais'];
+			$provincia = $agentes_domicilio[$j]['provincia'];
+			$cp=$agentes_domicilio[$j]['codigo_postal'];
+			$localidad= $agentes_domicilio[$j]['localidad'];
+			$manzana= $agentes_domicilio[$j]['codc_cara_manzana'];
+			$zona= $agentes_domicilio[$j]['zona_paraje_barrio'];
+			$calle= str_replace("'", "", $agentes_domicilio[$j]['calle'] );
+
+			$numero= $agentes_domicilio[$j]['numero'];
+			$piso = $agentes_domicilio[$j]['piso'];
+			$oficina= $agentes_domicilio[$j]['oficina'];
+			$telefono= $agentes_domicilio[$j]['telefono'];
+			$telefono_celular= $agentes_domicilio[$j]['telefono_celular'];
+
+			$sql= "INSERT INTO reloj.domicilio(
+			legajo, pais, provincia, codigo_postal, localidad, manzana, zona_paraje_barrio, calle, numero, piso, dpto_oficina, telefono, telefono_celular)
+			VALUES ($legajo,'$pais','$provincia' ,'$cp', '$localidad' , '$manzana', '$zona', '$calle' ,  '$numero', '$piso' , '$oficina',' $telefono' , '$telefono_celular')";
+			toba::db('ctrl_asis')->ejecutar($sql);
+		}
+
 		//ei_arbol($sql);
 		 echo("Sincronización con éxito"); 
 	}
