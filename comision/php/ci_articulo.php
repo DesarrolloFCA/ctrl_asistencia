@@ -36,10 +36,14 @@ class ci_articulo extends comision_ci
 				WHERE id_catedra = $id_catedra";
 
 			$depto = toba::db('comision')->consultar($sql); 
-			if($legajo == 26010){
-				$deptos = $depto[0]['id_departamento'];
-				$depto[0]['id_departamento'] = 13;
+
+			if ($legajo == 26010){
+				$deptos= $depto[0]['id_departamento'];
+				$depto[0]['id_departamento']= 13;
+
 			}
+
+
 			if ($depto[0]['id_departamento']<10 or ($depto[0]['id_departamento'] == 12) or ($depto[0]['id_departamento'] == 11)){
 			$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fec_ingreso, t_l.estado_civil, 
 						t_l.caracter, t_l.categoria, t_l.agrupamiento, t_l.escalafon, 
@@ -74,9 +78,11 @@ class ci_articulo extends comision_ci
 			$sql = "SELECT nombre_catedra, id_departamento FROM reloj.catedras
 				WHERE id_catedra = $id_catedra";
 			$depto = toba::db('comision')->consultar($sql); 
-			if($legajo == 26010){
-				$deptos = $depto[0]['id_departamento'];
-				$depto[0]['id_departamento'] = 13;
+			if ($legajo == 26010){
+				$deptos= $depto[0]['id_departamento'];
+				$depto[0]['id_departamento']= 13;
+
+
 			}
 			//ei_arbol($depto);
 			if ($depto[0]['id_departamento']<10 or ($depto[0]['id_departamento'] == 12)or ($depto[0]['id_departamento'] == 11)){
@@ -108,6 +114,7 @@ class ci_articulo extends comision_ci
 
 		} 
 		
+
 		$agente = toba::db('comision')->consultar($sql);          
 		if($legajo == 26010){
 				$depto[0]['id_departamento'] = $deptos ;
@@ -1477,7 +1484,7 @@ $mail->IsHTML(true); //el mail contiene html
 				El/la agente <b>'.$datos['descripcion'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
 				Justific&oacute;  la inasistencia  desde '.$fecha.' hasta '.$hasta.' presentando el certificado correspondiente a dicha acci&oacute;n.
 			<table/>';
-
+		
 		switch ($datos ['id_motivo'] ){
 			case 12:
 				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Donaci&oacute;n de Sangre';
@@ -1592,7 +1599,7 @@ $mail->IsHTML(true); //el mail contiene html
 		$body = '<table>
 						El/la agente  <b>'.$datos['descripcion'].'</b> perteneciente a la <b>'.$datos['catedra'].'</b> solicita <b> Razones Particulares </b> a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.<br/>
 							Observaciones: ' .$datos['observaciones']. ' - <br/>
-							En caso de no estar de acuerdo con la autorizacion comuniquese por correo con la autoridad correspondiente.
+							En caso de no estar de acuerdo con la autorizacion enviar un correo a asistencia@fca.uncu.edu.ar .
 
 											
 			</table>';
@@ -1607,7 +1614,7 @@ $mail->IsHTML(true); //el mail contiene html
 						El/la agente  <b>'.$datos['descripcion'].'</b> perteneciente a  la <b>'.$datos['catedra'].'</b>.<br/>
 						Solicita <b> Licencia Anual</b> correspondiente al  '.$datos['anio'].' a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.<br/>
 						Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. ' <br/>
-						En caso de no estar de acuerdo con la autorizacion comuniquese por correo con la autoridad correspondiente.
+						En caso de no estar de acuerdo con la autorizacion enviar un correo a asistencia@fca.uncu.edu.ar .
 
 											
 			</table>';
@@ -1619,17 +1626,58 @@ $mail->IsHTML(true); //el mail contiene html
 				El/la agente <b>'.$datos['descripcion'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
 				Solicita <b>los d&iacute;as pendientes de la licencia anual</b> correspondiente al ' .$datos['anio']. ' a partir del d&iacute;a '.$fecha. ' hasta '.$hasta. '<br/>
 				Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones'].  '<br/>
-				Ud. cuenta con '.$datos['dias_restantes'].' d&iacute;as de vacaciones pendientes.
+				En caso de no estar de acuerdo con la autorizacion enviar un correo a asistencia@fca.uncu.edu.ar .
 			<table/>';
 
 
-	} else if ($datos ['id_motivo'] == 12){
+	} else {
 		$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Donacion de Sangre';
 		$body = '<table>
 
 				El/la agente <b>'.$datos['descripcion'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
 				Justific&oacute;  la inasistencia el dia '.$fecha.' presentando el certificado correspondiente a dicha acci&oacute;n.
 			<table/>';
+		switch ($datos ['id_motivo'] ){
+			case 12:
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Donaci&oacute;n de Sangre';
+				break;
+			case 22:
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Realización de Actividad Deportiva o Art&iacute;stica';
+				break;
+			case 49:
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Citaci&oacute;n de Sangre';
+				break;
+			case 17:
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Fallecimiento de Cony&uacute;ge o Pariente de Primer Grado';
+				break;
+			case 16:
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Fallecimiento de Pariente de Segundo Grado';
+				break;
+			case 18: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Fallecimiento de Pariente Pol&iacute;tico';
+				break;
+			case 27: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Nacimiento (Paternidad)';
+				break;	
+			case 36: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Matrimonio';
+				break;
+			case 25: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Matrimonio de hijo/a';
+				break;				
+			case 7: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Adopci&oacute;n (Maternidad)';
+				break;
+			case 59: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Adopci&oacute;n (Paternidad)';
+				break;	
+			case 14: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Exam&eacute;n de Nivel Medio';
+				break;		
+			case 15: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Exam&eacute;n de Nivel Superior';
+				break;			
+		}
 
 	}
 

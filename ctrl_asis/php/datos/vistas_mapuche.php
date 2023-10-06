@@ -1230,6 +1230,7 @@ class vistas_mapuche extends toba_datos_relacion
         }
 
       static function get_legajos_jefes_fca ($legajo){
+        
         $sql = "SELECT  distinct legajo  as superior , apellido||', '||nombre as descripcion 
                     FROM uncu.legajo 
                     WHERE legajo = $legajo
