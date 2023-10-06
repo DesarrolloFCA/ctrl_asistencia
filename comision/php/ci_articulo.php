@@ -112,7 +112,9 @@ class ci_articulo extends comision_ci
 		} 
 		
 		$agente = toba::db('mapuche')->consultar($sql);          
+		if ($legajo = 26010){
 		$depto[0]['id_departamento']= $deptos ;
+		}
 		$cant = count($agente);
 		//ei_arbol($agente);
 		$sql = "SELECT MIN(fec_ingreso) fecha from uncu.legajo
@@ -1592,7 +1594,7 @@ $mail->IsHTML(true); //el mail contiene html
 		$body = '<table>
 						El/la agente  <b>'.$datos['descripcion'].'</b> perteneciente a la <b>'.$datos['catedra'].'</b> solicita <b> Razones Particulares </b> a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.<br/>
 							Observaciones: ' .$datos['observaciones']. ' - <br/>
-							En caso de no estar de acuerdo con la autorizacion comuniquese por correo con la autoridad correspondiente.
+							En caso de no estar de acuerdo con la autorizacion enviar un correo a asistencia@fca.uncu.edu.ar .
 
 											
 			</table>';
@@ -1607,7 +1609,7 @@ $mail->IsHTML(true); //el mail contiene html
 						El/la agente  <b>'.$datos['descripcion'].'</b> perteneciente a  la <b>'.$datos['catedra'].'</b>.<br/>
 						Solicita <b> Licencia Anual</b> correspondiente al  '.$datos['anio'].' a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.<br/>
 						Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. ' <br/>
-						En caso de no estar de acuerdo con la autorizacion comuniquese por correo con la autoridad correspondiente.
+						En caso de no estar de acuerdo con la autorizacion enviar un correo a asistencia@fca.uncu.edu.ar .
 
 											
 			</table>';
@@ -1619,7 +1621,7 @@ $mail->IsHTML(true); //el mail contiene html
 				El/la agente <b>'.$datos['descripcion'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
 				Solicita <b>los d&iacute;as pendientes de la licencia anual</b> correspondiente al ' .$datos['anio']. ' a partir del d&iacute;a '.$fecha. ' hasta '.$hasta. '<br/>
 				Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones'].  '<br/>
-				Ud. cuenta con '.$datos['dias_restantes'].' d&iacute;as de vacaciones pendientes.
+				En caso de no estar de acuerdo con la autorizacion enviar un correo a asistencia@fca.uncu.edu.ar .
 			<table/>';
 
 

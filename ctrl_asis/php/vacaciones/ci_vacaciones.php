@@ -202,7 +202,7 @@ class ci_vacaciones extends ctrl_asis_ci
 $datos ['agente_ayn'] = $datos['apellido']. ', '.$datos['nombre'];
 //$catedra = $this->            
 
-// ei_arbol ($datos);              
+// ei_arbol ($aprobado);              
 $mail = new phpmailer();
 $mail->IsSMTP();
 
