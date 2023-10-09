@@ -479,10 +479,10 @@ class vistas_mapuche extends toba_datos_relacion
         }
         
         $sql = "SELECT legajo, apellido||', '||nombre||' ('||legajo||')' as descripcion, cuil
-                FROM uncu.legajo_todos $where
+                FROM reloj.agentes $where
                 ORDER BY legajo, apellido, nombre";
 
-        return toba::db('mapuche')->consultar($sql); 
+        return toba::db('ctrl_asis')->consultar($sql); 
 
     }
 
@@ -494,12 +494,12 @@ class vistas_mapuche extends toba_datos_relacion
         }
         #$legajo = quote($legajo);
 
-        $nombre_tabla = "uncu.legajo_todos";
+        $nombre_tabla = "reloj.agentes";
 
         $and = '';
         if(!empty($_SESSION['dependencia'])){
 
-            $nombre_tabla = "uncu.legajo";
+            $nombre_tabla = "reloj.agentes";
 
             if($_SESSION['dependencia'] == 53){ //53 Secretaria de gestión económica
                 
@@ -554,7 +554,7 @@ class vistas_mapuche extends toba_datos_relacion
                 FROM $nombre_tabla WHERE legajo = '$legajo' $and 
                 ORDER BY apellido, nombre";
 
-        $result = toba::db('mapuche')->consultar($sql); 
+        $result = toba::db('ctrl_asis')->consultar($sql); 
         if (! empty($result)) {
             return $result[0]['descripcion'];
         }
@@ -577,7 +577,7 @@ class vistas_mapuche extends toba_datos_relacion
         $and = '';
         if(!empty($_SESSION['dependencia'])){
 
-            $nombre_tabla = "uncu.legajo";
+            $nombre_tabla = "reloj.agentes";
            
             if($_SESSION['dependencia'] == 53){ //53 Secretaria de gestión económica
 
@@ -641,7 +641,7 @@ class vistas_mapuche extends toba_datos_relacion
                 LIMIT 20 ";           
         }
 
-        return toba::db('mapuche')->consultar($sql);    
+        return toba::db('ctrl_asis')->consultar($sql);    
     }
 
 
@@ -658,19 +658,19 @@ class vistas_mapuche extends toba_datos_relacion
         if(is_numeric($filtro)){ //es numero  
             $filtro = quote("{$filtro}%");
             $sql = "SELECT DISTINCT legajo, legajo||' - '||apellido||', '||nombre as descripcion
-                FROM uncu.legajo WHERE CAST(legajo AS TEXT) ILIKE $filtro $and
+                FROM reloj.agentes WHERE CAST(legajo AS TEXT) ILIKE $filtro $and
                 ORDER BY legajo 
                 LIMIT 20 ";            
         }else{//es string 
             $filtro = strtoupper($filtro);
             $filtro = quote("{$filtro}%");
             $sql = "SELECT DISTINCT legajo, apellido||', '||nombre||' ('||legajo||')' as descripcion
-                FROM uncu.legajo
+                FROM reloj.agentes
                 WHERE apellido ILIKE $filtro 
                 LIMIT 20 ";           
         }
        
-        return toba::db('mapuche')->consultar($sql);    
+        return toba::db('ctrl_asis')->consultar($sql);    
     }
 
     function get_vista_legajo($filtro=array())
@@ -763,16 +763,16 @@ class vistas_mapuche extends toba_datos_relacion
         static function get_legajos()
         {
             $sql = "SELECT legajo, legajo||' - '||apellido||', '||nombre as descripcion 
-                    FROM uncu.legajo ORDER BY legajo";
+                    FROM reloj.agentes ORDER BY legajo";
 
-            return toba::db('mapuche')->consultar($sql); 
+            return toba::db('ctrl_asis')->consultar($sql); 
         }
 
        static function get_apellido_fca($legajo)
         {
             
-            $sql = "SELECT legajo, apellido FROM uncu.legajo WHERE legajo = '$legajo'";
-            $res = toba::db('mapuche')->consultar_fila($sql); 
+            $sql = "SELECT legajo, apellido FROM reloj.agentes WHERE legajo = '$legajo'";
+            $res = toba::db('ctrl_asis')->consultar_fila($sql); 
             if(!empty($res['apellido'])){
                 return $res['apellido'];
             }
@@ -788,9 +788,9 @@ class vistas_mapuche extends toba_datos_relacion
         }
         static function get_nombre_legajo($legajo, $cargos_todos=null)
         {
-            $nombre_tabla = self::get_nombre_tabla_legajos_por_estado_cargo($cargos_todos);
-            $sql = "SELECT legajo, nombre FROM $nombre_tabla WHERE legajo = '$legajo'";
-            $res = toba::db('mapuche')->consultar_fila($sql); 
+            //$nombre_tabla = self::get_nombre_tabla_legajos_por_estado_cargo($cargos_todos);
+            $sql = "SELECT legajo, nombre FROM reloj.agentes WHERE legajo = '$legajo'";
+            $res = toba::db('ctrl_asis')->consultar_fila($sql); 
             if(!empty($res['nombre'])){
                 return $res['nombre'];
             }
@@ -798,10 +798,10 @@ class vistas_mapuche extends toba_datos_relacion
 
         static function get_fecha_nacimiento($legajo, $cargos_todos=null)
         {
-            $nombre_tabla = self::get_nombre_tabla_legajos_por_estado_cargo($cargos_todos);
+            //$nombre_tabla = self::get_nombre_tabla_legajos_por_estado_cargo($cargos_todos);
             $sql = "SELECT legajo, fec_nacim as fecha_nacimiento
-                    FROM $nombre_tabla WHERE legajo = '$legajo'";
-            $res = toba::db('mapuche')->consultar_fila($sql); 
+                    FROM reloj.agentes WHERE legajo = '$legajo'";
+            $res = toba::db('ctrl_asis')->consultar_fila($sql); 
             if(!empty($res['fecha_nacimiento'])){
                 list($y,$m,$d)=explode("-",$res['fecha_nacimiento']); //2011-03-31
                 $fecha = $d."/".$m."/".$y;
@@ -811,10 +811,10 @@ class vistas_mapuche extends toba_datos_relacion
 
         static function get_edad($legajo, $cargos_todos=null)
         {
-            $nombre_tabla = self::get_nombre_tabla_legajos_por_estado_cargo($cargos_todos);
+            //$nombre_tabla = self::get_nombre_tabla_legajos_por_estado_cargo($cargos_todos);
             $sql = "SELECT legajo, fec_nacim as fecha_nacimiento
-                    FROM $nombre_tabla WHERE legajo = '$legajo'";
-            $res = toba::db('mapuche')->consultar_fila($sql); 
+                    FROM reloj.agentes WHERE legajo = '$legajo'";
+            $res = toba::db('ctrl_asis')->consultar_fila($sql); 
             if(!empty($res['fecha_nacimiento'])){
                 list($y,$m,$d)=explode("-",$res['fecha_nacimiento']); //2011-03-31
                 $fecha = $d."-".$m."-".$y;
@@ -827,11 +827,11 @@ class vistas_mapuche extends toba_datos_relacion
 
         static function get_estado_civil($legajo, $cargos_todos=null)
         {
-            $nombre_tabla = self::get_nombre_tabla_legajos_por_estado_cargo($cargos_todos);
+           // $nombre_tabla = self::get_nombre_tabla_legajos_por_estado_cargo($cargos_todos);
             $sql = "SELECT legajo, estado_civil, estado_civil as desc_estado_civil
-                    FROM $nombre_tabla WHERE legajo = '$legajo'";
+                    FROM reloj.agentesWHERE legajo = '$legajo'";
 
-            $res = toba::db('mapuche')->consultar($sql); 
+            $res = toba::db('ctrl_asis')->consultar($sql); 
             return $res;
             /*if(!empty($res['estado_civil'])){
                 return $res['estado_civil'];
@@ -840,9 +840,9 @@ class vistas_mapuche extends toba_datos_relacion
 
         static function get_legajo($legajo)
         {
-            $sql = "SELECT legajo, apellido, nombre, fec_nacim, dni, fec_ingreso, estado_civil, caracter, categoria, agrupamiento, escalafon, 
+            $sql = "SELECT legajo, apellido, nombre, fec_nacim, dni, fecha_ingreso, estado_civil, caracter, categoria, agrupamiento, escalafon, 
                            fec_nacim as fecha_nacimiento, cuil
-                    FROM uncu.legajo WHERE legajo = '$legajo'";
+                    FROM reloj.agentes WHERE legajo = '$legajo'";
 
             return toba::db('mapuche')->consultar_fila($sql); 
         } 
@@ -1187,23 +1187,23 @@ class vistas_mapuche extends toba_datos_relacion
                 $where[] = "t_l.legajo = '".$filtro['legajo']."'";
         }
         //if (isset($filtro['cargos_todos']) && $filtro['cargos_todos'] == "1") {
-                $nombre_tabla = "uncu.legajo_cargos";
+                $nombre_tabla = "reloj.agentes";
         //}
 
-        $sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fec_ingreso, t_l.estado_civil, 
+        $sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fecha_ingreso, t_l.estado_civil, 
                        t_l.caracter, t_l.categoria, t_l.agrupamiento, t_l.escalafon, 
                        t_l.fec_nacim as fecha_nacimiento, t_l.cuil,
                        t_d.pais, t_d.provincia, t_d.codigo_postal, t_d.localidad, t_d.codc_cara_manzana, 
                        t_d.zona_paraje_barrio, t_d.calle, t_d.numero, t_d.piso, t_d.dpto_oficina, t_d.telefono, 
                        t_d.telefono_celular
-                  FROM $nombre_tabla as t_l LEFT JOIN uncu.domicilio as t_d
+                  FROM $nombre_tabla as t_l LEFT JOIN reloj.domicilio as t_d
                   ON t_l.legajo = t_d.legajo";
 
         if (count($where)>0) {
                 $sql = sql_concatenar_where($sql, $where);
         }
        
-        return toba::db('mapuche')->consultar($sql); 
+        return toba::db('ctrl_asis')->consultar($sql); 
     }
 
     static function get_nombre_tabla_legajos_por_estado_cargo($cargos_todos){
@@ -1212,37 +1212,36 @@ class vistas_mapuche extends toba_datos_relacion
 	static function get_legajos_email ($legajo){
 	//	ei_arbol($legajo);
 		$sql = "SELECT  legajo||' - '||apellido||', '||nombre as descripcion , email
-                    FROM uncu.legajo 
+                    FROM reloj.agentes 
                     WHERE legajo = '$legajo'
                     ORDER BY apellido, legajo ASC";
-		return toba::db('mapuche')->consultar($sql); 
+		return toba::db('ctrl_asis')->consultar($sql); 
 	}
      static function get_legajos_autoridad($legajo)
         {
             $sql = "SELECT legajo, apellido, nombre 
-                    FROM uncu.legajo 
-                    WHERE cod_depcia = '04'
-                    and legajo =$legajo
+                    FROM reloj.agentes 
+                    WHERE legajo =$legajo
                     --and  ESCALAFON =  'AUTO'
                    -- ORDER BY apellido, legajo ASC";
 
-            return toba::db('mapuche')->consultar($sql); 
+            return toba::db('ctrl_asis')->consultar($sql); 
         }
 
       static function get_legajos_jefes_fca ($legajo){
         
         $sql = "SELECT  distinct legajo  as superior , apellido||', '||nombre as descripcion 
-                    FROM uncu.legajo 
+                    FROM reloj.agentes
                     WHERE legajo = $legajo
                   --  ORDER BY apellido, legajo ASC";
-        return toba::db('mapuche')->consultar($sql); 
+        return toba::db('ctrl_asis')->consultar($sql); 
         }   
       static function get_legajos_fca_cargos ($legajo){
         $sql = "SELECT  distinct legajo , apellido||', '||nombre as descripcion 
-                    FROM uncu.legajo_cargos
+                    FROM reloj.agentes
                     WHERE legajo = $legajo
                   --  ORDER BY apellido, legajo ASC";
-        return toba::db('mapuche')->consultar($sql); 
+        return toba::db('ctrl_asis')->consultar($sql); 
         }     
 
 }
