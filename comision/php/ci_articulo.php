@@ -45,10 +45,10 @@ class ci_articulo extends comision_ci
 
 
 			if ($depto[0]['id_departamento']<10 or ($depto[0]['id_departamento'] == 12) or ($depto[0]['id_departamento'] == 11)){
-			$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fec_ingreso, t_l.estado_civil, 
+			$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fecha_ingreso, t_l.estado_civil, 
 						t_l.caracter, t_l.categoria, t_l.agrupamiento, t_l.escalafon, 
 						t_l.fec_nacim as fecha_nacimiento, t_l.cuil,
-						t_d.pais, t_d.provincia, t_d.codigo_postal, t_d.localidad, t_d.codc_cara_manzana, 
+						t_d.pais, t_d.provincia, t_d.codigo_postal, t_d.localidad, t_d.manzana, 
 						t_d.zona_paraje_barrio, t_d.calle, t_d.numero, t_d.piso, t_d.dpto_oficina, t_d.telefono, t_l.tipo_sexo,
 						t_d.telefono_celular
 						FROM reloj.agentes  as t_l LEFT JOIN reloj.domicilio as t_d
@@ -57,10 +57,10 @@ class ci_articulo extends comision_ci
 						--AND cod_depcia = '04'
 						AND escalafon<> 'NODO'";    
 			} else {
-				$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fec_ingreso, t_l.estado_civil, 
+				$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fecha_ingreso, t_l.estado_civil, 
 						t_l.caracter, t_l.categoria, t_l.agrupamiento, t_l.escalafon, 
 						t_l.fec_nacim as fecha_nacimiento, t_l.cuil,
-						t_d.pais, t_d.provincia, t_d.codigo_postal, t_d.localidad, t_d.codc_cara_manzana, 
+						t_d.pais, t_d.provincia, t_d.codigo_postal, t_d.localidad, t_d.manzana, 
 						t_d.zona_paraje_barrio, t_d.calle, t_d.numero, t_d.piso, t_d.dpto_oficina, t_d.telefono, t_l.tipo_sexo,
 						t_d.telefono_celular
 						FROM reloj.agentes  as t_l LEFT JOIN reloj.domicilio as t_d
@@ -78,18 +78,18 @@ class ci_articulo extends comision_ci
 			$sql = "SELECT nombre_catedra, id_departamento FROM reloj.catedras
 				WHERE id_catedra = $id_catedra";
 			$depto = toba::db('comision')->consultar($sql); 
-			if ($legajo == 26010){
+			/*if ($legajo == 26010){
 				$deptos= $depto[0]['id_departamento'];
 				$depto[0]['id_departamento']= 13;
 
 
-			}
+			}*/
 			//ei_arbol($depto);
 			if ($depto[0]['id_departamento']<10 or ($depto[0]['id_departamento'] == 12)or ($depto[0]['id_departamento'] == 11)){
-			$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fec_ingreso, t_l.estado_civil, 
+			$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fecha_ingreso, t_l.estado_civil, 
 						t_l.caracter, t_l.categoria, t_l.agrupamiento, t_l.escalafon, 
 						t_l.fec_nacim as fecha_nacimiento, t_l.cuil,
-						t_d.pais, t_d.provincia, t_d.codigo_postal, t_d.localidad, t_d.codc_cara_manzana, 
+						t_d.pais, t_d.provincia, t_d.codigo_postal, t_d.localidad, t_d.manzana, 
 						t_d.zona_paraje_barrio, t_d.calle, t_d.numero, t_d.piso, t_d.dpto_oficina, t_d.telefono, t_l.tipo_sexo,
 						t_d.telefono_celular
 						FROM reloj.agentes  as t_l LEFT JOIN reloj.domicilio as t_d
@@ -98,10 +98,10 @@ class ci_articulo extends comision_ci
 					--	AND cod_depcia = '04'
 						AND escalafon<> 'NODO'";    
 			} else {
-				$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fec_ingreso, t_l.estado_civil, 
+				$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fecha_ingreso, t_l.estado_civil, 
 						t_l.caracter, t_l.categoria, t_l.agrupamiento, t_l.escalafon, 
 						t_l.fec_nacim as fecha_nacimiento, t_l.cuil,
-						t_d.pais, t_d.provincia, t_d.codigo_postal, t_d.localidad, t_d.codc_cara_manzana, 
+						t_d.pais, t_d.provincia, t_d.codigo_postal, t_d.localidad, t_d.manzana, 
 						t_d.zona_paraje_barrio, t_d.calle, t_d.numero, t_d.piso, t_d.dpto_oficina, t_d.telefono, t_l.tipo_sexo,
 						t_d.telefono_celular
 						FROM reloj.agentes  as t_l LEFT JOIN reloj.domicilio as t_d
@@ -113,15 +113,27 @@ class ci_articulo extends comision_ci
 			
 
 		} 
+		if ($legajo == 26010)
+		{
+			$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fecha_ingreso, t_l.estado_civil, 
+						t_l.caracter, t_l.categoria, t_l.agrupamiento, t_l.escalafon, 
+						t_l.fec_nacim as fecha_nacimiento, t_l.cuil,
+						t_d.pais, t_d.provincia, t_d.codigo_postal, t_d.localidad, t_d.manzana, 
+						t_d.zona_paraje_barrio, t_d.calle, t_d.numero, t_d.piso, t_d.dpto_oficina, t_d.telefono, t_l.tipo_sexo,
+						t_d.telefono_celular
+						FROM reloj.agentes  as t_l LEFT JOIN reloj.domicilio as t_d
+						ON t_l.legajo = t_d.legajo
+						WHERE t_l.legajo = $legajo";
+		}
 		
 
 		$agente = toba::db('comision')->consultar($sql);          
-		if($legajo == 26010){
+		/*if($legajo == 26010){
 				$depto[0]['id_departamento'] = $deptos ;
 				
-			}
+			}*/
 		$cant = count($agente);
-		//ei_arbol($agente);
+		//ei_arbol($sql);
 		$sql = "SELECT MIN(fecha_ingreso) fecha from reloj.agentes
 		where legajo = $legajo";
 		$fec_ingreso = toba::db('comision')->consultar($sql);
@@ -1683,7 +1695,7 @@ $mail->IsHTML(true); //el mail contiene html
 
 	
 	
-
+//ei_arbol($body);
 $mail->Body = $body;
 //Enviamos el correo
 if(!$mail->Send()) {
