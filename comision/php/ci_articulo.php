@@ -36,11 +36,10 @@ class ci_articulo extends comision_ci
 				WHERE id_catedra = $id_catedra";
 
 			$depto = toba::db('comision')->consultar($sql); 
-			if ($legajo == 26010){
-				$deptos= $depto[0]['id_departamento'];
-				$depto[0]['id_departamento']= 13;
-
-			}
+			//if ($legajo == 26010){
+			//	$deptos= $depto[0]['id_departamento'];
+			//	$depto[0]['id_departamento']= 13;
+			// }
 
 			if ($depto[0]['id_departamento']<10 or ($depto[0]['id_departamento'] == 12) or ($depto[0]['id_departamento'] == 11)){
 			$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fec_ingreso, t_l.estado_civil, 
@@ -76,11 +75,10 @@ class ci_articulo extends comision_ci
 			$sql = "SELECT nombre_catedra, id_departamento FROM reloj.catedras
 				WHERE id_catedra = $id_catedra";
 			$depto = toba::db('comision')->consultar($sql); 
-			if ($legajo == 26010){
-				$deptos= $depto[0]['id_departamento'];
-				$depto[0]['id_departamento']= 13;
-
-			}
+			//if ($legajo == 26010){
+			//	$deptos= $depto[0]['id_departamento'];
+			//	$depto[0]['id_departamento']= 13;
+			//	}
 			//ei_arbol($depto);
 			if ($depto[0]['id_departamento']<10 or ($depto[0]['id_departamento'] == 12)or ($depto[0]['id_departamento'] == 11)){
 			$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fec_ingreso, t_l.estado_civil, 
@@ -112,9 +110,9 @@ class ci_articulo extends comision_ci
 		} 
 		
 		$agente = toba::db('mapuche')->consultar($sql);          
-		if ($legajo = 26010){
+	/*	if ($legajo = 26010){
 		$depto[0]['id_departamento']= $deptos ;
-		}
+		}*/
 		$cant = count($agente);
 		//ei_arbol($agente);
 		$sql = "SELECT MIN(fec_ingreso) fecha from uncu.legajo
