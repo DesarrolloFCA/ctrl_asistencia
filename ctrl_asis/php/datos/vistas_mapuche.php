@@ -779,9 +779,10 @@ class vistas_mapuche extends toba_datos_relacion
         }
 	   static function get_apellido($legajo, $cargos_todos=null)
         {
-            $nombre_tabla = self::get_nombre_tabla_legajos_por_estado_cargo($cargos_todos);
-            $sql = "SELECT legajo, apellido FROM $nombre_tabla WHERE legajo = '$legajo'";
-            $res = toba::db('mapuche')->consultar_fila($sql); 
+            //$nombre_tabla = self::get_nombre_tabla_legajos_por_estado_cargo($cargos_todos);
+
+            $sql = "SELECT legajo, apellido FROM reloj.agentes WHERE legajo = '$legajo'";
+            $res = toba::db('ctrl_asis')->consultar_fila($sql); 
             if(!empty($res['apellido'])){
                 return $res['apellido'];
             }
@@ -829,7 +830,7 @@ class vistas_mapuche extends toba_datos_relacion
         {
            // $nombre_tabla = self::get_nombre_tabla_legajos_por_estado_cargo($cargos_todos);
             $sql = "SELECT legajo, estado_civil, estado_civil as desc_estado_civil
-                    FROM reloj.agentesWHERE legajo = '$legajo'";
+                    FROM reloj.agentes WHERE legajo = '$legajo'";
 
             $res = toba::db('ctrl_asis')->consultar($sql); 
             return $res;
@@ -859,9 +860,9 @@ class vistas_mapuche extends toba_datos_relacion
         
         static function get_tipo_sexo($legajo, $cargos_todos=null)
         {
-            $nombre_tabla = self::get_nombre_tabla_legajos_por_estado_cargo($cargos_todos);
-            $sql = "SELECT tipo_sexo FROM $nombre_tabla WHERE legajo = '$legajo'";
-            $res = toba::db('mapuche')->consultar_fila($sql); 
+            //$nombre_tabla = self::get_nombre_tabla_legajos_por_estado_cargo($cargos_todos);
+            $sql = "SELECT tipo_sexo FROM reloj.agentes WHERE legajo = '$legajo'";
+            $res = toba::db('ctrl_asis')->consultar_fila($sql); 
             if(!empty($res['tipo_sexo'])){
                 return $res['tipo_sexo'];
             }
@@ -913,9 +914,9 @@ class vistas_mapuche extends toba_datos_relacion
         static function get_domicilio($legajo)
         {
             $sql = "SELECT legajo, calle, zona_paraje_barrio, numero, piso, localidad, codigo_postal 
-                     FROM uncu.domicilio 
+                     FROM reloj.domicilio 
                      WHERE legajo = '$legajo'";
-            $res = toba::db('mapuche')->consultar_fila($sql); 
+            $res = toba::db('ctrl_asis')->consultar_fila($sql); 
 
             if(!empty($res['legajo'])){
 
@@ -954,9 +955,9 @@ class vistas_mapuche extends toba_datos_relacion
         static function get_localidad($legajo)
         {
             $sql = "SELECT legajo, codigo_postal, localidad
-                     FROM uncu.domicilio 
+                     FROM reloj.domicilio 
                      WHERE legajo = '$legajo'";
-            $res = toba::db('mapuche')->consultar_fila($sql); 
+            $res = toba::db('ctrl_asis')->consultar_fila($sql); 
 
             if(!empty($res['legajo'])){
 
