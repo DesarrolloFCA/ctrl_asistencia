@@ -67,7 +67,7 @@ class ci_articulo extends comision_ci
 						ON t_l.legajo = t_d.legajo
 						WHERE t_l.legajo = $legajo
 					--	AND cod_depcia = '04'
-						AND escalafon in ('NODO','AUTO') ";
+						AND escalafon in ('NODO','AUTO')  ";
 			}
 
 
