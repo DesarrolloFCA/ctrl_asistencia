@@ -1193,7 +1193,7 @@ class vistas_mapuche extends toba_datos_relacion
         $sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fecha_ingreso, t_l.estado_civil, 
                        t_l.caracter, t_l.categoria, t_l.agrupamiento, t_l.escalafon, 
                        t_l.fec_nacim as fecha_nacimiento, t_l.cuil,
-                       t_d.pais, t_d.provincia, t_d.codigo_postal, t_d.localidad, t_d.codc_cara_manzana, 
+                       t_d.pais, t_d.provincia, t_d.codigo_postal, t_d.localidad, t_d.manzana, 
                        t_d.zona_paraje_barrio, t_d.calle, t_d.numero, t_d.piso, t_d.dpto_oficina, t_d.telefono, 
                        t_d.telefono_celular
                   FROM $nombre_tabla as t_l LEFT JOIN reloj.domicilio as t_d
