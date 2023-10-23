@@ -10,7 +10,7 @@ class ci_articulo extends comision_ci
 	function evt__formulario__alta($datos)
 	{
 		
-
+		$dias_totales = 0;
 		$datos['anio']= date('Y');
 
 		$bandera_nodo = true;    
@@ -311,10 +311,18 @@ class ci_articulo extends comision_ci
 					//ei_arbol($agente);
 							$agente[$i]['articulo'] = 0;
 							$agente[$i]['id_decreto'] = 4;
+							$dias_restantes = 0;
 							//ei_arbol ($agente);
 							/*$sql= "SELECT count(*) tiene from reloj.vacaciones_restantes
 									WHERE legajo = $legajo AND anio= $anio;";
 							$resto = toba::db('comision')->consultar($sql);*/
+							$sql = "SELECT dias FROM reloj.vacaciones_restantes
+									WHERE legajo = $legajo";
+							$dias_vp = toba::db('comision')->consultar($sql);
+							
+							if(count($dias_vp)>0){
+								$dias_restantes=$dias_vp[0]['dias'];
+							}
 							if ($resto[0]['tiene'] > 0) {
 								$hay_cargadas = 1;
 							} else {
@@ -323,6 +331,10 @@ class ci_articulo extends comision_ci
 							if ($antiguedad > 20){
 								$dias_totales = 40 + $dias_restantes - $adelanto;
 							//     ei_arbol ($dias);
+								if ($dias >$dias_totales ) {
+									toba::notificacion()->agregar('Los días de vacaciones tienen que ser menores o iguales a '.$dias_totales .' d&iacute;as', "info");
+									break;
+								}
 								if ($dias < 30) { 
 									toba::notificacion()->agregar('Los días de vacaciones no pueden ser menores de 30 d&iacute;as', "info");
 									break;
@@ -332,6 +344,8 @@ class ci_articulo extends comision_ci
 									$dias_restantes = $dias_totales - $dias;
 									//ei_arbol ($dias_restantes);
 									
+									if ($dias_restantes <> 0) {
+
 
 
 									$sql ="INSERT INTO reloj.vacaciones_restantes(
@@ -341,7 +355,9 @@ class ci_articulo extends comision_ci
 										where legajo=$legajo
 										AND anio < $anio;";
 									toba::db('comision')->ejecutar($sql);
+									
 									$agrego=1;
+									}
 									}
 
 								}
@@ -350,7 +366,10 @@ class ci_articulo extends comision_ci
 								{
 								$dias_totales = 35 + $dias_restantes -$adelanto;
 
-								
+								if ($dias >$dias_totales ) {
+									toba::notificacion()->agregar('Los días de vacaciones tienen que ser menores o iguales a '.$dias_totales .' d&iacute;as', "info");
+									break;
+								}
 								if ($dias < 30) { 
 									toba::notificacion()->agregar('Los días de vacaciones no pueden ser menores de 30 d&iacute;as', "info");
 									$bandera_nodo = false;
@@ -359,7 +378,7 @@ class ci_articulo extends comision_ci
 								}else {
 									if ($agrego == 0 and $insertadas > 0 and $hay_cargadas == 0){
 									$dias_restantes = $dias_totales - $dias;
-									if ($dias_restantes > 0){
+									if ($dias_restantes <> 0){
 									$sql ="INSERT INTO reloj.vacaciones_restantes(
 										legajo, cod_depcia, agrupamiento, anio, dias)
 										VALUES ($legajo,4, '$agrupamiento', $anio, $dias_restantes);
@@ -376,6 +395,10 @@ class ci_articulo extends comision_ci
 								} elseif($antiguedad > 10 && $antiguedad <=15)
 									{
 									$dias_totales = 30 + $dias_restantes -$adelanto;    
+									if ($dias >$dias_totales ) {
+									toba::notificacion()->agregar('Los días de vacaciones tienen que ser menores o iguales a '.$dias_totales .' d&iacute;as', "info");
+									break;
+									}
 									if ($dias < 30) { 
 									toba::notificacion()->agregar('Los días de vacaciones no pueden ser menores de 30 d&iacute;as', "info");
 									$bandera_nodo = false;
@@ -745,6 +768,7 @@ class ci_articulo extends comision_ci
 
 			} else {
 				// Docentes
+
 				if ($id_motivo == 30) { //Rezones particulares
 						//ei_arbol($id_motivo);
 						if (date("Y") == $anio){
@@ -822,23 +846,38 @@ class ci_articulo extends comision_ci
 
 						}        
 
-				} elseif ($id_motivo == 35) {
+				} elseif ($id_motivo == 35) { // Vacaciones
 							
 							$agente[$i]['articulo'] = 56;
 							$agente[$i]['id_decreto'] = 2;
 							$bandera= true;
-
+							$dias_restantes = 0;
 							
 
+							$sql = "SELECT dias FROM reloj.vacaciones_restantes
+									WHERE legajo = $legajo";
+							$dias_vp = toba::db('comision')->consultar($sql);
+							
+							if(count($dias_vp)>0){
+								$dias_restantes=$dias_vp[0]['dias'];
+							}
+
 							if ($antiguedad > 15){
+								
 								$dias_totales = 45 + $dias_restantes;
+								if ($dias >$dias_totales ) {
+									toba::notificacion()->agregar('Los días de vacaciones tienen que ser menores o iguales a '.$dias_totales .' d&iacute;as', "info");
+									break;
+								}
+
 								if ($dias < 30) { 
 									toba::notificacion()->agregar('Los días de vacaciones no pueden ser menores de 30 d&iacute;as', "info");
 									break;
 									}else {
+									
 									if ($agrego == 0 and $insertadas > 0 and $hay_cargadas == 0){
 									$dias_restantes = $dias_totales - $dias;
-										if ($dias_restantes > 0){
+										if ($dias_restantes <> 0){
 										$sql ="INSERT INTO reloj.vacaciones_restantes(
 										legajo, cod_depcia, agrupamiento, anio, dias)
 										VALUES ($legajo,4, '$agrupamiento', $anio, $dias_restantes);
@@ -852,6 +891,10 @@ class ci_articulo extends comision_ci
 								}    
 							}else {
 								$dias_totales = 30 +$dia_restantes;
+								if ($dias >$dias_totales ) {
+									toba::notificacion()->agregar('Los días de vacaciones tienen que ser menores o iguales a '.$dias_totales .' d&iacute;as', "info");
+									break;
+								}
 								if ($dias < 30) { 
 									toba::notificacion()->agregar('Los días de vacaciones no pueden ser menores de 30 d&iacute;as', "info");
 									break;
@@ -860,7 +903,7 @@ class ci_articulo extends comision_ci
 									$agrego=1;
 											}
 									$dias_restantes = $dias_totales - $dias;
-									if ($dias_restantes > 0){
+									if ($dias_restantes <> 0){
 									$sql ="INSERT INTO reloj.vacaciones_restantes( legajo, cod_depcia, agrupamiento, anio, dias)
 										VALUES ($legajo,4, '$agrupamiento', $anio, $dias_restantes);
 										DELETE FROM reloj.vacaciones_restantes
@@ -870,11 +913,9 @@ class ci_articulo extends comision_ci
 									}
 								}    
 
-							
+							//ei_arbol($dias_totales);
 
-								if ($dias >$dias_totales ) {
-									toba::notificacion()->agregar('Los días de vacaciones tienen que ser menores o iguales a '.$dias_totales .' d&iacute;as', "info");
-								}
+								
 								
 							}
 				// VAcaciones pendientes docentes            
@@ -1240,7 +1281,7 @@ class ci_articulo extends comision_ci
 						$id_inasistencia = $ina [0]['id_inasistencia'];
 						$ruta='C:/Toba/proyectos/ctrl_asis/www/certificados/';
 						$ar_nombre_completo = explode('.', $datos['certificado']['name']);
-						$archivo_nombre = $ruta.$id_inasistencia.$fecha_inicio.'.' .$ar_nombre_completo[1];
+						$archivo_nombre = $ruta.$id_inasistencia.$fecha_inicio.'.pdf' ;
 						$datos['archivo'] = $archivo_nombre;
 						$datos = $this->procesar_archivo($datos);
 						}	
@@ -1330,7 +1371,7 @@ class ci_articulo extends comision_ci
 					$sql= "SELECT email from reloj.agentes_mail
 					where legajo=$legajo";
 					$correo = toba::db('comision')->consultar($sql);
-					$this->enviar_correos($correo[0]['email']);
+					//$this->enviar_correos($correo[0]['email']);
 					}
 
 					if(isset($datos['superior'])and $datos['superior']<>0) {
@@ -1339,7 +1380,7 @@ class ci_articulo extends comision_ci
 					$sql= "SELECT email from reloj.agentes_mail
 					where legajo=$superior";
 					$correo = toba::db('comision')->consultar($sql);
-					$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
+					//$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
 
 
 					}

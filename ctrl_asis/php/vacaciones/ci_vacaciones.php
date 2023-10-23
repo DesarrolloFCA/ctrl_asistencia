@@ -116,7 +116,8 @@ class ci_vacaciones extends ctrl_asis_ci
 				$this->enviar_correos($correo[0]['email'],$datos[$i]['aprobado'] );
 				$sql="DELETE from reloj.inasistencias
 						WHERE id_inasistencia =$id_inasistencia";
-				toba::db('ctrl_asis')->ejecutar($sql);        
+				toba::db('ctrl_asis')->ejecutar($sql);
+
 				} else {
 					toba::notificacion()->agregar('Avise a la autoridad que falta su aprobacion, si no estan aprobadas las vacaciones coloque cerrado y no marque aprobado', "info");
 				}
@@ -129,7 +130,12 @@ class ci_vacaciones extends ctrl_asis_ci
 
 					toba::db('ctrl_asis')->ejecutar($sql);                    
 
-				
+					if ($id_motivo == 35){
+						$sql="DELETE FROM reloj.vacaciones_restantes
+							where legajo = $legajo;";
+						toba::db('ctrl_asis')->ejecutar($sql);	
+
+					}
 		
 				}
 
@@ -258,7 +264,7 @@ $mail->IsHTML(true); //el mail contiene html*/
 			$body = '<table>
 						Sr/a <b>'.$datos['nombre'].' '.$datos['apellido'].'</b>:
 						Su solicitud de vacaciones correspondiente al año '.$datos['anio']. ' ha sido otorgada la cual sera efectiva entre '.$fecha.' y debe reintegrarse el dia '. $hasta.' .<br/>
-						Esperamos que disfrute sus vacaciones                                            
+						
 			</table>';
 		}
 	}else if ($aprobado == 0) {
