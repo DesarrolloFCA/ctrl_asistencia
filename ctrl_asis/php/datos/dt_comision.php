@@ -4,6 +4,7 @@ class dt_comision extends ctrl_asis_datos_tabla
 	function get_listado($filtro=array())
 	{
 		$where = array();
+		//ei_arbol($filtro);
 		if (isset($filtro['legajo'])) {
 			$where[] = "legajo = ".quote($filtro['legajo']);
 		}

@@ -113,7 +113,7 @@ class ci_articulo extends comision_ci
 			
 
 		} 
-		if ($legajo == 26010)
+		if ($legajo == 26010 or $legajo==20738)
 		{
 			$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fecha_ingreso, t_l.estado_civil, 
 						t_l.caracter, t_l.categoria, t_l.agrupamiento, t_l.escalafon, 
@@ -133,7 +133,7 @@ class ci_articulo extends comision_ci
 				
 			}*/
 		$cant = count($agente);
-		//ei_arbol($sql);
+	//	ei_arbol($sql);
 		$sql = "SELECT MIN(fecha_ingreso) fecha from reloj.agentes
 		where legajo = $legajo";
 		$fec_ingreso = toba::db('comision')->consultar($sql);
