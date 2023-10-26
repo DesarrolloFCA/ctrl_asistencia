@@ -642,8 +642,8 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 		$fecha_hasta = $filtro['fecha_hasta'];
 		//if ($fecha_desde <> $fecha_hasta){
 		//$feriados = toba::tabla('conf_feriados')->get_listado($filtro);
-		$feriados = toba::tabla('conf_feriados')->suma_feriados($filtro);
-		$cantidad_feriado = 3;
+		//$feriados = toba::tabla('conf_feriados')->suma_feriados($filtro);
+		//$cantidad_feriado = 3;
 		//$cantidad_feriado = count($feriados);
 		//ei_arbol($feriados);
 		/*for($i=0;$i<$cantidad_feriado;$i++){
@@ -737,6 +737,7 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 					$fechaInicio = strtotime($fecha_desde_local);
 					$fechaFin    = strtotime($fecha_hasta_local);
 					$agrupamiento = $agentes[$key]['escalafon'];
+					//ei_arbol($agentes)
 					//ei_arbol(($fechaFin -$fechaInicio)/86400);
 					for($i=$fechaInicio; $i<=$fechaFin; $i+=86400){
 
@@ -747,10 +748,12 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 					//ei_arbol(round((memory_get_usage()/(1024*1024)),2));
 					$v= toba::tabla('conf_feriados')->hay_feriado($dia,$agrupamiento);
 					//ei_arbol($v,$dia,$agrupamiento);
-					if ($v > 0) {
+					//ei_arbol($v);
+					if ($v <> 0 ) {
+
 						$agentes[$key]['feriados']++;
 					
-					//ei_arbol($v);
+				//	ei_arbol($agentes[$key]['feriados']);
 					//ei_arbol($cantidad_feriado);
 
 					
@@ -1008,8 +1011,8 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 		$id_parte_sanidad = toba::tabla('parte')->tiene_parte_sanidad($agente['legajo'], $dia);
 		$info_complementaria = toba::tabla('info_complementaria')->tiene_info_complementaria($agente['legajo'], $dia);                  
 		$hay_feriado= toba::tabla('conf_feriados')->dia_feriado($dia);
-		//ei_arbol($id_parte);
-
+		
+ 
 		if($id_parte_sanidad > 0){  
 			
 			$agentes[$key]['partes_sanidad']++;
@@ -1024,16 +1027,36 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 				'descripcion'  => 'Parte' # sanidad '.$parte['id_parte'].': '.$parte['motivo']
 					);
 			}elseif (isset($hay_feriado)){
+					//ei_arbol($hay_feriado);
 					if ($hay_feriado == 'Todos'){
-					$agentes[$key]['feriados']++;
-					$agentes[$key]['laborables']--;	
+						$agentes[$key]['feriados']++;
+						$agentes[$key]['laborables']--;	
 					} elseif ($agentes[$key]['escalafon'] == 'NODO'and $hay_feriado == 'Personal de Apoyo'){
 						$agentes[$key]['feriados']++;
 						$agentes[$key]['laborables']--;	
-					} else {
+					} elseif ($agentes[$key]['escalafon'] <> 'NODO'and $hay_feriado == 'Docentes'){
 						$agentes[$key]['feriados']++;
 						$agentes[$key]['laborables']--;	
-					}	
+					}else {
+						$filtro_marca['badgenumber'] = $agente['legajo']; // NOTA: podriamos pasar legajo o dni, segun se use el badgenumber en los relojes
+						$filtro_marca['fecha']       = $dia; 
+					//ei_arbol($marcas);
+						$marcas = $this->get_marcas($filtro_marca);
+			
+						if(count($marcas)>0){
+				
+							$contador_marcas++;
+
+							foreach($marcas as $marca){
+								$marca['contador_marcas'] = $contador_marcas;
+								$marca['dia'] = $dia_leyenda;
+								$marca['descripcion'] = 'Presente';
+								$array_marcas[] = $marca;
+							}
+
+						$agentes[$key]['presentes']++;
+					}
+				}
 		
 		}elseif($id_parte > 0){ 
 			$agentes[$key]['partes']++; 
@@ -1049,7 +1072,7 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 				$filtro_marca['fecha']       = $dia;                                    
 
 				$marcas = $this->get_marcas($filtro_marca);
-				ei_arbol($marcas);
+				//ei_arbol($marcas);
 				if(count($marcas)>0){
 					
 					#$contador_marcas++;
@@ -1141,8 +1164,9 @@ echo 'Tiempo en ejecutar '.$agente['legajo'].' el script: '.$total.' segundos<br
 
 			$filtro_marca['badgenumber'] = $agente['legajo']; // NOTA: podriamos pasar legajo o dni, segun se use el badgenumber en los relojes
 			$filtro_marca['fecha']       = $dia; 
-
+			//ei_arbol($marcas);
 			$marcas = $this->get_marcas($filtro_marca);
+			
 			if(count($marcas)>0){
 				
 				$contador_marcas++;

@@ -320,8 +320,11 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 					//$cantidad_feriado = $cantidad_feriado +1;
 					//ei_arbol($cantidad_feriado); 
 					/*if($cantidad_feriado > 0){ */
-					if ((toba::tabla('conf_feriados')->hay_feriado($dia,$agru)) ){	//and ($bandera)
-					$feriado = toba::tabla('conf_feriados')->get_feriado($dia,$agru); 
+
+					//ei_arbol((toba::tabla('conf_feriados')->hay_feriado($dia,$escalafon)) );
+					if ((toba::tabla('conf_feriados')->hay_feriado($dia,$escalafon)) <> 0 ){	//and ($bandera)
+					$feriado = toba::tabla('conf_feriados')->get_feriado($dia,$escalafon); 
+
 						//for ( $j=1;$j <= $cantidad_feriado; $j++){
 							$agente['feriados']++;
 							$array_marcas[] = array(

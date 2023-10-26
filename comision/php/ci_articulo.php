@@ -1586,7 +1586,7 @@ $mail->IsHTML(true); //el mail contiene html
 	
 
 	; //date("d/m/y",$fecha)
-
+ //ei_arbol ($body);
 $mail->Body = $body;
 //Enviamos el correo
 if(!$mail->Send()) {
