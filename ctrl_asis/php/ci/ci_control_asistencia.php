@@ -145,7 +145,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 			$f = $this->s__datos;
 
 			$total_registros = count($f);
-
+			
 			
 		
 
@@ -156,7 +156,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 				$this->s__datos = array_filter($this->s__datos, function ($f) {
 				return $f['presentes'] == 0 ;});	
 			} 
-			//ei_arbol($this->s__datos);
+			
 			unset($f);
 			
 			
