@@ -66,7 +66,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 						'";*/
 			//$agente =  toba::db('mapuche')->consultar_fila($sql); 
 			$agente =  toba::db('ctrl_asis')->consultar_fila($sql); 			
-			ei_arbol($sql);
+			//ei_arbol($sql);
 			$horas_diarias= $agente['horas_diarias'];
 			$horas_esp = $this->dep('datos')->tabla('conf_jornada')->get_horas_diarias($claves_originales['legajo']);
 			
