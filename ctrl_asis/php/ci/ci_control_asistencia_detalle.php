@@ -35,7 +35,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 			$sql = "SELECT legajo, apellido, nombre, case 
 									  when sum(cant_horas)/5 = 15  then '11:36'
 									  when sum(cant_horas)/5 = 11  then '08:48'	
-									  when sum(cant_horas)/5 = 10  then '06:00'	
+									  when sum(cant_horas)/5 = 10  then '07:00'	
 									  when sum(cant_horas)/5 = 9  then '07:24'
 									  when sum(cant_horas)/5 = 8  then '05:36'
 									  when sum(cant_horas)/5 = 7  then '06:00'
@@ -66,7 +66,7 @@ class ci_control_asistencia_detalle extends ctrl_asis_ci
 						'";*/
 			//$agente =  toba::db('mapuche')->consultar_fila($sql); 
 			$agente =  toba::db('ctrl_asis')->consultar_fila($sql); 			
-			//ei_arbol($sql);
+			ei_arbol($sql);
 			$horas_diarias= $agente['horas_diarias'];
 			$horas_esp = $this->dep('datos')->tabla('conf_jornada')->get_horas_diarias($claves_originales['legajo']);
 			
