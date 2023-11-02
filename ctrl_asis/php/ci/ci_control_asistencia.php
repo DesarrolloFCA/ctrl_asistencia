@@ -167,9 +167,10 @@ class ci_control_asistencia extends ctrl_asis_ci
 			if (isset($this->s__datos_filtro['catedra'])){
 			$catedras = $this->dep('datos')->tabla('catedras')->get_catedra($this->s__datos_filtro['catedra']);
 			$id_catedra = $this->s__datos_filtro['catedra'];
-			$sql = "SELECT count(*) from reloj.catedras_agentes
+			$sql = "SELECT count(*) cant from reloj.catedras_agentes
 					WHERE id_catedra = $id_catedra";
 			$cant_agente = toba::db('ctrl_asis')->consultar($sql);
+			ei_arbol($cant_agente);
 			if($cant_agente[0]['cant'] > 0){
 				if ($catedras[0]['id_departamento'] == 6 Or $catedras[0]['id_departamento'] == 10) {
 				$this->s__datos_filtro ['agrup'] = 'paa';
