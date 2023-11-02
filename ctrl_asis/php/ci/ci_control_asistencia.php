@@ -193,7 +193,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 			}
 			
 			$tot = $e['total'];
-			ei_arbol($agentes_0);
+			//ei_arbol($agentes_0);
 			//if ($agentes_0){
 			for($m = 0; $m<$tot;$m++){
 				 if ($e[$m]['agrupamiento'] == 'CORF') {
