@@ -72,12 +72,16 @@ class ci_control_asistencia extends ctrl_asis_ci
 				$this->s__datos_filtro['fecha_hasta'] = $y."-".$m."-".$d;
 			}*/
 			//Modificacion
+			if(isset($this->s__datos_filtro['catedra'])){
 			$id_catedra = $this->s__datos_filtro['catedra'];
 			$sql = "SELECT count(*) cant from reloj.catedras_agentes
 					WHERE id_catedra = $id_catedra";
 			$cant_agente = toba::db('ctrl_asis')->consultar($sql);
+			} else {
+				$cant_agente[0]['cant'] = 1;
+			}
 			//ei_arbol($cant_agente);
-		if($cant_agente[0]['cant'] > 0){
+			if($cant_agente[0]['cant'] > 0){
 				if (isset($this->s__datos_filtro['fecha_inicio'])) {
 					$fecha1 = $this->s__datos_filtro['fecha_inicio'];
 					$fechaentera1 =strtotime($fecha1);
