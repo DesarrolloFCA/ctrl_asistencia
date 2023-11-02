@@ -59,6 +59,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 		//$offset = $limit * ($cuadro->get_pagina_actual() - 1);
 
 		
+
 		if (isset($this->s__datos_filtro)) {
 			//ei_arbol($this->s__datos_filtro);
 			// ORiginal
@@ -71,6 +72,12 @@ class ci_control_asistencia extends ctrl_asis_ci
 				$this->s__datos_filtro['fecha_hasta'] = $y."-".$m."-".$d;
 			}*/
 			//Modificacion
+			$id_catedra = $this->s__datos_filtro['catedra'];
+			$sql = "SELECT count(*) cant from reloj.catedras_agentes
+					WHERE id_catedra = $id_catedra";
+			$cant_agente = toba::db('ctrl_asis')->consultar($sql);
+			//ei_arbol($cant_agente);
+		if($cant_agente[0]['cant'] > 0){
 				if (isset($this->s__datos_filtro['fecha_inicio'])) {
 					$fecha1 = $this->s__datos_filtro['fecha_inicio'];
 					$fechaentera1 =strtotime($fecha1);
@@ -166,25 +173,24 @@ class ci_control_asistencia extends ctrl_asis_ci
 			
 			if (isset($this->s__datos_filtro['catedra'])){
 			$catedras = $this->dep('datos')->tabla('catedras')->get_catedra($this->s__datos_filtro['catedra']);
-			$id_catedra = $this->s__datos_filtro['catedra'];
-			$sql = "SELECT count(*) cant from reloj.catedras_agentes
-					WHERE id_catedra = $id_catedra";
-			$cant_agente = toba::db('ctrl_asis')->consultar($sql);
-			ei_arbol($cant_agente);
-			if($cant_agente[0]['cant'] > 0){
+			
 				if ($catedras[0]['id_departamento'] == 6 Or $catedras[0]['id_departamento'] == 10) {
 				$this->s__datos_filtro ['agrup'] = 'paa';
 				}else 
 				{	
 				$this->s__datos_filtro ['agrup'] = 'doc';
 				}
-			}else {
+				//$agentes_0 = true;
+			/*}else {
 				toba::notificacion()->agregar('No existen agentes en la catedra u oficina seleccionada', "info");
+				//$agentes_0 = false;
 				
-			}
+			}*/
 			}
 			
 			$tot = $e['total'];
+			ei_arbol($agentes_0);
+			//if ($agentes_0){
 			for($m = 0; $m<$tot;$m++){
 				 if ($e[$m]['agrupamiento'] == 'CORF') {
 			 	$e[$m]['agrupamiento'] = 'DOCE';
@@ -541,6 +547,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 			
 		}
 		unset($cuadro);
+		} // End de $agentes_0
 		}
 
 	function evt__cuadro_resumen__multiple($seleccion)
