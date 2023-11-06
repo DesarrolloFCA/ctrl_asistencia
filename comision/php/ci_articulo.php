@@ -519,7 +519,7 @@ class ci_articulo extends comision_ci
 						$agente[$i]['articulo'] = null;
 						if ($datos['certificado'] <> null){
 							$agente[$i]['articulo'] = 97;
-							$agente[$i]['id_decreto'] = 5;
+							$agente[$i]['id_decreto'] = 9;
 							$bandera= true; 
 						} else {
 							toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
@@ -995,7 +995,7 @@ class ci_articulo extends comision_ci
 						$agente[$i]['articulo'] = null;
 						if ($datos['certificado'] <> null){
 							$agente[$i]['articulo'] = 97;
-							$agente[$i]['id_decreto'] = 5;
+							$agente[$i]['id_decreto'] = 9;
 							$bandera= true; 
 						} else {
 							toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
@@ -1603,7 +1603,17 @@ $mail->IsHTML(true); //el mail contiene html
 			<table/>';
 
 
-	} else {
+	} else if ($$datos ['id_motivo'] == 61)
+	 	{
+			$mail->Subject = 'Formulario de Justificacion de Inasistencia por Excesos de Inasistencia (SIN GOCE)';			
+			$body = '<table>
+
+				El/la agente <b>'.$datos['descripcion'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
+				Solicita solicita Razones Particulares a partir SIN GOCE  a partir del d&iacute;a '.$fecha. ' hasta '.$hasta. '<br/>
+				Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones'].  '<br/>
+			<table/>';	
+
+		} else {
 		$body = '<table>
 
 				El/la agente <b>'.$datos['descripcion'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
@@ -1618,7 +1628,7 @@ $mail->IsHTML(true); //el mail contiene html
 				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Realización de Actividad Deportiva o Art&iacute;stica';
 				break;
 			case 49:
-				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Citaci&oacute;n de Sangre';
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Citaci&oacute;n Judicial';
 				break;
 			case 17:
 				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Fallecimiento de Cony&uacute;ge o Pariente de Primer Grado';
@@ -1650,10 +1660,8 @@ $mail->IsHTML(true); //el mail contiene html
 			case 15: 
 				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Exam&eacute;n de Nivel Superior';
 				break;
-			case 61: 
-				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Excesos de Inasistencia (SIN GOCE)';			
-				break;
-		}
+			
+			}
 	
 	}
 
@@ -1758,7 +1766,20 @@ $mail->IsHTML(true); //el mail contiene html
 			<table/>';
 
 
-	} else {
+	}else if ($$datos ['id_motivo'] == 61)
+	 	{
+			$mail->Subject = 'Formulario de Justificacion de Inasistencia por Excesos de Inasistencia (SIN GOCE)';			
+			$body = '<table>
+
+				El/la agente <b>'.$datos['descripcion'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
+				Solicita solicita Razones Particulares a partir SIN GOCE  a partir del d&iacute;a '.$fecha. ' hasta '.$hasta. '<br/>
+				Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones'].  '<br/>
+				En caso de no estar de acuerdo con la autorizacion enviar un correo a asistencia@fca.uncu.edu.ar .
+			<table/>';	
+
+		}
+
+	else {
 		$mail->Subject = 'Formulario de Justificaci&oacute;n de Inasistencia por Donacion de Sangre';
 		$body = '<table>
 
