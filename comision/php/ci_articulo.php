@@ -122,7 +122,7 @@ class ci_articulo extends comision_ci
 		$agente = toba::db('comision')->consultar($sql);          
 		
 		$cant = count($agente);
-		ei_arbol($sql);
+		//ei_arbol($sql);
 		$sql = "SELECT MIN(fecha_ingreso) fecha from reloj.agentes
 		where legajo = $legajo";
 		$fec_ingreso = toba::db('comision')->consultar($sql);
