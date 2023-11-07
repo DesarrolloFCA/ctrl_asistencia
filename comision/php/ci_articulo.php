@@ -21,14 +21,14 @@ class ci_articulo extends comision_ci
 		//ei_arbol($datos);
 		if ($datos['dias'] > 0) {
 			
-		
+		//ei_arbol($id_motivo);
 		
 		if ($id_motivo == 35 or $id_motivo == 57 or $id_motivo == 55) {
 		$sql =  "SELECT count(*) cantidad from reloj.inasistencias
 			WHERE legajo = $legajo
 			AND id_catedra=$id_catedra
 			AND anio =$anio
-			AND id_motivo =35 ";
+			AND id_motivo = 35 ";
 		$hay_vacaciones =  toba::db('comision')->consultar($sql); 
 		$ya_tomo = $hay_vacaciones[0]['cantidad'];
 			
@@ -37,7 +37,7 @@ class ci_articulo extends comision_ci
 
 			$depto = toba::db('comision')->consultar($sql); 
 
-
+			
 
 			if ($depto[0]['id_departamento']<10 or ($depto[0]['id_departamento'] == 12) or ($depto[0]['id_departamento'] == 11)){
 			$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fecha_ingreso, t_l.estado_civil, 
@@ -74,13 +74,6 @@ class ci_articulo extends comision_ci
 				WHERE id_catedra = $id_catedra";
 			$depto = toba::db('comision')->consultar($sql); 
 
-			/*if ($legajo == 26010){
-				$deptos= $depto[0]['id_departamento'];
-				$depto[0]['id_departamento']= 13;
-
-
-			}*/
-
 			//ei_arbol($depto);
 			if ($depto[0]['id_departamento']<10 or ($depto[0]['id_departamento'] == 12)or ($depto[0]['id_departamento'] == 11)){
 			$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fecha_ingreso, t_l.estado_civil, 
@@ -111,7 +104,7 @@ class ci_articulo extends comision_ci
 
 		} 
 
-		if ($legajo == 26010 or $legajo==20738)
+		if ($legajo == 26010 or $legajo==20738 or $legajo == 18615)
 
 		{
 			$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fecha_ingreso, t_l.estado_civil, 
@@ -129,7 +122,7 @@ class ci_articulo extends comision_ci
 		$agente = toba::db('comision')->consultar($sql);          
 		
 		$cant = count($agente);
-	//	ei_arbol($sql);
+		ei_arbol($sql);
 		$sql = "SELECT MIN(fecha_ingreso) fecha from reloj.agentes
 		where legajo = $legajo";
 		$fec_ingreso = toba::db('comision')->consultar($sql);
@@ -1669,7 +1662,7 @@ $mail->IsHTML(true); //el mail contiene html
 	
 
 	; //date("d/m/y",$fecha)
- //ei_arbol ($body);
+//ei_arbol ($body);
 $mail->Body = $body;
 //Enviamos el correo
 if(!$mail->Send()) {

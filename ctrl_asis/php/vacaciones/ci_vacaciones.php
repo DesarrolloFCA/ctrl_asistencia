@@ -164,6 +164,7 @@ class ci_vacaciones extends ctrl_asis_ci
 				$sql = "SELECT * from reloj.inasistencias
 				where  estado ='A'
 				and id_catedra =$id_catedra 
+				and id_motivo in (30,35,57)
 				order by id_inasistencia";
 			}
 		} else {
@@ -178,6 +179,7 @@ class ci_vacaciones extends ctrl_asis_ci
 			} else {
 				$sql = "SELECT * from reloj.inasistencias
 				where  estado ='A' 
+				and id_motivo in (30,35,57)
 				order by id_inasistencia";
 			}
 		}    
