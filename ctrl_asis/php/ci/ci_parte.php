@@ -308,7 +308,7 @@ class ci_parte extends toba_ci
 		$agrupamiento = $datos['agrupamiento'];
 		$anio=$datos['anio'];
 		$dias = $datos['dias'];
-		//ei_arbol($datos);
+		ei_arbol($datos);
 		$this->dep('datos')->tabla('parte')->set($datos);
 		//validar que venga un anio para partes de vacaciones
 		if(isset($datos['anio']) && $datos['id_motivo'] == '35') {
@@ -339,8 +339,10 @@ class ci_parte extends toba_ci
 								$filtro['mes']  = $mes;
 							}*/
 							//ei_arbol($filtro);
+							
 							$partes = toba::tabla('parte')->get_listado_vaca($filtro);
 							$lim=count($partes);
+							
 							if($lim>0){
 
 								/*for($i=0;$i<=$lim;$i++){
@@ -366,7 +368,7 @@ class ci_parte extends toba_ci
 							$dias_disponibles = $antiguedad['dias'] - $dias_tomados;
 					
 						}else{
-							ei_arbol($vacaciones_restantes);
+							//ei_arbol($vacaciones_restantes);
 							$dias_disponibles = $vacaciones_restantes - $dias_tomados;
 						}
 					}
@@ -384,7 +386,17 @@ class ci_parte extends toba_ci
 			 $this->dep('datos')->tabla('parte_anio')->set($datos);
 
 
+		} 
+		if ($datos['id_motivo'] == '55' ){
+					
+					$anio== date('Y');
+						$sql = "INSERT INTO reloj.vacaciones_adelantadas ( legajo, anio, dias_adelanto) 
+						values ($legajo, $anio,$dias)";
+						toba::db('ctrl_asis')->ejecutar($sql);	
+
+					
 		}
+
 		$this->s__accion = 'alta';
 	}
 
