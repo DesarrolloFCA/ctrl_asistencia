@@ -49,19 +49,19 @@ INSERT INTO apex_objeto_db_registros (objeto_proyecto, objeto, max_registros, mi
 	'26960396000030', --objeto
 	NULL, --max_registros
 	NULL, --min_registros
-	NULL, --punto_montaje
+	'4000021', --punto_montaje
 	'1', --ap
 	NULL, --ap_clase
 	NULL, --ap_archivo
 	'antiguedad', --tabla
 	NULL, --tabla_ext
 	NULL, --alias
-	NULL, --modificar_claves
+	'0', --modificar_claves
 	'ctrl_asis', --fuente_datos_proyecto
 	'ctrl_asis', --fuente_datos
 	'0', --permite_actualizacion_automatica
 	NULL, --esquema
-	NULL  --esquema_ext
+	'reloj'  --esquema_ext
 );
 
 ------------------------------------------------------------
@@ -79,8 +79,8 @@ INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, colum
 	NULL, --secuencia
 	NULL, --largo
 	NULL, --no_nulo
-	NULL, --no_nulo_db
-	NULL, --externa
+	'0', --no_nulo_db
+	'0', --externa
 	NULL  --tabla
 );
 INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, columna, tipo, pk, secuencia, largo, no_nulo, no_nulo_db, externa, tabla) VALUES (
@@ -89,12 +89,43 @@ INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, colum
 	'26960396000007', --col_id
 	'fecha_ingreso', --columna
 	'F', --tipo
-	NULL, --pk
+	'0', --pk
 	NULL, --secuencia
 	NULL, --largo
 	NULL, --no_nulo
-	NULL, --no_nulo_db
-	NULL, --externa
+	'0', --no_nulo_db
+	'0', --externa
 	NULL  --tabla
 );
 --- FIN Grupo de desarrollo 26960396
+
+--- INICIO Grupo de desarrollo 35736730
+INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, columna, tipo, pk, secuencia, largo, no_nulo, no_nulo_db, externa, tabla) VALUES (
+	'ctrl_asis', --objeto_proyecto
+	'26960396000030', --objeto
+	'35736730000379', --col_id
+	'meses_ant', --columna
+	'E', --tipo
+	'0', --pk
+	'', --secuencia
+	NULL, --largo
+	NULL, --no_nulo
+	'0', --no_nulo_db
+	'0', --externa
+	'antiguedad'  --tabla
+);
+INSERT INTO apex_objeto_db_registros_col (objeto_proyecto, objeto, col_id, columna, tipo, pk, secuencia, largo, no_nulo, no_nulo_db, externa, tabla) VALUES (
+	'ctrl_asis', --objeto_proyecto
+	'26960396000030', --objeto
+	'35736730000380', --col_id
+	'dias', --columna
+	'E', --tipo
+	'0', --pk
+	'', --secuencia
+	NULL, --largo
+	NULL, --no_nulo
+	'0', --no_nulo_db
+	'0', --externa
+	'antiguedad'  --tabla
+);
+--- FIN Grupo de desarrollo 35736730
