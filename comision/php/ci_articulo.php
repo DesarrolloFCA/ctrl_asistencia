@@ -1126,6 +1126,32 @@ class ci_articulo extends comision_ci
 							toba::notificacion()->agregar('Solamente puede tomar como máximo 5 días por Certificado', "info");
 							$bandera = false;  
 					}
+				}else if ($id_motivo == 47){ //Examen para rendir concurso
+					if ($dias >= 1 and $dias <=3 ) {
+						$agente[$i]['articulo'] = null;
+					$sql = "SELECT count(*) cant FROM reloj.parte 
+								where id_motivo = $id_motivo
+								and legajo = $legajo
+								and anio = $anio";
+						$tomo=toba::db('comision')->consultar($sql);
+						if ($tomo[0]['cant'] <= 3)	{
+						if ($datos['certificado'] <> null){
+							$agente[$i]['articulo'] = 95;
+							$agente[$i]['id_decreto'] = 8;
+							$bandera= true; 
+						} else {
+							toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+							$bandera = false;   
+						}
+					} else {
+							toba::notificacion()->agregar('Ya hizo uso de todas estas licencia el presente año', "info");
+							$bandera = false; 
+					}
+					} else {
+							toba::notificacion()->agregar('Solamente puede tomar como máximo 3 días por Certificado', "info");
+							$bandera = false;  
+					}
+				}	
 
 				} else if ($id_motivo == 61 ) {
 					if (date("Y") == $anio){
@@ -1653,7 +1679,12 @@ $mail->IsHTML(true); //el mail contiene html
 			case 15: 
 				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Exam&eacute;n de Nivel Superior';
 				break;
-			
+			case 47:
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Exam&eacute;n para Concurso';
+				break;
+			case 61: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Excesos de Inasistencia (SIN GOCE)';			
+				break;	
 			}
 	
 	}
@@ -1821,6 +1852,9 @@ $mail->IsHTML(true); //el mail contiene html
 				break;			
 			case 61: 
 				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Excesos de Inasistencia (SIN GOCE)';			
+				break;	
+			case 47:
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Exam&eacute;n para Concurso';
 				break;	
 		}
 
