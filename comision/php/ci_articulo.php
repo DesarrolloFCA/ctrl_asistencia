@@ -1151,7 +1151,7 @@ class ci_articulo extends comision_ci
 							toba::notificacion()->agregar('Solamente puede tomar como máximo 3 días por Certificado', "info");
 							$bandera = false;  
 					}
-				}	
+					
 
 				} else if ($id_motivo == 61 ) {
 					if (date("Y") == $anio){
