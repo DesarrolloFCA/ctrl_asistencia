@@ -40,6 +40,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 
 	function evt__filtro__filtrar($datos)
 	{
+		
 		$this->s__datos_filtro = $datos;
 		
 	}
@@ -61,7 +62,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 		
 
 		if (isset($this->s__datos_filtro)) {
-			//ei_arbol($this->s__datos_filtro);
+			
 			// ORiginal
 			/* if (isset($this->s__datos_filtro['anio'])) {
 				//  $y = $this->s__datos_filtro['anio'];
@@ -139,9 +140,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 			
 			//---------------------------------------------------------------------------------------------------
 			}
-
-			//ei_arbol ($agentes);
-
+			
 			$filtro['fecha_desde'] = $this->s__datos_filtro['fecha_desde'];
 			$filtro['fecha_hasta'] = $this->s__datos_filtro['fecha_hasta'];
 			$filtro['marcas']= $this->s__datos_filtro['marcas'];
