@@ -122,8 +122,8 @@ class ci_articulo extends comision_ci
 		$agente = toba::db('comision')->consultar($sql);          
 		
 		$cant = count($agente);
-		ei_arbol($sql);
-		$sql = "SELECT MIN(fecha_ingreso) fecha from reloj.agentes
+		//ei_arbol($sql);
+		/*$sql = "SELECT MIN(fecha_ingreso) fecha from reloj.agentes
 		where legajo = $legajo";
 		$fec_ingreso = toba::db('comision')->consultar($sql);
 		$res =     $fec_ingreso[0]['fecha'];
@@ -149,7 +149,7 @@ class ci_articulo extends comision_ci
 				$dias = mktime(0,0,0,$dias[1],$dias[0],$dias[2]);
 				$antiguedad = ((time()-$dias)/31556926 );
 				// (int)((time()-$dias)/31556926 );
-			}
+			}*/
 			// ei_arbol($antiguedad);
 
 			$dias= $datos['dias'];
@@ -295,10 +295,10 @@ class ci_articulo extends comision_ci
 
 					}            
 								
-				} elseif ($id_motivo == 35) {
+				} elseif ($id_motivo == 35) { //Vacaciones
 							
 					//ei_arbol($agente);
-							$agente[$i]['articulo'] = 0;
+							$agente[$i]['articulo'] = 55;
 							$agente[$i]['id_decreto'] = 4;
 							$dias_restantes = 0;
 							//ei_arbol ($agente);
@@ -317,7 +317,7 @@ class ci_articulo extends comision_ci
 							} else {
 								$hay_cargadas = 0;
 							}
-							if ($antiguedad > 20){
+						/*	if ($antiguedad > 20){
 								$dias_totales = 40 + $dias_restantes - $adelanto;
 							//     ei_arbol ($dias);
 								if ($dias >$dias_totales ) {
@@ -427,11 +427,12 @@ class ci_articulo extends comision_ci
 									$bandera_nodo=false;
 							
 								} else {
-							$agente[$i]['articulo'] = 55;
+							$agente[$i]['articulo'] = 55;*/
 							$bandera= true;
-								}
-				/// Vacaciones Pendientes no docente
+							//	}
 
+				/// Vacaciones Pendientes no docente
+				
 				} else if ($id_motivo==57){
 					$agente[$i]['articulo'] = null;
 							$agente[$i]['id_decreto'] = 4;
@@ -851,7 +852,7 @@ class ci_articulo extends comision_ci
 								$dias_restantes=$dias_vp[0]['dias'];
 							}
 
-							if ($antiguedad > 15){
+							/*if ($antiguedad > 15){
 								
 								$dias_totales = 45 + $dias_restantes;
 								if ($dias >$dias_totales ) {
@@ -906,7 +907,7 @@ class ci_articulo extends comision_ci
 
 								
 								
-							}
+							}*/
 				// VAcaciones pendientes docentes            
 				}else if ($id_motivo == 57){
 					$agente[$i]['articulo'] = null;
@@ -1436,7 +1437,7 @@ class ci_articulo extends comision_ci
 					$sql= "SELECT email from reloj.agentes_mail
 					where legajo=$legajo";
 					$correo = toba::db('comision')->consultar($sql);
-					$this->enviar_correos($correo[0]['email']);
+				//	$this->enviar_correos($correo[0]['email']);
 					}
 
 					if(isset($datos['superior'])and $datos['superior']<>0) {
@@ -1445,7 +1446,7 @@ class ci_articulo extends comision_ci
 					$sql= "SELECT email from reloj.agentes_mail
 					where legajo=$superior";
 					$correo = toba::db('comision')->consultar($sql);
-					$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
+				//	$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
 
 
 					}
@@ -1569,9 +1570,9 @@ $mail->IsHTML(true); //el mail contiene html
 		$body = '<table>
 						El/la agente  <b>'.$datos['descripcion'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
 						Solicita la licencia anual correspondiente al  '.$datos['anio'].' a partir del d&iacute;a '.$fecha.'hasta '.$hasta. '. <br/>
-						Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
+						
 											
-			</table>';
+			</table>'; 
 	/*} else if ($datos['id_motivo'] == 55)
 	{
 		$mail->Subject = 'Formulario de Adelanto de Licencia Anual';
@@ -1742,7 +1743,6 @@ $mail->IsHTML(true); //el mail contiene html
 
 						El/la agente  <b>'.$datos['descripcion'].'</b> perteneciente a  la <b>'.$datos['catedra'].'</b>.<br/>
 						Solicita <b> Licencia Anual</b> correspondiente al  '.$datos['anio'].' a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.<br/>
-						Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. ' <br/>
 						En caso de no estar de acuerdo con la autorizacion enviar un correo a asistencia@fca.uncu.edu.ar .
 
 											
@@ -1859,6 +1859,22 @@ if(!$mail->Send()) {
          
          return $datos;
       }
+   function extender_objeto_js(){
+   	parent::extender_objeto_js();
+   	$id_formulario = $this->dep('formulario')->get_id_objeto_js();
+	echo "
+		  $id_formulario.evt__id_motivo__procesar = function (es_inicial)
+		  {
+		  	if (this.ef('id_motivo').get_estado() == '35'){
+		  		this.ef('observaciones').mostrar(false);
+		  		this.ef('fecha_inicio_licencia').mostrar(false);
+		  	} else {
+		  		this.ef('observaciones').mostrar(true);
+		  		this.ef('fecha_inicio_licencia').mostrar(true);
+		  	}
+		  } 
+		  ";   
+   }
 
 }
 ?>
