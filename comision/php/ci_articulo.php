@@ -1465,7 +1465,7 @@ class ci_articulo extends comision_ci
 					$sql= "SELECT email from reloj.agentes_mail
 					where legajo=$legajo";
 					$correo = toba::db('comision')->consultar($sql);
-				//	$this->enviar_correos($correo[0]['email']);
+					$this->enviar_correos($correo[0]['email']);
 					}
 
 					if(isset($datos['superior'])and $datos['superior']<>0) {
@@ -1474,7 +1474,7 @@ class ci_articulo extends comision_ci
 					$sql= "SELECT email from reloj.agentes_mail
 					where legajo=$superior";
 					$correo = toba::db('comision')->consultar($sql);
-				//	$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
+					$this->enviar_correos_sup($correo[0]['email'],$datos['superior_ayn']);
 
 
 					}
@@ -1902,11 +1902,13 @@ if(!$mail->Send()) {
 		  $id_formulario.evt__id_motivo__procesar = function (es_inicial)
 		  {
 		  	if (this.ef('id_motivo').get_estado() == '35'){
-		  		this.ef('observaciones').mostrar(false);
-		  		this.ef('fecha_inicio_licencia').mostrar(false);
+		  		const inicio = new Date(2023, 11, 26);
+		  		this.ef('fecha_inicio_licencia').set_fecha(inicio);
+		  		this.ef('observaciones').desactivar();
+		  		this.ef('fecha_inicio_licencia').desactivar();
 		  	} else {
-		  		this.ef('observaciones').mostrar(true);
-		  		this.ef('fecha_inicio_licencia').mostrar(true);
+		  		this.ef('observaciones').activar();
+		  		this.ef('fecha_inicio_licencia').activar();
 		  	}
 		  } 
 		  ";   

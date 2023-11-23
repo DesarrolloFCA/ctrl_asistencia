@@ -8,8 +8,7 @@ class dt_antiguedad extends toba_datos_tabla
 			$where[] = "legajo = ".quote($filtro['legajo']);
 		}
 		$sql = "SELECT
-			t_a.legajo,
-			t_a.fecha_ingreso
+			*
 		FROM
 			antiguedad as t_a";
 		if (count($where)>0) {

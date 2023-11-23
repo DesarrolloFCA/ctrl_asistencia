@@ -13,7 +13,7 @@ class form_jus_inasistencia extends comision_ei_formulario
 		{$this->objeto_js}.evt__id_motivo__procesar = function(es_inicial)
 		{
 			if (this.ef('id_motivo').get_estado() == 35){
-		  		this.ef('observaciones').mostrar(false);
+		  		this.ef('observaciones').activar(false);
 		}
 		//---- Validacion general ----------------------------------
 		

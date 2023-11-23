@@ -64,6 +64,8 @@ class ci_antiguedades extends toba_ci
 
 	function evt__formulario__modificacion($datos)
 	{
+		//$datos['tm'] = date('d-m-Y H:i:s');
+		//ei_arbol($datos);
 		$this->dep('datos')->tabla('antiguedad')->set($datos);
 	}
 
