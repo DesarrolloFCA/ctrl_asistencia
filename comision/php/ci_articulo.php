@@ -1902,8 +1902,10 @@ if(!$mail->Send()) {
 		  $id_formulario.evt__id_motivo__procesar = function (es_inicial)
 		  {
 		  	if (this.ef('id_motivo').get_estado() == '35'){
-		  		const inicio = new Date(2023, 11, 26);
+		  		var ano = new Date().getFullYear();
+		  		const inicio = new Date(ano, 11, 26);
 		  		this.ef('fecha_inicio_licencia').set_fecha(inicio);
+		  		this.ef('observaciones').set_estado('');
 		  		this.ef('observaciones').desactivar();
 		  		this.ef('fecha_inicio_licencia').desactivar();
 		  	} else {
