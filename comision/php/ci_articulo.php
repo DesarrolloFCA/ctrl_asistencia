@@ -104,7 +104,7 @@ class ci_articulo extends comision_ci
 
 		} 
 
-		if ($legajo == 26010 or $legajo==20738 or $legajo == 18615)
+		if ($legajo == 26010 or $legajo==20738 or $legajo == 18615 or $legajo = 34394)
 
 		{
 			$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fecha_ingreso, t_l.estado_civil, 
@@ -1331,12 +1331,12 @@ class ci_articulo extends comision_ci
 
 
 			
-			//ei_arbol($agente);
+			//ei_arbol($datos);
 			if($datos['fecha_inicio_licencia']< '2022-12-26'){
 				toba::notificacion()->agregar('Ingrese una fecha mayor o igual al 26/12/2022', "info");
 			}else
 			{
-			
+			//	ei_arbol($datos);
 				if ($ya_tomo == 0){
 						if($bandera_nodo ){
 						//	ei_arbol($id_motivo.' motivo', $id_decreto. ' decreto', $articulo.' articulo');
