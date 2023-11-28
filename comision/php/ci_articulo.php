@@ -1597,7 +1597,7 @@ $mail->IsHTML(true); //el mail contiene html
 		//$motivo = 'Vacaciones'.$datos['anio'];
 		$body = '<table>
 						El/la agente  <b>'.$datos['descripcion'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita la licencia anual correspondiente al  '.$datos['anio'].' a partir del d&iacute;a '.$fecha.'hasta '.$hasta. '. <br/>
+						Solicita la licencia anual correspondiente al año '.$datos['anio'].' a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '. <br/>
 						
 											
 			</table>'; 
