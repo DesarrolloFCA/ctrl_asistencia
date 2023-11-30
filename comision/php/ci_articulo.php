@@ -104,7 +104,7 @@ class ci_articulo extends comision_ci
 
 		} 
 
-		if ($legajo == 26010 or $legajo==20738 or $legajo == 18615 or $legajo == 34394)
+		if ($legajo == 26010 or $legajo==20738 or $legajo == 18615 or $legajo == 34394 or $legajo == 33672)
 
 		{
 			$sql = "SELECT t_l.legajo, t_l.apellido, t_l.nombre, t_l.fec_nacim, t_l.dni, t_l.fecha_ingreso, t_l.estado_civil, 
