@@ -1593,11 +1593,11 @@ $mail->IsHTML(true); //el mail contiene html
 
 	} else if ($datos['id_motivo'] == 35)
 	{
-			$mail->Subject = 'Formulario de Licencia Anual';
+			$mail->Subject = 'Formulario de Licencia Anual por Vacaciones';
 		//$motivo = 'Vacaciones'.$datos['anio'];
 		$body = '<table>
 						El/la agente  <b>'.$datos['descripcion'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita la licencia anual correspondiente al año '.$datos['anio'].' a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '. <br/>
+						Solicita laLicencia Anual por Vacaciones correspondiente al año '.$datos['anio'].' a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '. <br/>
 						
 											
 			</table>'; 
@@ -1775,7 +1775,7 @@ $mail->IsHTML(true); //el mail contiene html
 		$body = '<table>
 
 						El/la agente  <b>'.$datos['descripcion'].'</b> perteneciente a  la <b>'.$datos['catedra'].'</b>.<br/>
-						Solicita <b> Licencia Anual</b> correspondiente al  '.$datos['anio'].' a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.<br/>
+						Solicita <b> Licencia Anual por Vacaciones </b> correspondiente al  '.$datos['anio'].' a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.<br/>
 						En caso de no estar de acuerdo con la autorizacion enviar un correo a asistencia@fca.uncu.edu.ar .
 
 											
