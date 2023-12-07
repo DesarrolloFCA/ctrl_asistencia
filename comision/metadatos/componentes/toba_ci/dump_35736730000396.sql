@@ -86,18 +86,6 @@ INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objet
 );
 INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
 	'comision', --proyecto
-	'35736730000334', --dep_id
-	'35736730000396', --objeto_consumidor
-	'35736730000392', --objeto_proveedor
-	'datos', --identificador
-	NULL, --parametros_a
-	NULL, --parametros_b
-	NULL, --parametros_c
-	NULL, --inicializar
-	NULL  --orden
-);
-INSERT INTO apex_objeto_dependencias (proyecto, dep_id, objeto_consumidor, objeto_proveedor, identificador, parametros_a, parametros_b, parametros_c, inicializar, orden) VALUES (
-	'comision', --proyecto
 	'35736730000337', --dep_id
 	'35736730000396', --objeto_consumidor
 	'35736730000395', --objeto_proveedor
