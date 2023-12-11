@@ -430,8 +430,13 @@ class ci_articulo extends comision_ci
 							
 								} else {
 							$agente[$i]['articulo'] = 55;*/
+						if (date("Y-m-d") >= '2023-12-08'){
+							toba::notificacion()->agregar('Se ha pasado la fecha limite de carga de Licencia Anual', "info");
+
+									$bandera_nodo=false;
+						} else {	
 							$bandera= true;
-							//	}
+							}
 
 				/// Vacaciones Pendientes no docente
 				
@@ -905,11 +910,17 @@ class ci_articulo extends comision_ci
 									}
 								}    
 
-							//ei_arbol($dias_totales);
+							//ei_arbol($dias_totales);}*/
 
+							if (date("Y-m-d") >= '2023-12-08'){
+							toba::notificacion()->agregar('Se ha pasado la fecha limite de carga de Licencia Anual', "info");
+
+									$bandera_nodo=false;
+						} else {	
+							$bandera= true;
+							}	
 								
-								
-							}*/
+							
 				// VAcaciones pendientes docentes            
 				}else if ($id_motivo == 57){
 					$agente[$i]['articulo'] = null;
