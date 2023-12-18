@@ -308,7 +308,7 @@ class ci_parte extends toba_ci
 		$agrupamiento = $datos['agrupamiento'];
 		$anio=$datos['anio'];
 		$dias = $datos['dias'];
-		ei_arbol($datos);
+		//ei_arbol($datos);
 		$this->dep('datos')->tabla('parte')->set($datos);
 		//validar que venga un anio para partes de vacaciones
 		if(isset($datos['anio']) && $datos['id_motivo'] == '35') {
@@ -317,8 +317,8 @@ class ci_parte extends toba_ci
 						$agente['fec_ingreso'] = $dato_antiguedad['fecha_ingreso'];
 					}else{
 						
-						$sql = "SELECT fec_ingreso FROM uncu.legajo_cargos WHERE legajo = '$legajo' and agrupamiento = '$agrupamiento' ";
-						$agente =  toba::db('mapuche')->consultar_fila($sql); 
+						$sql = "SELECT fec_ingreso FROM reloj.agentes WHERE legajo = '$legajo' and agrupamiento = '$agrupamiento' ";
+						$agente =  toba::db('ctrol_asis')->consultar_fila($sql); 
 					}    
 					if(!empty($agente['fec_ingreso'])){
 
@@ -396,7 +396,11 @@ class ci_parte extends toba_ci
 
 					
 		}
-
+		$sql= "SELECT email from reloj.agentes_mail
+					where legajo=$legajo";
+					$correo = toba::db('ctrl_asis')->consultar($sql);
+		$this->s__datos =$datos;
+		$this->enviar_correos($correo[0]['email']);
 		$this->s__accion = 'alta';
 	}
 
@@ -686,6 +690,203 @@ class ci_parte extends toba_ci
 			$cuadro->set_datos($this->s__datos);
 		} 
 	}
+function enviar_correos($correo)
+	{
+		require_once('3ros/phpmailer/class.phpmailer.php');
+
+
+				$datos =$this->s__datos;  
+//ei_arbol($datos);
+if ($datos['id_motivo'] == 30) {
+	$datos['dias']=$datos['dias']-1;
+
+} 
+	$fecha=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] ) );
+
+	
+
+if ($datos['dias_restantes'] <= 0){
+	$datos['dias_restantes'] = 0;
+}
+	
+			$fecha_inicio_licencia = $datos['fecha_inicio_licencia'];
+				$fechaentera1 =strtotime($fecha_inicio_licencia);
+			$fecha = date_create(date("Y-m-d",$fechaentera1)); 
+			$fecha_inicio =$fecha ->format("Y-m-d");
+			$dias = $dias ;
+			$dias_to= $dias. ' days';
+			$hasta = date_add($fecha , date_interval_create_from_date_string($dias_to));
+			$hasta =$hasta ->format("Y-m-d"); 
+	
+		$hasta=date('d/m/Y',strtotime($hasta) );
+		$fecha=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] ) );
+
+
+		
+$mail = new phpmailer();
+$mail->IsSMTP();
+
+//Esto es para activar el modo depuración. En entorno de pruebas lo mejor es 2, en producción siempre 0
+// 0 = off (producción)
+// 1 = client messages
+// 2 = client and server messages
+$mail->SMTPDebug  = 0;
+//Ahora definimos gmail como servidor que aloja nuestro SMTP
+$mail->Host       = 'smtp.gmail.com';
+//El puerto será el 587 ya que usamos encriptación TLS
+$mail->Port       = 587;
+//Definmos la seguridad como TLS
+$mail->SMTPSecure = 'tls';
+//Tenemos que usar gmail autenticados, así que esto a TRUE
+$mail->SMTPAuth   = true;
+//Definimos la cuenta que vamos a usar. Dirección completa de la misma
+
+$mail->Username   = "formularios_asistencia@fca.uncu.edu.ar";
+//Introducimos nuestra contraseña de gmail
+$mail->Password   = "anzmxlazswghxqgb";
+//Definimos el remitente (dirección y, opcionalmente, nombre)
+$mail->SetFrom('formularios_asistencia@fca.uncu.edu.ar', 'Formulario Personal');
+//Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
+
+//$mail->AddReplyTo('caifca@fca.uncu.edu.ar','El de la réplica');
+//Y, ahora sí, definimos el destinatario (dirección y, opcionalmente, nombre)
+//$mail -> AddAddress('ebermejillo@fca.uncu.edu.ar', 'Tester');
+$mail->AddAddress($correo, 'El Destinatario'); //Descomentar linea cuando pase a produccion
+//Definimos el tema del email
+
+
+//Para enviar un correo formateado en HTML lo cargamos con la siguiente función. Si no, puedes meterle directamente una cadena de texto.
+//$mail->MsgHTML(file_get_contents('correomaquetado.html'), dirname(ruta_al_archivo));
+//Y por si nos bloquean el contenido HTML (algunos correos lo hacen por seguridad) una versión alternativa en texto plano (también será válida para lectores de pantalla)
+$mail->IsHTML(true); //el mail contiene html
+
+
+	if ($datos['id_motivo'] == 30) {
+		//$motivo = 'Razones Particulares con gose de haberes';
+		$mail->Subject = 'Formulario de Solicitud Razones Particulares';
+		$body = '<table>
+						El/la agente  <b>'.$datos['descripcion'].'</b> perteneciente a la catedra/oficina/ direcci&oacute;n <b>'.$datos['catedra'].'</b>.<br/>
+						Solicita Justificaci&oacute;n de Inasistencia por Razones Particulares a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.
+							Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
+											
+			</table>';
+
+	} else if ($datos['id_motivo'] == 35)
+	{
+			$mail->Subject = 'Formulario de Licencia Anual por Vacaciones';
+		//$motivo = 'Vacaciones'.$datos['anio'];
+		$body = '<table>
+						El/la agente  <b>'.$datos['descripcion'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
+						Solicita laLicencia Anual por Vacaciones correspondiente al año '.$datos['anio'].' a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '. <br/>
+						
+											
+			</table>'; 
+	/*} else if ($datos['id_motivo'] == 55)
+	{
+		$mail->Subject = 'Formulario de Adelanto de Licencia Anual';
+		$body = '<table>
+
+				El/la agente <b>'.$datos['agente_ayn'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
+				Solicita adelanto de licencia anual correspondiente al' .$datos['anio']. ' a partir del d&iacute;a'.$fecha. ' hasta '.$hasta. '<br/>
+				Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. 'Estos d&iacute;as de adelanto que ud ha solicitado,
+				serán restados del total de vacaciones correspondientes al año en curso
+			<table/>';*/
+
+
+	} else if ($datos ['id_motivo'] == 57)
+	{
+		$mail->Subject = 'Formulario de D&iacute&as Pendientes de la Licencia Anual';
+		$body = '<table>
+
+				El/la agente <b>'.$datos['descripcion'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
+				Solicita los d&iacute;as pendientes de la licencia anual correspondiente al ' .$datos['anio']. ' a partir del d&iacute;a '.$fecha. ' hasta '.$hasta. '<br/>
+				Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones'].  '<br/>
+				Ud. cuenta con '.$datos['dias_restantes'].' d&iacute;as de vacaciones pendientes.
+			<table/>';
+
+
+	} else if ($$datos ['id_motivo'] == 61)
+	 	{
+			$mail->Subject = 'Formulario de Justificacion de Inasistencia por Excesos de Inasistencia (SIN GOCE)';			
+			$body = '<table>
+
+				El/la agente <b>'.$datos['descripcion'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
+				Solicita solicita Razones Particulares a partir SIN GOCE  a partir del d&iacute;a '.$fecha. ' hasta '.$hasta. '<br/>
+				Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones'].  '<br/>
+			<table/>';	
+
+		} else {
+		$body = '<table>
+
+				El/la agente <b>'.$datos['descripcion'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
+				Justific&oacute;  la inasistencia  desde '.$fecha.' hasta '.$hasta.' presentando el certificado correspondiente a dicha acci&oacute;n.
+			<table/>';
+		
+		switch ($datos ['id_motivo'] ){
+			case 12:
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Donaci&oacute;n de Sangre';
+				break;
+			case 22:
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Realización de Actividad Deportiva o Art&iacute;stica';
+				break;
+			case 49:
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Citaci&oacute;n Judicial';
+				break;
+			case 17:
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Fallecimiento de Cony&uacute;ge o Pariente de Primer Grado';
+				break;
+			case 16:
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Fallecimiento de Pariente de Segundo Grado';
+				break;
+			case 18: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Fallecimiento de Pariente Pol&iacute;tico';
+				break;
+			case 27: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Nacimiento (Paternidad)';
+				break;	
+			case 36: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Matrimonio';
+				break;
+			case 25: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Matrimonio de hijo/a';
+				break;				
+			case 7: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Adopci&oacute;n (Maternidad)';
+				break;
+			case 59: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Adopci&oacute;n (Paternidad)';
+				break;	
+			case 14: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Exam&eacute;n de Nivel Medio';
+				break;		
+			case 15: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Exam&eacute;n de Nivel Superior';
+				break;
+			case 47:
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Exam&eacute;n para Concurso';
+				break;
+			case 61: 
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Excesos de Inasistencia (SIN GOCE)';			
+				break;	
+			}
+	
+	}
+
+
+	
+
+	; //date("d/m/y",$fecha)
+//ei_arbol ($body);
+$mail->Body = $body;
+//Enviamos el correo
+if(!$mail->Send()) {
+	echo "Error: " . $mail->ErrorInfo;
+} else {
+	toba::notificacion()->agregar('Su formulario ha sido completado y enviado a su correo. Ya puede cerrar la ventana.' , "info");
+	echo "Enviado!";
+	
+}
+}
 
 }
 ?>

@@ -430,13 +430,13 @@ class ci_articulo extends comision_ci
 							
 								} else {
 							$agente[$i]['articulo'] = 55;*/
-						if (date("Y-m-d") >= '2023-12-08'){
+						/*if (date("Y-m-d") >= '2023-12-08'){ //Quitar comentario para limite de dias
 							toba::notificacion()->agregar('Se ha pasado la fecha limite de carga de Licencia Anual', "info");
 
 									$bandera_nodo=false;
-						} else {	
+						} else {*/	
 							$bandera= true;
-							}
+							//} //Quitar comentario para limite de dias
 
 				/// Vacaciones Pendientes no docente
 				
@@ -912,13 +912,13 @@ class ci_articulo extends comision_ci
 
 							//ei_arbol($dias_totales);}*/
 
-							if (date("Y-m-d") >= '2023-12-08'){
+							/*if (date("Y-m-d") >= '2023-12-08'){ //Quitar comentario para limite de dias
 							toba::notificacion()->agregar('Se ha pasado la fecha limite de carga de Licencia Anual', "info");
 
 									$bandera_nodo=false;
-						} else {	
+						} else {	*/
 							$bandera= true;
-							}	
+							// }	//Quitar comentario para limite de dias
 								
 							
 				// VAcaciones pendientes docentes            

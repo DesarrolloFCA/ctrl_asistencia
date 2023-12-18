@@ -82,9 +82,18 @@ class dt_articulo extends toba_datos_tabla
 	function get_dias($legajo, $agrupamiento, $fecha_inicio_licencia, $id_articulo, $anio)
 	{
 		
+		if ($id_articulo == 55 or $id_articulo == 56){
+			$sql = "SELECT  dias dias_disponibles
+					FROM reloj.antiguedad
+					WHERE legajo = $legajo;";
+			$dato = toba::db('ctrl_asis')->consultar_fila($sql);
+		
+		} else{
+
+
 		$sql = "SELECT id_articulo, id_motivo, descripcion, dias_disponibles, limite_mensual FROM reloj.articulo WHERE id_articulo = '$id_articulo'";
 		$dato = toba::db('ctrl_asis')->consultar_fila($sql);
-
+		}
 		$dias_articulo  = $dato['dias_disponibles'];
 		$limite_mensual = $dato['limite_mensual'];
 		list($anio_lic,$mes_lic,$dia_lic) = explode('-', $fecha_inicio_licencia);

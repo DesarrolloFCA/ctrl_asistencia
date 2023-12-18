@@ -48,10 +48,10 @@ class dt_vacaciones_restantes extends ctrl_asis_datos_tabla
 	}
 	function get_vac_rest($legajo)
 	{
-		ei_arbol($legajo);
+		//ei_arbol($legajo);
 		$slq="SELECT dias FROM reloj.vacaciones_restantes
 		where legajo =". $legajo.";";
-		ei_arbol($sql);
+		//ei_arbol($sql);
 		return toba::db('ctrl_asis')->consultar($sql);	
 	}
 

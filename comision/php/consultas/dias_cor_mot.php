@@ -9,6 +9,7 @@ function dias_motivos_legajo($legajo,$id_motivo)
 			$sql= "SELECT min(dias) dias_v from reloj.antiguedad
 				where legajo = $legajo";
 			$dias = toba::db('comision')->consultar($sql); // Vacaciones correspondientes por antigüedad
+			
 			if(isset($dias)){
 				$sql = "SELECT sum(dias_adelanto) dias_a from reloj.vacaciones_adelantadas
 					where legajo = $legajo and anio = $anio";
