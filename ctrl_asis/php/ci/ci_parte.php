@@ -709,17 +709,17 @@ if ($datos['dias_restantes'] <= 0){
 	$datos['dias_restantes'] = 0;
 }
 	
-			$fecha_inicio_licencia = $datos['fecha_inicio_licencia'];
-			$fechaentera1 =strtotime($fecha_inicio_licencia);
-			$fecha = date_create(date("Y-m-d",$fechaentera1)); 
-			$fecha_inicio =$fecha ->format("Y-m-d");
+			//$fecha_inicio_licencia = $datos['fecha_inicio_licencia'];
+			//$fechaentera1 =strtotime($fecha_inicio_licencia);
+			//$fecha = date_create(date("Y-m-d",$fechaentera1)); 
+			//$fecha_inicio =$fecha ->format("Y-m-d");
 			$dias = $datos['dias']-1;
 			$dias_to= $dias. ' days';
-			$hasta = date_add($fecha , date_interval_create_from_date_string($dias_to));
-			$hasta =$hasta ->format("Y-m-d"); 
+			//$hasta = date_add($fecha , date_interval_create_from_date_string($dias_to));
+			//$hasta =$hasta ->format("Y-m-d"); 
 	
-		$hasta=date('d/m/Y',strtotime($hasta) );
-		//$hasta   = date ( 'd/m/Y' , strtotime ( $dias , strtotime ( $datos['fecha_inicio_licencia'] ) )  ); //sumamos N dias a la fecha de inicio licencia
+		//$hasta=date('d/m/Y',strtotime($hasta) );
+		$hasta   = date ( 'd/m/Y' , strtotime ( $dias_to , strtotime ( $datos['fecha_inicio_licencia'] ) )  ); //sumamos N dias a la fecha de inicio licencia
 		$fecha=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] ) );
 
 
