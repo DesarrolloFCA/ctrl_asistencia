@@ -697,7 +697,7 @@ function enviar_correos($correo)
 		require_once('3ros/phpmailer/class.phpmailer.php');
 
 
-				$datos =$this->s__datos;  
+$datos =$this->s__datos;  
 //ei_arbol($datos);
 if ($datos['id_motivo'] == 30) {
 	$datos['dias']=$datos['dias']-1;
@@ -711,14 +711,14 @@ if ($datos['dias_restantes'] <= 0){
 	$datos['dias_restantes'] = 0;
 }
 	
-			$fecha_inicio_licencia = $datos['fecha_inicio_licencia'];
-				$fechaentera1 =strtotime($fecha_inicio_licencia);
-			$fecha = date_create(date("Y-m-d",$fechaentera1)); 
-			$fecha_inicio =$fecha ->format("Y-m-d");
-			$dias = $dias ;
+			//$fecha_inicio_licencia = $datos['fecha_inicio_licencia'];
+			//$fechaentera1 =strtotime($fecha_inicio_licencia);
+			//$fecha = date_create(date("Y-m-d",$fechaentera1)); 
+			//$fecha_inicio =$fecha ->format("Y-m-d");
+			$dias = $datos['dias']-1;
 			$dias_to= $dias. ' days';
-			$hasta = date_add($fecha , date_interval_create_from_date_string($dias_to));
-			$hasta =$hasta ->format("Y-m-d"); 
+			//$hasta = date_add($fecha , date_interval_create_from_date_string($dias_to));
+			//$hasta =$hasta ->format("Y-m-d"); 
 	
 		//$hasta=date('d/m/Y',strtotime($hasta) );
 		$hasta = date ( 'd/m/Y' , strtotime ( $dias , strtotime ( $datos['fecha_inicio_licencia'] ) )  ); //sumamos N dias a la fecha de inicio licencia
@@ -779,7 +779,7 @@ $mail->IsHTML(true); //el mail contiene html
 		$mail->Subject = 'Formulario de Licencia Anual por Vacaciones';
 		//$motivo = 'Vacaciones'.$datos['anio'];
 		$body = '<table>
-						El/la agente  <b>'.$datos['descripcion'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
+						El/la agente  <b>'.$datos['apellido'].', '.$datos['nombre'].'</b>, legajo:  <b>'.$datos['legajo'].'</b>.<br/>
 						Solicita laLicencia Anual por Vacaciones correspondiente al año '.$datos['anio'].' a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '. <br/>
 						
 											
