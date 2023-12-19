@@ -313,6 +313,7 @@ class ci_parte extends toba_ci
 		//validar que venga un anio para partes de vacaciones
 		if(isset($datos['anio']) && $datos['id_motivo'] == '35') {
 			$dato_antiguedad = toba::tabla('antiguedad')->get_antiguedad($datos['legajo']);
+			ei_arbol($dato_antiguedad);
 			if(!empty($dato_antiguedad['fecha_ingreso'])){
 						$agente['fec_ingreso'] = $dato_antiguedad['fecha_ingreso'];
 					}else{
@@ -365,7 +366,7 @@ class ci_parte extends toba_ci
 						
 						if (is_null($vacaciones_restantes)){
 
-							$dias_disponibles = $antiguedad['dias'] - $dias_tomados;
+							$dias_disponibles = $dato_antiguedad['dias'] - $dias_tomados ; //$antiguedad['dias'] - $dias_tomados;
 					
 						}else{
 							//ei_arbol($vacaciones_restantes);
@@ -690,6 +691,7 @@ class ci_parte extends toba_ci
 			$cuadro->set_datos($this->s__datos);
 		} 
 	}
+
 function enviar_correos($correo)
 	{
 		require_once('3ros/phpmailer/class.phpmailer.php');
@@ -718,7 +720,8 @@ if ($datos['dias_restantes'] <= 0){
 			$hasta = date_add($fecha , date_interval_create_from_date_string($dias_to));
 			$hasta =$hasta ->format("Y-m-d"); 
 	
-		$hasta=date('d/m/Y',strtotime($hasta) );
+		//$hasta=date('d/m/Y',strtotime($hasta) );
+		$hasta = date ( 'd/m/Y' , strtotime ( $dias , strtotime ( $datos['fecha_inicio_licencia'] ) )  ); //sumamos N dias a la fecha de inicio licencia
 		$fecha=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] ) );
 
 
@@ -773,7 +776,7 @@ $mail->IsHTML(true); //el mail contiene html
 
 	} else if ($datos['id_motivo'] == 35)
 	{
-			$mail->Subject = 'Formulario de Licencia Anual por Vacaciones';
+		$mail->Subject = 'Formulario de Licencia Anual por Vacaciones';
 		//$motivo = 'Vacaciones'.$datos['anio'];
 		$body = '<table>
 						El/la agente  <b>'.$datos['descripcion'].'</b> perteneciente a  <b>'.$datos['catedra'].'</b>.<br/>
