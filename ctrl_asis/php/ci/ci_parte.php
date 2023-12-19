@@ -313,7 +313,7 @@ class ci_parte extends toba_ci
 		//validar que venga un anio para partes de vacaciones
 		if(isset($datos['anio']) && $datos['id_motivo'] == '35') {
 			$dato_antiguedad = toba::tabla('antiguedad')->get_antiguedad($datos['legajo']);
-			ei_arbol($dato_antiguedad);
+			//ei_arbol($dato_antiguedad);
 			if(!empty($dato_antiguedad['fecha_ingreso'])){
 						$agente['fec_ingreso'] = $dato_antiguedad['fecha_ingreso'];
 					}else{
@@ -716,15 +716,16 @@ if ($datos['dias_restantes'] <= 0){
 			//$fecha = date_create(date("Y-m-d",$fechaentera1)); 
 			//$fecha_inicio =$fecha ->format("Y-m-d");
 			$dias = $datos['dias']-1;
-			$dias_to= $dias. ' days';
+			$dias_to='+ '. $dias. ' days';
 			//$hasta = date_add($fecha , date_interval_create_from_date_string($dias_to));
 			//$hasta =$hasta ->format("Y-m-d"); 
 	
 		//$hasta=date('d/m/Y',strtotime($hasta) );
-		$hasta = date ( 'd/m/Y' , strtotime ( $dias , strtotime ( $datos['fecha_inicio_licencia'] ) )  ); //sumamos N dias a la fecha de inicio licencia
+		//$hasta = date ( 'd/m/Y' , strtotime ( $dias , strtotime ( $datos['fecha_inicio_licencia'] ) )  ); //sumamos N dias a la fecha de inicio licencia
+		$hasta = date ( 'd/m/Y' ,  strtotime ( $datos['fecha_inicio_licencia']  . $dias_to )  );	
 		$fecha=date('d/m/Y',strtotime($datos['fecha_inicio_licencia'] ) );
 
-
+//ei_arbol($hasta);
 		
 $mail = new phpmailer();
 $mail->IsSMTP();
