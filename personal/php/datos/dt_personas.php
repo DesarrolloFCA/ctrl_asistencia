@@ -40,6 +40,15 @@ class dt_personas extends personal_datos_tabla
 		return toba::db('personal')->consultar($sql);
 	}
 
-}
+		function get_descripciones()
+		{
+			$sql = "SELECT legajo, apellido ||' ,'||nombres as apellido FROM personas ORDER BY apellido";
+			return toba::db('personal')->consultar($sql);
+		}
 
+
+
+	
+
+}
 ?>

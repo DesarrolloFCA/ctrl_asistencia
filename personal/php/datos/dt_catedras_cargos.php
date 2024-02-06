@@ -18,10 +18,12 @@ class dt_catedras_cargos extends personal_datos_tabla
 			t_cc.fecha_inicio,
 			t_cc.fecha_fin,
 			t_r.nro_reajuste as reajuste_nombre,
-			t_ec.descripcion as estado_cargo_nombre
+			t_ec.descripcion as estado_cargo_nombre,
+			a.legajo ||'-'|| apellido ||', '|| nombres as persona
 		FROM
 			catedras_cargos as t_cc    LEFT OUTER JOIN reajustes as t_r ON (t_cc.reajuste = t_r.reajuste)
-			LEFT OUTER JOIN estado_cargo as t_ec ON (t_cc.estado_cargo = t_ec.id_est_car),
+			LEFT OUTER JOIN estado_cargo as t_ec ON (t_cc.estado_cargo = t_ec.id_est_car)
+			inner join personas as a on persona = id_persona,
 			catedras as t_c,
 			cargos as t_c1,
 			dedicaciones as t_d,
