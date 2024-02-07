@@ -143,7 +143,7 @@ $mail->SMTPAuth   = true;
 //Leo: cambiamos de cuenta porque la hackearon esta esta contraseña para aplicaciones
 $mail->Username   = "formularios_asistencia@fca.uncu.edu.ar";
 //Introducimos nuestra contraseña de gmail
-$mail->Password   = "anzmxlazswghxqgb";
+$mail->Password   = "gvcghltncpblkjbl";
 //Definimos el remitente (dirección y, opcionalmente, nombre)
 $mail->SetFrom('formularios_asistencia@fca.uncu.edu.ar', 'Formulario Personal');
 //Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
@@ -203,7 +203,7 @@ $mail->SMTPAuth   = true;
 //Leo: cambiamos de cuenta porque la hackearon esta esta contraseña para aplicaciones
 $mail->Username   = "formularios_asistencia@fca.uncu.edu.ar";
 //Introducimos nuestra contraseña de gmail
-$mail->Password   = "anzmxlazswghxqgb";
+$mail->Password   = "gvcghltncpblkjbl";
 //Definimos el remitente (dirección y, opcionalmente, nombre)
 $mail->SetFrom('formularios_asistencia@fca.uncu.edu.ar', 'Formulario Personal');
 //Esta línea es por si queréis enviar copia a alguien (dirección y, opcionalmente, nombre)
