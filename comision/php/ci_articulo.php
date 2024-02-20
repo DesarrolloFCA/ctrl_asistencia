@@ -633,8 +633,20 @@ class ci_articulo extends comision_ci
 							}
 						
 
-				} 	
-				 else if($id_motivo == 59){ //Adopcion (Paternidad)
+				} 
+				 else if ($id_motivo == 62) { // Home Office
+					if ($datos['certificado'] <> null){
+							$agente[$i]['articulo'] = 111;
+							$agente[$i]['id_decreto'] = 5;
+							$bandera= true; 
+						} else {
+							toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+							$bandera = false;   
+						}
+
+				
+				
+				} else if($id_motivo == 59){ //Adopcion (Paternidad)
 					
 						$agente[$i]['articulo'] = null;
 							if ($datos['certificado'] <> null){
@@ -944,8 +956,17 @@ class ci_articulo extends comision_ci
 								toba::notificacion()->agregar('Usted cuenta con  '.$dias_pendientes .' d&iacute;as, coloque una cantidad de d&iacute;as validos.', "info");
 							$bandera = false;    
 							}
-				
-				}else if($id_motivo==12){ // Donación de Sangre
+				} else if ($id_motivo == 62) { // Home Office
+					if ($datos['certificado'] <> null){
+							$agente[$i]['articulo'] = 111;
+							$agente[$i]['id_decreto'] = 5;
+							$bandera= true; 
+						} else {
+							toba::notificacion()->agregar('Por favor adjunte el Certificado correspondiente', "info");
+							$bandera = false;   
+						}
+
+				} else if($id_motivo==12){ // Donación de Sangre
 					if ($dias==1) {
 						$agente[$i]['articulo'] = null;
 					$sql = "SELECT count(*) cant FROM reloj.parte 
@@ -1698,6 +1719,9 @@ $mail->IsHTML(true); //el mail contiene html
 				break;
 			case 61: 
 				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Excesos de Inasistencia (SIN GOCE)';			
+				break;
+			case 62 :
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Home Office por Resolucion';			
 				break;	
 			}
 	
@@ -1868,6 +1892,9 @@ $mail->IsHTML(true); //el mail contiene html
 				break;	
 			case 47:
 				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Exam&eacute;n para Concurso';
+				break;	
+			case 62 :
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Home Office por Resolucion';			
 				break;	
 		}
 
