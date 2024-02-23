@@ -192,8 +192,9 @@ class ci_control_asistencia extends ctrl_asis_ci
 			}
 			
 			$tot = $e['total'];
-			//ei_arbol($agentes_0);
+			//ei_arbol($e);
 			//if ($agentes_0){
+			
 			for($m = 0; $m<$tot;$m++){
 				 if ($e[$m]['agrupamiento'] == 'CORF') {
 			 	$e[$m]['agrupamiento'] = 'DOCE';
@@ -207,12 +208,13 @@ class ci_control_asistencia extends ctrl_asis_ci
 				$tot = $e['total'];
 				//for($m = 0; $m<$tot;$m++){
 				if (($this ->s__datos_filtro['agrup']) == 'doc'){
-			
+				
 				$this->s__datos = array_filter($this->s__datos, function ($e) {
 				return $e['agrupamiento'] == 'DOCE';});
 				//$this->s__datos['total'] =count($this->s__datos);
 			
 				}else { 
+				
 				$this->s__datos = array_filter($this->s__datos, function ($e) {
 				return $e['agrupamiento'] <> 'DOCE';});    
 				//$this->s__datos['total'] =count($this->s__datos);      
@@ -220,8 +222,8 @@ class ci_control_asistencia extends ctrl_asis_ci
 			}
 				//}
 			}
-
-			$this->s__datos = $e; //para agregar catedras y parcelas
+		
+			//$this->s__datos = $e; //para agregar catedras y parcelas
 			unset($e);
 			$todo =	array_values($this->s__datos);		
 			//	ei_arbol($todo);

@@ -872,6 +872,9 @@ $mail->IsHTML(true); //el mail contiene html
 			case 61: 
 				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Excesos de Inasistencia (SIN GOCE)';			
 				break;	
+			case 62 :
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Home Office por Resolucion';			
+				break;	
 			}
 	
 	}
