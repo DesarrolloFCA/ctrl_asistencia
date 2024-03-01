@@ -305,21 +305,61 @@ class ci_parte extends toba_ci
 		$legajo = $datos['legajo'];
 		$dependencia = $datos['cod_depcia'];
 		$id_motivo= $datos['id_motivos'];
-		$agrupamiento = $datos['agrupamiento'];
 		$anio=$datos['anio'];
+		$agrupamiento = $datos['agrupamiento'];
+		$dias_restantes = 0;
 		$dias = $datos['dias'];
 		//ei_arbol($datos);
 		$this->dep('datos')->tabla('parte')->set($datos);
+		//ei_arbol($datos);
 		//validar que venga un anio para partes de vacaciones
+		if ($datos['id_motivo']==57){
+			$sql = "SELECT max(anio) anio_v, sum(dias) dias_t from reloj.vacaciones_restantes
+					WHERE legajo = '$legajo';";
+			$agente = toba::db('ctrl_asis')->consultar($sql);
+			
+			if (isset($agente)){
+				$datos [anio] = $agente[0]['anio_v'];
+				$anio=$datos['anio'];
+				$dias_restantes = $agente [0]['dias_t'] - $dias;
+				$bandera= 1;
+				ei_arbol($agente [0]['dias_t'],$dias);
+				$datos['dias_restantes'] = $dias_restantes;
+				if( $dias_restantes < 0 ){
+					toba::notificacion()->agregar('El agente '.$datos['legajo'].' - '.$datos['apellido'].', '.$datos['nombre'] .' tiene' .$agente['dias_t'].' dias pendientes de la licencia anual de año '.$datos['anio'] . '.Pro favor elegija una cantidad de dias menor o igual que la especificada', 'error');
+				$bandera= 0;
+				} else if($dias_restantes == 0) {
+					$sql = "DELETE from reloj.vacaciones_restantes
+							WHERE legajo = '$legajo' AND  anio = '$anio'";
+							toba::db('ctrl_asis')->ejecutar($sql);	
+
+				}else {
+
+				$sql = "UPDATE reloj.vacaciones_restantes
+						SET dias = $dias_restantes
+						WHERE legajo = '$legajo ' AND  anio ='$anio' ";
+						ei_arbol($dias_restantes);
+						toba::db('ctrl_asis')->ejecutar($sql);	
+				}		
+			} else {
+				 toba::notificacion()->agregar('El agente'.$datos['legajo'].' - '.$datos['apellido'].', '.$datos['nombre'] .' no posee dias pendientes de la licencia anual de año '.$datos['anio'] . '.', 'error');  
+				$bandera= 0;
+			}
+			
+			$this->s__datos =$datos;
+		}
+		
+	
 		if(isset($datos['anio']) && $datos['id_motivo'] == '35') {
 			$dato_antiguedad = toba::tabla('antiguedad')->get_antiguedad($datos['legajo']);
+			$bandera = 1;
 			//ei_arbol($dato_antiguedad);
 			if(!empty($dato_antiguedad['fecha_ingreso'])){
 						$agente['fec_ingreso'] = $dato_antiguedad['fecha_ingreso'];
 					}else{
 						
 						$sql = "SELECT fec_ingreso FROM reloj.agentes WHERE legajo = '$legajo' and agrupamiento = '$agrupamiento' ";
-						$agente =  toba::db('ctrol_asis')->consultar_fila($sql); 
+						$agente =  toba::db('ctrl_asis')->consultar_fila($sql); 
 					}    
 					if(!empty($agente['fec_ingreso'])){
 
@@ -367,6 +407,7 @@ class ci_parte extends toba_ci
 						if (is_null($vacaciones_restantes)){
 
 							$dias_disponibles = $dato_antiguedad['dias'] - $dias_tomados ; //$antiguedad['dias'] - $dias_tomados;
+
 					
 						}else{
 							//ei_arbol($vacaciones_restantes);
@@ -401,8 +442,10 @@ class ci_parte extends toba_ci
 					where legajo=$legajo";
 					$correo = toba::db('ctrl_asis')->consultar($sql);
 		$this->s__datos =$datos;
+		if ($bandera <> 0){
 		$this->enviar_correos($correo[0]['email']);
-		$this->s__accion = 'alta';
+		}
+		//$this->s__accion = 'alta';
 	}
 
 
@@ -769,7 +812,7 @@ $mail->IsHTML(true); //el mail contiene html
 		//$motivo = 'Razones Particulares con gose de haberes';
 		$mail->Subject = 'Formulario de Solicitud Razones Particulares';
 		$body = '<table>
-						El/la agente  <b>'.$datos['descripcion'].'</b> perteneciente a la catedra/oficina/ direcci&oacute;n <b>'.$datos['catedra'].'</b>.<br/>
+						El/la agente  <b>'.$datos['apellido'].', '. $datos['nombre'].'</b> perteneciente a la catedra/oficina/ direcci&oacute;n <b>'.$datos['catedra'].'</b>.<br/>
 						Solicita Justificaci&oacute;n de Inasistencia por Razones Particulares a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '.
 							Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones']. '
 											
@@ -780,7 +823,7 @@ $mail->IsHTML(true); //el mail contiene html
 		$mail->Subject = 'Formulario de Licencia Anual por Vacaciones';
 		//$motivo = 'Vacaciones'.$datos['anio'];
 		$body = '<table>
-						El/la agente  <b>'.$datos['apellido'].', '.$datos['nombre'].'</b>, legajo:  <b>'.$datos['legajo'].'</b>.<br/>
+						El/la agente  <b>'.$datos['apellido'].', '. $datos['nombre'].'</b>, legajo:  <b>'.$datos['legajo'].'</b>.<br/>
 						Solicita laLicencia Anual por Vacaciones correspondiente al año '.$datos['anio'].' a partir del d&iacute;a '.$fecha.' hasta '.$hasta. '. <br/>
 						
 											
@@ -802,7 +845,7 @@ $mail->IsHTML(true); //el mail contiene html
 		$mail->Subject = 'Formulario de D&iacute&as Pendientes de la Licencia Anual';
 		$body = '<table>
 
-				El/la agente <b>'.$datos['descripcion'].'</b> perteneciente a <b>'.$datos['catedra'].'</b> <br/>
+				El/la agente <b>'.$datos['apellido'].', '. $datos['nombre'].'</b> <br/>
 				Solicita los d&iacute;as pendientes de la licencia anual correspondiente al ' .$datos['anio']. ' a partir del d&iacute;a '.$fecha. ' hasta '.$hasta. '<br/>
 				Teniendo en cuenta las siguientes Observaciones: ' .$datos['observaciones'].  '<br/>
 				Ud. cuenta con '.$datos['dias_restantes'].' d&iacute;as de vacaciones pendientes.
@@ -875,6 +918,12 @@ $mail->IsHTML(true); //el mail contiene html
 			case 62 :
 				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Home Office por Resolucion';			
 				break;	
+			case 63 :
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Vacaciones Extraordinarias';			
+				break;	
+			case 64 :
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por A&nacute;o Sabatico';			
+				break;		
 			}
 	
 	}
@@ -883,8 +932,8 @@ $mail->IsHTML(true); //el mail contiene html
 	
 
 	; //date("d/m/y",$fecha)
-//ei_arbol ($body);
-$mail->Body = $body;
+ei_arbol ($body);
+//$mail->Body = $body;
 //Enviamos el correo
 if(!$mail->Send()) {
 	echo "Error: " . $mail->ErrorInfo;
