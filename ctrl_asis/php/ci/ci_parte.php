@@ -323,7 +323,7 @@ class ci_parte extends toba_ci
 				$anio=$datos['anio'];
 				$dias_restantes = $agente [0]['dias_t'] - $dias;
 				$bandera= 1;
-				ei_arbol($agente [0]['dias_t'],$dias);
+				
 				$datos['dias_restantes'] = $dias_restantes;
 				if( $dias_restantes < 0 ){
 					toba::notificacion()->agregar('El agente '.$datos['legajo'].' - '.$datos['apellido'].', '.$datos['nombre'] .' tiene' .$agente['dias_t'].' dias pendientes de la licencia anual de año '.$datos['anio'] . '.Pro favor elegija una cantidad de dias menor o igual que la especificada', 'error');
@@ -338,7 +338,7 @@ class ci_parte extends toba_ci
 				$sql = "UPDATE reloj.vacaciones_restantes
 						SET dias = $dias_restantes
 						WHERE legajo = '$legajo ' AND  anio ='$anio' ";
-						ei_arbol($dias_restantes);
+						//ei_arbol($dias_restantes);
 						toba::db('ctrl_asis')->ejecutar($sql);	
 				}		
 			} else {
@@ -932,8 +932,8 @@ $mail->IsHTML(true); //el mail contiene html
 	
 
 	; //date("d/m/y",$fecha)
-ei_arbol ($body);
-//$mail->Body = $body;
+//ei_arbol ($body);
+$mail->Body = $body;
 //Enviamos el correo
 if(!$mail->Send()) {
 	echo "Error: " . $mail->ErrorInfo;
