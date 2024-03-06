@@ -922,7 +922,7 @@ $mail->IsHTML(true); //el mail contiene html
 				$mail->Subject = 'Formulario de Justificacion de Inasistencia por Vacaciones Extraordinarias';			
 				break;	
 			case 64 :
-				$mail->Subject = 'Formulario de Justificacion de Inasistencia por A&nacute;o Sabatico';			
+				$mail->Subject = 'Formulario de Justificacion de Inasistencia por A&ncute;o Sabatico';			
 				break;		
 			}
 	
