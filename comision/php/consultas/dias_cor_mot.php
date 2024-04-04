@@ -48,7 +48,7 @@ function dias_motivos_legajo($legajo,$id_motivo)
 							$dias_tomados = $dias_tomados + $parte['dias'];
 						}
 					}
-			//ei_arbol ($partes);		
+			
 			$sql= "SELECT min(dias) dias_v from reloj.antiguedad
 				where legajo = $legajo";
 			$dias = toba::db('comision')->consultar($sql); // Vacaciones correspondientes por antigüedad
@@ -71,10 +71,20 @@ function dias_motivos_legajo($legajo,$id_motivo)
 					}else{
 						$dias_disponibles = $vacaciones_restantes - $dias_tomados;
 					}
+				
 					//Si tiene dias disponibles, lo mostramos en el listado
 					if($dias_disponibles > 0){
 						$dias_totales=$dias_disponibles;
-					}		
+					} else {
+						$dias_totales = 0;
+					}	
+
+				$dias_in = 0; 
+		 		for ($i=0;$i<=$dias_totales; $i++){
+					$dias_lic[$i]['dias']=$dias_in;
+					$dias_in ++;
+				}  ;	
+
 
 		default:
 		 		$dias_in = 0; 
