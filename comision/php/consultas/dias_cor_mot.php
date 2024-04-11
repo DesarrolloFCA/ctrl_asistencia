@@ -4,6 +4,7 @@ class dias_cor_mot
 function dias_motivos_legajo($legajo,$id_motivo)
 {
 	$anio = date("Y");
+
 	switch ($id_motivo) {
 		case 35 :
 			$sql= "SELECT min(dias) dias_v from reloj.antiguedad
@@ -42,12 +43,14 @@ function dias_motivos_legajo($legajo,$id_motivo)
 			$filtro ['legajo'] = $legajo;
 			$filtro['id_motivo'] = 35;
 			$filtro['anio'] = $anio;
+			$dias_tomados = 0;
 				$partes = toba::tabla('parte')->get_listado($filtro);
 					if(count($partes)>0){
 						foreach ($partes as $parte) {
 							$dias_tomados = $dias_tomados + $parte['dias'];
 						}
 					}
+			
 			
 			$sql= "SELECT min(dias) dias_v from reloj.antiguedad
 				where legajo = $legajo";
@@ -78,12 +81,19 @@ function dias_motivos_legajo($legajo,$id_motivo)
 					} else {
 						$dias_totales = 0;
 					}	
-
+					//ei_arbol($dias_totales);
 				$dias_in = 0; 
+		 		if ($dias_totales > 0){
 		 		for ($i=0;$i<=$dias_totales; $i++){
 					$dias_lic[$i]['dias']=$dias_in;
 					$dias_in ++;
-				}  ;	
+				}  
+			}else{
+				$dias_lic [0]['dias'] = 0;
+			}	
+
+			break;	
+			
 
 
 		default:

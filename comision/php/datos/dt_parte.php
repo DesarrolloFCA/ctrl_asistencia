@@ -2,7 +2,53 @@
 class dt_parte extends toba_datos_tabla
 {
 
-	
+	function get_listado_vaca($filtro=array())
+	{
+		$legajo = $filtro['legajo'];
+		$anio = (string)$filtro['anio'];
+
+		$anio_anterior = (string)$filtro['anio'] -1 ;
+		$motivo = $filtro['id_motivo'];
+		$where = array();
+
+		if (isset($filtro['estado'])) {
+			$where[] = "estado ILIKE ".quote("%{$filtro['estado']}%");
+		}
+		if (isset($filtro['fecha_inicio_licencia'])) {
+			$where[] = "fecha_inicio_licencia = ".quote($filtro['fecha_inicio_licencia']);
+		}
+		if (isset($filtro['apellido'])) {
+			$where[] = "apellido ILIKE ".quote("%{$filtro['apellido']}%");
+		}
+		if (isset($filtro['nombre'])) {
+			$where[] = "nombre ILIKE ".quote("%{$filtro['nombre']}%");
+		}
+
+		if (isset($filtro['legajo'])) {
+			$where[] = "legajo = $legajo ";
+		}
+		if (isset($filtro['id_motivo'])){
+
+			$where[]= "t_p.id_motivo = $motivo ";
+			if ($filtro['id_motivo']== 35){
+				
+				if (isset($filtro['anio'])) {
+				$where[] = "fecha_inicio_licencia between '$anio_anterior-12-01' AND '$anio-11-30' ";
+				}	
+
+			}
+		}
+		
+		$sql = "SELECT
+			sum(t_p.dias)
+		FROM
+			parte as t_p";
+		if (count($where)>0) {
+			$sql = sql_concatenar_where($sql, $where);
+		}
+		//ei_arbol($sql);
+		return toba::db('ctrl_asis')->consultar($sql);
+	}	
 	function get_listado($filtro=array())
 	{
 		$legajo = $filtro['legajo'];
@@ -94,7 +140,7 @@ class dt_parte extends toba_datos_tabla
 		if (count($where)>0) {
 			$sql = sql_concatenar_where($sql, $where);
 		}
-		//ei_arbol ($sql);
+
 		return toba::db('comision')->consultar($sql);
 	}
 
