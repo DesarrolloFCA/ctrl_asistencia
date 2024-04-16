@@ -447,18 +447,24 @@ class ci_articulo extends comision_ci
 							//ei_arbol ($agente);
 							$sql= "SELECT sum(dias)  dias_rest from reloj.vacaciones_restantes
 									WHERE legajo = $legajo AND anio <= $anio;";
-									
+							$dias_vp = toba::db('comision')->consultar($sql);		
+							if (!isset($dias_vp)){
+								$dias_pendientes = 0;
+							} else {
+								$dias_pendientes = $dias_vp [0]['dias_rest'];
+							}
 
-							$resto = toba::db('comision')->consultar($sql);
-							$dias_pendientes = $resto[0]['dias_rest'];
-							//ei_arbol($resto);
-								if ($dias <= $dias_pendientes){
+							
+							//
+							if ($dias >= 0 ){
+							$dias_restantes = $dias-$dias_vp [0]['dias_rest'];		
 									/*toba::notificacion()->agregar('Usted cuenta con  '.$dias_pendientes .' días pendientes del año'.$anio. ' coloque una cantidad de dias validos.', "info");*/
 							$agente[$i]['articulo'] = 106;
+							$datos ['dias_restantes'] = $dias_restantes;
 							$bandera= true;    
 
 							} else {
-								toba::notificacion()->agregar('Usted cuenta con  '.$dias_pendientes .' d&iacute;as, coloque una cantidad de d&iacute;as validos.', "info");
+								toba::notificacion()->agregar('Usted no cuenta con d&iacute;as, pendientes.', "info");
 							$bandera = false;    
 							}
 
@@ -938,22 +944,28 @@ class ci_articulo extends comision_ci
 					$agente[$i]['articulo'] = null;
 					$agente[$i]['id_decreto'] = 8;
 					$datos['anio'] = $anio -1;
-							
+					
 							//ei_arbol ($agente);
 							$sql= "SELECT sum(dias)  dias_rest from reloj.vacaciones_restantes
 									WHERE legajo = $legajo AND anio <= $anio;";
-									
-
-							$resto = toba::db('comision')->consultar($sql);
-							$dias_pendientes = $resto[0]['dias_rest'];
-							//ei_arbol($resto);
-								if ($dias <= $dias_pendientes){
-									
-							$agente[$i]['articulo'] = 104;
-							$bandera= true;    
-							$datos ['dias_restantes'] = $dias_pendientes;
+							$dias_vp = toba::db('comision')->consultar($sql);		
+							if (!isset($dias_vp)){
+								$dias_pendientes = 0;
 							} else {
-								toba::notificacion()->agregar('Usted cuenta con  '.$dias_pendientes .' d&iacute;as, coloque una cantidad de d&iacute;as validos.', "info");
+								$dias_pendientes = $dias_vp [0]['dias_rest'];
+							}
+
+							
+							//
+							if ($dias >= 0 ){
+							$dias_restantes = $dias-$dias_vp [0]['dias_rest'];		
+							$agente[$i]['articulo'] = 104;
+							$bandera= true;   
+							
+							$datos ['dias_restantes'] = $dias_restantes;
+
+							} else {
+								toba::notificacion()->agregar('Usted no cuenta con d&iacute;as, coloque una cantidad de d&iacute;as validos.', "info");
 							$bandera = false;    
 							}
 				} else if ($id_motivo == 62) { // Home Office
@@ -1361,7 +1373,9 @@ class ci_articulo extends comision_ci
 				
 			}
 
-
+			if($observaciones == null or $observaciones == ''){
+				$observaciones = null;
+			}
 			
 			//ei_arbol($datos);
 			if($datos['fecha_inicio_licencia']< '2022-12-26'){
@@ -1370,12 +1384,14 @@ class ci_articulo extends comision_ci
 			{
 			//	ei_arbol($datos);
 				if ($ya_tomo == 0){
+
 						if($bandera_nodo ){
-						//	ei_arbol($id_motivo.' motivo', $id_decreto. ' decreto', $articulo.' articulo');
+						
 							if ($id_motivo == 30){
 								$sql= "INSERT INTO reloj.inasistencias(	legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto,id_articulo) VALUES ($usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto,$articulo);";
 							} else if ($id_motivo == 57){		
-							$sql= "INSERT INTO reloj.inasistencias(	legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto,id_articulo) VALUES ($usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto,$articulo);";
+							$sql= "INSERT INTO reloj.inasistencias(	legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto,id_articulo) VALUES ($usuario_alta, $catedra, '$fecha_inicio', '$hasta',
+								$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto,$articulo);";
 							} else 
 							{
 								$sql= "INSERT INTO reloj.inasistencias( legajo, id_catedra, fecha_inicio, fecha_fin, anio, observaciones, leg_sup, auto_sup, leg_aut, auto_aut, fecha_alta, usuario_alta, estado, id_motivo, id_decreto, id_articulo)    VALUES ( $usuario_alta, $catedra, '$fecha_inicio', '$hasta',$anio, '$observaciones', $superior, true, $autoridad, true, '$fecha_alta',$usuario_alta ,'A', $id_motivo, $id_decreto, $articulo);";
@@ -1421,16 +1437,17 @@ class ci_articulo extends comision_ci
 					if ($id_motivo == 57){
 
 			toba::notificacion()->agregar('Parte de inasistencia agregado correctamente.', 'info');            
+			
 			if ($dias == $dias_pendientes){
 				$sql1 = "DELETE FROM reloj.vacaciones_restantes
 				where legajo = $legajo
 				and anio =$anio ";    
 			} else {
-				$dias_pendientes = $dias_pendientes - $dias;
+				//$dias_pendientes = $dias_pendientes - $dias;
 				if ($dias_pendientes > 0){
 					$datos ['dias_restantes'] = $dias_pendientes;
 					$sql1 = "UPDATE reloj.vacaciones_restantes
-					set dias = $dias_pendientes
+					set dias = $dias_restantes
 					where legajo = $legajo
 					AND anio=$anio ";    
 				}
@@ -1490,13 +1507,14 @@ class ci_articulo extends comision_ci
 					}
 					$agente= $this -> dep('mapuche')->get_legajo_todos($legajo); 
 					$datos['descripcion']= $agente[0]['descripcion'];
-					
+				
 					$this->s__datos = $datos;
 	
 					if (isset($legajo)){
 					$sql= "SELECT email from reloj.agentes_mail
 					where legajo=$legajo";
 					$correo = toba::db('comision')->consultar($sql);
+				
 					$this->enviar_correos($correo[0]['email']);
 					}
 
