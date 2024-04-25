@@ -87,7 +87,7 @@ class ci_vacaciones extends ctrl_asis_ci
 					//$dia = $february->diff($january);
 					$dia = date_diff($fecha_inicio , $hoy);
 					$dias = $dia->format('%a') + 1;
-					ei_arbol($dias);
+					//ei_arbol($dias);
 					$fecha_ini=$datos[$i]['fecha_inicio'];
 					
 					
