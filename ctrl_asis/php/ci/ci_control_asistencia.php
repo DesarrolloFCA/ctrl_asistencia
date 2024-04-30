@@ -418,7 +418,10 @@ class ci_control_asistencia extends ctrl_asis_ci
 			$registros = count($todos)  ; 
 			unset($todo);
 			//ei_arbol($todos);
-						
+			list($y,$m,$d) = explode('-', $this->s__datos_filtro['fecha_desde']);
+			$fecha_desde = "$d/$m/$y";
+			list($y,$m,$d) = explode('-', $this->s__datos_filtro['fecha_hasta']);
+			$fecha_hasta = "$d/$m/$y"; 			
 			for ($l = 0; $l < $registros; $l++){
 				$leg = $todos [$l]['legajo'];
 				$mail = $this->dep('datos')->tabla('agentes_mail')->get_legajo_mail($leg);
@@ -433,7 +436,28 @@ class ci_control_asistencia extends ctrl_asis_ci
 		      		$email= toba::db('ctrl_asis')->consultar($sql);
 		      		 // ei_arbol($email);
 		      		$todos[$l]['email']=$email[0]['email'];
+		      		// Permiso horario
+		      		$sql ="SELECT fecha FROM reloj.permisos_horarios
+					WHERE (auto_aut = true or aut_sup = true) 
+					AND fecha between '$fecha_desde' AND '$fecha_hasta'
+					AND legajo = $leg ";
+					$permiso = toba::db('ctrl_asis')->consultar($sql);
 
+					$todos[$l]['permiso_horario']=count($permiso) / 2;
+					$fechas_permiso = null;
+					if (count($permiso) > 0){
+						
+						for ($i = 0; $i<count($permiso);$i++){
+							if ($i == 0){
+								$fechas_permiso = date("d/m/Y"  ,strtotime($permiso[$i]['fecha']));
+							} else {
+								$fechas_permiso = $fechas_permiso. ' - '.date("d/m/Y"  ,strtotime($permiso[$i]['fecha']));  	
+							}
+							
+						}
+
+					}
+					$todos[$l]['fechas'] = $fechas_permiso;	
 
 				$cant_catedra = count($catedras);
 			
@@ -497,6 +521,12 @@ class ci_control_asistencia extends ctrl_asis_ci
 						
 					
 			}*/
+		
+
+
+
+
+
 			$this ->s__datos = $todos;
 		//	ei_arbol($todos);
 			unset($todos);
@@ -539,7 +569,7 @@ class ci_control_asistencia extends ctrl_asis_ci
 			list($y,$m,$d) = explode('-', $this->s__datos_filtro['fecha_desde']);
 			$fecha_desde = "$d/$m/$y";
 			list($y,$m,$d) = explode('-', $this->s__datos_filtro['fecha_hasta']);
-			$fecha_hasta = "$d/$m/$y";  
+			$fecha_hasta = "$d/$m/$y"; 
 			if (isset($this->s__datos_filtro['catedra'])){
 				$catedras = $this->dep('datos')->tabla('catedras')->get_catedra($this->s__datos_filtro['catedra']);
 				$catedra = $catedras[0]['nombre_catedra'];
