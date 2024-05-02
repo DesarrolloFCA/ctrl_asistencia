@@ -126,7 +126,7 @@ class ci_permiso_horario extends ctrl_asis_ci
 						$id_decreto = 5;
 						$id_articulo = 41;
 						$id_motivo = 58;
-						$obs = 'Nº Permiso: '$id ' ' .$obs; 
+						$obs = 'Nº Permiso:'.$id .'-' .$obs; 
 						$sexo=$this->dep('mapuche')->get_tipo_sexo($legajo, null);
 						
 						$sql = "INSERT INTO reloj.parte(
