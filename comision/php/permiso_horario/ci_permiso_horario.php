@@ -41,8 +41,8 @@ class ci_permiso_horario extends comision_ci
 				and extract(year FROM fecha) = $anio ;";
 		$a = toba::db('comision')->consultar($sql);
 		$cantidad = $a [0]['cantidad'];
-		ei_arbol($cantidad);
-		if ($cantidad <= 5 ) {
+		//ei_arbol($cantidad);
+		if ($cantidad < 5 ) {
 
 		$this->dep('datos')->tabla('permiso_horarios')->nueva_fila($datos);
 		$this->dep('datos')->sincronizar();
@@ -68,7 +68,7 @@ class ci_permiso_horario extends comision_ci
 					$datos['descripcion']= $agente[0]['descripcion'];
 			$this->s__datos = $datos;
 			if (!empty ($datos['legajo'])){
-			//$this->enviar_correos($datos['agente']);
+			$this->enviar_correos($datos['agente']);
 			toba::notificacion()->agregar('Su pedido de Permiso Horario sera tramitado a la brevedad', 'info');
 		
 			}
