@@ -33,7 +33,7 @@ class dt_parte extends toba_datos_tabla
 			if ($filtro['id_motivo']== 35){
 				
 				if (isset($filtro['anio'])) {
-				$where[] = "fecha_inicio_licencia between '$anio_anterior-12-01' AND '$anio-11-30' ";
+				$where[] = "fecha_inicio_licencia between '$anio_anterior-12-01' AND '$anio-11-30' and estado = 'C'";
 				}	
 
 			}
@@ -79,7 +79,7 @@ class dt_parte extends toba_datos_tabla
 				$anio = (string) date('Y');
 				$anio_anterior = (string) date('Y')-1;
 				if (isset($filtro['anio'])) {
-				$where[] = "fecha_inicio_licencia between '$anio_anterior-12-01' AND '$anio-11-30' ";
+				$where[] = "fecha_inicio_licencia between '$anio_anterior-12-01' AND '$anio-11-30' and estado = 'C' ";
 				}	
 
 			}
